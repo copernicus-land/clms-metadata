@@ -1,0 +1,40 @@
+{
+    "@odata.context": "$metadata#Products(Attributes())",
+    "Name": "{{ metadata.name }}",
+    "EvictionDate": "9999-12-31T23:59:59.999999Z",
+    "ModificationDate": "{{ metadata.modification_date }}",
+    "OriginDate": "{{ metadata.origin_date }}",
+    "PublicationDate": "{{ metadata.publication_date }}",
+    "ContentLength": {{ metadata.content_length }},
+    "Online": true,
+    "ContentType": "{{ metadata.content_type }}",
+    "Link": "{{ metadata.path }}",
+    "QL_Path": "relative/path/to/ql.jpg",
+    "CollectionName": "CLMS",
+    "PathLevel2": "Dynamic-Land-Cover",
+    "ProductType": "G_LCC_100m_v3_y_tif",
+    "TargetFormat": "EXTRACTED",
+    "DecompressionStep": "true",
+    "CompresionType": "zip",
+    "ContentDate": {
+        "Start": "{{ metadata.content_date.start }}",
+        "End": "{{ metadata.content_date.end }}"
+    },
+    {% if "checksum" in metadata %}
+    "Checksum": {
+        "Value": "{{ metadata.checksum.value }}",
+        "Algorithm": "{{ metadata.checksum.algorithm }}",
+        "ChecksumDate": "{{ metadata.checksum.checksum_date }}"
+    },
+    {% endif %}
+    "GeoFootprint": {{ metadata.geometry|tojson }},
+    "Attributes": [
+        {% for attr in metadata.attributes %}
+        {
+            "Name": "{{ attr.name }}",
+            "ValueType": "{{ attr.value_type }}",
+            "Value": {{ attr.value|tojson }}
+        }{% if not loop.last %},{% endif +%}
+        {% endfor %}
+    ]
+}
