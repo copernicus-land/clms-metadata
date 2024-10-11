@@ -18,7 +18,7 @@ class MetadataBuilder:
             S3(settings) if glob.startswith("s3://") else LocalFileSystem()
         )
         self.sources = [
-            MetadataSource.get(source, self.settings) for source in settings.sources
+            MetadataSource[source](self.settings) for source in settings.sources
         ]
 
     def build(self) -> Iterator[Metadata]:

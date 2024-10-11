@@ -4,6 +4,7 @@ from abc import abstractmethod
 from pathlib import Path
 from typing import Any, Type
 
+from autoregistry import Registry
 from cloudpathlib import CloudPath
 
 from clms_metadata.config import Settings
@@ -13,10 +14,9 @@ from clms_metadata.models import (
     IntegerAttribute,
     StringAttribute,
 )
-from clms_metadata.types import MetadataSourceStr
 
 
-class MetadataSource(abc.ABC):
+class MetadataSource(abc.ABC, Registry, suffix="Source"):
     @abstractmethod
     def __init__(self, settings: Settings):
         pass
@@ -29,18 +29,6 @@ class MetadataSource(abc.ABC):
         info: dict,
     ) -> dict:
         pass
-
-    @classmethod
-    def get(
-        cls, source_type: MetadataSourceStr, settings: Settings
-    ) -> "MetadataSource":
-        mapping = {
-            "Elasticsearch": ElasticsearchSource,
-            "Path": PathSource,
-            "File": FileSource,
-            "Settings": SettingsSource,
-        }
-        return mapping[source_type](settings)
 
 
 class ElasticsearchSource(MetadataSource):
