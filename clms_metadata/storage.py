@@ -1,5 +1,6 @@
 import abc
 import glob
+from pathlib import Path
 from typing import Iterator
 
 from cloudpathlib import AnyPath
@@ -85,4 +86,4 @@ class S3(Storage):
 
 class LocalFileSystem(Storage):
     def glob(self, path: str) -> Iterator[AnyPath]:
-        yield from glob.iglob(path)
+        yield from map(Path, glob.iglob(path))

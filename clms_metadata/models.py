@@ -1,11 +1,11 @@
 import abc
 import datetime
 from pathlib import Path
-from typing import Annotated, Literal, Optional
+from typing import Annotated, Any, Literal, Optional
 
 from cloudpathlib import CloudPath
 from geojson_pydantic.geometries import Geometry
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import AfterValidator
 
@@ -37,7 +37,9 @@ class Checksum(BaseModel):
     algorithm: str
     """Algorithm used to calculate the checksum"""
 
-    checksum_date: DateTimeUTC
+    checksum_date: DateTimeUTC = Field(
+        default_factory=lambda: datetime.datetime.now(tz=datetime.timezone.utc)
+    )
     """Date in UTC when the checksum was calculated"""
 
 
@@ -127,3 +129,11 @@ class Metadata(BaseModel):
     """Product type"""
 
     attributes: Attributes
+
+    @field_validator("geometry", mode="before")
+    @classmethod
+    def set_geometry(cls, geometry: Any) -> Any:
+        """set geometry from geo interface or input"""
+        if hasattr(geometry, "__geo_interface__"):
+            return geometry.__geo_interface__
+        return geometry
