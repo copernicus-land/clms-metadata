@@ -32,8 +32,13 @@ DateTimeUTC = Annotated[
 
 class Checksum(BaseModel):
     value: str
+    """Checksum value"""
+
     algorithm: str
+    """Algorithm used to calculate the checksum"""
+
     checksum_date: DateTimeUTC
+    """Date in UTC when the checksum was calculated"""
 
 
 class ContentDate(BaseModel):
@@ -104,12 +109,21 @@ class Metadata(BaseModel):
     """Date and time when the product metadata was last modified in UTC"""
 
     checksum: Optional[Checksum] = None
+    """Checksum for the product's data, providing a unique for supporting integrity check"""
 
     content_date: ContentDate
+    """Sensing range period"""
 
     geometry: Geometry
     """Geometry of the geo-referenced product"""
 
     path: Path | CloudPath
+    """Path of the product"""
+
+    quicklook_path: Path | None = None
+    """Path of the quicklook relative to the product path"""
+
+    product_type: str = "TODO"
+    """Product type"""
 
     attributes: Attributes
