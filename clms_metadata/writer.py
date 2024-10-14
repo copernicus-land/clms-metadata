@@ -1,8 +1,10 @@
 import abc
 import json
 from abc import abstractmethod
+from pathlib import Path
 
 import jinja2
+from loguru import logger
 
 from clms_metadata.config import Settings
 from clms_metadata.models import Metadata
@@ -22,10 +24,10 @@ class Writer(abc.ABC):
 
     def write(self, metadata: Metadata):
         rendered = self.render(metadata)
-        self._handle_write(rendered)
+        self._handle_write(metadata.name, rendered)
 
     @abstractmethod
-    def _handle_write(self, rendered: str):
+    def _handle_write(self, name: str, rendered: str):
         pass
 
     def render(self, metadata: Metadata):
@@ -34,5 +36,18 @@ class Writer(abc.ABC):
 
 
 class LinesWriter(Writer):
-    def _handle_write(self, rendered: str):
+    def _handle_write(self, name: str, rendered: str):
         print(json.dumps(json.loads(rendered)))
+
+
+class FileWriter(Writer):
+    def __init__(self, output: Path, template: str, settings: Settings):
+        super().__init__(template, settings)
+        self.output = output
+        self.output.mkdir(exist_ok=True, parents=True)
+
+    def _handle_write(self, name: str, rendered: str):
+        path = self.output / f"{name}.json"
+        logger.info("Writing to file {}", path)
+        with open(path, "w") as f:
+            f.write(rendered)

@@ -53,7 +53,7 @@ class ElasticsearchSource(MetadataSource):
 
         doc = self.client.get(index=self.index, id=_id)["_source"]
         if "name" not in info:
-            info["name"] = _id
+            info["name"] = doc["title"]
 
         if "geometry" not in info:
             info["geometry"] = doc["geometry"]
