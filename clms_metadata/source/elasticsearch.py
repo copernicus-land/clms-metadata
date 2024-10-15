@@ -11,6 +11,7 @@ class ElasticsearchSource(MetadataSource):
     """Retrieve product metadata from Elasticsearch."""
 
     def __init__(self, settings: Settings):
+        super().__init__(settings)
         from opensearchpy import OpenSearch
 
         self.client = OpenSearch(

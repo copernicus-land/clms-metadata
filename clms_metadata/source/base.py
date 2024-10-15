@@ -11,9 +11,8 @@ from clms_metadata.models import Attribute
 
 
 class MetadataSource(abc.ABC, Registry, suffix="Source"):
-    @abstractmethod
     def __init__(self, settings: Settings):
-        pass
+        self.settings = settings
 
     @abstractmethod
     def get_info(

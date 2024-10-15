@@ -3,15 +3,11 @@ from pathlib import Path
 
 from cloudpathlib import CloudPath
 
-from clms_metadata.config import Settings
 from clms_metadata.source.base import MetadataSource, add_missing
 
 
 class PathSource(MetadataSource):
-    """Retrieve product metadata from the product path, eg. filename."""
-
-    def __init__(self, settings: Settings):
-        pass
+    """Retrieve product metadata from the product path, e.g. filename."""
 
     def get_info(
         self,
