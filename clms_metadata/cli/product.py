@@ -12,9 +12,7 @@ app = cyclopts.App()
 
 
 @app.command()
-def group_files(
-    path: str, product_regex: str, config: Path | None = None
-) -> list[list[Path]]:
+def group_files(path: str, product_regex: str, config: Path | None = None) -> None:
     """
     Group the files into separate products based on the capturing groups specified in the product regex.
 
@@ -38,4 +36,3 @@ def group_files(
                 tmp_files[key].append(p)
         files.extend(tmp_files.values())
     print(json.dumps(list(map(lambda fs: [str(f) for f in fs], files)), indent=2))
-    return files

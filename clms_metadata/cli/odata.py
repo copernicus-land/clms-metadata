@@ -1,3 +1,5 @@
+import json
+import sys
 from pathlib import Path
 
 import cyclopts
@@ -28,3 +30,14 @@ def create(
 
     for m in builder.build():
         writer.write(m)
+
+
+@app.command()
+def bulk_create(
+    output: Path | None = None,
+    config: Path | None = None,
+):
+    settings = Settings.from_yaml(config) if config else Settings()
+    logger.debug("Settings: {}", settings)
+    bulk_paths = json.load(sys.stdin)
+    print(bulk_paths)
