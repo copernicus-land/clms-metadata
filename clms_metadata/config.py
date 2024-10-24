@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from typing import Any, Literal, Optional
 
+import yaml
 from pydantic import BaseModel, SecretStr
 from pydantic_settings import (
     BaseSettings,
@@ -48,8 +49,15 @@ class Settings(BaseSettings):
     )
 
     @classmethod
-    def from_yaml(cls, path: Path):
-        import yaml
+    def from_yaml(cls, path: Path | None):
+        """
+        Read the config from a YAML file.
+
+        :param path: path of the YAML file to read
+        :return: Settings object
+        """
+        if path is None:
+            return Settings()
 
         with open(path, "r") as f:
             conf = yaml.safe_load(f)

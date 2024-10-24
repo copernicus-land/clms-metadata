@@ -7,6 +7,7 @@ from loguru import logger
 
 from clms_metadata.builder import MetadataBuilder
 from clms_metadata.config import Settings
+from clms_metadata.storage import Storage
 from clms_metadata.writer import FileWriter, LinesWriter
 
 app = cyclopts.App()
@@ -14,13 +15,22 @@ app = cyclopts.App()
 
 @app.command()
 def create(
-    path: str,
+    *paths: str,
     output: Path | None = None,
     config: Path | None = None,
 ):
-    settings = Settings.from_yaml(config) if config else Settings()
+    """
+    Create OData metadata for the product consisting of the provided file paths.
+
+    :param paths: enumeration of file paths belonging to the product
+    :param output: output for the OData metadata, leave empty to write to stdout
+    :param config: YAML config file
+    :return:
+    """
+    settings = Settings.from_yaml(config)
     logger.debug("Settings: {}", settings)
-    builder = MetadataBuilder(glob=path, settings=settings)
+    storage = Storage.from_path(paths[0], settings)
+    builder = MetadataBuilder(storage, settings=settings)
     template = "odata.json.jinja2"
     writer = (
         FileWriter(output=output, template=template, settings=settings)
@@ -28,8 +38,8 @@ def create(
         else LinesWriter(template=template, settings=settings)
     )
 
-    for m in builder.build():
-        writer.write(m)
+    m = builder.build(tuple(Storage.parse_path(p) for p in paths))
+    writer.write(m)
 
 
 @app.command()
@@ -37,7 +47,20 @@ def bulk_create(
     output: Path | None = None,
     config: Path | None = None,
 ):
-    settings = Settings.from_yaml(config) if config else Settings()
+    settings = Settings.from_yaml(config)
     logger.debug("Settings: {}", settings)
     bulk_paths = json.load(sys.stdin)
-    print(bulk_paths)
+    logger.info("Generating metadata for {} products", len(bulk_paths))
+
+    storage = Storage.from_path(bulk_paths[0][0], settings)
+    builder = MetadataBuilder(storage=storage, settings=settings)
+    template = "odata.json.jinja2"
+    writer = (
+        FileWriter(output=output, template=template, settings=settings)
+        if output is not None
+        else LinesWriter(template=template, settings=settings)
+    )
+
+    for product_files in bulk_paths:
+        m = builder.build(tuple(Storage.parse_path(p) for p in product_files))
+        writer.write(m)

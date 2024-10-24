@@ -3,7 +3,7 @@ import glob
 from pathlib import Path
 from typing import Iterator
 
-from cloudpathlib import AnyPath
+from cloudpathlib import AnyPath, CloudPath
 from loguru import logger
 
 from clms_metadata.config import Settings
@@ -38,6 +38,14 @@ class Storage(abc.ABC):
     @staticmethod
     def contains_glob(path: str) -> bool:
         return any(char in path for char in ["*", "?", "["])
+
+    @staticmethod
+    def from_path(path: str, settings: Settings) -> "Storage":
+        return S3(settings) if path.startswith("s3://") else LocalFileSystem()
+
+    @staticmethod
+    def parse_path(path: str) -> Path | CloudPath:
+        return AnyPath(path)
 
 
 class S3(Storage):
