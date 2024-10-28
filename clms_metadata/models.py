@@ -66,7 +66,7 @@ class IntegerAttribute(Attribute):
 
 
 def validate_attributes(attrs: list[Attribute]) -> list[Attribute]:
-    mandatory_string_attributes = ("processingCenter", "datasetIdentifier")
+    mandatory_string_attributes = ("processingCenter",)
     for a_name in mandatory_string_attributes:
         assert (
             len(filtered := [attr for attr in attrs if attr.name == a_name]) == 1
@@ -125,8 +125,14 @@ class Metadata(BaseModel):
     quicklook_path: Path | None = None
     """Path of the quicklook relative to the product path"""
 
-    product_type: str = "TODO"
+    product_type: str
     """Product type"""
+
+    dataset_name: str
+    """Dataset name"""
+
+    version: str
+    """Product version"""
 
     attributes: Attributes
 

@@ -1,9 +1,9 @@
 import os
 from pathlib import Path
-from typing import Any, Literal, Optional
+from typing import Literal, Optional
 
 import yaml
-from pydantic import BaseModel, SecretStr
+from pydantic import BaseModel, ConfigDict, Field, SecretStr
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
@@ -34,13 +34,25 @@ class GeometrySettings(BaseModel):
     """Precision grid size"""
 
 
+class MetadataSettings(BaseModel):
+    attributes: dict[str, str] = Field(default_factory=dict)
+
+    model_config = ConfigDict(extra="allow")
+
+
+class LinkSettings(BaseModel):
+    base: str | None = None
+    template: str = "{product_type}/{dataset_name}/{content_date.start.year:04d}/{content_date.start.year:04d}{content_date.start.month:02}{content_date.start.day:02d}/{name}"
+
+
 class Settings(BaseSettings):
     elasticsearch: Optional[ElasticsearchSettings] = None
     s3: Optional[S3Settings] = None
     sources: list[MetadataSourceStr] = ["Path", "File", "Settings"]
-    metadata: Optional[dict[str, Any]] = None
+    metadata: Optional[MetadataSettings] = None
     checksum: ChecksumSettings = ChecksumSettings()
     geometry: GeometrySettings = GeometrySettings()
+    link: LinkSettings = LinkSettings()
 
     model_config = SettingsConfigDict(
         env_nested_delimiter="__",

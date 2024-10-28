@@ -20,6 +20,7 @@ class PathSource(MetadataSource):
             product_id = get_common_name(product_files)
 
         add_missing(info, "name", lambda: product_id)
+        add_missing(info, "version", lambda: product_id.rsplit("_", 1)[1][:2].lower())
         add_missing(
             info,
             "content_type",

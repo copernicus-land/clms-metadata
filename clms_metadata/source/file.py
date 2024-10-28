@@ -58,15 +58,8 @@ class FileSource(MetadataSource):
             add_missing_attribute(
                 info,
                 "processingCenter",
-                lambda: data.attrs["institution"],
-                value_type=StringAttribute,
-            )
-            add_missing_attribute(
-                info,
-                "datasetIdentifier",
                 lambda: (
-                    data.attrs.get("parent_identifier")
-                    or data.attrs.get("processing_centre")
+                    data.attrs.get("institution") or data.attrs.get("processing_centre")
                 )
                 .replace(" NV", "")
                 .replace(" GMBH", ""),

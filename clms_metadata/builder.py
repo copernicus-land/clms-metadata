@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from cloudpathlib import CloudPath
+from cloudpathlib import AnyPath, CloudPath
 from loguru import logger
 
 from clms_metadata.config import Settings
@@ -24,7 +24,12 @@ class MetadataBuilder:
             info = metadata_source.get_info(paths, info)
 
         m = Metadata(
-            path=paths[0],
+            path=self._get_link(info),
             **info,
         )
         return m
+
+    def _get_link(self, info: dict) -> Path | CloudPath:
+        link = AnyPath(self.settings.link.base) if self.settings.link.base else Path()
+        link = link / self.settings.link.template.format_map(info)
+        return link
