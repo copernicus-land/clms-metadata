@@ -22,13 +22,8 @@ class ElasticsearchSource(MetadataSource):
         )
         self.index = settings.elasticsearch.index
 
-    def get_info(
-        self,
-        product_path: Path | CloudPath,
-        product_files: list[Path | CloudPath],
-        info: dict,
-    ) -> dict:
-        _id = product_path.stem
+    def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
+        _id = product_files[0].stem
 
         doc = self.client.get(index=self.index, id=_id)["_source"]
 

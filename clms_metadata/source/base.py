@@ -15,12 +15,7 @@ class MetadataSource(abc.ABC, Registry, suffix="Source"):
         self.settings = settings
 
     @abstractmethod
-    def get_info(
-        self,
-        product_path: Path | CloudPath,
-        product_files: list[Path | CloudPath],
-        info: dict,
-    ) -> dict:
+    def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
         pass
 
 

@@ -9,9 +9,7 @@ from clms_metadata.source.base import MetadataSource, add_missing_attribute
 class SettingsSource(MetadataSource):
     """Retrieve static metadata from the settings."""
 
-    def get_info(
-        self, product_path: CloudPath, product_files: list[Path | CloudPath], info: dict
-    ) -> dict:
+    def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
         if self.settings.metadata is None:
             return info
 

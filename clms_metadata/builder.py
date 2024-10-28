@@ -21,7 +21,7 @@ class MetadataBuilder:
         logger.info("Building metadata for {}", paths)
         info = dict()
         for metadata_source in self.sources:
-            info = metadata_source.get_info(paths[0], paths, info)
+            info = metadata_source.get_info(paths, info)
 
         m = Metadata(
             path=paths[0],

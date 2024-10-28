@@ -13,9 +13,7 @@ from clms_metadata.source.base import MetadataSource, add_missing, add_missing_a
 class FileSource(MetadataSource):
     """Retrieve metadata from the file content."""
 
-    def get_info(
-        self, product_path: CloudPath, product_files: list[Path | CloudPath], info: dict
-    ) -> dict:
+    def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
         if len(product_files) == 1 and isinstance(product_files[0], Path):
             add_missing(info, "checksum", lambda: self.checksum(product_files[0]))
 
