@@ -2,9 +2,9 @@
 
 pythonPipeline {
   package_name            = 'clms_metadata'
-  python_version          = ['3.10', '3.12']
+  python_version          = ['3.10']
   create_tag_job          = true
-  run_tests               = false
+  run_tests               = true
   build_container_image   = true
   extra_container_volumes = [
     '/data/MTDA/:/data/MTDA/:ro'
