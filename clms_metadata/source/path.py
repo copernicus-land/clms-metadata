@@ -26,6 +26,7 @@ class PathSource(MetadataSource):
             "content_type",
             lambda: mimetypes.guess_type(str(product_files[0]), strict=False)[0],
         )
+        add_missing(info, "extension", lambda: product_files[0].suffix[1:].lower())
         add_missing(
             info, "origin_date", lambda: max(p.stat().st_mtime for p in product_files)
         )

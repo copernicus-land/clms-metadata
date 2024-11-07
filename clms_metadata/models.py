@@ -1,7 +1,7 @@
 import abc
 import datetime
 from pathlib import Path
-from typing import Annotated, Any, Literal, Optional
+from typing import Annotated, Any, Literal
 
 from cloudpathlib import CloudPath
 from geojson_pydantic.geometries import Geometry
@@ -28,19 +28,6 @@ def validate_utc(d: datetime.datetime) -> datetime.datetime:
 DateTimeUTC = Annotated[
     datetime.datetime, AfterValidator(validate_utc), PlainSerializer(format_zulu)
 ]
-
-
-class Checksum(BaseModel):
-    value: str
-    """Checksum value"""
-
-    algorithm: str
-    """Algorithm used to calculate the checksum"""
-
-    checksum_date: DateTimeUTC = Field(
-        default_factory=lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-    """Date in UTC when the checksum was calculated"""
 
 
 class ContentDate(BaseModel):
@@ -110,9 +97,6 @@ class Metadata(BaseModel):
     )
     """Date and time when the product metadata was last modified in UTC"""
 
-    checksum: Optional[Checksum] = None
-    """Checksum for the product's data, providing a unique for supporting integrity check"""
-
     content_date: ContentDate
     """Sensing range period"""
 
@@ -121,9 +105,6 @@ class Metadata(BaseModel):
 
     path: Path | CloudPath
     """Path of the product"""
-
-    quicklook_path: Path | None = None
-    """Path of the quicklook relative to the product path"""
 
     product_type: str
     """Product type"""

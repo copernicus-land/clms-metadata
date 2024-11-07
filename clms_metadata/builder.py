@@ -19,10 +19,18 @@ class MetadataBuilder:
 
     def build(self, paths: tuple[Path | CloudPath, ...]) -> Metadata:
         logger.info("Building metadata for {}", paths)
+        paths = [
+            p
+            for ps in map(lambda p: [p] if p.is_file() else p.rglob("*"), paths)
+            for p in ps
+        ]
+        logger.debug("Expanded paths to {}", paths)
         info = dict()
         for metadata_source in self.sources:
             info = metadata_source.get_info(paths, info)
 
+        # TODO: suffix name with format (eg. _nc or _tiff)
+        info["name"] = f"{info['name']}_{info['extension']}"
         m = Metadata(
             path=self._get_link(info),
             **info,
