@@ -1,5 +1,6 @@
 import abc
 import glob
+from abc import abstractmethod
 from pathlib import Path
 from typing import Iterator
 
@@ -43,9 +44,9 @@ class Storage(abc.ABC):
     def from_path(path: str, settings: Settings) -> "Storage":
         return S3(settings) if path.startswith("s3://") else LocalFileSystem()
 
-    @staticmethod
-    def parse_path(path: str) -> Path | CloudPath:
-        return AnyPath(path)
+    @abstractmethod
+    def parse_path(self, path: str) -> Path | CloudPath:
+        pass
 
 
 class S3(Storage):
@@ -91,7 +92,13 @@ class S3(Storage):
         bucket, key = tmp.split("/", 1)
         return bucket, key
 
+    def parse_path(self, path: str) -> CloudPath:
+        return self.s3_client.CloudPath(path)
+
 
 class LocalFileSystem(Storage):
     def glob(self, path: str) -> Iterator[AnyPath]:
         yield from map(Path, glob.iglob(path))
+
+    def parse_path(self, path: str) -> Path:
+        return Path(path)

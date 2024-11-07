@@ -38,7 +38,7 @@ def create(
         else LinesWriter(template=template, settings=settings)
     )
 
-    m = builder.build(tuple(Storage.parse_path(p) for p in paths))
+    m = builder.build(tuple(storage.parse_path(p) for p in paths))
     writer.write(m)
 
 
