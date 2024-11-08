@@ -14,7 +14,8 @@ class MetadataBuilder:
         self.settings: Settings = settings
         self.storage = storage
         self.sources = [
-            MetadataSource[source](self.settings) for source in settings.sources
+            MetadataSource[source](self.settings, self.storage)
+            for source in settings.sources
         ]
 
     def build(self, paths: tuple[Path | CloudPath, ...]) -> Metadata:

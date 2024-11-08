@@ -8,11 +8,13 @@ from cloudpathlib import CloudPath
 
 from clms_metadata.config import Settings
 from clms_metadata.models import Attribute
+from clms_metadata.storage import Storage
 
 
 class MetadataSource(abc.ABC, Registry, suffix="Source"):
-    def __init__(self, settings: Settings):
+    def __init__(self, settings: Settings, storage: Storage):
         self.settings = settings
+        self.storage = storage
 
     @abstractmethod
     def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
@@ -29,7 +31,9 @@ def add_missing_attribute(
 ) -> dict:
     attributes = info.get("attributes", [])
     if not has_attribute(info, name):
-        attributes.append(value_type(name=name, value=factory()))
+        value = factory()
+        if value is not None:
+            attributes.append(value_type(name=name, value=value))
         info["attributes"] = attributes
 
 

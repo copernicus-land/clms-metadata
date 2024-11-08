@@ -1,17 +1,20 @@
 from pathlib import Path
 
 from cloudpathlib import CloudPath
+from overrides import overrides
 
 from clms_metadata.config import Settings
 from clms_metadata.models import ContentDate, StringAttribute
 from clms_metadata.source.base import MetadataSource, add_missing, add_missing_attribute
+from clms_metadata.storage import Storage
 
 
 class ElasticsearchSource(MetadataSource):
     """Retrieve product metadata from Elasticsearch."""
 
-    def __init__(self, settings: Settings):
-        super().__init__(settings)
+    @overrides
+    def __init__(self, settings: Settings, storage: Storage):
+        super().__init__(settings, storage)
         from opensearchpy import OpenSearch
 
         self.client = OpenSearch(
@@ -22,6 +25,7 @@ class ElasticsearchSource(MetadataSource):
         )
         self.index = settings.elasticsearch.index
 
+    @overrides
     def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
         _id = product_files[0].stem
 

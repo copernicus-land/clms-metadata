@@ -4,8 +4,11 @@ from abc import abstractmethod
 from pathlib import Path
 from typing import Iterator
 
+import rasterio
 from cloudpathlib import AnyPath, CloudPath
 from loguru import logger
+from overrides import overrides
+from rasterio.session import AWSSession
 
 from clms_metadata.config import Settings
 
@@ -48,14 +51,18 @@ class Storage(abc.ABC):
     def parse_path(self, path: str) -> Path | CloudPath:
         pass
 
+    def rasterio_env(self) -> rasterio.Env:
+        return rasterio.Env()
+
 
 class S3(Storage):
     def __init__(self, settings: Settings):
         from cloudpathlib import S3Client
 
+        self.settings = settings
         logger.debug("Initializing S3 client for endpoint {}", settings.s3.endpoint)
         self.s3_client = S3Client(
-            endpoint_url=settings.s3.endpoint,
+            endpoint_url=str(settings.s3.endpoint),
             aws_access_key_id=settings.s3.aws_access_key_id,
             aws_secret_access_key=settings.s3.aws_secret_access_key,
         )
@@ -94,6 +101,15 @@ class S3(Storage):
 
     def parse_path(self, path: str) -> CloudPath:
         return self.s3_client.CloudPath(path)
+
+    @overrides
+    def rasterio_env(self) -> rasterio.Env:
+        return rasterio.Env(
+            AWSSession(
+                session=self.s3_client.sess,
+                endpoint_url=self.settings.s3.endpoint.host,  # strip protocol from S3 endpoint, GDAL cannot handle it
+            ),
+        )
 
 
 class LocalFileSystem(Storage):

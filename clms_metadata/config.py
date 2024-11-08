@@ -4,6 +4,7 @@ from typing import Literal, Optional
 
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, SecretStr
+from pydantic.networks import AnyUrl
 from pydantic_settings import (
     BaseSettings,
     SettingsConfigDict,
@@ -19,7 +20,7 @@ class ElasticsearchSettings(BaseModel):
 
 
 class S3Settings(BaseModel):
-    endpoint: str
+    endpoint: AnyUrl = os.getenv("AWS_ENDPOINT_URL")
     aws_access_key_id: SecretStr = os.getenv("AWS_ACCESS_KEY_ID")
     aws_secret_access_key: SecretStr = os.getenv("AWS_SECRET_ACCESS_KEY")
 

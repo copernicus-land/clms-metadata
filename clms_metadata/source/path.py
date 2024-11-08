@@ -5,6 +5,7 @@ from pathlib import Path
 
 from cloudpathlib import CloudPath
 from loguru import logger
+from overrides import overrides
 
 from clms_metadata.source.base import MetadataSource, add_missing
 
@@ -12,6 +13,7 @@ from clms_metadata.source.base import MetadataSource, add_missing
 class PathSource(MetadataSource):
     """Retrieve product metadata from the product path, e.g. filename."""
 
+    @overrides
     def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
         if len(product_files) == 1:
             product_id = product_files[0].stem
