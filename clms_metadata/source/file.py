@@ -23,7 +23,7 @@ class FileSource(MetadataSource):
 
     def _get_info_raster(self, path: Path | CloudPath, info: dict) -> dict:
         with self.storage.rasterio_env():
-            with rioxarray.open_rasterio(str(path)) as data:
+            with rioxarray.open_rasterio(str(path), band_as_variable=True) as data:
                 logger.debug(data.attrs)
                 add_missing(
                     info,
