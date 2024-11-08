@@ -62,5 +62,5 @@ def bulk_create(
     )
 
     for product_files in bulk_paths:
-        m = builder.build(tuple(Storage.parse_path(p) for p in product_files))
+        m = builder.build(tuple(storage.parse_path(p) for p in product_files))
         writer.write(m)
