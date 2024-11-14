@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import rasterio
+import rasterio.warp
 import rioxarray
 import shapely.geometry
 from cloudpathlib import CloudPath
@@ -30,10 +31,16 @@ class FileSource(MetadataSource):
                 tags = rioxarray._io._parse_tags(data.tags())
                 logger.debug(tags)
                 if data.subdatasets:
-                    with rasterio.open(data.subdatasets[0]) as sub_data:
-                        bounds = sub_data.bounds
+                    with rasterio.open(
+                        data.subdatasets[0], transform=data.transform
+                    ) as sub_data:
+                        bounds = rasterio.warp.transform_bounds(
+                            sub_data.crs, "EPSG:4326", *sub_data.bounds
+                        )
                 else:
-                    bounds = data.bounds
+                    bounds = rasterio.warp.transform_bounds(
+                        data.crs, "EPSG:4326", *data.bounds
+                    )
                 add_missing(
                     info,
                     "content_date",
