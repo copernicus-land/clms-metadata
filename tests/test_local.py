@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from clms_metadata.builder import MetadataBuilder
-from clms_metadata.config import MetadataSettings, Settings
+from clms_metadata.config import LinkSettings, MetadataSettings, Settings
 from clms_metadata.storage import LocalFileSystem
 
 file_root = Path("/data/MTDA/Copernicus/Land/global/")
@@ -41,7 +41,8 @@ def test_dmp_300m_v1_10daily_geotiff():
     settings = Settings(
         metadata=MetadataSettings(
             dataset_name="dmp_300m_v1_10daily", product_type="dry_matter_productivity"
-        )
+        ),
+        link=LinkSettings(value="c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"),
     )
 
     builder = MetadataBuilder(storage=LocalFileSystem(), settings=settings)
