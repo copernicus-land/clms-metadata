@@ -60,7 +60,7 @@ class MetadataBuilder:
         :return: product path
         """
         if self.settings.link.value:
-            return self.storage.parse_path(self.settings.link.value)
+            return AnyPath(self.settings.link.value)
         elif self.settings.link.rewrite:
             return AnyPath(self.settings.link.template.format_map(info))
         else:
