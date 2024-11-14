@@ -63,8 +63,8 @@ class S3(Storage):
         logger.debug("Initializing S3 client for endpoint {}", settings.s3.endpoint)
         self.s3_client = S3Client(
             endpoint_url=str(settings.s3.endpoint),
-            aws_access_key_id=settings.s3.aws_access_key_id,
-            aws_secret_access_key=settings.s3.aws_secret_access_key,
+            aws_access_key_id=settings.s3.aws_access_key_id.get_secret_value(),
+            aws_secret_access_key=settings.s3.aws_secret_access_key.get_secret_value(),
         )
 
     def glob(self, path: str) -> Iterator[str]:

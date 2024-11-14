@@ -20,25 +20,34 @@ class MetadataBuilder:
 
     def build(self, paths: tuple[Path | CloudPath, ...]) -> Metadata:
         logger.info("Building metadata for {}", paths)
-        paths = [
+        assert all(p.exists() for p in paths), "Provided path does not exist exist"
+        expanded_paths = [
             p
             for ps in map(lambda p: [p] if p.is_file() else p.rglob("*"), paths)
             for p in ps
         ]
-        logger.debug("Expanded paths to {}", paths)
+        logger.debug("Expanded paths to {}", expanded_paths)
         info = dict()
         for metadata_source in self.sources:
-            info = metadata_source.get_info(paths, info)
+            info = metadata_source.get_info(expanded_paths, info)
 
-        # TODO: suffix name with format (eg. _nc or _tiff)
+        link = self._get_link(paths, info)
         info["name"] = f"{info['name']}_{info['extension']}"
         m = Metadata(
-            path=self._get_link(info),
+            path=link,
             **info,
         )
         return m
 
-    def _get_link(self, info: dict) -> Path | CloudPath:
-        link = AnyPath(self.settings.link.base) if self.settings.link.base else Path()
-        link = link / self.settings.link.template.format_map(info)
-        return link
+    def _get_link(
+        self, paths: tuple[Path | CloudPath, ...], info: dict
+    ) -> Path | CloudPath:
+        if self.settings.link.value:
+            return self.storage.parse_path(self.settings.link.value)
+        elif self.settings.link.rewrite:
+            return AnyPath(self.settings.link.template.format_map(info))
+        else:
+            assert (
+                len(paths) == 1
+            ), "Either expected link to be set as a value, rewrite template or as a single input path."
+            return paths[0]

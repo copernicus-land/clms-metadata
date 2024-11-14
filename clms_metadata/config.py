@@ -20,9 +20,15 @@ class ElasticsearchSettings(BaseModel):
 
 
 class S3Settings(BaseModel):
-    endpoint: AnyUrl = os.getenv("AWS_ENDPOINT_URL")
-    aws_access_key_id: SecretStr = os.getenv("AWS_ACCESS_KEY_ID")
-    aws_secret_access_key: SecretStr = os.getenv("AWS_SECRET_ACCESS_KEY")
+    endpoint: AnyUrl = Field(
+        default_factory=lambda: AnyUrl(os.getenv("AWS_ENDPOINT_URL"))
+    )
+    aws_access_key_id: SecretStr = Field(
+        default=SecretStr(os.getenv("AWS_ACCESS_KEY_ID"))
+    )
+    aws_secret_access_key: SecretStr = Field(
+        default=SecretStr(os.getenv("AWS_SECRET_ACCESS_KEY"))
+    )
 
 
 class GeometrySettings(BaseModel):
@@ -37,14 +43,28 @@ class MetadataSettings(BaseModel):
 
 
 class LinkSettings(BaseModel):
-    base: str | None = None
     template: str = "{product_type}/{dataset_name}/{content_date.start.year:04d}/{content_date.start.year:04d}{content_date.start.month:02}{content_date.start.day:02d}/{name}"
+    rewrite: bool = False
+    value: str | None = None
 
 
 class Settings(BaseSettings):
     elasticsearch: Optional[ElasticsearchSettings] = None
-    s3: Optional[S3Settings] = None
-    sources: list[MetadataSourceStr] = ["Path", "File", "Settings"]
+    s3: Optional[S3Settings] = Field(
+        default_factory=lambda: S3Settings()
+        if any(
+            env_var in os.environ
+            for env_var in (
+                "AWS_ENDPOINT_URL",
+                "AWS_ACCESS_KEY_ID",
+                "AWS_SECRET_ACCESS_KEY",
+            )
+        )
+        else None
+    )
+    sources: list[MetadataSourceStr] = Field(
+        default_factory=lambda: ["Path", "File", "Settings"]
+    )
     metadata: Optional[MetadataSettings] = None
     geometry: GeometrySettings = GeometrySettings()
     link: LinkSettings = LinkSettings()

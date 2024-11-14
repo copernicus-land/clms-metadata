@@ -100,6 +100,9 @@ class Metadata(BaseModel):
     content_date: ContentDate
     """Sensing range period"""
 
+    checksum: str | None = None
+    """MD5 checksum"""
+
     geometry: Geometry
     """Geometry of the geo-referenced product"""
 

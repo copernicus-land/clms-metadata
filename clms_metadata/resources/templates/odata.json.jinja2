@@ -8,12 +8,12 @@
     "ContentLength": {{ metadata.content_length }},
     "Online": true,
     "ContentType": "{{ metadata.content_type }}",
-{#    "Link": "{{ metadata.path }}",#}
+    "Link": "{{ metadata.path }}",
     "CollectionName": "CLMS",
     "SpatialExtent":"global",
     "ProductType": "{{ metadata.product_type }}",
     "DatasetName": "{{ metadata.dataset_name }}",
-    "Version": "{{ metadata.version }}",  {# still needed? #}
+    "Version": "{{ metadata.version }}",
     "TargetFormat": "EXTRACTED",
     "DecompressionStep": false,
     "CompresionType": null,
@@ -21,6 +21,13 @@
         "Start": "{{ metadata.content_date.start }}",
         "End": "{{ metadata.content_date.end }}"
     },
+    {% if "checksum" in metadata %}
+    "Checksum": {
+        "Value": "{{ metadata.checksum }}",
+        "Algorithm": "MD5",
+        "ChecksumDate": "{{ metadata.origin_date }}"
+    },
+    {% endif %}
     "GeoFootprint": {{ metadata.geometry|tojson }},
     "Attributes": [
         {% for attr in metadata.attributes %}
