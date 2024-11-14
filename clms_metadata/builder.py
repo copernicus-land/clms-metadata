@@ -19,6 +19,12 @@ class MetadataBuilder:
         ]
 
     def build(self, paths: tuple[Path | CloudPath, ...]) -> Metadata:
+        """
+        Build a Metadata object for the product.
+
+        :param paths: file paths belonging to the product
+        :return: Metadata object
+        """
         logger.info("Building metadata for {}", paths)
         assert all(p.exists() for p in paths), "Provided path does not exist exist"
         expanded_paths = [
@@ -42,6 +48,17 @@ class MetadataBuilder:
     def _get_link(
         self, paths: tuple[Path | CloudPath, ...], info: dict
     ) -> Path | CloudPath:
+        """
+        Get the link of the product.
+        The following options are considered (in order):
+         - link value provided in settings
+         - link rewrite following template in settings
+         - original file path
+
+        :param paths: product file paths
+        :param info: information dictionary
+        :return: product path
+        """
         if self.settings.link.value:
             return self.storage.parse_path(self.settings.link.value)
         elif self.settings.link.rewrite:

@@ -5,6 +5,7 @@ import shapely.geometry
 from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
+from xarray import DataArray, Dataset
 
 from clms_metadata.models import ContentDate, StringAttribute
 from clms_metadata.source.base import MetadataSource, add_missing, add_missing_attribute
@@ -49,7 +50,13 @@ class FileSource(MetadataSource):
                 )
         return info
 
-    def get_processing_center(self, data) -> str | None:
+    def get_processing_center(self, data: Dataset | DataArray) -> str | None:
+        """
+        Get the processing center information from the raster metadata.
+
+        :param data: raster data
+        :return: processing center, if available
+        """
         processing_center = data.attrs.get("institution") or data.attrs.get(
             "processing_centre"
         )

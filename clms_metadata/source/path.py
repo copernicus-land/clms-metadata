@@ -40,6 +40,13 @@ class PathSource(MetadataSource):
 
 
 def get_common_name(paths: list[Path | CloudPath]) -> str:
+    """
+    Given a list of files, get the common name for the product.
+    File names segments are expected to be delimited by '-' or '_' characters.
+
+    :param paths: list of paths belonging to the product
+    :return: product name derived from the file names
+    """
     values = set(map(lambda p: p.stem, paths))
 
     common = functools.reduce(_common_name_pair, values)

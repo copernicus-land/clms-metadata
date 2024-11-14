@@ -47,6 +47,14 @@ def bulk_create(
     output: Path | None = None,
     config: Path | None = None,
 ):
+    """
+    Create OData metadata for multiple products.
+    The command expects a 2D JSON array on stdin which contains the file paths associated with each product.
+
+    :param output: output for the OData metadata, leave empty to write to stdout as JSON lines
+    :param config: YAML config file
+    :return:
+    """
     settings = Settings.from_yaml(config)
     logger.debug("Settings: {}", settings)
     bulk_paths = json.load(sys.stdin)
