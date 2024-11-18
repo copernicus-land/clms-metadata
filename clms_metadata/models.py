@@ -81,7 +81,7 @@ class Metadata(BaseModel):
     content_type: str
     """The MIME type of the product"""
 
-    content_length: int = Field(gt=0)
+    content_length: int | None = Field(gt=0, default=None)
     """Actual size in bytes of the product"""
 
     origin_date: DateTimeUTC

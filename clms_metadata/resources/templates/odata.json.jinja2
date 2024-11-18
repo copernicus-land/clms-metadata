@@ -5,7 +5,9 @@
     "ModificationDate": "{{ metadata.modification_date }}",
     "OriginDate": "{{ metadata.origin_date }}",
     "PublicationDate": "{{ metadata.publication_date }}",
+    {% if 'content_length' in metadata %}
     "ContentLength": {{ metadata.content_length }},
+    {% endif %}
     "Online": true,
     "ContentType": "{{ metadata.content_type }}",
     "Link": "{{ metadata.path }}",

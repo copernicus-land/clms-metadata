@@ -32,9 +32,8 @@ class PathSource(MetadataSource):
         add_missing(
             info, "origin_date", lambda: max(p.stat().st_mtime for p in product_files)
         )
-        add_missing(
-            info, "content_length", lambda: sum(p.stat().st_size for p in product_files)
-        )
+        if len(product_files) == 1:
+            add_missing(info, "content_length", lambda: product_files[0].stat().st_size)
 
         return info
 
