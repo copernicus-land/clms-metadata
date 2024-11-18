@@ -22,7 +22,7 @@ def group_files(path: str, product_regex: str, config: Path | None = None) -> No
     :return: list of grouped file paths
     """
     grouped_files = _group_files(path, product_regex, config)
-    print(json.dumps(grouped_files, indent=2))
+    print({get_common_name([Path(file) for file in group]): group for group in grouped_files})
 
 def _group_files(path: str, product_regex: str, config: Path | None = None) -> list[list[str]]:
     """
@@ -64,3 +64,6 @@ def get_product_group_id(product_path: str, product_regex: str, config: Path | N
         raise ValueError("Product found in multiple groups")
     else:
         print(get_common_name([Path(f) for f in product_groups[0]]))
+
+
+group_files("/data/MTDA/Copernicus/Land/global/geotiff/fraction_absorbed_par/fapar_300m_v1_10daily/2014/20140110/", "c_gls_FAPAR300-[A-Z]*((?:-RT.|)_[0-9]*_GLOBE_[A-Z]*_V[0-9]*.[0-9]*.[0-9]*)")
