@@ -50,9 +50,11 @@ def get_common_name(paths: list[Path | CloudPath]) -> str:
 
     common = functools.reduce(_common_name_pair, values)
     # filter out duplicate consecutive hyphens or underscores
-    while any(substr in common for substr in ("__", "--")):
+    while any(substr in common for substr in ("__", "--", "-_", "_-")):
         common = common.replace("__", "_")
         common = common.replace("--", "-")
+        common = common.replace("-_", "_")
+        common = common.replace("_-", "_")
     logger.debug("Reduced product identifier to {}", common)
     return common
 
@@ -68,11 +70,15 @@ def _common_name_pair(a: str, b: str) -> str:
         try:
             if i > 1:
                 # trim start of block to - or _
-                index = min(str_block.index(c) for c in ("_", "-"))
+                index = min(
+                    [str_block.index(c) for c in ("_", "-") if c in str_block]
+                )
                 str_block = str_block[index:]
             if i != len(blocks) - 1:
                 # trim end of block to - or _
-                index = max(str_block.rindex(c) for c in ("_", "-"))
+                index = max(
+                    [str_block.rindex(c) for c in ("_", "-") if c in str_block]
+                )
                 str_block = str_block[: index + 1]
             common += str_block
         except ValueError:
