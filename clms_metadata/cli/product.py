@@ -6,10 +6,10 @@ import cyclopts
 from loguru import logger
 
 from clms_metadata.config import Settings
+from clms_metadata.source.path import get_common_name
 from clms_metadata.storage import S3, LocalFileSystem, Storage
 
 app = cyclopts.App()
-
 
 @app.command()
 def group_files(path: str, product_regex: str, config: Path | None = None) -> None:
@@ -20,6 +20,13 @@ def group_files(path: str, product_regex: str, config: Path | None = None) -> No
     :param product_regex: product regex used to group files, must contain groups
     :param config: path to config file
     :return: list of grouped file paths
+    """
+    grouped_files = _group_files(path, product_regex, config)
+    print(json.dumps(grouped_files, indent=2))
+
+def _group_files(path: str, product_regex: str, config: Path | None = None) -> list[list[str]]:
+    """
+    Group the files into separate products based on the capturing groups specified in the product regex.
     """
     settings = Settings.from_yaml(config) if config else Settings()
     storage: Storage = S3(settings) if path.startswith("s3://") else LocalFileSystem()
@@ -35,4 +42,25 @@ def group_files(path: str, product_regex: str, config: Path | None = None) -> No
                     tmp_files[key] = []
                 tmp_files[key].append(p)
         files.extend(tmp_files.values())
-    print(json.dumps(list(map(lambda fs: [str(f) for f in fs], files)), indent=2))
+    return list(map(lambda fs: [str(f) for f in fs], files))
+
+@app.command()
+def get_product_group_id(product_path: str, product_regex: str, config: Path | None = None) -> None:
+    """
+    For any product path, print the common identifier for the group of files to which the product belongs.
+
+    :param product_path: product path of which we want to find the group identifier
+    :param product_regex: product regex used to group files, must contain groups
+    :param config: path to config file
+    :return: None, prints the group identifier to stdout
+    """
+    all_grouped_files = _group_files(str(Path(product_path).parent), product_regex, config)
+    product_groups = [common_files for common_files in all_grouped_files if product_path in common_files]
+    if len(product_groups) == 0:
+        logger.error("Product not found in the grouped files")
+        raise ValueError("Product not found in the grouped files")
+    elif len(product_groups) > 1:
+        logger.error("Product found in multiple groups")
+        raise ValueError("Product found in multiple groups")
+    else:
+        print(get_common_name([Path(f) for f in product_groups[0]]))
