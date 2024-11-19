@@ -11,6 +11,7 @@ from clms_metadata.storage import S3, LocalFileSystem, Storage
 
 app = cyclopts.App()
 
+
 @app.command()
 def group_files(path: str, product_regex: str, config: Path | None = None) -> None:
     """
@@ -22,9 +23,19 @@ def group_files(path: str, product_regex: str, config: Path | None = None) -> No
     :return: list of grouped file paths
     """
     grouped_files = _group_files(path, product_regex, config)
-    print(json.dumps({get_common_name([Path(file) for file in group]): group for group in grouped_files}))
+    print(
+        json.dumps(
+            {
+                get_common_name([Path(file) for file in group]): group
+                for group in grouped_files
+            }
+        )
+    )
 
-def _group_files(path: str, product_regex: str, config: Path | None = None) -> list[list[str]]:
+
+def _group_files(
+    path: str, product_regex: str, config: Path | None = None
+) -> list[list[str]]:
     """
     Group the files into separate products based on the capturing groups specified in the product regex.
     """
@@ -44,8 +55,11 @@ def _group_files(path: str, product_regex: str, config: Path | None = None) -> l
         files.extend(tmp_files.values())
     return list(map(lambda fs: [str(f) for f in fs], files))
 
+
 @app.command()
-def get_product_group_id(product_path: str, product_regex: str, config: Path | None = None) -> None:
+def get_product_group_id(
+    product_path: str, product_regex: str, config: Path | None = None
+) -> None:
     """
     For any product path, print the common identifier for the group of files to which the product belongs.
 
@@ -54,8 +68,14 @@ def get_product_group_id(product_path: str, product_regex: str, config: Path | N
     :param config: path to config file
     :return: None, prints the group identifier to stdout
     """
-    all_grouped_files = _group_files(str(Path(product_path).parent), product_regex, config)
-    product_groups = [common_files for common_files in all_grouped_files if product_path in common_files]
+    all_grouped_files = _group_files(
+        str(Path(product_path).parent), product_regex, config
+    )
+    product_groups = [
+        common_files
+        for common_files in all_grouped_files
+        if product_path in common_files
+    ]
     if len(product_groups) == 0:
         logger.error("Product not found in the grouped files")
         raise ValueError("Product not found in the grouped files")
