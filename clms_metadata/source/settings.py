@@ -3,26 +3,28 @@ from pathlib import Path
 from cloudpathlib import CloudPath
 from overrides import overrides
 
-from clms_metadata.models import IntegerAttribute, StringAttribute
-from clms_metadata.source.base import MetadataSource, add_missing, add_missing_attribute
+from clms_metadata.models import IntegerAttribute, Metadata, StringAttribute
+from clms_metadata.source.base import MetadataSource
 
 
 class SettingsSource(MetadataSource):
     """Retrieve static metadata from the settings."""
 
     @overrides
-    def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
+    def get_info(
+        self, product_files: list[Path | CloudPath], metadata: Metadata
+    ) -> Metadata:
         if self.settings.metadata is None:
-            return info
+            return metadata
 
         if self.settings.metadata.model_extra:
             for name, value in self.settings.metadata.model_extra.items():
-                add_missing(info, name, factory=lambda: value)
+                setattr(metadata, name, value)
 
         for name, value in self.settings.metadata.attributes.items():
             value_type = IntegerAttribute if isinstance(value, int) else StringAttribute
-            add_missing_attribute(
-                info, name=name, factory=lambda: value, value_type=value_type
+            metadata.add_attribute(
+                name=name, value_type=value_type, factory=lambda: value
             )
 
-        return info
+        return metadata

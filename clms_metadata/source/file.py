@@ -8,22 +8,24 @@ from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.models import ContentDate, StringAttribute
-from clms_metadata.source.base import MetadataSource, add_missing, add_missing_attribute
+from clms_metadata.models import ContentDate, Metadata, StringAttribute
+from clms_metadata.source.base import MetadataSource
 
 
 class FileSource(MetadataSource):
     """Retrieve metadata from the file content."""
 
     @overrides
-    def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
+    def get_info(
+        self, product_files: list[Path | CloudPath], metadata: Metadata
+    ) -> Metadata:
         for path in product_files:
             if path.suffix.lower() in (".nc", ".tiff", ".tif"):
-                info = self._get_info_raster(path, info)
+                metadata = self._get_info_raster(path, metadata)
 
-        return info
+        return metadata
 
-    def _get_info_raster(self, path: Path | CloudPath, info: dict) -> dict:
+    def _get_info_raster(self, path: Path | CloudPath, metadata: Metadata) -> Metadata:
         with self.storage.rasterio_env():
             # with rioxarray.open_rasterio(str(path)) as data:
             # use rasterio directly to work around issue https://github.com/corteva/rioxarray/issues/829
@@ -41,35 +43,28 @@ class FileSource(MetadataSource):
                     bounds = rasterio.warp.transform_bounds(
                         data.crs, "EPSG:4326", *data.bounds
                     )
-                add_missing(
-                    info,
-                    "content_date",
-                    lambda: ContentDate(
+                if not metadata.content_date:
+                    metadata.content_date = ContentDate(
                         start=tags["time_coverage_start"],
                         end=tags["time_coverage_end"],
-                    ),
-                )
-                add_missing(
-                    info,
-                    "geometry",
-                    lambda: shapely.set_precision(
+                    )
+                if not metadata.geometry:
+                    # TODO: check if half-pixel shift is needed?
+                    metadata.geometry = shapely.set_precision(
                         shapely.geometry.box(*bounds),
                         grid_size=self.settings.geometry.precision,
-                    ),
-                )  # TODO: check if half-pixel shift is needed?
-                add_missing_attribute(
-                    info,
-                    "processingCenter",
-                    lambda: self.get_processing_center(tags),
+                    )
+                metadata.add_attribute(
+                    name="processingCenter",
                     value_type=StringAttribute,
+                    factory=lambda: self.get_processing_center(tags),
                 )
-                add_missing_attribute(
-                    info,
-                    "title",
-                    lambda: tags.get("title"),
+                metadata.add_attribute(
+                    name="title",
                     value_type=StringAttribute,
+                    factory=lambda: tags.get("title"),
                 )
-        return info
+        return metadata
 
     def get_processing_center(self, tags: dict) -> str | None:
         """

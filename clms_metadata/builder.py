@@ -4,7 +4,7 @@ from cloudpathlib import AnyPath, CloudPath
 from loguru import logger
 
 from clms_metadata.config import Settings
-from clms_metadata.models import Metadata
+from clms_metadata.models import Metadata, PartialMetadata
 from clms_metadata.source import MetadataSource
 from clms_metadata.storage import Storage
 
@@ -33,20 +33,19 @@ class MetadataBuilder:
             for p in ps
         ]
         logger.debug("Expanded paths to {}", expanded_paths)
-        info = dict()
-        for metadata_source in self.sources:
-            info = metadata_source.get_info(expanded_paths, info)
+        partial = PartialMetadata()
 
-        link = self._get_link(paths, info)
-        info["name"] = f"{info['name']}_{info['extension']}"
-        m = Metadata(
-            path=link,
-            **info,
-        )
+        for metadata_source in self.sources:
+            partial = metadata_source.get_info(
+                product_files=expanded_paths, metadata=partial
+            )
+
+        partial.path = self._get_link(paths, partial)
+        m = Metadata.model_validate(partial.model_dump())
         return m
 
     def _get_link(
-        self, paths: tuple[Path | CloudPath, ...], info: dict
+        self, paths: tuple[Path | CloudPath, ...], metadata: Metadata
     ) -> Path | CloudPath:
         """
         Get the link of the product.
@@ -56,13 +55,13 @@ class MetadataBuilder:
          - original file path
 
         :param paths: product file paths
-        :param info: information dictionary
+        :param metadata: metadata object
         :return: product path
         """
         if self.settings.link.value:
             return AnyPath(self.settings.link.value)
         elif self.settings.link.rewrite:
-            return AnyPath(self.settings.link.template.format_map(info))
+            return AnyPath(self.settings.link.template.format_map(metadata.__dict__))
         else:
             assert (
                 len(paths) == 1

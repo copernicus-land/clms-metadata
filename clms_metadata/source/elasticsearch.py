@@ -4,8 +4,8 @@ from cloudpathlib import CloudPath
 from overrides import overrides
 
 from clms_metadata.config import Settings
-from clms_metadata.models import ContentDate, StringAttribute
-from clms_metadata.source.base import MetadataSource, add_missing, add_missing_attribute
+from clms_metadata.models import ContentDate, Metadata, StringAttribute
+from clms_metadata.source.base import MetadataSource
 from clms_metadata.storage import Storage
 
 
@@ -26,32 +26,30 @@ class ElasticsearchSource(MetadataSource):
         self.index = settings.elasticsearch.index
 
     @overrides
-    def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
+    def get_info(
+        self, product_files: list[Path | CloudPath], metadata: Metadata
+    ) -> Metadata:
         _id = product_files[0].stem
 
         doc = self.client.get(index=self.index, id=_id)["_source"]
 
-        add_missing(info, "name", lambda: doc["title"])
-        add_missing(info, "geometry", lambda: doc["geometry"])
-        add_missing(
-            info,
-            "origin_date",
-            lambda: doc["properties"]["processing_status"]["processing_end"],
-        )
-        add_missing(
-            info,
-            "content_date",
-            lambda: ContentDate(
+        if not metadata.name:
+            metadata.name = doc["title"]
+        if not metadata.geometry:
+            metadata.geometry = doc["geometry"]
+        if not metadata.origin_date:
+            metadata.origin_date = doc["properties"]["processing_status"][
+                "processing_end"
+            ]
+        if not metadata.content_date:
+            metadata.content_date = ContentDate(
                 start=doc["properties"]["beginposition"],
                 end=doc["properties"]["endposition"],
-            ),
-        )
-
-        add_missing_attribute(
-            info,
+            )
+        metadata.add_attribute(
             name="tileId",
-            factory=lambda: doc["properties"]["tileid"],
             value_type=StringAttribute,
+            factory=lambda: doc["properties"]["tileid"],
         )
 
-        return info
+        return metadata

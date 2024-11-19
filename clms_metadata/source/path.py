@@ -9,43 +9,54 @@ from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.models import DateTimeOffset, StringAttribute
-from clms_metadata.source.base import MetadataSource, add_missing, add_missing_attribute
+from clms_metadata.models import DateTimeOffset, Metadata, StringAttribute
+from clms_metadata.source.base import MetadataSource
 
 
 class PathSource(MetadataSource):
     """Retrieve product metadata from the product path, e.g. filename."""
 
     @overrides
-    def get_info(self, product_files: list[Path | CloudPath], info: dict) -> dict:
+    def get_info(
+        self, product_files: list[Path | CloudPath], metadata: Metadata
+    ) -> Metadata:
         if len(product_files) == 1:
             product_id = product_files[0].stem
         else:
             # try to find common string
             product_id = get_common_name(product_files)
 
-        add_missing(info, "name", lambda: product_id)
-        version = product_id.rsplit("_", 1)[1].lower()
-        add_missing(info, "version", lambda: version[:2])  # major version
-        add_missing_attribute(
-            info, "productVersion", lambda: version, StringAttribute
-        )  # full version
-        add_missing_attribute(
-            info, "nominalDate", lambda: get_nominal_date(product_id), DateTimeOffset
-        )
-        add_missing(
-            info,
-            "content_type",
-            lambda: mimetypes.guess_type(str(product_files[0]), strict=False)[0],
-        )
-        add_missing(info, "extension", lambda: product_files[0].suffix[1:].lower())
-        add_missing(
-            info, "origin_date", lambda: max(p.stat().st_mtime for p in product_files)
-        )
-        if len(product_files) == 1:
-            add_missing(info, "content_length", lambda: product_files[0].stat().st_size)
+        if not metadata.name:
+            metadata.name = product_id
 
-        return info
+        version = product_id.rsplit("_", 1)[1].lower()
+        if not metadata.version:
+            metadata.version = version[:2]  # major version
+            metadata.add_attribute(
+                name="productVersion",
+                value_type=StringAttribute,
+                factory=lambda: version,
+            )  # full version
+
+        metadata.add_attribute(
+            name="nominalDate",
+            value_type=DateTimeOffset,
+            factory=lambda: get_nominal_date(product_id),
+        )
+
+        if not metadata.content_type:
+            metadata.content_type = mimetypes.guess_type(
+                str(product_files[0]), strict=False
+            )[0]
+        if "name_suffix" not in metadata.model_extra:
+            metadata.name_suffix = product_files[0].suffix[1:]
+        if not metadata.origin_date:
+            metadata.origin_date = max(p.stat().st_mtime for p in product_files)
+
+        if not metadata.content_length and len(product_files) == 1:
+            metadata.content_length = product_files[0].stat().st_size
+
+        return metadata
 
 
 def get_common_name(paths: list[Path | CloudPath]) -> str:

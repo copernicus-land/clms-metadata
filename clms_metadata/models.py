@@ -1,7 +1,7 @@
 import abc
 import datetime
 from pathlib import Path
-from typing import Annotated, Any, Literal
+from typing import Annotated, Any, Literal, Type
 
 from cloudpathlib import CloudPath
 from geojson_pydantic.geometries import Geometry
@@ -9,7 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import AfterValidator
 
-from clms_metadata.util import format_zulu
+from clms_metadata.util import format_zulu, partial_model
 
 
 def validate_utc(d: datetime.datetime) -> datetime.datetime:
@@ -40,6 +40,8 @@ class ContentDate(BaseModel):
 
 class Attribute(BaseModel, abc.ABC):
     name: str
+    value_type: str
+    value: Any
 
 
 class StringAttribute(Attribute):
@@ -92,7 +94,7 @@ Attributes = Annotated[
 
 
 class Metadata(BaseModel):
-    model_config = ConfigDict(use_attribute_docstrings=True, validate_assignment=True)
+    model_config = ConfigDict(use_attribute_docstrings=True, extra="allow")
 
     name: str
     """Data file name"""
@@ -141,8 +143,41 @@ class Metadata(BaseModel):
 
     @field_validator("geometry", mode="before")
     @classmethod
-    def set_geometry(cls, geometry: Any) -> Any:
-        """set geometry from geo interface or input"""
+    def set_geometry(cls, geometry: Any) -> Geometry:
+        """
+        Set geometry from geo interface or input
+
+        :param geometry: geometry object
+        """
         if hasattr(geometry, "__geo_interface__"):
             return geometry.__geo_interface__
         return geometry
+
+    def has_attribute(self, name: str) -> bool:
+        """
+        Indicates whether the metadata includes an attribute with the given name.
+
+        :param name: attribute name
+        :return: boolean indicating whether the attribute already exists
+        """
+        return name in (attr.name for attr in self.attributes)
+
+    def add_attribute(self, name: str, value_type: Type[Attribute], factory: callable):
+        """
+        Add an attribute to the attribute list in the metadata.
+
+        :param name: attribute name
+        :param value_type: type of the attribute value
+        :param factory: method to extract the attribute value
+        :return:
+        """
+        if not self.has_attribute(name):
+            value = factory()
+            if value is not None:
+                self.attributes.append(value_type(name=name, value=value))
+
+
+@partial_model
+class PartialMetadata(Metadata):
+    model_config = ConfigDict(validate_assignment=True)
+    attributes: Attributes = Field(default_factory=list)  # add default
