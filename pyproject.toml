@@ -3,7 +3,7 @@ name = "clms-metadata"
 version = "0.0.1"
 authors = [{name = "Stijn Caerts", email = "stijn.caerts@vito.be"}]
 dependencies = [
-    "cyclopts~=2.9.9",
+    "cyclopts~=3.0.0",
     "autoregistry~=1.1.2",
     "pydantic~=2.9.2",
     "pydantic-settings~=2.5.2",
