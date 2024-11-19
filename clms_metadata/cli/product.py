@@ -22,7 +22,7 @@ def group_files(path: str, product_regex: str, config: Path | None = None) -> No
     :return: list of grouped file paths
     """
     grouped_files = _group_files(path, product_regex, config)
-    print({get_common_name([Path(file) for file in group]): group for group in grouped_files})
+    print(json.dumps({get_common_name([Path(file) for file in group]): group for group in grouped_files}))
 
 def _group_files(path: str, product_regex: str, config: Path | None = None) -> list[list[str]]:
     """
