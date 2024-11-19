@@ -1,13 +1,16 @@
+import datetime
 import difflib
 import functools
 import mimetypes
+import re
 from pathlib import Path
 
 from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.source.base import MetadataSource, add_missing
+from clms_metadata.models import DateTimeOffset, StringAttribute
+from clms_metadata.source.base import MetadataSource, add_missing, add_missing_attribute
 
 
 class PathSource(MetadataSource):
@@ -22,7 +25,14 @@ class PathSource(MetadataSource):
             product_id = get_common_name(product_files)
 
         add_missing(info, "name", lambda: product_id)
-        add_missing(info, "version", lambda: product_id.rsplit("_", 1)[1][:2].lower())
+        version = product_id.rsplit("_", 1)[1].lower()
+        add_missing(info, "version", lambda: version[:2])  # major version
+        add_missing_attribute(
+            info, "productVersion", lambda: version, StringAttribute
+        )  # full version
+        add_missing_attribute(
+            info, "nominalDate", lambda: get_nominal_date(product_id), DateTimeOffset
+        )
         add_missing(
             info,
             "content_type",
@@ -70,18 +80,39 @@ def _common_name_pair(a: str, b: str) -> str:
         try:
             if i > 1:
                 # trim start of block to - or _
-                index = min(
-                    [str_block.index(c) for c in ("_", "-") if c in str_block]
-                )
+                index = min([str_block.index(c) for c in ("_", "-") if c in str_block])
                 str_block = str_block[index:]
             if i != len(blocks) - 1:
                 # trim end of block to - or _
-                index = max(
-                    [str_block.rindex(c) for c in ("_", "-") if c in str_block]
-                )
+                index = max([str_block.rindex(c) for c in ("_", "-") if c in str_block])
                 str_block = str_block[: index + 1]
             common += str_block
         except ValueError:
             # don't include the block if it cannot be trimmed to delimiting characters
             continue
     return common
+
+
+def get_nominal_date(product_id: str) -> datetime.datetime:
+    """
+    Parse the date from the product ID.
+
+    Nominal dates in filenames can take one of three forms:
+        - YYYYMMDDhhmm (12 digits): the most common case
+        - YEAR1----YEAR2 (4 digits, 4 hyphens, 4 digits) -> nominal date = Jan 1 of YEAR1:
+            e.g. SWI static
+        - YEAR1-YEAR2-MMDD (4 digits, hyphen, 4 digits, hyphen, 4 digits) -> nominal date = YEAR1/MM/DD:
+            e.g. NDVI statistics
+    """
+    date_part = product_id.split("_")[3]
+    if re.match(r"\d{12}", date_part):
+        date = datetime.datetime.strptime(date_part, "%Y%m%d%H%M")
+    elif re.match(r"\d{4}----\d{4}", date_part):
+        date = datetime.datetime.strptime(date_part[0:4], "%Y")
+    elif re.match(r"\d{4}-\d{4}-\d{4}", date_part):
+        date = datetime.datetime.strptime(date_part[0:4] + date_part[-4:], "%Y%m%d")
+    else:
+        raise ValueError(
+            f"Product ID {product_id} did not match any of the expected nominal date formats"
+        )
+    return date.replace(tzinfo=datetime.timezone.utc)

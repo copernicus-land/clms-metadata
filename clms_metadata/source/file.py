@@ -63,6 +63,12 @@ class FileSource(MetadataSource):
                     lambda: self.get_processing_center(tags),
                     value_type=StringAttribute,
                 )
+                add_missing_attribute(
+                    info,
+                    "title",
+                    lambda: tags.get("title"),
+                    value_type=StringAttribute,
+                )
         return info
 
     def get_processing_center(self, tags: dict) -> str | None:

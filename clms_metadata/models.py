@@ -52,28 +52,47 @@ class IntegerAttribute(Attribute):
     value: int
 
 
+class DateTimeOffset(Attribute):
+    value_type: Literal["DateTimeOffset"] = "DateTimeOffset"
+    value: DateTimeUTC
+
+
+MANDATORY_ATTRIBUTES = {
+    "processingCenter": StringAttribute,
+    "nominalDate": DateTimeOffset,
+    "title": StringAttribute,
+    # "tileId": StringAttribute,  # only if applicable
+    # "relativeOrbitNumber": IntegerAttribute,
+    # "productGroupId": StringAttribute,
+    "productVersion": StringAttribute,
+    # "resolution": IntegerAttribute,
+}
+
+
 def validate_attributes(attrs: list[Attribute]) -> list[Attribute]:
-    mandatory_string_attributes = ("processingCenter",)
-    for a_name in mandatory_string_attributes:
+    for attribute, atype in MANDATORY_ATTRIBUTES.items():
         assert (
-            len(filtered := [attr for attr in attrs if attr.name == a_name]) == 1
-        ), f"Expected attribute with name '{a_name}'"
+            len(filtered := [attr for attr in attrs if attr.name == attribute]) == 1
+        ), f"Expected attribute with name '{attribute}'"
         assert isinstance(
-            filtered[0], StringAttribute
-        ), f"Expected '{a_name}' attribute with value type String"
+            filtered[0], atype
+        ), f"Expected '{attribute}' attribute with value type String"
     return attrs
 
 
 Attributes = Annotated[
     list[
-        Annotated[StringAttribute | IntegerAttribute, Field(discriminator="value_type")]
+        Annotated[
+            StringAttribute | IntegerAttribute | DateTimeOffset,
+            Field(discriminator="value_type"),
+        ]
     ],
     AfterValidator(validate_attributes),
 ]
 
 
 class Metadata(BaseModel):
-    model_config = ConfigDict(use_attribute_docstrings=True)
+    model_config = ConfigDict(use_attribute_docstrings=True, validate_assignment=True)
 
     name: str
     """Data file name"""
