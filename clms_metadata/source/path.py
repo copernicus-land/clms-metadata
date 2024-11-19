@@ -5,7 +5,7 @@ import mimetypes
 import re
 from pathlib import Path
 
-from cloudpathlib import CloudPath
+from cloudpathlib import CloudPath, S3Path
 from loguru import logger
 from overrides import overrides
 
@@ -51,12 +51,29 @@ class PathSource(MetadataSource):
         if "name_suffix" not in metadata.model_extra:
             metadata.name_suffix = product_files[0].suffix[1:]
         if not metadata.origin_date:
-            metadata.origin_date = max(p.stat().st_mtime for p in product_files)
+            metadata.origin_date = max(get_mtime(p) for p in product_files)
 
         if not metadata.content_length and len(product_files) == 1:
             metadata.content_length = product_files[0].stat().st_size
 
         return metadata
+
+
+def get_mtime(path: Path | CloudPath) -> float:
+    """
+    Get modification time of the file.
+
+    :param path: file path
+    :return: modification time as floating point since the epoch
+    """
+    if isinstance(path, S3Path):
+        # try to read modification time from the object metadata: https://rclone.org/s3/#modification-times-and-hashes
+        return (
+            path.client._get_metadata(path)["extra"].get("mtime")
+            or path.stat().st_mtime
+        )
+    else:
+        return path.stat().st_mtime
 
 
 def get_common_name(paths: list[Path | CloudPath]) -> str:
