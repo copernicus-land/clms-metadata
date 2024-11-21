@@ -54,14 +54,14 @@ class IntegerAttribute(Attribute):
     value: int
 
 
-class DateTimeOffset(Attribute):
+class DateTimeOffsetAttribute(Attribute):
     value_type: Literal["DateTimeOffset"] = "DateTimeOffset"
     value: DateTimeUTC
 
 
 MANDATORY_ATTRIBUTES = {
     "processingCenter": StringAttribute,
-    "nominalDate": DateTimeOffset,
+    "nominalDate": DateTimeOffsetAttribute,
     "title": StringAttribute,
     # "tileId": StringAttribute,  # only if applicable
     # "relativeOrbitNumber": IntegerAttribute,
@@ -85,7 +85,7 @@ def validate_attributes(attrs: list[Attribute]) -> list[Attribute]:
 Attributes = Annotated[
     list[
         Annotated[
-            StringAttribute | IntegerAttribute | DateTimeOffset,
+            StringAttribute | IntegerAttribute | DateTimeOffsetAttribute,
             Field(discriminator="value_type"),
         ]
     ],

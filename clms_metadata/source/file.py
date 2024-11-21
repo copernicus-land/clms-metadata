@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 import rasterio
@@ -64,6 +65,25 @@ class FileSource(MetadataSource):
                     value_type=StringAttribute,
                     factory=lambda: tags.get("title"),
                 )
+                if not metadata.has_attribute("platformShortName"):
+                    platform_dict = get_platform(tags)
+                    platformShortName, platformSerialIdentifier = next(
+                        iter(platform_dict.items())
+                    )
+                    metadata.add_attribute(
+                        name="platformShortName",
+                        value_type=StringAttribute,
+                        factory=lambda: platformShortName,
+                    )
+                    if platformSerialIdentifier:
+                        metadata.add_attribute(
+                            name="platformSerialIdentifier",
+                            value_type=StringAttribute,
+                            factory=lambda: ", ".join(platformSerialIdentifier)
+                            if platformSerialIdentifier
+                            else None,
+                        )
+
         return metadata
 
     def get_processing_center(self, tags: dict) -> str | None:
@@ -79,3 +99,89 @@ class FileSource(MetadataSource):
                 " GMBH", ""
             )
         return processing_center
+
+
+def get_platform(tags: dict) -> dict[str, list[str] | None]:
+    """
+    Get the platform information from the 'platform' tag in the raster metadata.
+    Returns a tuple of platformShortName and platformSerialIdentifier.
+
+    :param tags: raster metadata tags
+    :return: platform information
+    """
+    platformstr = tags.get("platform")
+    platformstr = (
+        platformstr.upper().replace("_", "-").replace("SUOMI-NPP", "SUOMI NPP").strip()
+    )
+
+    # support for platforms with LIE 250m with old name for TERRA/AQUA/NOAA-20
+    # TERRA (EOS AM-1) => [TERRA]
+    for modis in ["AQUA", "TERRA", "NOAA-20"]:
+        if modis in platformstr and " (" in platformstr:
+            platformstr = platformstr.split(" (")[0]
+
+    # turn platformstr into a map of platformShortName to platformSerialIdentifiers
+    platforms = {p.strip(): None for p in platformstr.split(",")}
+
+    # Support for "AND" between platform names or platform serials
+    # e.g. "SENTINEL-3A AND SENTINEL-3B" or "SENTINEL 3 (A AND B)"
+    bracket_serials_regex = r"\(([A-Z]) AND ([A-Z])\)"
+    if " AND " in platformstr:
+        # repl_platforms = {}
+        for platf in list(platforms):
+            if regex_match_part := re.search(bracket_serials_regex, platf):
+                platforms.pop(platf)
+                (platform_short, platformserial) = platf.split(" (")
+                platform_short = platform_short.replace(" ", "-")
+                platforms[platform_short] = platforms.get(platform_short, list()) + [
+                    serial for serial in regex_match_part.groups()
+                ]
+            elif " AND " in platf:
+                serials = platforms.pop(platf)
+                platforms.update({p: serials for p in platf.split(" AND ")})
+
+    # Support for SSM/SWI multi-mission products with eg "METOP B+C"
+    if "+" in platformstr:
+        for platf in list(platforms):
+            if "+" in platf:
+                platforms.pop(platf)
+                (platform_short, platformserial) = platf.split(" ")
+                split_serial = platformserial.split("+")
+                platforms[platform_short] = (
+                    platforms.get(platform_short, list()) + split_serial
+                )
+
+    # We covered the AND and + syntaxes, all remaining spaces are between platforms
+    # with exception of "SUOMI NPP"
+    for platf in list(platforms):
+        if " " in platf and not "SUOMI NPP" == platf:
+            platforms.pop(platf)
+            platforms.update({p: None for p in platf.split(" ")})
+
+    # Support for LST, eg MSG4 -> MSG-4
+    geos = ["GOES", "MSG", "HIMAWARI", "MTSAT"]
+    lst_regex = "(MSG|MTSAT|HIMAWARI|GOES)([0-9]+|E|R)"
+    if any([x in platformstr for x in geos]):
+        for platf in list(platforms):
+            if match := re.match(lst_regex, platf):
+                platforms.pop(platf)
+                platform_short, serial = match.groups()
+                platforms[platform_short] = platforms.get(platform_short, list()) + [
+                    serial
+                ]
+
+    # Hyphenate SENTINELs, eg SENTINEL3A => SENTINEL-3A
+    # and extract serial identifier
+    sentinel_regex = r"(SENTINEL)-?(\d+)([A-Z]+)"
+    if "SENTINEL" in platformstr:
+        for platf in list(platforms):
+            if "SENTINEL" in platf:
+                if match := re.match(sentinel_regex, platf):
+                    platforms.pop(platf)
+                    base, num, serial = match.groups()
+                    platform_short = f"{base}-{num}"
+                    platforms[platform_short] = platforms.get(
+                        platform_short, list()
+                    ) + [serial]
+
+    return platforms

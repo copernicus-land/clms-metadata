@@ -9,7 +9,7 @@ from cloudpathlib import CloudPath, S3Path
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.models import DateTimeOffset, Metadata, StringAttribute
+from clms_metadata.models import DateTimeOffsetAttribute, Metadata, StringAttribute
 from clms_metadata.source.base import MetadataSource
 
 
@@ -40,7 +40,7 @@ class PathSource(MetadataSource):
 
         metadata.add_attribute(
             name="nominalDate",
-            value_type=DateTimeOffset,
+            value_type=DateTimeOffsetAttribute,
             factory=lambda: get_nominal_date(product_id),
         )
 
