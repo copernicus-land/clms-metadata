@@ -1,9 +1,9 @@
 import datetime
 import difflib
 import functools
-import mimetypes
 import re
 from pathlib import Path
+from typing import Final
 
 from cloudpathlib import CloudPath, S3Path
 from loguru import logger
@@ -11,6 +11,10 @@ from overrides import overrides
 
 from clms_metadata.models import DateTimeOffsetAttribute, Metadata, StringAttribute
 from clms_metadata.source.base import MetadataSource
+
+CONTENT_TYPE_NETCDF: Final[str] = "application/netcdf"
+CONTENT_TYPE_TIFF: Final[str] = "application/tiff"
+CONTENT_TYPE_GEOJSON: Final[str] = "application/geo+json"
 
 
 class PathSource(MetadataSource):
@@ -45,11 +49,9 @@ class PathSource(MetadataSource):
         )
 
         if not metadata.content_type:
-            metadata.content_type = mimetypes.guess_type(
-                str(product_files[0]), strict=False
-            )[0]
-        if "name_suffix" not in metadata.model_extra:
-            metadata.name_suffix = product_files[0].suffix[1:]
+            metadata.content_type = get_content_type(product_files)
+        if not metadata.name_suffix:
+            metadata.name_suffix = get_suffix(metadata.content_type)
         if not metadata.origin_date:
             metadata.origin_date = max(get_mtime(p) for p in product_files)
 
@@ -144,3 +146,22 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
             f"Product ID {product_id} did not match any of the expected nominal date formats"
         )
     return date.replace(tzinfo=datetime.timezone.utc)
+
+
+def get_content_type(paths: list[Path | CloudPath]) -> str:
+    suffixes = [p.suffix.lower() for p in paths]
+    if ".nc" in suffixes:
+        return CONTENT_TYPE_NETCDF
+    elif any(s in suffixes for s in (".tif", ".tiff")):
+        return CONTENT_TYPE_TIFF
+    elif ".geojson" in suffixes:
+        return CONTENT_TYPE_GEOJSON
+    raise ValueError(f"Unsupported file types {suffixes}")
+
+
+def get_suffix(content_type: str) -> str:
+    return {
+        CONTENT_TYPE_TIFF: "tiff",
+        CONTENT_TYPE_NETCDF: "nc",
+        CONTENT_TYPE_GEOJSON: "geojson",
+    }[content_type]

@@ -99,6 +99,9 @@ class Metadata(BaseModel):
     name: str
     """Data file name"""
 
+    name_suffix: str
+    """Product name suffix"""
+
     content_type: str
     """The MIME type of the product"""
 

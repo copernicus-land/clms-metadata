@@ -23,7 +23,8 @@ def test_ndvi_1km_v3_10daily_netcdf():
     builder = MetadataBuilder(storage=LocalFileSystem(), settings=settings)
     m = builder.build((path,))
     assert m.name == path.stem
-    assert m.model_extra["name_suffix"] == "nc"
+    assert m.name_suffix == "nc"
+    assert m.content_type == "application/netcdf"
     assert next(a for a in m.attributes if a.name == "resolution").value == 1000
 
 
@@ -50,5 +51,6 @@ def test_dmp_300m_v1_10daily_geotiff():
     builder = MetadataBuilder(storage=LocalFileSystem(), settings=settings)
     m = builder.build(paths)
     assert m.name == "c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"
-    assert m.model_extra["name_suffix"] == "tiff"
+    assert m.name_suffix == "tiff"
+    assert m.content_type == "application/tiff"
     assert next(a for a in m.attributes if a.name == "resolution").value == 300
