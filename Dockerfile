@@ -1,16 +1,10 @@
-ARG BASE_IMAGE='ghcr.io/osgeo/gdal:alpine-normal-3.10.0'
+ARG BASE_IMAGE="python:3.12-slim"
 
-FROM ${BASE_IMAGE} AS builder
+FROM ${BASE_IMAGE}
 ARG PACKAGE_NAME
 
 COPY dist/${PACKAGE_NAME} /tmp/${PACKAGE_NAME}
-RUN apk add py3-pip python3-dev gcc musl-dev g++ geos-dev
-RUN python3 -m venv /opt/venv
-ENV PATH="/opt/venv/bin:$PATH"
+RUN apt update && apt install -y libexpat1
 RUN pip install --no-cache-dir /tmp/${PACKAGE_NAME}
 
-FROM ${BASE_IMAGE}
-COPY --from=builder /opt/venv /opt/venv
-
-ENV PATH="/opt/venv/bin:$PATH"
 ENTRYPOINT ["clms-metadata"]
