@@ -82,11 +82,11 @@ from clms_metadata.source.file import get_platform
         ),  # eg. lwq_100m_v1_10daily-nrt: c_gls_LWQ100_201812210000_GLOBAL_MSI_V1.3
         (
             "MetOp-A, MetOp-B, GLDAS-NOAH",
-            {},
+            {"METOP": ["A", "B"], "GLDAS-NOAH": None},
         ),  # eg. swi_12.5km_v3_static: c_gls_SWI-STATIC-CI_201001010000_GLOBE_SWI-GLDAS_V1.1.1
         (
             "GOESR,  MSG4,  MSG1,  HIMAWARI8",
-            {},
+            {"GOES-R": None, "MSG-4": None, "MSG-1": None, "HIMAWARI-8": None},
         ),  # eg. lst_5km_v2_10daily-tci: c_gls_LST10-TCI-MIN_202101110000_GLOBE_GEO_V2.1.1
         (
             "N/A",
