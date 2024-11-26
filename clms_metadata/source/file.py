@@ -173,6 +173,7 @@ def get_platform(tags: dict) -> dict[str, list[str] | None]:
     # Hyphenate SENTINELs, eg SENTINEL3A => SENTINEL-3A
     # and extract serial identifier
     sentinel_regex = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
+    ignore = ("N/A", "PLATFORM")
 
     for platf in list(platforms):
         if match := lst_regex.match(platf):
@@ -185,5 +186,7 @@ def get_platform(tags: dict) -> dict[str, list[str] | None]:
             base, num, serial = match.groups()
             platform_short = f"{base}-{num}"
             platforms[platform_short] = platforms.get(platform_short, list()) + [serial]
+        if platf in ignore:
+            platforms.pop(platf)
 
     return platforms
