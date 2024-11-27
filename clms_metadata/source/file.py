@@ -84,6 +84,12 @@ class FileSource(MetadataSource):
                             else None,
                         )
 
+                metadata.add_attribute(
+                    name="instrumentShortName",
+                    value_type=StringAttribute,
+                    factory=lambda: tags.get("sensor"),
+                )
+
         return metadata
 
     def get_processing_center(self, tags: dict) -> str | None:
