@@ -84,6 +84,12 @@ class FileSource(MetadataSource):
                             else None,
                         )
 
+                metadata.add_attribute(
+                    name="instrumentShortName",
+                    value_type=StringAttribute,
+                    factory=lambda: tags.get("sensor"),
+                )
+
         return metadata
 
     def get_processing_center(self, tags: dict) -> str | None:
@@ -116,9 +122,11 @@ def get_platform(tags: dict) -> dict[str, list[str] | None]:
 
     # support for platforms with LIE 250m with old name for TERRA/AQUA/NOAA-20
     # TERRA (EOS AM-1) => [TERRA]
-    for modis in ["AQUA", "TERRA", "NOAA-20"]:
-        if modis in platformstr and " (" in platformstr:
-            platformstr = platformstr.split(" (")[0]
+    if (
+        any(modis in platformstr for modis in ["AQUA", "TERRA", "NOAA-20"])
+        and " (" in platformstr
+    ):
+        platformstr = platformstr.split(" (")[0]
 
     # turn platformstr into a map of platformShortName to platformSerialIdentifiers
     platforms = {p.strip(): None for p in platformstr.split(",")}
@@ -152,36 +160,39 @@ def get_platform(tags: dict) -> dict[str, list[str] | None]:
                 )
 
     # We covered the AND and + syntaxes, all remaining spaces are between platforms
-    # with exception of "SUOMI NPP"
+    # with exception of "SUOMI NPP" or "METOP X"
+    metop_regex = re.compile(r"(METOP)[ -]?([A-Z])")
     for platf in list(platforms):
-        if " " in platf and not "SUOMI NPP" == platf:
+        if "SUOMI NPP" == platf:
+            continue
+        elif match := metop_regex.match(platf):
+            platforms.pop(platf)
+            platform_short, serial = match.groups()
+            platforms[platform_short] = platforms.get(platform_short, list()) + [serial]
+        elif " " in platf:
             platforms.pop(platf)
             platforms.update({p: None for p in platf.split(" ")})
 
     # Support for LST, eg MSG4 -> MSG-4
-    geos = ["GOES", "MSG", "HIMAWARI", "MTSAT"]
-    lst_regex = "(MSG|MTSAT|HIMAWARI|GOES)([0-9]+|E|R)"
-    if any([x in platformstr for x in geos]):
-        for platf in list(platforms):
-            if match := re.match(lst_regex, platf):
-                platforms.pop(platf)
-                platform_short, serial = match.groups()
-                platforms[platform_short] = platforms.get(platform_short, list()) + [
-                    serial
-                ]
+    lst_regex = re.compile(r"(MSG|MTSAT|HIMAWARI|GOES)([0-9]+|E|R)")
 
     # Hyphenate SENTINELs, eg SENTINEL3A => SENTINEL-3A
     # and extract serial identifier
-    sentinel_regex = r"(SENTINEL)-?(\d+)([A-Z]+)"
-    if "SENTINEL" in platformstr:
-        for platf in list(platforms):
-            if "SENTINEL" in platf:
-                if match := re.match(sentinel_regex, platf):
-                    platforms.pop(platf)
-                    base, num, serial = match.groups()
-                    platform_short = f"{base}-{num}"
-                    platforms[platform_short] = platforms.get(
-                        platform_short, list()
-                    ) + [serial]
+    sentinel_regex = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
+    ignore = ("N/A", "PLATFORM")
+
+    for platf in list(platforms):
+        if match := lst_regex.match(platf):
+            platforms.pop(platf)
+            platform_short, suffix = match.groups()
+            platform = f"{platform_short}-{suffix}"
+            platforms[platform] = platforms.get(platform, None)
+        if match := sentinel_regex.match(platf):
+            platforms.pop(platf)
+            base, num, serial = match.groups()
+            platform_short = f"{base}-{num}"
+            platforms[platform_short] = platforms.get(platform_short, list()) + [serial]
+        if platf in ignore:
+            platforms.pop(platf)
 
     return platforms

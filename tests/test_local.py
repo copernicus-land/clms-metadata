@@ -26,6 +26,14 @@ def test_ndvi_1km_v3_10daily_netcdf():
     assert m.name_suffix == "nc"
     assert m.content_type == "application/netcdf"
     assert next(a for a in m.attributes if a.name == "resolution").value == 1000
+    assert (
+        next(a for a in m.attributes if a.name == "platformShortName").value
+        == "PROBA-V"
+    )
+    assert (
+        next(a for a in m.attributes if a.name == "instrumentShortName").value
+        == "VEGETATION"
+    )
 
 
 def test_dmp_300m_v1_10daily_geotiff():
@@ -54,3 +62,10 @@ def test_dmp_300m_v1_10daily_geotiff():
     assert m.name_suffix == "tiff"
     assert m.content_type == "application/tiff"
     assert next(a for a in m.attributes if a.name == "resolution").value == 300
+    assert (
+        next(a for a in m.attributes if a.name == "platformShortName").value
+        == "SENTINEL-3"
+    )
+    assert (
+        next(a for a in m.attributes if a.name == "instrumentShortName").value == "OLCI"
+    )
