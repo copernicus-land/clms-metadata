@@ -3,6 +3,7 @@ import datetime
 from pathlib import Path
 from typing import Annotated, Any, Literal, Type
 
+import pytz
 from cloudpathlib import CloudPath
 from geojson_pydantic.geometries import Geometry
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -37,6 +38,22 @@ class ContentDate(BaseModel):
 
     end: DateTimeUTC
     """End of the sensing period in UTC"""
+
+    @field_validator('start', 'end', mode='before')
+    @classmethod
+    def parse_datetime_string_formats(cls, v: str) -> str:
+        if isinstance(v, str):
+            for ts_format in ["%Y%m%dT%H:%M:%S%z", "%d-%b-%Y %H:%M:%S", "%Y%m%dT%H%M%S%z"]:
+                try:
+                    parsed_dt = datetime.datetime.strptime(v, ts_format)
+                    if parsed_dt.tzinfo is None:
+                        parsed_dt = parsed_dt.replace(tzinfo=pytz.UTC)
+                    return parsed_dt.isoformat()
+                except ValueError:
+                    continue
+            return v
+        else:
+            return v
 
 
 class Attribute(BaseModel, abc.ABC):

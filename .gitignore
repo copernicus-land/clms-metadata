@@ -1,1 +1,6 @@
 docs/_build
+.idea
+build
+clms_metadata.egg-info
+*__pycache__*
+dist

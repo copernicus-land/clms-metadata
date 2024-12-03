@@ -40,11 +40,11 @@ class FileSource(MetadataSource):
                     ) as sub_data:
                         bounds = rasterio.warp.transform_bounds(
                             sub_data.crs, "EPSG:4326", *sub_data.bounds
-                        )
+                        ) if sub_data.crs else sub_data.bounds
                 else:
                     bounds = rasterio.warp.transform_bounds(
                         data.crs, "EPSG:4326", *data.bounds
-                    )
+                    ) if data.crs else data.bounds
                 if not metadata.content_date:
                     metadata.content_date = ContentDate(
                         start=tags["time_coverage_start"],
@@ -65,7 +65,7 @@ class FileSource(MetadataSource):
                     platform_dict = get_platform(tags)
                     platformShortName, platformSerialIdentifier = next(
                         iter(platform_dict.items())
-                    )
+                    ) if platform_dict else (None, None)
                     metadata.add_attribute(
                         name=attributes.PLATFORM_SHORT_NAME,
                         value_type=StringAttribute,
