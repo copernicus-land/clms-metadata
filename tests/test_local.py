@@ -59,7 +59,7 @@ def test_dmp_300m_v1_10daily_geotiff():
     builder = MetadataBuilder(storage=LocalFileSystem(), settings=settings)
     m = builder.build(paths)
     assert m.name == "c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"
-    assert m.name_suffix == "tiff"
+    assert m.name_suffix == "cog"
     assert m.content_type == "application/tiff"
     assert next(a for a in m.attributes if a.name == "resolution").value == 300
     assert (

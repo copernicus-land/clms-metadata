@@ -62,7 +62,6 @@ class DateTimeOffsetAttribute(Attribute):
 MANDATORY_ATTRIBUTES = {
     "processingCenter": StringAttribute,
     "nominalDate": DateTimeOffsetAttribute,
-    "title": StringAttribute,
     # "tileId": StringAttribute,  # only if applicable
     # "relativeOrbitNumber": IntegerAttribute,
     # "productGroupId": StringAttribute,
@@ -105,9 +104,6 @@ class Metadata(BaseModel):
     content_type: str
     """The MIME type of the product"""
 
-    content_length: int | None = Field(gt=0, default=None)
-    """Actual size in bytes of the product"""
-
     origin_date: DateTimeUTC
     """Date and time of the product at the source in UTC"""
 
@@ -123,9 +119,6 @@ class Metadata(BaseModel):
 
     content_date: ContentDate
     """Sensing range period"""
-
-    checksum: str | None = None
-    """MD5 checksum"""
 
     geometry: Geometry
     """Geometry of the geo-referenced product"""

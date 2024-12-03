@@ -60,11 +60,6 @@ class FileSource(MetadataSource):
                     value_type=StringAttribute,
                     factory=lambda: self.get_processing_center(tags),
                 )
-                metadata.add_attribute(
-                    name="title",
-                    value_type=StringAttribute,
-                    factory=lambda: tags.get("title"),
-                )
                 if not metadata.has_attribute("platformShortName"):
                     platform_dict = get_platform(tags)
                     platformShortName, platformSerialIdentifier = next(
