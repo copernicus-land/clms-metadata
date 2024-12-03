@@ -63,7 +63,7 @@ class Settings(BaseSettings):
         else None
     )
     sources: list[MetadataSourceStr] = Field(
-        default_factory=lambda: ["Path", "File", "Settings"]
+        default_factory=lambda: ["Path", "File", "Settings", "Lookup"]
     )
     metadata: Optional[MetadataSettings] = None
     geometry: GeometrySettings = GeometrySettings()

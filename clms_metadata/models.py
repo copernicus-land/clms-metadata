@@ -62,22 +62,45 @@ class DateTimeOffsetAttribute(Attribute):
 MANDATORY_ATTRIBUTES = {
     "processingCenter": StringAttribute,
     "nominalDate": DateTimeOffsetAttribute,
-    # "tileId": StringAttribute,  # only if applicable
-    # "relativeOrbitNumber": IntegerAttribute,
-    # "productGroupId": StringAttribute,
-    "productVersion": StringAttribute,
-    # "resolution": IntegerAttribute,
+    "collectionIdentifier": StringAttribute,
+    "collectionShortName": StringAttribute,
+    # "collectionLongName": StringAttribute,
+    "collectionVersion": IntegerAttribute,
+    "component": StringAttribute,  # TODO: to be moved to main properties?
+    "fileFormat": StringAttribute,
+    "temporalGrid": StringAttribute,
+    "productVersion": StringAttribute,  # TODO: should this be kept?
+    "nominalResolution": IntegerAttribute,
+}
+
+OPTIONAL_ATTRIBUTES = {
+    # only checked to have the following type when they are present
+    "tileId": StringAttribute,
+    "relativeOrbitNumber": IntegerAttribute,
+    "productGroupId": StringAttribute,  # TODO: still relevant?
+    "consolidationPeriod": IntegerAttribute,
 }
 
 
 def validate_attributes(attrs: list[Attribute]) -> list[Attribute]:
+    """
+    Check if mandatory attributes are present and optional attributes have the correct attribtue type.
+
+    :param attrs: list of attributes
+    :return: attributes
+    """
     for attribute, atype in MANDATORY_ATTRIBUTES.items():
         assert (
             len(filtered := [attr for attr in attrs if attr.name == attribute]) == 1
         ), f"Expected attribute with name '{attribute}'"
         assert isinstance(
             filtered[0], atype
-        ), f"Expected '{attribute}' attribute with value type String"
+        ), f"Expected '{attribute}' attribute with value type {atype}"
+    for attribute, atype in OPTIONAL_ATTRIBUTES.items():
+        if len(filtered := [attr for attr in attrs if attr.name == attribute]) == 1:
+            assert isinstance(
+                filtered[0], atype
+            ), f"Expected '{attribute}' attribute with value type {atype}"
     return attrs
 
 
@@ -126,6 +149,9 @@ class Metadata(BaseModel):
     path: Path | CloudPath
     """Path of the product"""
 
+    spatial_extent: Literal["global", "europe", "northern hemisphere", "baltic"]
+    """Spatial extent of the product"""
+
     product_type: str
     """Product type"""
 
@@ -157,6 +183,15 @@ class Metadata(BaseModel):
         :return: boolean indicating whether the attribute already exists
         """
         return name in (attr.name for attr in self.attributes)
+
+    def get_attribute(self, name: str) -> Attribute:
+        """
+        Get attribute by name.
+
+        :param name: name of the attribute
+        :return: attribute object
+        """
+        return next(a for a in self.attributes if a.name == name)
 
     def add_attribute(self, name: str, value_type: Type[Attribute], factory: callable):
         """

@@ -15,9 +15,9 @@ def test_ndvi_1km_v3_10daily_netcdf():
     assert path.exists()
 
     settings = Settings(
-        metadata=MetadataSettings(
-            dataset_name="ndvi_1km_v3_10daily", product_type="ndvi"
-        )
+        # metadata=MetadataSettings(
+        #     dataset_name="ndvi_global_1km_10daily_v3", product_type="vegetation_indices"
+        # )
     )
 
     builder = MetadataBuilder(storage=LocalFileSystem(), settings=settings)
@@ -25,15 +25,16 @@ def test_ndvi_1km_v3_10daily_netcdf():
     assert m.name == path.stem
     assert m.name_suffix == "nc"
     assert m.content_type == "application/netcdf"
-    assert next(a for a in m.attributes if a.name == "resolution").value == 1000
-    assert (
-        next(a for a in m.attributes if a.name == "platformShortName").value
-        == "PROBA-V"
-    )
-    assert (
-        next(a for a in m.attributes if a.name == "instrumentShortName").value
-        == "VEGETATION"
-    )
+    assert m.get_attribute("nominalResolution").value == 1000
+    assert m.get_attribute("platformShortName").value == "PROBA-V"
+    assert m.get_attribute("instrumentShortName").value == "VEGETATION"
+    assert m.get_attribute("processingCenter").value == "VITO"
+    assert m.product_type == "vegetation_indices"
+    assert m.get_attribute("collectionIdentifier").value == "ndvi_global_1km_10daily_v3"
+    assert m.get_attribute("collectionVersion").value == 3
+    assert m.get_attribute("component").value == "bio-geophysical"
+    assert m.get_attribute("fileFormat").value == "nc"
+    assert m.get_attribute("temporalGrid").value == "10-daily"
 
 
 def test_dmp_300m_v1_10daily_geotiff():
@@ -61,7 +62,7 @@ def test_dmp_300m_v1_10daily_geotiff():
     assert m.name == "c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"
     assert m.name_suffix == "cog"
     assert m.content_type == "application/tiff"
-    assert next(a for a in m.attributes if a.name == "resolution").value == 300
+    assert next(a for a in m.attributes if a.name == "nominalResolution").value == 300
     assert (
         next(a for a in m.attributes if a.name == "platformShortName").value
         == "SENTINEL-3"
