@@ -111,8 +111,6 @@ def test_cls_netcdf_products(tmp_path, file_name, file_namespace, resolution, pl
     test_data_path.mkdir(parents=True, exist_ok=True)
     shutil.copy(data_folder / file_name, test_data_path)
 
-    assert test_data_path.exists()
-
     settings = Settings(
         metadata=MetadataSettings(
             dataset_name=file_namespace.split("/")[2], product_type="placeholder"
