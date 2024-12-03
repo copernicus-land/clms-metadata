@@ -55,9 +55,6 @@ class PathSource(MetadataSource):
         if not metadata.origin_date:
             metadata.origin_date = max(get_mtime(p) for p in product_files)
 
-        if not metadata.content_length and len(product_files) == 1:
-            metadata.content_length = product_files[0].stat().st_size
-
         return metadata
 
 
@@ -161,7 +158,7 @@ def get_content_type(paths: list[Path | CloudPath]) -> str:
 
 def get_suffix(content_type: str) -> str:
     return {
-        CONTENT_TYPE_TIFF: "tiff",
+        CONTENT_TYPE_TIFF: "cog",
         CONTENT_TYPE_NETCDF: "nc",
         CONTENT_TYPE_GEOJSON: "geojson",
     }[content_type]
