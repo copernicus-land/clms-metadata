@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import AfterValidator
 
+from clms_metadata.constants import attributes
 from clms_metadata.util import format_zulu, partial_model
 
 
@@ -60,24 +61,49 @@ class DateTimeOffsetAttribute(Attribute):
 
 
 MANDATORY_ATTRIBUTES = {
-    "processingCenter": StringAttribute,
-    "nominalDate": DateTimeOffsetAttribute,
-    # "tileId": StringAttribute,  # only if applicable
-    # "relativeOrbitNumber": IntegerAttribute,
-    # "productGroupId": StringAttribute,
-    "productVersion": StringAttribute,
-    # "resolution": IntegerAttribute,
+    attributes.PROCESSING_CENTER: StringAttribute,
+    attributes.NOMINAL_DATE: DateTimeOffsetAttribute,
+    attributes.COLLECTION_IDENTIFIER: StringAttribute,
+    attributes.COLLECTION_SHORT_NAME: StringAttribute,
+    # attributes.COLLECTION_LONG_NAME: StringAttribute,
+    # attributes.COLLECTION_ALIAS: StringAttribute,
+    attributes.COLLECTION_VERSION: IntegerAttribute,
+    attributes.COMPONENT: StringAttribute,  # TODO: to be moved to main properties?
+    attributes.FILE_FORMAT: StringAttribute,
+    attributes.TEMPORAL_GRID: StringAttribute,
+    "productVersion": StringAttribute,  # TODO: should this be kept?
+    attributes.NOMINAL_RESOLUTION: IntegerAttribute,
+    attributes.SPATIAL_EXTENT: StringAttribute,
+}
+
+OPTIONAL_ATTRIBUTES = {
+    # only checked to have the following type when they are present
+    "tileId": StringAttribute,
+    "relativeOrbitNumber": IntegerAttribute,
+    "productGroupId": StringAttribute,  # TODO: still relevant?
+    attributes.CONSOLIDATION_PERIOD: IntegerAttribute,
 }
 
 
 def validate_attributes(attrs: list[Attribute]) -> list[Attribute]:
+    """
+    Check if mandatory attributes are present and optional attributes have the correct attribtue type.
+
+    :param attrs: list of attributes
+    :return: attributes
+    """
     for attribute, atype in MANDATORY_ATTRIBUTES.items():
         assert (
             len(filtered := [attr for attr in attrs if attr.name == attribute]) == 1
         ), f"Expected attribute with name '{attribute}'"
         assert isinstance(
             filtered[0], atype
-        ), f"Expected '{attribute}' attribute with value type String"
+        ), f"Expected '{attribute}' attribute with value type {atype}"
+    for attribute, atype in OPTIONAL_ATTRIBUTES.items():
+        if len(filtered := [attr for attr in attrs if attr.name == attribute]) == 1:
+            assert isinstance(
+                filtered[0], atype
+            ), f"Expected '{attribute}' attribute with value type {atype}"
     return attrs
 
 
@@ -129,9 +155,6 @@ class Metadata(BaseModel):
     product_type: str
     """Product type"""
 
-    dataset_name: str
-    """Dataset name"""
-
     version: str
     """Product version"""
 
@@ -157,6 +180,15 @@ class Metadata(BaseModel):
         :return: boolean indicating whether the attribute already exists
         """
         return name in (attr.name for attr in self.attributes)
+
+    def get_attribute(self, name: str) -> Attribute:
+        """
+        Get attribute by name.
+
+        :param name: name of the attribute
+        :return: attribute object
+        """
+        return next(a for a in self.attributes if a.name == name)
 
     def add_attribute(self, name: str, value_type: Type[Attribute], factory: callable):
         """

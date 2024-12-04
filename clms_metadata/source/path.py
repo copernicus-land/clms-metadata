@@ -9,12 +9,19 @@ from cloudpathlib import CloudPath, S3Path
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.models import DateTimeOffsetAttribute, Metadata, StringAttribute
+from clms_metadata.constants import attributes
+from clms_metadata.models import (
+    DateTimeOffsetAttribute,
+    IntegerAttribute,
+    Metadata,
+    StringAttribute,
+)
 from clms_metadata.source.base import MetadataSource
 
 CONTENT_TYPE_NETCDF: Final[str] = "application/netcdf"
 CONTENT_TYPE_TIFF: Final[str] = "application/tiff"
 CONTENT_TYPE_GEOJSON: Final[str] = "application/geo+json"
+CONTENT_TYPE_SHP: Final[str] = ""  # TODO
 
 
 class PathSource(MetadataSource):
@@ -37,13 +44,18 @@ class PathSource(MetadataSource):
         if not metadata.version:
             metadata.version = version[:2]  # major version
             metadata.add_attribute(
-                name="productVersion",
+                name=attributes.PRODUCT_VERSION,
                 value_type=StringAttribute,
                 factory=lambda: version,
             )  # full version
+            metadata.add_attribute(  # major version as int
+                name=attributes.COLLECTION_VERSION,
+                value_type=IntegerAttribute,
+                factory=lambda: int(metadata.version[1:]),
+            )
 
         metadata.add_attribute(
-            name="nominalDate",
+            name=attributes.NOMINAL_DATE,
             value_type=DateTimeOffsetAttribute,
             factory=lambda: get_nominal_date(product_id),
         )
@@ -52,6 +64,11 @@ class PathSource(MetadataSource):
             metadata.content_type = get_content_type(product_files)
         if not metadata.name_suffix:
             metadata.name_suffix = get_suffix(metadata.content_type)
+        metadata.add_attribute(
+            name=attributes.FILE_FORMAT,
+            value_type=StringAttribute,
+            factory=lambda: metadata.name_suffix,
+        )
         if not metadata.origin_date:
             metadata.origin_date = max(get_mtime(p) for p in product_files)
 
@@ -161,4 +178,5 @@ def get_suffix(content_type: str) -> str:
         CONTENT_TYPE_TIFF: "cog",
         CONTENT_TYPE_NETCDF: "nc",
         CONTENT_TYPE_GEOJSON: "geojson",
+        CONTENT_TYPE_SHP: "shp",
     }[content_type]
