@@ -9,6 +9,7 @@ from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
 
+from clms_metadata.constants import attributes
 from clms_metadata.models import ContentDate, Metadata, StringAttribute
 from clms_metadata.source.base import MetadataSource
 
@@ -56,23 +57,23 @@ class FileSource(MetadataSource):
                         grid_size=self.settings.geometry.precision,
                     )
                 metadata.add_attribute(
-                    name="processingCenter",
+                    name=attributes.PROCESSING_CENTER,
                     value_type=StringAttribute,
                     factory=lambda: self.get_processing_center(tags),
                 )
-                if not metadata.has_attribute("platformShortName"):
+                if not metadata.has_attribute(attributes.PLATFORM_SHORT_NAME):
                     platform_dict = get_platform(tags)
                     platformShortName, platformSerialIdentifier = next(
                         iter(platform_dict.items())
                     )
                     metadata.add_attribute(
-                        name="platformShortName",
+                        name=attributes.PLATFORM_SHORT_NAME,
                         value_type=StringAttribute,
                         factory=lambda: platformShortName,
                     )
                     if platformSerialIdentifier:
                         metadata.add_attribute(
-                            name="platformSerialIdentifier",
+                            name=attributes.PLATFORM_SERIAL_IDENTIFIER,
                             value_type=StringAttribute,
                             factory=lambda: ", ".join(platformSerialIdentifier)
                             if platformSerialIdentifier
@@ -80,7 +81,7 @@ class FileSource(MetadataSource):
                         )
 
                 metadata.add_attribute(
-                    name="instrumentShortName",
+                    name=attributes.INSTRUMENT_SHORT_NAME,
                     value_type=StringAttribute,
                     factory=lambda: tags.get("sensor"),
                 )

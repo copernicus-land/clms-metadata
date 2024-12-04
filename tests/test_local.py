@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from clms_metadata.builder import MetadataBuilder
-from clms_metadata.config import LinkSettings, MetadataSettings, Settings
+from clms_metadata.config import LinkSettings, Settings
 from clms_metadata.storage import LocalFileSystem
 
 file_root = Path("/data/MTDA/Copernicus/Land/global/")
@@ -14,13 +14,7 @@ def test_ndvi_1km_v3_10daily_netcdf():
     )
     assert path.exists()
 
-    settings = Settings(
-        # metadata=MetadataSettings(
-        #     dataset_name="ndvi_global_1km_10daily_v3", product_type="vegetation_indices"
-        # )
-    )
-
-    builder = MetadataBuilder(storage=LocalFileSystem(), settings=settings)
+    builder = MetadataBuilder(storage=LocalFileSystem(), settings=Settings())
     m = builder.build((path,))
     assert m.name == path.stem
     assert m.name_suffix == "nc"
@@ -51,9 +45,6 @@ def test_dmp_300m_v1_10daily_geotiff():
     assert all(p.exists() for p in paths)
 
     settings = Settings(
-        metadata=MetadataSettings(
-            dataset_name="dmp_300m_v1_10daily", product_type="dry_matter_productivity"
-        ),
         link=LinkSettings(value="c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"),
     )
 
@@ -62,11 +53,7 @@ def test_dmp_300m_v1_10daily_geotiff():
     assert m.name == "c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"
     assert m.name_suffix == "cog"
     assert m.content_type == "application/tiff"
-    assert next(a for a in m.attributes if a.name == "nominalResolution").value == 300
-    assert (
-        next(a for a in m.attributes if a.name == "platformShortName").value
-        == "SENTINEL-3"
-    )
-    assert (
-        next(a for a in m.attributes if a.name == "instrumentShortName").value == "OLCI"
-    )
+    assert m.get_attribute("collectionIdentifier").value == "dmp_global_300m_10daily_v1"
+    assert m.get_attribute("nominalResolution").value == 300
+    assert m.get_attribute("platformShortName").value == "SENTINEL-3"
+    assert m.get_attribute("instrumentShortName").value == "OLCI"

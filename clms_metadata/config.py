@@ -43,7 +43,8 @@ class MetadataSettings(BaseModel):
 
 
 class LinkSettings(BaseModel):
-    template: str = "{product_type}/{dataset_name}/{content_date.start.year:04d}/{content_date.start.year:04d}{content_date.start.month:02}{content_date.start.day:02d}/{name}"
+    template: str | None = None
+    """For example: {product_type}/{content_date.start.year:04d}/{content_date.start.year:04d}{content_date.start.month:02}{content_date.start.day:02d}/{name}"""
     rewrite: bool = False
     value: str | None = None
 

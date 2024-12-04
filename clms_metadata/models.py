@@ -9,6 +9,7 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import AfterValidator
 
+from clms_metadata.constants import attributes
 from clms_metadata.util import format_zulu, partial_model
 
 
@@ -60,17 +61,19 @@ class DateTimeOffsetAttribute(Attribute):
 
 
 MANDATORY_ATTRIBUTES = {
-    "processingCenter": StringAttribute,
-    "nominalDate": DateTimeOffsetAttribute,
-    "collectionIdentifier": StringAttribute,
-    "collectionShortName": StringAttribute,
-    # "collectionLongName": StringAttribute,
-    "collectionVersion": IntegerAttribute,
-    "component": StringAttribute,  # TODO: to be moved to main properties?
-    "fileFormat": StringAttribute,
-    "temporalGrid": StringAttribute,
+    attributes.PROCESSING_CENTER: StringAttribute,
+    attributes.NOMINAL_DATE: DateTimeOffsetAttribute,
+    attributes.COLLECTION_IDENTIFIER: StringAttribute,
+    attributes.COLLECTION_SHORT_NAME: StringAttribute,
+    # attributes.COLLECTION_LONG_NAME: StringAttribute,
+    # attributes.COLLECTION_ALIAS: StringAttribute,
+    attributes.COLLECTION_VERSION: IntegerAttribute,
+    attributes.COMPONENT: StringAttribute,  # TODO: to be moved to main properties?
+    attributes.FILE_FORMAT: StringAttribute,
+    attributes.TEMPORAL_GRID: StringAttribute,
     "productVersion": StringAttribute,  # TODO: should this be kept?
-    "nominalResolution": IntegerAttribute,
+    attributes.NOMINAL_RESOLUTION: IntegerAttribute,
+    attributes.SPATIAL_EXTENT: StringAttribute,
 }
 
 OPTIONAL_ATTRIBUTES = {
@@ -78,7 +81,7 @@ OPTIONAL_ATTRIBUTES = {
     "tileId": StringAttribute,
     "relativeOrbitNumber": IntegerAttribute,
     "productGroupId": StringAttribute,  # TODO: still relevant?
-    "consolidationPeriod": IntegerAttribute,
+    attributes.CONSOLIDATION_PERIOD: IntegerAttribute,
 }
 
 
@@ -149,14 +152,8 @@ class Metadata(BaseModel):
     path: Path | CloudPath
     """Path of the product"""
 
-    spatial_extent: Literal["global", "europe", "northern hemisphere", "baltic"]
-    """Spatial extent of the product"""
-
     product_type: str
     """Product type"""
-
-    dataset_name: str
-    """Dataset name"""
 
     version: str
     """Product version"""

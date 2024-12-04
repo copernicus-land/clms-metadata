@@ -9,6 +9,7 @@ from cloudpathlib import CloudPath, S3Path
 from loguru import logger
 from overrides import overrides
 
+from clms_metadata.constants import attributes
 from clms_metadata.models import (
     DateTimeOffsetAttribute,
     IntegerAttribute,
@@ -43,18 +44,18 @@ class PathSource(MetadataSource):
         if not metadata.version:
             metadata.version = version[:2]  # major version
             metadata.add_attribute(
-                name="productVersion",
+                name=attributes.PRODUCT_VERSION,
                 value_type=StringAttribute,
                 factory=lambda: version,
             )  # full version
             metadata.add_attribute(  # major version as int
-                name="collectionVersion",
+                name=attributes.COLLECTION_VERSION,
                 value_type=IntegerAttribute,
                 factory=lambda: int(metadata.version[1:]),
             )
 
         metadata.add_attribute(
-            name="nominalDate",
+            name=attributes.NOMINAL_DATE,
             value_type=DateTimeOffsetAttribute,
             factory=lambda: get_nominal_date(product_id),
         )
@@ -64,7 +65,7 @@ class PathSource(MetadataSource):
         if not metadata.name_suffix:
             metadata.name_suffix = get_suffix(metadata.content_type)
         metadata.add_attribute(
-            name="fileFormat",
+            name=attributes.FILE_FORMAT,
             value_type=StringAttribute,
             factory=lambda: metadata.name_suffix,
         )
