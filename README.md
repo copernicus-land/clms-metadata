@@ -52,3 +52,14 @@ Small test files can be generated from a source product with GDAL:
 ```shell
 gdal_translate -srcwin 0 0 16 16 -co COMPRESS=DEFLATE ${INPUT_FILE} ${OUTPUT_FILE}
 ```
+
+Or use `rioxarray` to clip multi-dataset netCDF files (requires `netcdf4` to be installed):
+```python
+import rioxarray
+path_in = ...
+path_out = ...
+min_x, min_y, max_x, max_y = ..., ..., ..., ...
+ds = rioxarray.open_rasterio(path_in)
+ds = ds.rio.clip_box(min_x, min_y, max_x, max_y)
+ds.to_netcdf(path_out)
+```
