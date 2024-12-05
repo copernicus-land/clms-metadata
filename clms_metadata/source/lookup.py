@@ -53,6 +53,12 @@ class LookupSource(MetadataSource):
             value_type=StringAttribute,
             factory=lambda: collection_identifier.split("_")[0],
         )  # TODO: check if correct
+        metadata.add_attribute(
+            name=attributes.COLLECTION_ALIAS,
+            value_type=StringAttribute,
+            factory=lambda: collection_identifier[: collection_identifier.rfind("_")],
+        )
+
         if not metadata.product_type:
             for regex, value in PRODUCT.items():
                 if match := regex.match(collection_identifier):

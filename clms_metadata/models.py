@@ -66,7 +66,7 @@ MANDATORY_ATTRIBUTES = {
     attributes.COLLECTION_IDENTIFIER: StringAttribute,
     attributes.COLLECTION_SHORT_NAME: StringAttribute,
     # attributes.COLLECTION_LONG_NAME: StringAttribute,
-    # attributes.COLLECTION_ALIAS: StringAttribute,
+    attributes.COLLECTION_ALIAS: StringAttribute,
     attributes.COLLECTION_VERSION: IntegerAttribute,
     attributes.COMPONENT: StringAttribute,  # TODO: to be moved to main properties?
     attributes.FILE_FORMAT: StringAttribute,

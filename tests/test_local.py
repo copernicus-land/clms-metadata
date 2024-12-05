@@ -25,6 +25,7 @@ def test_ndvi_1km_v3_10daily_netcdf():
     assert m.get_attribute("processingCenter").value == "VITO"
     assert m.product_type == "vegetation_indices"
     assert m.get_attribute("collectionIdentifier").value == "ndvi_global_1km_10daily_v3"
+    assert m.get_attribute("collectionAlias").value == "ndvi_global_1km_10daily"
     assert m.get_attribute("collectionVersion").value == 3
     assert m.get_attribute("component").value == "bio-geophysical"
     assert m.get_attribute("fileFormat").value == "nc"
