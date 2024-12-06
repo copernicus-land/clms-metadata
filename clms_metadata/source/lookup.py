@@ -1,10 +1,18 @@
+import datetime
 import re
 from pathlib import Path
 
 from cloudpathlib import CloudPath
+from dateutil.relativedelta import relativedelta
+from loguru import logger
 
 from clms_metadata.constants import attributes
-from clms_metadata.models import IntegerAttribute, Metadata, StringAttribute
+from clms_metadata.models import (
+    ContentDate,
+    IntegerAttribute,
+    Metadata,
+    StringAttribute,
+)
 from clms_metadata.source import MetadataSource
 
 REGEX_RESOLUTION = re.compile(r"_([\d.]+)(m|km)_")
@@ -16,15 +24,23 @@ DATASET = {  # product name regex to collection identifier
     re.compile(
         r"c_gls_DMP300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
     ): "dmp_global_300m_10daily_v{version_major}",
+    re.compile(
+        r"c_gls_FAPAR300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+    ): "fapar_global_300m_10daily_v{version_major}",
 }
 
 PRODUCT = {  # dataset name to collection identifier
     re.compile(r"ndvi[_-]"): "vegetation_indices",
     re.compile(r"g?dmp[_-]"): "dry-gross_dry_matter_productivity",
+    re.compile(r"(fapar|fcover|lai)[_-]"): "vegetation_properties",
 }
 
 COMPONENT = {  # components to product types
-    "bio-geophysical": {"vegetation_indices", "dry-gross_dry_matter_productivity"}
+    "bio-geophysical": {
+        "vegetation_indices",
+        "dry-gross_dry_matter_productivity",
+        "vegetation_properties",
+    }
 }
 
 
@@ -93,6 +109,39 @@ class LookupSource(MetadataSource):
             factory=lambda: get_temporal_grid(collection_identifier),
         )
 
+        if metadata.has_attribute(attributes.CONSOLIDATION_PERIOD):
+            temporal_grid = metadata.get_attribute(attributes.TEMPORAL_GRID).value
+            temporal_grid_delta = get_relativedelta(temporal_grid)
+            logger.debug("Temporal grid delta: {}", temporal_grid_delta)
+            content_date_delta = relativedelta(
+                metadata.content_date.end.replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
+                + datetime.timedelta(days=1),
+                metadata.content_date.start,
+            )
+            logger.debug("Content date delta: {}", content_date_delta)
+            if not temporal_grid_delta == content_date_delta:
+                # calculate content date from nominal date
+                nominal_date = metadata.get_attribute(attributes.NOMINAL_DATE).value
+                if (
+                    nominal_date.day % 10 == 1
+                ):  # assume nominal date as start of content date
+                    start = nominal_date
+                    end = (
+                        nominal_date
+                        + temporal_grid_delta
+                        - datetime.timedelta(milliseconds=1)
+                    )
+                else:  # assume nominal date as end of content date
+                    start = (
+                        nominal_date - temporal_grid_delta + datetime.timedelta(days=1)
+                    )
+                    end = nominal_date.replace(
+                        hour=23, minute=59, second=59, microsecond=999000
+                    )
+                metadata.content_date = ContentDate(start=start, end=end)
+
         return metadata
 
 
@@ -134,3 +183,18 @@ def get_temporal_grid(collection_identifier: str) -> str:
     if match := REGEX_NUM_TEMPORAL.match(temp):
         return f"{match.group(1)}-{match.group(2)}"
     return temp
+
+
+def get_relativedelta(temporal_grid: str) -> relativedelta:
+    if temporal_grid == "daily":
+        return relativedelta(days=1)
+    if m := re.match(r"(\d+)-daily", temporal_grid):
+        return relativedelta(days=int(m.group(1)))
+    if temporal_grid == "monthly":
+        return relativedelta(months=1)
+    if m := re.match(r"(\d+)-monthly", temporal_grid):
+        return relativedelta(months=int(m.group(1)))
+    if temporal_grid == "yearly":
+        return relativedelta(years=1)
+    if m := re.match(r"(\d+)-yearly", temporal_grid):
+        return relativedelta(years=int(m.group(1)))
