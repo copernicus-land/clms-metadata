@@ -48,13 +48,14 @@ def test_ndvi_1km_v3_10daily(name, files, suffix, content_type, platform, instru
     assert m.name == name
     assert m.name_suffix == suffix
     assert m.content_type == content_type
-    assert m.get_attribute("nominalResolution").value == 1000
+    assert m.get_attribute("nominalResolutionMeters").value == 1000
+    assert m.get_attribute("nominalResolution").value == "1km"
     assert m.get_attribute("platformShortName").value == platform
     assert m.get_attribute("instrumentShortName").value == instrument
     assert m.get_attribute("processingCenter").value == "VITO"
     assert m.product_type == "vegetation_indices"
-    assert m.get_attribute("collectionIdentifier").value == "ndvi_global_1km_10daily_v3"
-    assert m.get_attribute("collectionAlias").value == "ndvi_global_1km_10daily"
+    assert m.get_attribute("datasetIdentifier").value == "ndvi_global_1km_10daily_v3"
+    assert m.get_attribute("datasetAlias").value == "ndvi_global_1km_10daily"
     assert m.get_attribute("collectionVersion").value == 3
     assert m.get_attribute("component").value == "bio-geophysical"
     assert m.get_attribute("fileFormat").value == suffix
@@ -84,7 +85,7 @@ def test_dmp_300m_v1_10daily_geotiff():
     assert m.name == "c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"
     assert m.name_suffix == "cog"
     assert m.content_type == "application/tiff"
-    assert m.get_attribute("collectionIdentifier").value == "dmp_global_300m_10daily_v1"
-    assert m.get_attribute("nominalResolution").value == 300
+    assert m.get_attribute("datasetIdentifier").value == "dmp_global_300m_10daily_v1"
+    assert m.get_attribute("nominalResolutionMeters").value == 300
     assert m.get_attribute("platformShortName").value == "SENTINEL-3"
     assert m.get_attribute("instrumentShortName").value == "OLCI"

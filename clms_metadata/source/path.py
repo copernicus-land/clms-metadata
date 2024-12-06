@@ -41,18 +41,16 @@ class PathSource(MetadataSource):
             metadata.name = product_id
 
         version = product_id.rsplit("_", 1)[1].lower()
-        if not metadata.version:
-            metadata.version = version[:2]  # major version
-            metadata.add_attribute(
-                name=attributes.PRODUCT_VERSION,
-                value_type=StringAttribute,
-                factory=lambda: version,
-            )  # full version
-            metadata.add_attribute(  # major version as int
-                name=attributes.COLLECTION_VERSION,
-                value_type=IntegerAttribute,
-                factory=lambda: int(metadata.version[1:]),
-            )
+        metadata.add_attribute(  # full version
+            name=attributes.PRODUCT_VERSION,
+            value_type=StringAttribute,
+            factory=lambda: version,
+        )
+        metadata.add_attribute(  # major version as int
+            name=attributes.COLLECTION_VERSION,
+            value_type=IntegerAttribute,
+            factory=lambda: int(version[1:].split(".")[0]),
+        )
 
         metadata.add_attribute(
             name=attributes.NOMINAL_DATE,

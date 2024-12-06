@@ -36,25 +36,25 @@ class LookupSource(MetadataSource):
     def get_info(
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
-        if not metadata.has_attribute(attributes.COLLECTION_IDENTIFIER):
+        if not metadata.has_attribute(attributes.DATASET_IDENTIFIER):
             for regex, value in DATASET.items():
                 if match := regex.match(metadata.name):
                     metadata.add_attribute(
-                        name=attributes.COLLECTION_IDENTIFIER,
+                        name=attributes.DATASET_IDENTIFIER,
                         value_type=StringAttribute,
                         factory=lambda: value.format_map(match.groupdict()),
                     )
                     break
         collection_identifier = metadata.get_attribute(
-            attributes.COLLECTION_IDENTIFIER
+            attributes.DATASET_IDENTIFIER
         ).value
         metadata.add_attribute(
-            name=attributes.COLLECTION_SHORT_NAME,
+            name=attributes.DATASET_SHORT_NAME,
             value_type=StringAttribute,
             factory=lambda: collection_identifier.split("_")[0],
         )  # TODO: check if correct
         metadata.add_attribute(
-            name=attributes.COLLECTION_ALIAS,
+            name=attributes.DATASET_ALIAS,
             value_type=StringAttribute,
             factory=lambda: collection_identifier[: collection_identifier.rfind("_")],
         )
@@ -78,9 +78,14 @@ class LookupSource(MetadataSource):
         )
 
         metadata.add_attribute(
-            attributes.NOMINAL_RESOLUTION,
+            attributes.NOMINAL_RESOLUTION_METERS,
             IntegerAttribute,
             lambda: get_resolution(collection_identifier),
+        )
+        metadata.add_attribute(
+            name=attributes.NOMINAL_RESOLUTION,
+            value_type=StringAttribute,
+            factory=lambda: collection_identifier.split("_")[2],
         )
         metadata.add_attribute(
             name=attributes.TEMPORAL_GRID,

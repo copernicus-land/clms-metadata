@@ -63,16 +63,16 @@ class DateTimeOffsetAttribute(Attribute):
 MANDATORY_ATTRIBUTES = {
     attributes.PROCESSING_CENTER: StringAttribute,
     attributes.NOMINAL_DATE: DateTimeOffsetAttribute,
-    attributes.COLLECTION_IDENTIFIER: StringAttribute,
-    attributes.COLLECTION_SHORT_NAME: StringAttribute,
-    # attributes.COLLECTION_LONG_NAME: StringAttribute,
-    attributes.COLLECTION_ALIAS: StringAttribute,
+    attributes.DATASET_IDENTIFIER: StringAttribute,
+    attributes.DATASET_SHORT_NAME: StringAttribute,
+    attributes.DATASET_ALIAS: StringAttribute,
     attributes.COLLECTION_VERSION: IntegerAttribute,
     attributes.COMPONENT: StringAttribute,  # TODO: to be moved to main properties?
     attributes.FILE_FORMAT: StringAttribute,
     attributes.TEMPORAL_GRID: StringAttribute,
     "productVersion": StringAttribute,  # TODO: should this be kept?
-    attributes.NOMINAL_RESOLUTION: IntegerAttribute,
+    attributes.NOMINAL_RESOLUTION_METERS: IntegerAttribute,
+    attributes.NOMINAL_RESOLUTION: StringAttribute,
     attributes.SPATIAL_EXTENT: StringAttribute,
 }
 
@@ -82,6 +82,8 @@ OPTIONAL_ATTRIBUTES = {
     "relativeOrbitNumber": IntegerAttribute,
     "productGroupId": StringAttribute,  # TODO: still relevant?
     attributes.CONSOLIDATION_PERIOD: IntegerAttribute,
+    attributes.SEASON: StringAttribute,
+    attributes.PRODUCT_VARIABLE: StringAttribute,
 }
 
 
@@ -154,9 +156,6 @@ class Metadata(BaseModel):
 
     product_type: str
     """Product type"""
-
-    version: str
-    """Product version"""
 
     attributes: Attributes
 
