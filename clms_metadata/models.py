@@ -76,10 +76,6 @@ class DateTimeOffsetAttribute(Attribute):
     value_type: Literal["DateTimeOffset"] = "DateTimeOffset"
     value: DateTimeUTC
 
-class EmptyAttribute(Attribute):
-    value_type: Literal["Empty"] = "Empty"
-    value: None
-
 
 MANDATORY_ATTRIBUTES = {
     attributes.PROCESSING_CENTER: StringAttribute,
@@ -208,7 +204,7 @@ class Metadata(BaseModel):
         :param name: name of the attribute
         :return: attribute object
         """
-        return next((a for a in self.attributes if a.name == name), EmptyAttribute(name=name, value=None))
+        return next(a for a in self.attributes if a.name == name)
 
     def add_attribute(self, name: str, value_type: Type[Attribute], factory: callable):
         """

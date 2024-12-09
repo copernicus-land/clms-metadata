@@ -124,7 +124,7 @@
         "name_suffix": "nc",
         "content_type": "application/netcdf",
         "nominalResolution": "300m",
-        "platformShortName": null,
+        "platformShortName": "SENTINEL-3",
         "instrumentShortName": "OLCI",
         "processingCenter": "Plymouth Marine Laboratory",
         "product_type": "lake_water_quality",
