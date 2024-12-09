@@ -9,7 +9,7 @@ from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.constants import attributes
+from clms_metadata.constants import attributes, lookup_tables
 from clms_metadata.models import ContentDate, Metadata, StringAttribute
 from clms_metadata.source.base import MetadataSource
 
@@ -40,11 +40,11 @@ class FileSource(MetadataSource):
                     ) as sub_data:
                         bounds = rasterio.warp.transform_bounds(
                             sub_data.crs, "EPSG:4326", *sub_data.bounds
-                        )
+                        ) if sub_data.crs else sub_data.bounds
                 else:
                     bounds = rasterio.warp.transform_bounds(
                         data.crs, "EPSG:4326", *data.bounds
-                    )
+                    ) if data.crs else data.bounds
                 if not metadata.content_date:
                     metadata.content_date = ContentDate(
                         start=tags["time_coverage_start"],
@@ -190,5 +190,7 @@ def get_platform(tags: dict) -> dict[str, list[str] | None]:
             platforms[platform_short] = platforms.get(platform_short, list()) + [serial]
         if platf in ignore:
             platforms.pop(platf)
-
+    if platforms == {}:
+        if mapped_platform := lookup_tables.SENSOR_PLATFORM_MAPPING.get(tags.get('sensor', '')):
+            platforms[mapped_platform] = None
     return platforms
