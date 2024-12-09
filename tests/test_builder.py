@@ -127,7 +127,7 @@ def test_cls_netcdf_products(file_name):#, resolution, platform_name, instrument
         "instrumentShortName": m.get_attribute("instrumentShortName").value,
         "processingCenter": m.get_attribute("processingCenter").value,
         "product_type": m.product_type,
-        "collectionIdentifier": m.get_attribute("collectionIdentifier").value,
+        "datasetIdentifier": m.get_attribute("datasetIdentifier").value,
         "collectionVersion": m.get_attribute("collectionVersion").value,
         "component": m.get_attribute("component").value,
         "fileFormat": m.get_attribute("fileFormat").value,
