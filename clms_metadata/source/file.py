@@ -65,7 +65,7 @@ class FileSource(MetadataSource):
                     platform_dict = get_platform(tags)
                     platformShortName, platformSerialIdentifier = next(
                         iter(platform_dict.items())
-                    ) if platform_dict else (None, None)
+                    )
                     metadata.add_attribute(
                         name=attributes.PLATFORM_SHORT_NAME,
                         value_type=StringAttribute,
