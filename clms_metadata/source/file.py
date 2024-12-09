@@ -135,6 +135,14 @@ class FileSource(MetadataSource):
         metadata.geometry = content["geometry"]
         metadata.origin_date = properties["updated"]
 
+        metadata.add_attribute(
+            name=attributes.PROCESSING_CENTER,
+            value_type=StringAttribute,
+            factory=lambda: "CLS"
+            if (institution := properties["institution"]) == "LEGOS, CLS, CNES"
+            else institution.split(",")[0].upper(),
+        )
+
 
 def get_platform(tags: dict) -> dict[str, list[str] | None]:
     """
