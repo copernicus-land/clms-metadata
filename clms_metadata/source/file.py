@@ -1,3 +1,4 @@
+import json
 import re
 from pathlib import Path
 
@@ -24,6 +25,8 @@ class FileSource(MetadataSource):
         for path in product_files:
             if path.suffix.lower() in (".nc", ".tiff", ".tif"):
                 metadata = self._get_info_raster(path, metadata)
+            if path.suffix.lower() in (".json", ".geojson"):
+                metadata = self._get_info_json(path, metadata)
 
         return metadata
 
@@ -101,6 +104,36 @@ class FileSource(MetadataSource):
                 " GMBH", ""
             )
         return processing_center
+
+    def _get_info_json(self, path: Path | CloudPath, metadata: Metadata):
+        with open(path) as f:
+            content = json.load(f)
+        properties = content["properties"]
+        if (
+            not metadata.content_date
+            and "time_coverage_start" in properties
+            and "time_coverage_end" in properties
+        ):
+            metadata.content_date = ContentDate(
+                start=properties["time_coverage_start"],
+                end=properties["time_coverage_end"],
+            )
+
+        if "lake" in properties:
+            dataset_id = f"wl-lakes_global_vector_daily_v{metadata.get_attribute(attributes.COLLECTION_VERSION)}"
+        elif "river" in properties:
+            dataset_id = f"wl-rivers_global_vector_daily_v{metadata.get_attribute(attributes.COLLECTION_VERSION)}"
+        else:
+            raise ValueError
+
+        metadata.add_attribute(
+            name=attributes.DATASET_IDENTIFIER,
+            value_type=StringAttribute,
+            factory=lambda: dataset_id,
+        )
+
+        metadata.geometry = content["geometry"]
+        metadata.origin_date = properties["updated"]
 
 
 def get_platform(tags: dict) -> dict[str, list[str] | None]:

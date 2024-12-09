@@ -89,3 +89,15 @@ def test_dmp_300m_v1_10daily_geotiff():
     assert m.get_attribute("nominalResolutionMeters").value == 300
     assert m.get_attribute("platformShortName").value == "SENTINEL-3"
     assert m.get_attribute("instrumentShortName").value == "OLCI"
+
+
+def test_wl_lakes_global_vector_daily():
+    path = (
+        test_data
+        / "wl-lakes_global_vector_daily_v2/c_gls_WL_202412050703_1300000000166_ALTI_V2.2.0.json"
+    )
+
+    assert path.exists()
+    builder = MetadataBuilder(storage=LocalFileSystem(), settings=Settings())
+    m = builder.build((path,))
+    print(m)

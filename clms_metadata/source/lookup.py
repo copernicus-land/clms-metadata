@@ -21,10 +21,15 @@ DATASET = {  # product name regex to collection identifier
 PRODUCT = {  # dataset name to collection identifier
     re.compile(r"ndvi[_-]"): "vegetation_indices",
     re.compile(r"g?dmp[_-]"): "dry-gross_dry_matter_productivity",
+    re.compile(r"wl-(rivers|lakes)_"): "river_and_lake_water_level",
 }
 
 COMPONENT = {  # components to product types
-    "bio-geophysical": {"vegetation_indices", "dry-gross_dry_matter_productivity"}
+    "bio-geophysical": {
+        "vegetation_indices",
+        "dry-gross_dry_matter_productivity",
+        "river_and_lake_water_level",
+    }
 }
 
 

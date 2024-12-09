@@ -166,7 +166,7 @@ def get_content_type(paths: list[Path | CloudPath]) -> str:
         return CONTENT_TYPE_NETCDF
     elif any(s in suffixes for s in (".tif", ".tiff")):
         return CONTENT_TYPE_TIFF
-    elif ".geojson" in suffixes:
+    elif any(s in suffixes for s in (".geojson", ".json")):
         return CONTENT_TYPE_GEOJSON
     raise ValueError(f"Unsupported file types {suffixes}")
 
