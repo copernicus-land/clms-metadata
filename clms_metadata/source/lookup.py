@@ -110,37 +110,20 @@ class LookupSource(MetadataSource):
         )
 
         if metadata.has_attribute(attributes.CONSOLIDATION_PERIOD):
-            temporal_grid = metadata.get_attribute(attributes.TEMPORAL_GRID).value
-            temporal_grid_delta = get_relativedelta(temporal_grid)
-            logger.debug("Temporal grid delta: {}", temporal_grid_delta)
-            content_date_delta = relativedelta(
-                metadata.content_date.end.replace(
-                    hour=0, minute=0, second=0, microsecond=0
-                )
-                + datetime.timedelta(days=1),
-                metadata.content_date.start,
+            temporal_grid_delta = get_relativedelta(
+                metadata.get_attribute(attributes.TEMPORAL_GRID).value
             )
-            logger.debug("Content date delta: {}", content_date_delta)
-            if not temporal_grid_delta == content_date_delta:
-                # calculate content date from nominal date
-                nominal_date = metadata.get_attribute(attributes.NOMINAL_DATE).value
-                if (
-                    nominal_date.day % 10 == 1
-                ):  # assume nominal date as start of content date
-                    start = nominal_date
-                    end = (
-                        nominal_date
-                        + temporal_grid_delta
-                        - datetime.timedelta(milliseconds=1)
-                    )
-                else:  # assume nominal date as end of content date
-                    start = (
-                        nominal_date - temporal_grid_delta + datetime.timedelta(days=1)
-                    )
-                    end = nominal_date.replace(
-                        hour=23, minute=59, second=59, microsecond=999000
-                    )
-                metadata.content_date = ContentDate(start=start, end=end)
+            if not matches_temporal_grid(metadata.content_date, temporal_grid_delta):
+                logger.info(
+                    "Calculating content date from nominal date and temporal grid"
+                )
+                metadata.content_date = calculate_content_date(
+                    metadata.get_attribute(attributes.NOMINAL_DATE).value,
+                    temporal_grid_delta,
+                )
+                logger.info(
+                    "Updated content date: {}", metadata.content_date.model_dump()
+                )
 
         return metadata
 
@@ -186,6 +169,12 @@ def get_temporal_grid(collection_identifier: str) -> str:
 
 
 def get_relativedelta(temporal_grid: str) -> relativedelta:
+    """
+    Get a relativedelta object from the temporal grid.
+
+    :param temporal_grid: temporal grid
+    :return: relativedelta object
+    """
     if temporal_grid == "daily":
         return relativedelta(days=1)
     if m := re.match(r"(\d+)-daily", temporal_grid):
@@ -198,3 +187,71 @@ def get_relativedelta(temporal_grid: str) -> relativedelta:
         return relativedelta(years=1)
     if m := re.match(r"(\d+)-yearly", temporal_grid):
         return relativedelta(years=int(m.group(1)))
+
+
+def matches_temporal_grid(
+    content_date: ContentDate, temporal_grid: relativedelta
+) -> bool:
+    """
+    Check if the interval between the content date start and end corresponds with the temporal grid.
+
+    :param content_date: ContentDate object
+    :param temporal_grid: temporal grid as a relativedelta
+    :return:
+    """
+    logger.debug("Temporal grid delta: {}", temporal_grid)
+    delta = relativedelta(
+        content_date.end.replace(hour=0, minute=0, second=0, microsecond=0)
+        + datetime.timedelta(days=1),
+        content_date.start,
+    )
+    abs_delta = (
+        content_date.end.replace(hour=0, minute=0, second=0, microsecond=0)
+        + datetime.timedelta(days=1)
+        - content_date.start
+    )
+    logger.debug("Content date delta: {}", delta)
+    return delta == temporal_grid or temporal_grid.days + 1 >= abs_delta.days
+
+
+def calculate_content_date(
+    nominal_date: datetime.datetime, temporal_grid: relativedelta
+) -> ContentDate:
+    """
+    Calculate the content date from the nominal date and the temporal grid.
+    The content date is assumed to be anchored to a temporal grid starting on the first of the month.
+    There are special exceptions for the end of the grid for February and months with 31 days.
+
+    :param nominal_date: nominal date
+    :param temporal_grid: temporal grid as relativedelta
+    :return: ContentDate object with derived start and end date
+    """
+    if (nominal_date.day == 1) or (
+        temporal_grid.days
+        and nominal_date.day % temporal_grid.days == 1
+        and not nominal_date.day == 31
+    ):
+        # assume nominal date as start of content date
+        start = nominal_date
+        next_anchor = nominal_date + temporal_grid
+        if temporal_grid.days:
+            if nominal_date.month != next_anchor.month or next_anchor.day == 31:
+                # set next anchor to first of the next month
+                next_anchor = next_anchor.replace(month=nominal_date.month + 1, day=1)
+        end = next_anchor - datetime.timedelta(milliseconds=1)
+    else:
+        # assume nominal date as end of content date
+        prev_anchor = nominal_date + datetime.timedelta(days=1) - temporal_grid
+        if temporal_grid.days and prev_anchor.day % temporal_grid.days != 1:
+            anchor_count = nominal_date.day // temporal_grid.days
+            if nominal_date.day == 31:
+                anchor_count -= 1
+
+            prev_anchor = nominal_date.replace(
+                day=anchor_count * temporal_grid.days + 1
+            )
+
+        start = prev_anchor
+        end = nominal_date.replace(hour=23, minute=59, second=59, microsecond=999000)
+
+    return ContentDate(start=start, end=end)
