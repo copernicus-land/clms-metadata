@@ -195,6 +195,11 @@ def matches_temporal_grid(
     """
     Check if the interval between the content date start and end corresponds with the temporal grid.
 
+    First, an exact match of the interval delta and the temporal grid is checked.
+    Then, the following edge cases are also considered:
+      - the content date interval is 1 day longer than the temporal grid (e.g. month with 31 days)
+      - the content date interval is shorter than the temporal grid (e.g. the end of the month February)
+
     :param content_date: ContentDate object
     :param temporal_grid: temporal grid as a relativedelta
     :return:
