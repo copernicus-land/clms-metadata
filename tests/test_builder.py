@@ -86,7 +86,6 @@ def test_fapar_global_300m_10daily_v1(name, files, content_date):
     m = builder.build(files)
     assert m.name == name
     assert m.content_date == content_date
-    print(m.get_attribute('datasetIdentifier'))
 
 
 @pytest.mark.skip  # TODO: implement test for DMP
@@ -170,7 +169,5 @@ def test_cls_netcdf_products(
     assert_dict.update(
         {a: attr.value for a in attributes if (attr := m.get_attribute(a))}
     )
-
-    print( m.get_attribute('datasetIdentifier'))
 
     assert assert_dict == expected_data

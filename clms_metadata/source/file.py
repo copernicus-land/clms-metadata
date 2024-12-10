@@ -119,7 +119,6 @@ class FileSource(MetadataSource):
                     if len(instrumentShortNames) == 1
                     else instrumentShortNames,
                 )
-                print('id: ', tags.get('identifier'))
                 if dataset_identifier := get_dataset_identifier_from_identifier_tag(tags):
                     metadata.add_attribute(
                         name=attributes.DATASET_IDENTIFIER,
