@@ -106,8 +106,6 @@ MANDATORY_ATTRIBUTES = {
     attributes.FILE_FORMAT: StringAttribute,
     attributes.TEMPORAL_GRID: StringAttribute,
     "productVersion": StringAttribute,  # TODO: should this be kept?
-    attributes.NOMINAL_RESOLUTION_METERS: IntegerAttribute,
-    attributes.NOMINAL_RESOLUTION: StringAttribute,
     attributes.SPATIAL_EXTENT: StringAttribute,
 }
 
@@ -119,6 +117,8 @@ OPTIONAL_ATTRIBUTES = {
     attributes.CONSOLIDATION_PERIOD: IntegerAttribute,
     attributes.SEASON: StringAttribute,
     attributes.PRODUCT_VARIABLE: StringAttribute,
+    attributes.NOMINAL_RESOLUTION_METERS: IntegerAttribute,  # not applicable for GeoJSON datasets
+    attributes.NOMINAL_RESOLUTION: StringAttribute,  # not applicable for GeoJSON datasets
 }
 
 
