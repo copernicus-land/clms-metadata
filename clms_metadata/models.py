@@ -3,6 +3,7 @@ import datetime
 from pathlib import Path
 from typing import Annotated, Any, Literal, Type
 
+import pytz
 from cloudpathlib import CloudPath
 from geojson_pydantic.geometries import Geometry
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -38,6 +39,26 @@ class ContentDate(BaseModel):
     end: DateTimeUTC
     """End of the sensing period in UTC"""
 
+    @field_validator("start", "end", mode="before")
+    @classmethod
+    def parse_datetime_string_formats(cls, v: str) -> str:
+        if isinstance(v, str):
+            for ts_format in [
+                "%Y%m%dT%H:%M:%S%z",
+                "%d-%b-%Y %H:%M:%S",
+                "%Y%m%dT%H%M%S%z",
+            ]:
+                try:
+                    parsed_dt = datetime.datetime.strptime(v, ts_format)
+                    if parsed_dt.tzinfo is None:
+                        parsed_dt = parsed_dt.replace(tzinfo=pytz.UTC)
+                    return parsed_dt.isoformat()
+                except ValueError:
+                    continue
+            return v
+        else:
+            return v
+
 
 class Attribute(BaseModel, abc.ABC):
     name: str
@@ -60,13 +81,18 @@ class DateTimeOffsetAttribute(Attribute):
     value: DateTimeUTC
 
 
+class ListStringAttribute(Attribute):
+    value_type: Literal["List[String]"] = "List[String]"
+    value: list[str]
+
+
 MANDATORY_ATTRIBUTES = {
     attributes.PROCESSING_CENTER: StringAttribute,
     attributes.NOMINAL_DATE: DateTimeOffsetAttribute,
     attributes.DATASET_IDENTIFIER: StringAttribute,
     attributes.DATASET_SHORT_NAME: StringAttribute,
     attributes.DATASET_ALIAS: StringAttribute,
-    attributes.COLLECTION_VERSION: IntegerAttribute,
+    attributes.DATASET_VERSION: IntegerAttribute,
     attributes.COMPONENT: StringAttribute,  # TODO: to be moved to main properties?
     attributes.FILE_FORMAT: StringAttribute,
     attributes.TEMPORAL_GRID: StringAttribute,
@@ -112,7 +138,10 @@ def validate_attributes(attrs: list[Attribute]) -> list[Attribute]:
 Attributes = Annotated[
     list[
         Annotated[
-            StringAttribute | IntegerAttribute | DateTimeOffsetAttribute,
+            StringAttribute
+            | IntegerAttribute
+            | DateTimeOffsetAttribute
+            | ListStringAttribute,
             Field(discriminator="value_type"),
         ]
     ],
@@ -187,7 +216,7 @@ class Metadata(BaseModel):
         :param name: name of the attribute
         :return: attribute object
         """
-        return next(a for a in self.attributes if a.name == name)
+        return next((a for a in self.attributes if a.name == name), None)
 
     def add_attribute(self, name: str, value_type: Type[Attribute], factory: callable):
         """

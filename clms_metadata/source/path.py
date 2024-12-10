@@ -22,6 +22,7 @@ CONTENT_TYPE_NETCDF: Final[str] = "application/netcdf"
 CONTENT_TYPE_TIFF: Final[str] = "application/tiff"
 CONTENT_TYPE_GEOJSON: Final[str] = "application/geo+json"
 CONTENT_TYPE_SHP: Final[str] = ""  # TODO
+REGEX_CONSOLIDATION: Final[re.Pattern] = re.compile(r"-RT(\d)_")
 
 
 class PathSource(MetadataSource):
@@ -47,7 +48,7 @@ class PathSource(MetadataSource):
             factory=lambda: version,
         )
         metadata.add_attribute(  # major version as int
-            name=attributes.COLLECTION_VERSION,
+            name=attributes.DATASET_VERSION,
             value_type=IntegerAttribute,
             factory=lambda: int(version[1:].split(".")[0]),
         )
@@ -69,6 +70,12 @@ class PathSource(MetadataSource):
         )
         if not metadata.origin_date:
             metadata.origin_date = max(get_mtime(p) for p in product_files)
+
+        metadata.add_attribute(
+            name=attributes.CONSOLIDATION_PERIOD,
+            value_type=IntegerAttribute,
+            factory=lambda: get_consolidation_period(product_id),
+        )
 
         return metadata
 
@@ -178,3 +185,10 @@ def get_suffix(content_type: str) -> str:
         CONTENT_TYPE_GEOJSON: "geojson",
         CONTENT_TYPE_SHP: "shp",
     }[content_type]
+
+
+def get_consolidation_period(product_id: str) -> str | None:
+    if match := REGEX_CONSOLIDATION.search(product_id):
+        return int(match.group(1))
+    else:
+        return None
