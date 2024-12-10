@@ -5,6 +5,7 @@ import pytest
 
 from clms_metadata.builder import MetadataBuilder
 from clms_metadata.config import LinkSettings, Settings
+from clms_metadata.models import ContentDate
 from clms_metadata.storage import LocalFileSystem
 
 test_data = Path(__file__).parent / "data"
@@ -61,6 +62,30 @@ def test_ndvi_1km_v3_10daily(name, files, suffix, content_type, platform, instru
     assert m.get_attribute("component").value == "bio-geophysical"
     assert m.get_attribute("fileFormat").value == suffix
     assert m.get_attribute("temporalGrid").value == "10-daily"
+
+
+@pytest.mark.parametrize(
+    ("name", "files", "content_date"),
+    [
+        (
+            "c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2",
+            (
+                test_data
+                / "fapar_global_300m_10daily_v1/c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2.nc",
+            ),
+            ContentDate(start="2023-02-01T00:00:00Z", end="2023-02-10T23:59:59.999Z"),
+        )
+    ],
+)
+def test_fapar_global_300m_10daily_v1(name, files, content_date):
+    assert all(p.exists() for p in files)
+
+    builder = MetadataBuilder(
+        storage=LocalFileSystem(), settings=Settings(link=LinkSettings(value="test"))
+    )
+    m = builder.build(files)
+    assert m.name == name
+    assert m.content_date == content_date
 
 
 @pytest.mark.skip  # TODO: implement test for DMP
