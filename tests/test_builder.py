@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pytest
@@ -57,7 +58,7 @@ def test_ndvi_1km_v3_10daily(name, files, suffix, content_type, platform, instru
     assert m.product_type == "vegetation_indices"
     assert m.get_attribute("datasetIdentifier").value == "ndvi_global_1km_10daily_v3"
     assert m.get_attribute("datasetAlias").value == "ndvi_global_1km_10daily"
-    assert m.get_attribute("collectionVersion").value == 3
+    assert m.get_attribute("datasetVersion").value == 3
     assert m.get_attribute("component").value == "bio-geophysical"
     assert m.get_attribute("fileFormat").value == suffix
     assert m.get_attribute("temporalGrid").value == "10-daily"
@@ -114,3 +115,59 @@ def test_dmp_300m_v1_10daily_geotiff():
     assert m.get_attribute("nominalResolutionMeters").value == 300
     assert m.get_attribute("platformShortName").value == "SENTINEL-3"
     assert m.get_attribute("instrumentShortName").value == "OLCI"
+
+
+@pytest.mark.parametrize(
+    "file_name",  # , "resolution", "platform_name", "instrument_name"),
+    [
+        "c_gls_SCE500_201703010000_CEURO_MODIS_V1.0.1.nc",
+        "c_gls_SCE_201801090000_NHEMI_VIIRS_V1.0.1.nc",
+        "c_gls_SWE5K_200601010000_NHEMI_SSMIS_V1.0.2.nc",
+        "c_gls_LSWT_201611010000_GLOBE_SLSTRA_v1.0.2.nc",
+        "c_gls_LSWT_200205110000_GLOBE_AATSR_v1.0.2.nc",
+        "c_gls_WB100_202010010000_GLOBE_S2_V1.0.1.nc",
+        "c_gls_WB300_202010010000_GLOBE_S2_V2.0.1.nc",
+        "c_gls_LWQ100_201812210000_GLOBAL_MSI_V1.3.nc",
+        "c_gls_LWQ300_201604210000_GLOBE_OLCI_V1.3.0.nc",
+        "c_gls_LWQ300_200205110000_GLOBE_MERIS_V1.3.0.nc",
+        "c_gls_LIE250_201703150000_Baltic_MODIS_V1.0.1.nc",
+        "c_gls_LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1.nc",
+    ],
+)
+def test_cls_netcdf_products(
+    file_name
+):  # , resolution, platform_name, instrument_name):
+    with open(test_data / "cls" / "cls_datasets_expected_metadata.json", "r") as f:
+        expected_data = [
+            d for d in json.load(f) if d.get("name") == file_name.replace(".nc", "")
+        ][0]
+
+    builder = MetadataBuilder(storage=LocalFileSystem(), settings=Settings())
+    m = builder.build((test_data / "cls" / file_name,))
+
+    assert_dict = {
+        "name": m.name,
+        "name_suffix": m.name_suffix,
+        "content_type": m.content_type,
+        "product_type": m.product_type,
+    }
+
+    attributes = {
+        "nominalResolution",
+        "platformShortName",
+        "platformShortNames",
+        "instrumentShortName",
+        "instrumentShortNames",
+        "processingCenter",
+        "datasetIdentifier",
+        "datasetVersion",
+        "component",
+        "fileFormat",
+        "temporalGrid",
+    }
+
+    assert_dict.update(
+        {a: attr.value for a in attributes if (attr := m.get_attribute(a))}
+    )
+
+    assert assert_dict == expected_data

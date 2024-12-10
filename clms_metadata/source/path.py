@@ -48,7 +48,7 @@ class PathSource(MetadataSource):
             factory=lambda: version,
         )
         metadata.add_attribute(  # major version as int
-            name=attributes.COLLECTION_VERSION,
+            name=attributes.DATASET_VERSION,
             value_type=IntegerAttribute,
             factory=lambda: int(version[1:].split(".")[0]),
         )
