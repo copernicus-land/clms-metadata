@@ -153,9 +153,9 @@ class FileSource(MetadataSource):
             )
 
         if "lake" in properties:
-            dataset_id = f"wl-lakes_global_vector_daily_v{metadata.get_attribute(attributes.COLLECTION_VERSION)}"
+            dataset_id = f"wl-lakes_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION)}"
         elif "river" in properties:
-            dataset_id = f"wl-rivers_global_vector_daily_v{metadata.get_attribute(attributes.COLLECTION_VERSION)}"
+            dataset_id = f"wl-rivers_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION)}"
         else:
             raise ValueError
 
@@ -175,6 +175,8 @@ class FileSource(MetadataSource):
             if (institution := properties["institution"]) == "LEGOS, CLS, CNES"
             else institution.split(",")[0].upper(),
         )
+
+        return metadata
 
 
 def get_platform(tags: dict) -> dict[str, list[str] | None]:
