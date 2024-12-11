@@ -107,9 +107,9 @@ class FileSource(MetadataSource):
 
     def get_processing_center(self, tags: dict) -> str | None:
         """
-        Get the processing center information from the raster metadata.
+        Get the processing center information from the raster or vector metadata.
 
-        :param tags: raster data tags
+        :param tags: metadata tags
         :return: processing center, if available
         """
         processing_center = tags.get("institution") or tags.get("processing_centre")
@@ -117,6 +117,9 @@ class FileSource(MetadataSource):
             processing_center = processing_center.replace(" NV", "").replace(
                 " GMBH", ""
             )
+        if processing_center == "LEGOS, CLS, CNES":
+            processing_center = "CLS"
+
         return processing_center
 
     def _get_info_json(self, path: Path | CloudPath, metadata: Metadata):
@@ -139,7 +142,8 @@ class FileSource(MetadataSource):
         elif "river" in properties:
             dataset_id = f"wl-rivers_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION).value}"
         else:
-            raise ValueError
+            dataset_id = None
+            logger.warning("Cannot determine dataset ID based on JSON properties")
 
         metadata.add_attribute(
             name=attributes.DATASET_IDENTIFIER,
@@ -153,9 +157,7 @@ class FileSource(MetadataSource):
         metadata.add_attribute(
             name=attributes.PROCESSING_CENTER,
             value_type=StringAttribute,
-            factory=lambda: "CLS"
-            if (institution := properties["institution"]) == "LEGOS, CLS, CNES"
-            else institution.split(",")[0].upper(),
+            factory=lambda: self.get_processing_center(properties),
         )
 
         if "platform" in properties:
