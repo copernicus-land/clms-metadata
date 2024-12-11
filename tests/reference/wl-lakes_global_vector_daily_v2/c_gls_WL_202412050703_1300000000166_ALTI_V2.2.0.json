@@ -16,7 +16,7 @@
         "datasetShortName": "wl-lakes",
         "datasetAlias": "wl-lakes_global_vector_daily",
         "component": "bio-geophysical",
-        "spatialExtent": "global",
-        "temporalGrid": "daily"
+        "areaOfInterest": "global",
+        "temporalRepeatRate": "daily"
     }
 }

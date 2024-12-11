@@ -64,6 +64,12 @@ DATASET = {  # product name regex to collection identifier
     re.compile(
         r"c_gls_WB300_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
     ): "wb_global_300m_monthly_v{version_major}",
+    re.compile(
+        r"c_gls_LWQ1km_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d).\d)"
+    ): "lwq-nrt_global_1km_10daily_v{version_major}",
+    re.compile(
+        r"c_gls_LWQ1km_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d).\d)"
+    ): "lwq-reproc_global_1km_10daily_v{version_major}",
 }
 
 PRODUCT = {  # dataset name to collection identifier
@@ -136,32 +142,32 @@ class LookupSource(MetadataSource):
                     )
 
         metadata.add_attribute(
-            name=attributes.SPATIAL_EXTENT,
+            name=attributes.AREA_OF_INTEREST,
             value_type=StringAttribute,
             factory=lambda: get_spatial_extent(collection_identifier),
         )
 
         metadata.add_attribute(
-            attributes.NOMINAL_RESOLUTION_METERS,
+            attributes.METRIC_GRID_SPACING,
             IntegerAttribute,
             lambda: get_resolution(collection_identifier),
         )
         metadata.add_attribute(
-            name=attributes.NOMINAL_RESOLUTION,
+            name=attributes.GRID_LABEL,
             value_type=StringAttribute,
             factory=lambda: match.group(1)
             if (match := REGEX_RESOLUTION.search(collection_identifier))
             else None,
         )
         metadata.add_attribute(
-            name=attributes.TEMPORAL_GRID,
+            name=attributes.TEMPORAL_REPEAT_RATE,
             value_type=StringAttribute,
             factory=lambda: get_temporal_grid(collection_identifier),
         )
 
         if metadata.has_attribute(attributes.CONSOLIDATION_PERIOD):
             temporal_grid_delta = get_relativedelta(
-                metadata.get_attribute(attributes.TEMPORAL_GRID).value
+                metadata.get_attribute(attributes.TEMPORAL_REPEAT_RATE).value
             )
             if not matches_temporal_grid(metadata.content_date, temporal_grid_delta):
                 logger.info(

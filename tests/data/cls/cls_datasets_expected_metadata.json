@@ -3,7 +3,7 @@
         "name": "c_gls_SCE500_201703010000_CEURO_MODIS_V1.0.1",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "500m",
+        "gridLabel": "500m",
         "platformShortName": "TERRA",
         "instrumentShortName": "MODIS",
         "processingCenter": "ENVEO IT GmbH",
@@ -12,13 +12,13 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "daily"
+        "temporalRepeatRate": "daily"
     },
     {
         "name": "c_gls_SCE_201801090000_NHEMI_VIIRS_V1.0.1",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "1km",
+        "gridLabel": "1km",
         "platformShortName": "SUOMI NPP",
         "instrumentShortName": "VIIRS",
         "processingCenter": "ENVEO IT GmbH",
@@ -27,13 +27,13 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "daily"
+        "temporalRepeatRate": "daily"
     },
     {
         "name": "c_gls_SWE5K_200601010000_NHEMI_SSMIS_V1.0.2",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "5km",
+        "gridLabel": "5km",
         "platformShortNames": ["DMSP", "SUOMI NPP"],
         "instrumentShortNames": ["SSMIS", "VIIRS"],
         "processingCenter": "FMI",
@@ -42,13 +42,13 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "daily"
+        "temporalRepeatRate": "daily"
     },
     {
         "name": "c_gls_LSWT_201611010000_GLOBE_SLSTRA_v1.0.2",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "1km",
+        "gridLabel": "1km",
         "platformShortName": "SENTINEL-3",
         "instrumentShortName": "SLSTRA",
         "processingCenter": "University of Reading",
@@ -57,13 +57,13 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "10-daily"
+        "temporalRepeatRate": "10-daily"
     },
     {
         "name": "c_gls_LSWT_200205110000_GLOBE_AATSR_v1.0.2",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "1km",
+        "gridLabel": "1km",
         "platformShortName": "ENVISAT",
         "instrumentShortName": "AATSR",
         "processingCenter": "University of Reading",
@@ -72,13 +72,13 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "10-daily"
+        "temporalRepeatRate": "10-daily"
     },
     {
         "name": "c_gls_WB100_202010010000_GLOBE_S2_V1.0.1",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "100m",
+        "gridLabel": "100m",
         "platformShortName": "SENTINEL-2",
         "instrumentShortName": "MSI",
         "processingCenter": "SIRS",
@@ -87,13 +87,13 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "monthly"
+        "temporalRepeatRate": "monthly"
     },
     {
         "name": "c_gls_WB300_202010010000_GLOBE_S2_V2.0.1",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "300m",
+        "gridLabel": "300m",
         "platformShortName": "SENTINEL-2",
         "instrumentShortName": "MSI",
         "processingCenter": "SIRS",
@@ -102,13 +102,13 @@
         "datasetVersion": 2,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "monthly"
+        "temporalRepeatRate": "monthly"
     },
     {
         "name": "c_gls_LWQ100_201812210000_GLOBAL_MSI_V1.3",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "100m",
+        "gridLabel": "100m",
         "platformShortName": "SENTINEL-2",
         "instrumentShortName": "MSI",
         "processingCenter": "Plymouth Marine Laboratory",
@@ -117,13 +117,13 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "10-daily"
+        "temporalRepeatRate": "10-daily"
     },
     {
         "name": "c_gls_LWQ300_201604210000_GLOBE_OLCI_V1.3.0",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "300m",
+        "gridLabel": "300m",
         "platformShortName": "SENTINEL-3",
         "instrumentShortName": "OLCI",
         "processingCenter": "Plymouth Marine Laboratory",
@@ -132,13 +132,13 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "10-daily"
+        "temporalRepeatRate": "10-daily"
     },
     {
         "name": "c_gls_LWQ300_200205110000_GLOBE_MERIS_V1.3.0",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "300m",
+        "gridLabel": "300m",
         "platformShortName": "ENVISAT",
         "instrumentShortName": "MERIS",
         "processingCenter": "Plymouth Marine Laboratory",
@@ -147,13 +147,13 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "10-daily"
+        "temporalRepeatRate": "10-daily"
     },
     {
         "name": "c_gls_LIE250_201703150000_Baltic_MODIS_V1.0.1",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "250m",
+        "gridLabel": "250m",
         "platformShortName": "TERRA",
         "instrumentShortName": "Moderate Resolution Imaging Spectrometer (MODIS)",
         "processingCenter": "SYKE, FMI, ENVEO",
@@ -162,13 +162,13 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "daily"
+        "temporalRepeatRate": "daily"
     },
     {
         "name": "c_gls_LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "nominalResolution": "500m",
+        "gridLabel": "500m",
         "platformShortName": "SENTINEL-3",
         "instrumentShortName": "The Sea and Land Surface Temperature Radiometer (SLSTR)",
         "processingCenter": "SYKE, FMI, ENVEO",
@@ -177,6 +177,81 @@
         "datasetVersion": 1,
         "component": "bio-geophysical",
         "fileFormat": "nc",
-        "temporalGrid": "daily"
+        "temporalRepeatRate": "daily"
+    },
+    {
+        "component": "bio-geophysical",
+        "content_type": "application/netcdf",
+        "datasetIdentifier": "swe_northernhemisphere_5km_daily_v2",
+        "datasetVersion": 2,
+        "fileFormat": "nc",
+        "instrumentShortNames": ["SSMIS", "VIIRS"],
+        "name": "c_gls_SWE5K_202407010000_NHEMI_SSMIS_V2.0.1",
+        "name_suffix": "nc",
+        "gridLabel": "5km",
+        "platformShortNames": ["DMSP", "SUOMI NPP"],
+        "processingCenter": "FMI",
+        "product_type": "snow_water_equivalent",
+        "temporalRepeatRate": "daily"
+    },
+    {
+        "component": "bio-geophysical",
+        "content_type": "application/netcdf",
+        "datasetIdentifier": "lwq-nrt_global_300m_10daily_v2",
+        "datasetVersion": 2,
+        "fileFormat": "nc",
+        "instrumentShortName": "OLCI",
+        "name": "c_gls_LWQ300_202409010000_GLOBE_OLCI_V2.0.0",
+        "name_suffix": "nc",
+        "gridLabel": "300m",
+        "platformShortName": "SENTINEL-3",
+        "processingCenter": "Plymouth Marine Laboratory",
+        "product_type": "lake_water_quality",
+        "temporalRepeatRate": "10-daily"
+    },
+    {
+        "component": "bio-geophysical",
+        "content_type": "application/netcdf",
+        "datasetIdentifier": "lwq-nrt_global_1km_10daily_v1",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "instrumentShortName": "OLCI",
+        "name": "c_gls_LWQ1km_201604210000_GLOBE_OLCI_V1.2",
+        "name_suffix": "nc",
+        "gridLabel": "1km",
+        "platformShortName": "SENTINEL-3",
+        "processingCenter": "Plymouth Marine Laboratory",
+        "product_type": "lake_water_quality",
+        "temporalRepeatRate": "10-daily"
+    },
+    {
+        "component": "bio-geophysical",
+        "content_type": "application/netcdf",
+        "datasetIdentifier": "lwq-reproc_global_1km_10daily_v1",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "instrumentShortName": "MERIS",
+        "name": "c_gls_LWQ1km_200205110000_GLOBE_MERIS_V1.1",
+        "name_suffix": "nc",
+        "gridLabel": "1km",
+        "platformShortName": "ENVISAT",
+        "processingCenter": "Plymouth Marine Laboratory",
+        "product_type": "lake_water_quality",
+        "temporalRepeatRate": "10-daily"
+    },
+    {
+        "component": "bio-geophysical",
+        "content_type": "application/netcdf",
+        "datasetIdentifier": "lwq-nrt_global_100m_10daily_v2",
+        "datasetVersion": 2,
+        "fileFormat": "nc",
+        "instrumentShortName": "MSI",
+        "name": "c_gls_LWQ100_202409010000_GLOBAL_MSI_V2.0",
+        "name_suffix": "nc",
+        "gridLabel": "100m",
+        "platformShortName": "SENTINEL-2",
+        "processingCenter": "Brockmann Consult GmbH, Plymouth Marine Laboratory",
+        "product_type": "lake_water_quality",
+        "temporalRepeatRate": "10-daily"
     }
 ]

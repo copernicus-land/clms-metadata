@@ -51,8 +51,8 @@ def test_ndvi_1km_v3_10daily(name, files, suffix, content_type, platform, instru
     assert m.name == name
     assert m.name_suffix == suffix
     assert m.content_type == content_type
-    assert m.get_attribute("nominalResolutionMeters").value == 1000
-    assert m.get_attribute("nominalResolution").value == "1km"
+    assert m.get_attribute("metricGridSpacing").value == 1000
+    assert m.get_attribute("gridLabel").value == "1km"
     assert m.get_attribute("platformShortName").value == platform
     assert m.get_attribute("instrumentShortName").value == instrument
     assert m.get_attribute("processingCenter").value == "VITO"
@@ -62,7 +62,7 @@ def test_ndvi_1km_v3_10daily(name, files, suffix, content_type, platform, instru
     assert m.get_attribute("datasetVersion").value == 3
     assert m.get_attribute("component").value == "bio-geophysical"
     assert m.get_attribute("fileFormat").value == suffix
-    assert m.get_attribute("temporalGrid").value == "10-daily"
+    assert m.get_attribute("temporalRepeatRate").value == "10-daily"
 
 
 @pytest.mark.parametrize(
@@ -113,7 +113,7 @@ def test_dmp_300m_v1_10daily_geotiff():
     assert m.name_suffix == "cog"
     assert m.content_type == "application/tiff"
     assert m.get_attribute("datasetIdentifier").value == "dmp_global_300m_10daily_v1"
-    assert m.get_attribute("nominalResolutionMeters").value == 300
+    assert m.get_attribute("metricGridSpacing").value == 300
     assert m.get_attribute("platformShortName").value == "SENTINEL-3"
     assert m.get_attribute("instrumentShortName").value == "OLCI"
 
@@ -133,11 +133,14 @@ def test_dmp_300m_v1_10daily_geotiff():
         "c_gls_LWQ300_200205110000_GLOBE_MERIS_V1.3.0.nc",
         "c_gls_LIE250_201703150000_Baltic_MODIS_V1.0.1.nc",
         "c_gls_LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1.nc",
+        "c_gls_LWQ1km_201604210000_GLOBE_OLCI_V1.2.nc",  # clms_global_lwq_1km_v1_10daily-nrt_netcdf
+        "c_gls_SWE5K_202407010000_NHEMI_SSMIS_V2.0.1.nc",  # clms_global_swe_5km_v2_daily_netcdf
+        "c_gls_LWQ300_202409010000_GLOBE_OLCI_V2.0.0.nc",  # clms_global_lwq_300m_v2_10daily-nrt_netcdf
+        "c_gls_LWQ1km_200205110000_GLOBE_MERIS_V1.1.nc",  # clms_global_lwq_1km_v1_10daily-reproc_netcdf
+        "c_gls_LWQ100_202409010000_GLOBAL_MSI_V2.0.nc",  # clms_global_lwq_100m_v2_10daily-nrt_netcdf
     ],
 )
-def test_cls_netcdf_products(
-    file_name
-):  # , resolution, platform_name, instrument_name):
+def test_cls_netcdf_products(file_name):
     with open(test_data / "cls" / "cls_datasets_expected_metadata.json", "r") as f:
         expected_data = [
             d for d in json.load(f) if d.get("name") == file_name.replace(".nc", "")
@@ -154,7 +157,7 @@ def test_cls_netcdf_products(
     }
 
     attributes = {
-        "nominalResolution",
+        "gridLabel",
         "platformShortName",
         "platformShortNames",
         "instrumentShortName",
@@ -164,7 +167,7 @@ def test_cls_netcdf_products(
         "datasetVersion",
         "component",
         "fileFormat",
-        "temporalGrid",
+        "temporalRepeatRate",
     }
 
     assert_dict.update(

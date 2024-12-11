@@ -16,8 +16,8 @@
         "datasetShortName": "wl-rivers",
         "datasetAlias": "wl-rivers_global_vector_daily",
         "component": "bio-geophysical",
-        "spatialExtent": "global",
-        "temporalGrid": "daily",
+        "areaOfInterest": "global",
+        "temporalRepeatRate": "daily",
         "platformShortName": "SENTINEL-3"
     }
 }
