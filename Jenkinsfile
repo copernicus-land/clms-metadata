@@ -6,9 +6,7 @@ pythonPipeline {
   create_tag_job          = true
   run_tests               = true
   build_container_image   = true
-  extra_container_volumes = [
-    '/data/MTDA/:/data/MTDA/:ro'
-  ]
   docker_deploy           = false
+  docker_registry_prod    = 'vito-docker.artifactory.vgt.vito.be'
   dev_hosts               = ['nifi-dev-01.vgt.vito.be', 'nifi-dev-02.vgt.vito.be', 'nifi-dev-03.vgt.vito.be']
 }
