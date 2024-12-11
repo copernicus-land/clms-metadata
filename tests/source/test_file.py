@@ -95,4 +95,4 @@ from clms_metadata.source.file import parse_platform
     ],
 )
 def test_get_platform(platformstr, expected):
-    assert parse_platform({"platform": platformstr}) == expected
+    assert parse_platform(platformstr) == expected
