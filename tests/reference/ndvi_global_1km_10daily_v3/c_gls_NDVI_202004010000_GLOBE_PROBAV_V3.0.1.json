@@ -1,0 +1,98 @@
+{
+    "@odata.context": "$metadata#Products(Attributes())",
+    "Name": "c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1_nc",
+    "EvictionDate": "9999-12-31T23:59:59.999999Z",
+    "ModificationDate": "2024-12-09T15:24:38.017635Z",
+    "OriginDate": "2024-12-05T13:04:39.377909Z",
+    "PublicationDate": "2024-12-09T15:24:38.017633Z",
+    "Online": true,
+    "ContentType": "application/netcdf",
+    "Link": "tests/data/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
+    "CollectionName": "CLMS",
+    "ProductType": "vegetation_indices",
+    "TargetFormat": "EXTRACTED",
+    "DecompressionStep": false,
+    "CompressionType": null,
+    "ContentDate": {
+        "Start": "2020-04-01T00:00:00Z",
+        "End": "2020-04-10T23:59:59Z"
+    },
+    "GeoFootprint": {"type": "Polygon", "coordinates": [[[58.816964299999995, 13.915178599999999], [58.816964299999995, 14.09375], [58.941964299999995, 14.09375], [58.941964299999995, 13.915178599999999], [58.816964299999995, 13.915178599999999]]]},
+    "Attributes": [
+        {
+            "Name": "productVersion",
+            "ValueType": "String",
+            "Value": "v3.0.1"
+        },
+        {
+            "Name": "collectionVersion",
+            "ValueType": "Integer",
+            "Value": 3
+        },
+        {
+            "Name": "nominalDate",
+            "ValueType": "DateTimeOffset",
+            "Value": "2020-04-01T00:00:00Z"
+        },
+        {
+            "Name": "fileFormat",
+            "ValueType": "String",
+            "Value": "nc"
+        },
+        {
+            "Name": "processingCenter",
+            "ValueType": "String",
+            "Value": "VITO"
+        },
+        {
+            "Name": "platformShortName",
+            "ValueType": "String",
+            "Value": "PROBA-V"
+        },
+        {
+            "Name": "instrumentShortName",
+            "ValueType": "String",
+            "Value": "VEGETATION"
+        },
+        {
+            "Name": "datasetIdentifier",
+            "ValueType": "String",
+            "Value": "ndvi_global_1km_10daily_v3"
+        },
+        {
+            "Name": "datasetShortName",
+            "ValueType": "String",
+            "Value": "ndvi"
+        },
+        {
+            "Name": "datasetAlias",
+            "ValueType": "String",
+            "Value": "ndvi_global_1km_10daily"
+        },
+        {
+            "Name": "component",
+            "ValueType": "String",
+            "Value": "bio-geophysical"
+        },
+        {
+            "Name": "spatialExtent",
+            "ValueType": "String",
+            "Value": "global"
+        },
+        {
+            "Name": "nominalResolutionMeters",
+            "ValueType": "Integer",
+            "Value": 1000
+        },
+        {
+            "Name": "nominalResolution",
+            "ValueType": "String",
+            "Value": "1km"
+        },
+        {
+            "Name": "temporalGrid",
+            "ValueType": "String",
+            "Value": "10-daily"
+        }
+    ]
+}

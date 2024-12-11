@@ -1,0 +1,23 @@
+{
+    "name": "c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0",
+    "origin_date": "2024-12-02T01:01:00Z",
+    "content_type": "application/geo+json",
+    "product_type": "river_and_lake_water_level",
+    "content_date": {
+        "start": "2018-12-04T14:39:00Z",
+        "end": "2024-11-29T14:40:00Z"
+    },
+    "attributes": {
+        "datasetVersion": 2,
+        "nominalDate": "2024-11-29T14:40:00Z",
+        "fileFormat": "geojson",
+        "datasetIdentifier": "wl-rivers_global_vector_daily_v2",
+        "processingCenter": "CLS",
+        "datasetShortName": "wl-rivers",
+        "datasetAlias": "wl-rivers_global_vector_daily",
+        "component": "bio-geophysical",
+        "areaOfInterest": "global",
+        "temporalRepeatRate": "daily",
+        "platformShortName": "SENTINEL-3"
+    }
+}

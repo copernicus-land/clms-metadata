@@ -1,3 +1,4 @@
+import json
 import re
 from pathlib import Path
 
@@ -30,6 +31,8 @@ class FileSource(MetadataSource):
         for path in product_files:
             if path.suffix.lower() in (".nc", ".tiff", ".tif"):
                 metadata = self._get_info_raster(path, metadata)
+            if path.suffix.lower() in (".json", ".geojson"):
+                metadata = self._get_info_json(path, metadata)
 
         return metadata
 
@@ -75,35 +78,7 @@ class FileSource(MetadataSource):
                     value_type=StringAttribute,
                     factory=lambda: self.get_processing_center(tags),
                 )
-                if not metadata.has_attribute(attributes.PLATFORM_SHORT_NAME):
-                    platform_dict = get_platform(tags)
-                    platformShortNames = list(platform_dict.keys())
-                    platforSerialIdentifiers = [
-                        serial for v in platform_dict.values() if v for serial in v
-                    ]
-
-                    metadata.add_attribute(
-                        name=attributes.PLATFORM_SHORT_NAME
-                        if len(platformShortNames) == 1
-                        else attributes.PLATFORM_SHORT_NAMES,
-                        value_type=StringAttribute
-                        if len(platformShortNames) == 1
-                        else ListStringAttribute,
-                        factory=lambda: platformShortNames[0]
-                        if len(platformShortNames) == 1
-                        else platformShortNames,
-                    )
-                    metadata.add_attribute(
-                        name=attributes.PLATFORM_SERIAL_IDENTIFIER
-                        if len(platforSerialIdentifiers) == 1
-                        else attributes.PLATFORM_SERIAL_IDENTIFIERS,
-                        value_type=StringAttribute
-                        if len(platforSerialIdentifiers) == 1
-                        else ListStringAttribute,
-                        factory=lambda: platforSerialIdentifiers[0]
-                        if len(platforSerialIdentifiers) == 1
-                        else platforSerialIdentifiers,
-                    )
+                metadata = set_platform(tags.get("platform"), metadata)
 
                 instrumentShortNames = [
                     s.strip() for s in tags.get("sensor").split(",")
@@ -119,7 +94,9 @@ class FileSource(MetadataSource):
                     if len(instrumentShortNames) == 1
                     else instrumentShortNames,
                 )
-                if dataset_identifier := get_dataset_identifier_from_identifier_tag(tags):
+                if dataset_identifier := get_dataset_identifier_from_identifier_tag(
+                    tags
+                ):
                     metadata.add_attribute(
                         name=attributes.DATASET_IDENTIFIER,
                         value_type=StringAttribute,
@@ -130,9 +107,9 @@ class FileSource(MetadataSource):
 
     def get_processing_center(self, tags: dict) -> str | None:
         """
-        Get the processing center information from the raster metadata.
+        Get the processing center information from the raster or vector metadata.
 
-        :param tags: raster data tags
+        :param tags: metadata tags
         :return: processing center, if available
         """
         processing_center = tags.get("institution") or tags.get("processing_centre")
@@ -140,18 +117,106 @@ class FileSource(MetadataSource):
             processing_center = processing_center.replace(" NV", "").replace(
                 " GMBH", ""
             )
+        if processing_center == "LEGOS, CLS, CNES":
+            processing_center = "CLS"
+
         return processing_center
 
+    def _get_info_json(self, path: Path | CloudPath, metadata: Metadata):
+        with open(path) as f:
+            content = json.load(f)
+        properties = content["properties"]
+        logger.debug(properties)
+        if (
+            not metadata.content_date
+            and "time_coverage_start" in properties
+            and "time_coverage_end" in properties
+        ):
+            metadata.content_date = ContentDate(
+                start=properties["time_coverage_start"],
+                end=properties["time_coverage_end"],
+            )
 
-def get_platform(tags: dict) -> dict[str, list[str] | None]:
+        if "lake" in properties:
+            dataset_id = f"wl-lakes_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION).value}"
+        elif "river" in properties:
+            dataset_id = f"wl-rivers_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION).value}"
+        else:
+            dataset_id = None
+            logger.warning("Cannot determine dataset ID based on JSON properties")
+
+        metadata.add_attribute(
+            name=attributes.DATASET_IDENTIFIER,
+            value_type=StringAttribute,
+            factory=lambda: dataset_id,
+        )
+
+        metadata.geometry = content["geometry"]
+        metadata.origin_date = properties["updated"]
+
+        metadata.add_attribute(
+            name=attributes.PROCESSING_CENTER,
+            value_type=StringAttribute,
+            factory=lambda: self.get_processing_center(properties),
+        )
+
+        if "platform" in properties:
+            metadata = set_platform(properties["platform"], metadata)
+
+        return metadata
+
+
+def set_platform(platformstr: str, metadata: Metadata) -> Metadata:
     """
-    Get the platform information from the 'platform' tag in the raster metadata.
-    Returns a tuple of platformShortName and platformSerialIdentifier.
+    Set the platform information on the metadata object.
 
-    :param tags: raster metadata tags
+    :param platformstr: platform string
+    :param metadata: metadata object
+    :return: updated metadata object
+    """
+    platform_dict = parse_platform(platformstr)
+    platformShortNames = list(platform_dict.keys())
+    platforSerialIdentifiers = [
+        serial for v in platform_dict.values() if v for serial in v
+    ]
+
+    metadata.add_attribute(
+        name=attributes.PLATFORM_SHORT_NAME
+        if len(platformShortNames) == 1
+        else attributes.PLATFORM_SHORT_NAMES,
+        value_type=StringAttribute
+        if len(platformShortNames) == 1
+        else ListStringAttribute,
+        factory=lambda: platformShortNames[0]
+        if len(platformShortNames) == 1
+        else platformShortNames
+        if platformShortNames
+        else None,
+    )
+    metadata.add_attribute(
+        name=attributes.PLATFORM_SERIAL_IDENTIFIER
+        if len(platforSerialIdentifiers) == 1
+        else attributes.PLATFORM_SERIAL_IDENTIFIERS,
+        value_type=StringAttribute
+        if len(platforSerialIdentifiers) == 1
+        else ListStringAttribute,
+        factory=lambda: platforSerialIdentifiers[0]
+        if len(platforSerialIdentifiers) == 1
+        else platforSerialIdentifiers
+        if platforSerialIdentifiers
+        else None,
+    )
+    return metadata
+
+
+def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
+    """
+    Get the platform information from the 'platform' metadata string.
+    Returns a dictionary of platformShortName to platformSerialIdentifier.
+
+    :param platformstr: platform metadata string
     :return: platform information
     """
-    platformstr = tags.get("platform")
     platformstr = (
         platformstr.upper().replace("_", "-").replace("SUOMI-NPP", "SUOMI NPP").strip()
     )
@@ -230,12 +295,8 @@ def get_platform(tags: dict) -> dict[str, list[str] | None]:
             platforms[platform_short] = platforms.get(platform_short, list()) + [serial]
         if platf in ignore:
             platforms.pop(platf)
-    if platforms == {}:
-        if mapped_platform := lookup_tables.SENSOR_PLATFORM_MAPPING.get(
-            tags.get("sensor", "")
-        ):
-            platforms[mapped_platform] = None
     return platforms
+
 
 def get_dataset_identifier_from_identifier_tag(tags: dict) -> Optional[str]:
     """
@@ -250,20 +311,24 @@ def get_dataset_identifier_from_identifier_tag(tags: dict) -> Optional[str]:
 
     try:
         if not identifier:
-            raise(ValueError("No identifier found in raster metadata"))
+            raise (ValueError("No identifier found in raster metadata"))
 
         identifier_parts = identifier.split(":")
         file_identifier = identifier_parts[-1]
         parent_identifier = identifier_parts[-2]
-        dataset_identifier = lookup_tables.IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING[parent_identifier]
+        dataset_identifier = lookup_tables.IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING[
+            parent_identifier
+        ]
 
         version_matcher = re.compile(r"[vV]\d+(\.\d+)+")
         version = version_matcher.search(file_identifier).group()
-        dataset_identifier = dataset_identifier.format(version_major=version.split(".")[0][1:])
+        dataset_identifier = dataset_identifier.format(
+            version_major=version.split(".")[0][1:]
+        )
     except (IndexError, KeyError, re.error, ValueError, AttributeError) as e:
-        logger.warning(f"Could not extract dataset identifier from {tags.get('identifier')} due to {repr(e)}")
+        logger.warning(
+            f"Could not extract dataset identifier from {tags.get('identifier')} due to {repr(e)}"
+        )
         return None
 
     return dataset_identifier
-
-

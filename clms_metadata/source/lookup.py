@@ -7,7 +7,7 @@ from cloudpathlib import CloudPath
 from dateutil.relativedelta import relativedelta
 from loguru import logger
 
-from clms_metadata.constants import attributes
+from clms_metadata.constants import attributes, lookup_tables
 from clms_metadata.models import (
     ContentDate,
     IntegerAttribute,
@@ -16,7 +16,7 @@ from clms_metadata.models import (
 )
 from clms_metadata.source import MetadataSource
 
-REGEX_RESOLUTION = re.compile(r"_([\d.]+)(m|km)_")
+REGEX_RESOLUTION = re.compile(r"_(([\d.]+)(m|km))_")
 REGEX_NUM_TEMPORAL = re.compile(r"(\d+)([a-z]+)")
 DATASET = {  # product name regex to collection identifier
     re.compile(
@@ -75,6 +75,7 @@ DATASET = {  # product name regex to collection identifier
 PRODUCT = {  # dataset name to collection identifier
     re.compile(r"ndvi[_-]"): "vegetation_indices",
     re.compile(r"g?dmp[_-]"): "dry-gross_dry_matter_productivity",
+    re.compile(r"wl-(rivers|lakes)_"): "river_and_lake_water_level",
     re.compile(r"(fapar|fcover|lai)[_-]"): "vegetation_properties",
     re.compile(r"^sce"): "snow_cover_extent",
     re.compile(r"^swe"): "snow_water_equivalent",
@@ -95,6 +96,7 @@ COMPONENT = {  # components to product types
         "lake_water_quality",
         "river_and_lake_ice_extent",
         "vegetation_properties",
+        "river_and_lake_water_level",
     }
 }
 
@@ -153,7 +155,9 @@ class LookupSource(MetadataSource):
         metadata.add_attribute(
             name=attributes.GRID_LABEL,
             value_type=StringAttribute,
-            factory=lambda: collection_identifier.split("_")[2],
+            factory=lambda: match.group(1)
+            if (match := REGEX_RESOLUTION.search(collection_identifier))
+            else None,
         )
         metadata.add_attribute(
             name=attributes.TEMPORAL_REPEAT_RATE,
@@ -176,6 +180,17 @@ class LookupSource(MetadataSource):
                 logger.info(
                     "Updated content date: {}", metadata.content_date.model_dump()
                 )
+
+        if not metadata.has_attribute(
+            attributes.PLATFORM_SHORT_NAME
+        ) and metadata.has_attribute(attributes.INSTRUMENT_SHORT_NAME):
+            metadata.add_attribute(
+                name=attributes.PLATFORM_SHORT_NAME,
+                value_type=StringAttribute,
+                factory=lambda: lookup_tables.SENSOR_PLATFORM_MAPPING.get(
+                    metadata.get_attribute(attributes.INSTRUMENT_SHORT_NAME).value, None
+                ),
+            )
 
         return metadata
 
@@ -216,8 +231,8 @@ def get_resolution(collection_identifier: str) -> int | None:
     :return: nominal resolution
     """
     if match := REGEX_RESOLUTION.search(collection_identifier):
-        factor = 1000 if match.group(2) == "km" else 1
-        res_base = float(match.group(1))
+        factor = 1000 if match.group(3) == "km" else 1
+        res_base = float(match.group(2))
         resolution = int(res_base * factor)
         return resolution
     else:

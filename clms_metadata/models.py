@@ -3,10 +3,10 @@ import datetime
 from pathlib import Path
 from typing import Annotated, Any, Literal, Type
 
-import pytz
+import ciso8601
 from cloudpathlib import CloudPath
 from geojson_pydantic.geometries import Geometry
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, field_validator
 from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import AfterValidator
 
@@ -14,13 +14,39 @@ from clms_metadata.constants import attributes
 from clms_metadata.util import format_zulu, partial_model
 
 
+def parse_datetime(v: Any) -> datetime.datetime | Any:
+    """
+    Parse a string to a datetime object.
+    If the object is not a string or cannot be parsed, the object will be returned as-is.
+
+    :param v: value to parse
+    :return: datetime object if parsed successfully, else original value
+    """
+    if isinstance(v, str):
+        for parser in [
+            lambda s: ciso8601.parse_datetime(s),
+            lambda s: datetime.datetime.strptime(s, "%Y%m%dT%H:%M:%S%z"),
+            lambda s: datetime.datetime.strptime(s, "%d-%b-%Y %H:%M:%S"),
+            lambda s: datetime.datetime.strptime(s, "%Y%m%dT%H%M%S%z"),
+        ]:
+            try:
+                dt = parser(v)
+                return dt
+            except ValueError:
+                continue
+    return v
+
+
 def validate_utc(d: datetime.datetime) -> datetime.datetime:
     """
     Validate if the provided datetime is in UTC.
+    If no timezone information is provided, the datetime is assumed to be in UTC and the timezone will be explicitly set on the datetime object.
 
     :param d: datetime to validate
     :return: datetime
     """
+    if d.tzinfo is None:
+        d = d.replace(tzinfo=datetime.timezone.utc)
     assert d.tzinfo == datetime.timezone.utc, "Expected datetime in UTC, got {}".format(
         d
     )
@@ -28,7 +54,10 @@ def validate_utc(d: datetime.datetime) -> datetime.datetime:
 
 
 DateTimeUTC = Annotated[
-    datetime.datetime, AfterValidator(validate_utc), PlainSerializer(format_zulu)
+    datetime.datetime,
+    BeforeValidator(parse_datetime),
+    AfterValidator(validate_utc),
+    PlainSerializer(format_zulu),
 ]
 
 
@@ -38,26 +67,6 @@ class ContentDate(BaseModel):
 
     end: DateTimeUTC
     """End of the sensing period in UTC"""
-
-    @field_validator("start", "end", mode="before")
-    @classmethod
-    def parse_datetime_string_formats(cls, v: str) -> str:
-        if isinstance(v, str):
-            for ts_format in [
-                "%Y%m%dT%H:%M:%S%z",
-                "%d-%b-%Y %H:%M:%S",
-                "%Y%m%dT%H%M%S%z",
-            ]:
-                try:
-                    parsed_dt = datetime.datetime.strptime(v, ts_format)
-                    if parsed_dt.tzinfo is None:
-                        parsed_dt = parsed_dt.replace(tzinfo=pytz.UTC)
-                    return parsed_dt.isoformat()
-                except ValueError:
-                    continue
-            return v
-        else:
-            return v
 
 
 class Attribute(BaseModel, abc.ABC):
@@ -97,8 +106,6 @@ MANDATORY_ATTRIBUTES = {
     attributes.FILE_FORMAT: StringAttribute,
     attributes.TEMPORAL_REPEAT_RATE: StringAttribute,
     "productVersion": StringAttribute,  # TODO: should this be kept?
-    attributes.METRIC_GRID_SPACING: IntegerAttribute,
-    attributes.GRID_LABEL: StringAttribute,
     attributes.AREA_OF_INTEREST: StringAttribute,
 }
 
@@ -110,6 +117,8 @@ OPTIONAL_ATTRIBUTES = {
     attributes.CONSOLIDATION_PERIOD: IntegerAttribute,
     attributes.SEASON: StringAttribute,
     attributes.PRODUCT_VARIABLE: StringAttribute,
+    attributes.METRIC_GRID_SPACING: IntegerAttribute,  # not applicable for GeoJSON datasets
+    attributes.GRID_LABEL: StringAttribute,  # not applicable for GeoJSON datasets
 }
 
 

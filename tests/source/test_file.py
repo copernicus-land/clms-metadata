@@ -1,7 +1,9 @@
 import pytest
-from docutils.nodes import target
 
-from clms_metadata.source.file import get_platform, get_dataset_identifier_from_identifier_tag
+from clms_metadata.source.file import (
+    get_dataset_identifier_from_identifier_tag,
+    parse_platform,
+)
 
 
 @pytest.mark.parametrize(
@@ -96,37 +98,86 @@ from clms_metadata.source.file import get_platform, get_dataset_identifier_from_
     ],
 )
 def test_get_platform(platformstr, expected):
-    assert get_platform({"platform": platformstr}) == expected
+    assert parse_platform(platformstr) == expected
 
 
 @pytest.mark.parametrize(
     "tags, expected",
     [
-        ({'identifier': 'urn:cgls:continents:sce500_v1_0.005degree:SCE500_201703010000_CEURO_MODIS_V1.0.1'},
-         'sce_europe_500m_daily_v1'),
-        ({'identifier': 'urn:cgls:global:sce_v1_0.01degree:SCE_201801090000_NHEMI_VIIRS_V1.0.1'},
-         'sce_northernhemisphere_1km_daily_v1'),
-        ({'identifier': 'urn:cgls:global:swe_V1_5km:SWE5K_200601010000_NHEMI_SSMIS_V1.0.2'},
-         'swe_northernhemisphere_5km_daily_v1'),
-        ({'identifier': 'urn:cgls:global:wb_v1_100m:WB100_202010010000_GLOBE_S2_V1.0.1'}, 'wb_global_100m_monthly_v1'),
-        ({'identifier': 'urn:cgls:global:wb_v2_300m:WB300_202010010000_GLOBE_S2_V2.0.1'}, 'wb_global_300m_monthly_v2'),
-        ({'identifier': 'urn:cgls:global:lwq_v1_100:c_gls_LWQ100_201812210000_UTM_GLOBE_MSI_V1.3'},
-         'lwq-nrt_global_100m_10daily_v1'),
-        ({'identifier': 'urn:cgls:continents:lie_v1_250m:LIE250_201703150000_Baltic_MODIS_V1.0.1'},
-         'lie_baltic_250m_daily_v1'),
-        ({'identifier': 'urn:cgls:global:lie_nh_v1_500m:LIE-NH_202104010000_NHEMI_SLSTR_v1.1.1'},
-         'lie_northernhemisphere_500m_daily_v1'),
-        ({'identifier': 'urn:cgls:global:fapar300_v1_333m:FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2'},
-         'fapar_global_300m_10daily_v1'),
-        ({'identifier': 'urn:cgls:global:ndvi_v3_1km:NDVI_202004010000_GLOBE_PROBAV_V3.0.1'},
-         'ndvi_global_1km_10daily_v3'),
-        ({'identifier': 'urn:cgls:global:not_in_mapping:LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1'},
-         None),
-        ({'identifier': 'urn:cgls:global:lie_nh_v1_500m:LIE-NH_202104010000_NHEMI_SLSTR_1.1.1'},
-         None),
-        ({'identifier': 'LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1'},
-         None),
-    ]
+        (
+            {
+                "identifier": "urn:cgls:continents:sce500_v1_0.005degree:SCE500_201703010000_CEURO_MODIS_V1.0.1"
+            },
+            "sce_europe_500m_daily_v1",
+        ),
+        (
+            {
+                "identifier": "urn:cgls:global:sce_v1_0.01degree:SCE_201801090000_NHEMI_VIIRS_V1.0.1"
+            },
+            "sce_northernhemisphere_1km_daily_v1",
+        ),
+        (
+            {
+                "identifier": "urn:cgls:global:swe_V1_5km:SWE5K_200601010000_NHEMI_SSMIS_V1.0.2"
+            },
+            "swe_northernhemisphere_5km_daily_v1",
+        ),
+        (
+            {
+                "identifier": "urn:cgls:global:wb_v1_100m:WB100_202010010000_GLOBE_S2_V1.0.1"
+            },
+            "wb_global_100m_monthly_v1",
+        ),
+        (
+            {
+                "identifier": "urn:cgls:global:wb_v2_300m:WB300_202010010000_GLOBE_S2_V2.0.1"
+            },
+            "wb_global_300m_monthly_v2",
+        ),
+        (
+            {
+                "identifier": "urn:cgls:global:lwq_v1_100:c_gls_LWQ100_201812210000_UTM_GLOBE_MSI_V1.3"
+            },
+            "lwq-nrt_global_100m_10daily_v1",
+        ),
+        (
+            {
+                "identifier": "urn:cgls:continents:lie_v1_250m:LIE250_201703150000_Baltic_MODIS_V1.0.1"
+            },
+            "lie_baltic_250m_daily_v1",
+        ),
+        (
+            {
+                "identifier": "urn:cgls:global:lie_nh_v1_500m:LIE-NH_202104010000_NHEMI_SLSTR_v1.1.1"
+            },
+            "lie_northernhemisphere_500m_daily_v1",
+        ),
+        (
+            {
+                "identifier": "urn:cgls:global:fapar300_v1_333m:FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2"
+            },
+            "fapar_global_300m_10daily_v1",
+        ),
+        (
+            {
+                "identifier": "urn:cgls:global:ndvi_v3_1km:NDVI_202004010000_GLOBE_PROBAV_V3.0.1"
+            },
+            "ndvi_global_1km_10daily_v3",
+        ),
+        (
+            {
+                "identifier": "urn:cgls:global:not_in_mapping:LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1"
+            },
+            None,
+        ),
+        (
+            {
+                "identifier": "urn:cgls:global:lie_nh_v1_500m:LIE-NH_202104010000_NHEMI_SLSTR_1.1.1"
+            },
+            None,
+        ),
+        ({"identifier": "LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1"}, None),
+    ],
 )
 def test_get_dataset_identifier_from_identifier_tag(tags, expected):
     assert get_dataset_identifier_from_identifier_tag(tags) == expected
