@@ -64,6 +64,12 @@ DATASET = {  # product name regex to collection identifier
     re.compile(
         r"c_gls_WB300_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
     ): "wb_global_300m_monthly_v{version_major}",
+    re.compile(
+        r"c_gls_LWQ1km_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d).\d)"
+    ): "lwq-nrt_global_1km_10daily_v{version_major}",
+    re.compile(
+        r"c_gls_LWQ1km_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d).\d)"
+    ): "lwq-reproc_global_1km_10daily_v{version_major}",
 }
 
 PRODUCT = {  # dataset name to collection identifier
