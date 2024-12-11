@@ -10,7 +10,7 @@ from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.constants import attributes, lookup_tables
+from clms_metadata.constants import attributes
 from clms_metadata.models import (
     ContentDate,
     ListStringAttribute,
@@ -77,35 +77,7 @@ class FileSource(MetadataSource):
                     value_type=StringAttribute,
                     factory=lambda: self.get_processing_center(tags),
                 )
-                if not metadata.has_attribute(attributes.PLATFORM_SHORT_NAME):
-                    platform_dict = get_platform(tags)
-                    platformShortNames = list(platform_dict.keys())
-                    platforSerialIdentifiers = [
-                        serial for v in platform_dict.values() if v for serial in v
-                    ]
-
-                    metadata.add_attribute(
-                        name=attributes.PLATFORM_SHORT_NAME
-                        if len(platformShortNames) == 1
-                        else attributes.PLATFORM_SHORT_NAMES,
-                        value_type=StringAttribute
-                        if len(platformShortNames) == 1
-                        else ListStringAttribute,
-                        factory=lambda: platformShortNames[0]
-                        if len(platformShortNames) == 1
-                        else platformShortNames,
-                    )
-                    metadata.add_attribute(
-                        name=attributes.PLATFORM_SERIAL_IDENTIFIER
-                        if len(platforSerialIdentifiers) == 1
-                        else attributes.PLATFORM_SERIAL_IDENTIFIERS,
-                        value_type=StringAttribute
-                        if len(platforSerialIdentifiers) == 1
-                        else ListStringAttribute,
-                        factory=lambda: platforSerialIdentifiers[0]
-                        if len(platforSerialIdentifiers) == 1
-                        else platforSerialIdentifiers,
-                    )
+                metadata = set_platform(tags.get("platform"), metadata)
 
                 instrumentShortNames = [
                     s.strip() for s in tags.get("sensor").split(",")
@@ -142,6 +114,7 @@ class FileSource(MetadataSource):
         with open(path) as f:
             content = json.load(f)
         properties = content["properties"]
+        logger.debug(properties)
         if (
             not metadata.content_date
             and "time_coverage_start" in properties
@@ -153,9 +126,9 @@ class FileSource(MetadataSource):
             )
 
         if "lake" in properties:
-            dataset_id = f"wl-lakes_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION)}"
+            dataset_id = f"wl-lakes_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION).value}"
         elif "river" in properties:
-            dataset_id = f"wl-rivers_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION)}"
+            dataset_id = f"wl-rivers_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION).value}"
         else:
             raise ValueError
 
@@ -176,18 +149,63 @@ class FileSource(MetadataSource):
             else institution.split(",")[0].upper(),
         )
 
+        if "platform" in properties:
+            metadata = set_platform(properties["platform"], metadata)
+
         return metadata
 
 
-def get_platform(tags: dict) -> dict[str, list[str] | None]:
+def set_platform(platformstr: str, metadata: Metadata) -> Metadata:
     """
-    Get the platform information from the 'platform' tag in the raster metadata.
-    Returns a tuple of platformShortName and platformSerialIdentifier.
+    Set the platform information on the metadata object.
 
-    :param tags: raster metadata tags
+    :param platformstr: platform string
+    :param metadata: metadata object
+    :return: updated metadata object
+    """
+    platform_dict = parse_platform(platformstr)
+    platformShortNames = list(platform_dict.keys())
+    platforSerialIdentifiers = [
+        serial for v in platform_dict.values() if v for serial in v
+    ]
+
+    metadata.add_attribute(
+        name=attributes.PLATFORM_SHORT_NAME
+        if len(platformShortNames) == 1
+        else attributes.PLATFORM_SHORT_NAMES,
+        value_type=StringAttribute
+        if len(platformShortNames) == 1
+        else ListStringAttribute,
+        factory=lambda: platformShortNames[0]
+        if len(platformShortNames) == 1
+        else platformShortNames
+        if platformShortNames
+        else None,
+    )
+    metadata.add_attribute(
+        name=attributes.PLATFORM_SERIAL_IDENTIFIER
+        if len(platforSerialIdentifiers) == 1
+        else attributes.PLATFORM_SERIAL_IDENTIFIERS,
+        value_type=StringAttribute
+        if len(platforSerialIdentifiers) == 1
+        else ListStringAttribute,
+        factory=lambda: platforSerialIdentifiers[0]
+        if len(platforSerialIdentifiers) == 1
+        else platforSerialIdentifiers
+        if platforSerialIdentifiers
+        else None,
+    )
+    return metadata
+
+
+def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
+    """
+    Get the platform information from the 'platform' metadata string.
+    Returns a dictionary of platformShortName to platformSerialIdentifier.
+
+    :param platformstr: platform metadata string
     :return: platform information
     """
-    platformstr = tags.get("platform")
     platformstr = (
         platformstr.upper().replace("_", "-").replace("SUOMI-NPP", "SUOMI NPP").strip()
     )
@@ -266,9 +284,4 @@ def get_platform(tags: dict) -> dict[str, list[str] | None]:
             platforms[platform_short] = platforms.get(platform_short, list()) + [serial]
         if platf in ignore:
             platforms.pop(platf)
-    if platforms == {}:
-        if mapped_platform := lookup_tables.SENSOR_PLATFORM_MAPPING.get(
-            tags.get("sensor", "")
-        ):
-            platforms[mapped_platform] = None
     return platforms

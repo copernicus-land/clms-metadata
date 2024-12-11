@@ -1,6 +1,6 @@
 import pytest
 
-from clms_metadata.source.file import get_platform
+from clms_metadata.source.file import parse_platform
 
 
 @pytest.mark.parametrize(
@@ -95,4 +95,4 @@ from clms_metadata.source.file import get_platform
     ],
 )
 def test_get_platform(platformstr, expected):
-    assert get_platform({"platform": platformstr}) == expected
+    assert parse_platform({"platform": platformstr}) == expected
