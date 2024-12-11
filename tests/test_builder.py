@@ -136,7 +136,7 @@ def test_dmp_300m_v1_10daily_geotiff():
 )
 def test_cls_netcdf_products(
     file_name
-):  # , resolution, platform_name, instrument_name):
+):
     with open(test_data / "cls" / "cls_datasets_expected_metadata.json", "r") as f:
         expected_data = [
             d for d in json.load(f) if d.get("name") == file_name.replace(".nc", "")

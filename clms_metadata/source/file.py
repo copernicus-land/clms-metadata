@@ -8,6 +8,7 @@ import shapely.geometry
 from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
+from typing_extensions import Optional
 
 from clms_metadata.constants import attributes, lookup_tables
 from clms_metadata.models import (
@@ -118,6 +119,12 @@ class FileSource(MetadataSource):
                     if len(instrumentShortNames) == 1
                     else instrumentShortNames,
                 )
+                if dataset_identifier := get_dataset_identifier_from_identifier_tag(tags):
+                    metadata.add_attribute(
+                        name=attributes.DATASET_IDENTIFIER,
+                        value_type=StringAttribute,
+                        factory=lambda: dataset_identifier,
+                    )
 
         return metadata
 
@@ -229,3 +236,34 @@ def get_platform(tags: dict) -> dict[str, list[str] | None]:
         ):
             platforms[mapped_platform] = None
     return platforms
+
+def get_dataset_identifier_from_identifier_tag(tags: dict) -> Optional[str]:
+    """
+    Extract the product identifier from the raster metadata and try to find a matching CDSE dataset identifier
+    based on parent and product id.
+
+    When encountering exceptions None is returned so the "lookup" logic can still try to find a match.
+    :param tags: the raster metadata tags
+    :return: the CDSE dataset identifier if correctly constructed
+    """
+    identifier = tags.get("identifier")
+
+    try:
+        if not identifier:
+            raise(ValueError("No identifier found in raster metadata"))
+
+        identifier_parts = identifier.split(":")
+        file_identifier = identifier_parts[-1]
+        parent_identifier = identifier_parts[-2]
+        dataset_identifier = lookup_tables.IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING[parent_identifier]
+
+        version_matcher = re.compile(r"[vV]\d+(\.\d+)+")
+        version = version_matcher.search(file_identifier).group()
+        dataset_identifier = dataset_identifier.format(version_major=version.split(".")[0][1:])
+    except (IndexError, KeyError, re.error, ValueError, AttributeError) as e:
+        logger.warning(f"Could not extract dataset identifier from {tags.get('identifier')} due to {repr(e)}")
+        return None
+
+    return dataset_identifier
+
+
