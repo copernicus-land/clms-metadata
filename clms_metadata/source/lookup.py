@@ -140,30 +140,30 @@ class LookupSource(MetadataSource):
                     )
 
         metadata.add_attribute(
-            name=attributes.SPATIAL_EXTENT,
+            name=attributes.AREA_OF_INTEREST,
             value_type=StringAttribute,
             factory=lambda: get_spatial_extent(collection_identifier),
         )
 
         metadata.add_attribute(
-            attributes.NOMINAL_RESOLUTION_METERS,
+            attributes.METRIC_GRID_SPACING,
             IntegerAttribute,
             lambda: get_resolution(collection_identifier),
         )
         metadata.add_attribute(
-            name=attributes.NOMINAL_RESOLUTION,
+            name=attributes.GRID_LABEL,
             value_type=StringAttribute,
             factory=lambda: collection_identifier.split("_")[2],
         )
         metadata.add_attribute(
-            name=attributes.TEMPORAL_GRID,
+            name=attributes.TEMPORAL_REPEAT_RATE,
             value_type=StringAttribute,
             factory=lambda: get_temporal_grid(collection_identifier),
         )
 
         if metadata.has_attribute(attributes.CONSOLIDATION_PERIOD):
             temporal_grid_delta = get_relativedelta(
-                metadata.get_attribute(attributes.TEMPORAL_GRID).value
+                metadata.get_attribute(attributes.TEMPORAL_REPEAT_RATE).value
             )
             if not matches_temporal_grid(metadata.content_date, temporal_grid_delta):
                 logger.info(
