@@ -1,7 +1,8 @@
 Configuration
 -------------
 
-The application can be configured using environment variables or a YAML file.
+The configuration of the application is handled by `pydantic-settings`. This makes it possible to configure the application
+by providing a YAML file, or overwriting default settings values via environment variables.
 Environment variable names are the same as the field name in the :obj:`~clms_metadata.config.Settings` model below.
 For nested settings, the ``__`` delimiter should be used. For example, to adjust the geometry precision, you can override the default by setting this environment variable:
 
