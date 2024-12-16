@@ -20,6 +20,7 @@
         "temporalRepeatRate": "daily",
         "platformShortName": "SENTINEL-3",
         "wlRiverName": "Alto-madre-de-dios-trib-01",
-        "wlBasinName": "Amazonas"
+        "wlBasinName": "Amazonas",
+        "productVersion": "v2.2.0"
     }
 }

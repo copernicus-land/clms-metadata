@@ -49,7 +49,7 @@ class ElasticsearchSource(MetadataSource):
         metadata.add_attribute(
             name="tileId",
             value_type=StringAttribute,
-            factory=lambda: doc["properties"]["tileid"],
+            factory=lambda: doc["properties"].get("tileid"),
         )
 
         return metadata

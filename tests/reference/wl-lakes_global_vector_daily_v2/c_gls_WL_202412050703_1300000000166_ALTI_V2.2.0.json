@@ -19,6 +19,7 @@
         "areaOfInterest": "global",
         "temporalRepeatRate": "daily",
         "wlLakeName": "rukwa",
-        "wlBasinName": "Rukwa"
+        "wlBasinName": "Rukwa",
+        "productVersion": "v2.2.0"
     }
 }

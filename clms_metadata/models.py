@@ -106,15 +106,12 @@ MANDATORY_ATTRIBUTES = {
     attributes.COMPONENT: StringAttribute,  # TODO: to be moved to main properties?
     attributes.FILE_FORMAT: StringAttribute,
     attributes.TEMPORAL_REPEAT_RATE: StringAttribute,
-    attributes.PRODUCT_VERSION: StringAttribute,  # TODO: should this be kept?
+    attributes.PRODUCT_VERSION: StringAttribute,
     attributes.AREA_OF_INTEREST: StringAttribute,
 }
 
 OPTIONAL_ATTRIBUTES = {
     # only checked to have the following type when they are present
-    "tileId": StringAttribute,
-    "relativeOrbitNumber": IntegerAttribute,
-    "productGroupId": StringAttribute,  # TODO: still relevant?
     attributes.CONSOLIDATION_PERIOD: IntegerAttribute,
     attributes.SEASON: StringAttribute,
     attributes.PRODUCT_VARIABLE: StringAttribute,
