@@ -28,6 +28,7 @@ class FileSource(MetadataSource):
     def get_info(
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
+        super().get_info(product_files, metadata)
         for path in product_files:
             if path.suffix.lower() in (".nc", ".tiff", ".tif"):
                 metadata = self._get_info_raster(path, metadata)

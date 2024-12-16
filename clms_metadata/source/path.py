@@ -32,6 +32,7 @@ class PathSource(MetadataSource):
     def get_info(
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
+        super().get_info(product_files, metadata)
         if len(product_files) == 1:
             product_id = product_files[0].stem
         else:

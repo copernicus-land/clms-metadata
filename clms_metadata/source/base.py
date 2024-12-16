@@ -4,6 +4,7 @@ from pathlib import Path
 
 from autoregistry import Registry
 from cloudpathlib import CloudPath
+from loguru import logger
 
 from clms_metadata.config import Settings
 from clms_metadata.models import Metadata
@@ -31,4 +32,4 @@ class MetadataSource(abc.ABC, Registry, suffix="Source"):
         :param metadata: information dictionary
         :return: updated information dictionary
         """
-        pass
+        logger.info("Retrieving metadata using {}", type(self).__name__)

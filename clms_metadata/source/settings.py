@@ -14,6 +14,7 @@ class SettingsSource(MetadataSource):
     def get_info(
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
+        super().get_info(product_files, metadata)
         if self.settings.metadata is None:
             return metadata
 

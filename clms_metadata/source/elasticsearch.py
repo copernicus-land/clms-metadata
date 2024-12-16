@@ -29,6 +29,7 @@ class ElasticsearchSource(MetadataSource):
     def get_info(
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
+        super().get_info(product_files, metadata)
         _id = product_files[0].stem
 
         doc = self.client.get(index=self.index, id=_id)["_source"]

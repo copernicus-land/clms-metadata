@@ -109,6 +109,7 @@ class LookupSource(MetadataSource):
     def get_info(
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
+        super().get_info(product_files, metadata)
         if not metadata.has_attribute(attributes.DATASET_IDENTIFIER):
             if collection_identifier := self.extract_collection_id(
                 file_name=metadata.name
