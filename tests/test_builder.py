@@ -14,56 +14,36 @@ test_root = Path(__file__).parent
 
 
 @pytest.mark.parametrize(
-    ("name", "files", "suffix", "content_type", "platform", "instrument"),
+    ("files", "reference"),
     [
         (
-            "c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1",
             (
                 test_root
                 / "data/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
             ),
-            "nc",
-            "application/netcdf",
-            "PROBA-V",
-            "VEGETATION",
+            test_root
+            / "reference/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1_nc.json5",
         ),
         (
-            "c_gls_NDVI_199901010000_GLOBE_VGT_V3.0.1",
             tuple(
                 test_data
                 / "ndvi_global_1km_10daily_v3"
                 / f"c_gls_NDVI-{band}_199901010000_GLOBE_VGT_V3.0.1.tiff"
                 for band in ("NDVI", "NOBS", "QFLAG", "TIMEGRID", "UNC")
             ),
-            "cog",
-            "application/tiff",
-            "SPOT-4",
-            "VEGETATION-1",
+            test_root
+            / "reference/ndvi_global_1km_10daily_v3/c_gls_NDVI_199901010000_GLOBE_VGT_V3.0.1_cog.json5",
         ),
     ],
 )
-def test_ndvi_1km_v3_10daily(name, files, suffix, content_type, platform, instrument):
+def test_ndvi_1km_v3_10daily(files, reference):
     assert all(p.exists() for p in files)
 
     builder = MetadataBuilder(
         storage=LocalFileSystem(), settings=Settings(link=LinkSettings(value="test"))
     )
     m = builder.build(files)
-    assert m.name == name
-    assert m.name_suffix == suffix
-    assert m.content_type == content_type
-    assert m.get_attribute("metricGridSpacing").value == 1000
-    assert m.get_attribute("gridLabel").value == "1km"
-    assert m.get_attribute("platformShortName").value == platform
-    assert m.get_attribute("instrumentShortName").value == instrument
-    assert m.get_attribute("processingCenter").value == "VITO"
-    assert m.product_type == "vegetation_indices"
-    assert m.get_attribute("datasetIdentifier").value == "ndvi_global_1km_10daily_v3"
-    assert m.get_attribute("datasetAlias").value == "ndvi_global_1km_10daily"
-    assert m.get_attribute("datasetVersion").value == 3
-    assert m.get_attribute("component").value == "bio-geophysical"
-    assert m.get_attribute("fileFormat").value == suffix
-    assert m.get_attribute("temporalRepeatRate").value == "10-daily"
+    compare_with_reference(m, reference)
 
 
 @pytest.mark.parametrize(
