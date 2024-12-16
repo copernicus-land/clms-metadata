@@ -13,7 +13,7 @@
         "fileFormat": "geojson",
         "datasetIdentifier": "wl-lakes_global_vector_daily_v2",
         "processingCenter": "CLS",
-        "datasetShortName": "wl-lakes",
+        "datasetShortName": "lwl",
         "datasetAlias": "wl-lakes_global_vector_daily",
         "component": "bio-geophysical",
         "areaOfInterest": "global",

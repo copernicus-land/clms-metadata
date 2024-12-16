@@ -30,6 +30,7 @@ dev = [
     "pre-commit",
     "ruff",
     "pytest",
+    "pyjson5"
 ]
 docs = [
     "sphinx~=8.1.3",

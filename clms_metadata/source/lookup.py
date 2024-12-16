@@ -8,6 +8,13 @@ from dateutil.relativedelta import relativedelta
 from loguru import logger
 
 from clms_metadata.constants import attributes, lookup_tables
+from clms_metadata.constants.lookup_tables import (
+    COMPONENT_TO_PRODUCT_TYPES,
+    DATASET_NAME_TO_SHORT_NAME,
+    DATASET_SHORT_NAMES,
+    DATASET_TO_PRODUCT_TYPE,
+    PRODUCT_NAME_TO_DATASET,
+)
 from clms_metadata.models import (
     ContentDate,
     IntegerAttribute,
@@ -18,87 +25,6 @@ from clms_metadata.source import MetadataSource
 
 REGEX_RESOLUTION = re.compile(r"_(([\d.]+)(m|km))_")
 REGEX_NUM_TEMPORAL = re.compile(r"(\d+)([a-z]+)")
-DATASET = {  # product name regex to collection identifier
-    re.compile(
-        r"c_gls_NDVI_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "ndvi_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_DMP300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "dmp_global_300m_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_FAPAR300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "fapar_global_300m_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LSWT_\d{12}_GLOBE_AATSR_v(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "lswt-offline_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LSWT_\d{12}_GLOBE_SLSTR(?:A|AB)_v(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "lswt-nrt_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LWQ300_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "lwq-nrt_global_300m_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LWQ300_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "lwq-reproc_global_300m_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LWQ100_\d{12}_GLOBAL_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d)"
-    ): "lwq-nrt_global_100m_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LIE-NH_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "lie_northernhemisphere_500m_daily_v{version_major}",
-    re.compile(
-        r"c_gls_LIE250_\d{12}_Baltic_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "lie_baltic_250m_daily_v{version_major}",
-    re.compile(
-        r"c_gls_SCE500_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "sce_europe_500m_daily_v{version_major}",
-    re.compile(
-        r"c_gls_SCE_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "sce_northernhemisphere_1km_daily_v{version_major}",
-    re.compile(
-        r"c_gls_SWE5K_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "swe_northernhemisphere_5km_daily_v{version_major}",
-    re.compile(
-        r"c_gls_WB100_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "wb_global_100m_monthly_v{version_major}",
-    re.compile(
-        r"c_gls_WB300_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
-    ): "wb_global_300m_monthly_v{version_major}",
-    re.compile(
-        r"c_gls_LWQ1km_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d).\d)"
-    ): "lwq-nrt_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LWQ1km_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d).\d)"
-    ): "lwq-reproc_global_1km_10daily_v{version_major}",
-}
-
-PRODUCT = {  # dataset name to collection identifier
-    re.compile(r"ndvi[_-]"): "vegetation_indices",
-    re.compile(r"g?dmp[_-]"): "dry-gross_dry_matter_productivity",
-    re.compile(r"wl-(rivers|lakes)_"): "river_and_lake_water_level",
-    re.compile(r"(fapar|fcover|lai)[_-]"): "vegetation_properties",
-    re.compile(r"^sce"): "snow_cover_extent",
-    re.compile(r"^swe"): "snow_water_equivalent",
-    re.compile(r"^lswt"): "land_surface_temperature",
-    re.compile(r"^wb"): "water_bodies",
-    re.compile(r"^lwq"): "lake_water_quality",
-    re.compile(r"^lie"): "river_and_lake_ice_extent",
-}
-
-COMPONENT = {  # components to product types
-    "bio-geophysical": {
-        "vegetation_indices",
-        "dry-gross_dry_matter_productivity",
-        "snow_cover_extent",
-        "snow_water_equivalent",
-        "land_surface_temperature",
-        "water_bodies",
-        "lake_water_quality",
-        "river_and_lake_ice_extent",
-        "vegetation_properties",
-        "river_and_lake_water_level",
-    }
-}
 
 
 class LookupSource(MetadataSource):
@@ -111,32 +37,32 @@ class LookupSource(MetadataSource):
     ) -> Metadata:
         super().get_info(product_files, metadata)
         if not metadata.has_attribute(attributes.DATASET_IDENTIFIER):
-            if collection_identifier := self.extract_collection_id(
+            if dataset_identifier := self.extract_collection_id(
                 file_name=metadata.name
             ):
                 metadata.add_attribute(
                     name=attributes.DATASET_IDENTIFIER,
                     value_type=StringAttribute,
-                    factory=lambda: collection_identifier,
+                    factory=lambda: dataset_identifier,
                 )
-        collection_identifier = metadata.get_attribute(
-            attributes.DATASET_IDENTIFIER
-        ).value
+        dataset_identifier = metadata.get_attribute(attributes.DATASET_IDENTIFIER).value
         metadata.add_attribute(
             name=attributes.DATASET_SHORT_NAME,
             value_type=StringAttribute,
-            factory=lambda: collection_identifier.split("_")[0],
+            factory=lambda: part
+            if (part := dataset_identifier.split("_")[0]) in DATASET_SHORT_NAMES
+            else self.lookup_short_name(dataset_identifier),
         )  # TODO: check if correct
         metadata.add_attribute(
             name=attributes.DATASET_ALIAS,
             value_type=StringAttribute,
-            factory=lambda: collection_identifier[: collection_identifier.rfind("_")],
+            factory=lambda: dataset_identifier[: dataset_identifier.rfind("_")],
         )
 
         if not metadata.product_type:
-            metadata.product_type = self.determine_product_type(collection_identifier)
+            metadata.product_type = self.determine_product_type(dataset_identifier)
         if not metadata.has_attribute(attributes.COMPONENT):
-            for component, product_types in COMPONENT.items():
+            for component, product_types in COMPONENT_TO_PRODUCT_TYPES.items():
                 if metadata.product_type in product_types:
                     metadata.add_attribute(
                         attributes.COMPONENT, StringAttribute, lambda: component
@@ -145,25 +71,25 @@ class LookupSource(MetadataSource):
         metadata.add_attribute(
             name=attributes.AREA_OF_INTEREST,
             value_type=StringAttribute,
-            factory=lambda: get_spatial_extent(collection_identifier),
+            factory=lambda: get_spatial_extent(dataset_identifier),
         )
 
         metadata.add_attribute(
             attributes.METRIC_GRID_SPACING,
             IntegerAttribute,
-            lambda: get_resolution(collection_identifier),
+            lambda: get_resolution(dataset_identifier),
         )
         metadata.add_attribute(
             name=attributes.GRID_LABEL,
             value_type=StringAttribute,
             factory=lambda: match.group(1)
-            if (match := REGEX_RESOLUTION.search(collection_identifier))
+            if (match := REGEX_RESOLUTION.search(dataset_identifier))
             else None,
         )
         metadata.add_attribute(
             name=attributes.TEMPORAL_REPEAT_RATE,
             value_type=StringAttribute,
-            factory=lambda: get_temporal_grid(collection_identifier),
+            factory=lambda: get_temporal_grid(dataset_identifier),
         )
 
         if metadata.has_attribute(attributes.CONSOLIDATION_PERIOD):
@@ -205,7 +131,7 @@ class LookupSource(MetadataSource):
         :return: The collection identifier of the collection to which the file belongs.
         :raises ValueError: No match was found
         """
-        for regex, value in DATASET.items():
+        for regex, value in PRODUCT_NAME_TO_DATASET.items():
             if match := regex.match(file_name):
                 return value.format_map(match.groupdict())
         raise ValueError(
@@ -219,9 +145,20 @@ class LookupSource(MetadataSource):
         :param collection_id: The identifier of the collection
         :return: The product type of the collection if a match is found, None otherwise
         """
-        for regex, product_type in PRODUCT.items():
+        for regex, product_type in DATASET_TO_PRODUCT_TYPE.items():
             if regex.match(collection_id):
                 return product_type
+
+    @staticmethod
+    def lookup_short_name(dataset_identifier: str) -> Optional[str]:
+        """
+        Look for the dataset short name based on the dataset identifier.
+        :param dataset_identifier: dataset identifier
+        :return: dataset short name iff a match is found, None otherwise
+        """
+        for regex, short_name in DATASET_NAME_TO_SHORT_NAME.items():
+            if regex.match(dataset_identifier):
+                return short_name
 
 
 def get_resolution(collection_identifier: str) -> int | None:

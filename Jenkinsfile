@@ -5,6 +5,7 @@ pythonPipeline {
   python_version          = ['3.10', '3.12']
   create_tag_job          = true
   run_tests               = true
+  extras_require          = 'dev'
   build_container_image   = true
   docker_deploy           = false
   docker_registry_prod    = 'vito-docker.artifactory.vgt.vito.be'

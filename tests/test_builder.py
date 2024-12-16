@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import pyjson5
 import pytest
 
 from clms_metadata.builder import MetadataBuilder
@@ -190,7 +191,7 @@ def test_cls_netcdf_products(file_name):
             test_root
             / "data/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
             test_root
-            / "reference/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
+            / "reference/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json5",
         ),
     ],
 )
@@ -211,7 +212,7 @@ def compare_with_reference(m: Metadata, reference: Path):
     :return:
     """
     with open(reference) as f:
-        expected = json.load(f)
+        expected = pyjson5.load(f)
 
     m_dict = m.model_dump()
     expected_attributes = expected.pop("attributes")

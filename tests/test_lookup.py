@@ -3,6 +3,7 @@ import random
 
 import pytest
 
+import clms_metadata.constants.lookup_tables
 from clms_metadata.source import lookup
 
 
@@ -22,11 +23,11 @@ def shuffle_dict(d: dict) -> dict:
 @pytest.mark.parametrize(
     "dataset_dict",
     [
-        copy.deepcopy(lookup.DATASET),
-        shuffle_dict(lookup.DATASET),
-        shuffle_dict(lookup.DATASET),
-        shuffle_dict(lookup.DATASET),
-        shuffle_dict(lookup.DATASET),
+        copy.deepcopy(clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET),
+        shuffle_dict(clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET),
+        shuffle_dict(clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET),
+        shuffle_dict(clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET),
+        shuffle_dict(clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET),
     ],
 )
 @pytest.mark.parametrize(
@@ -97,7 +98,7 @@ def shuffle_dict(d: dict) -> dict:
     ],
 )
 def test_extract_collection_id_from_cls_filename(dataset_dict, filename, target):
-    lookup.DATASET = dataset_dict
+    clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET = dataset_dict
     filename_with_date = filename.replace("<unique>", "201604210000")
     if isinstance(target, str):
         assert lookup.LookupSource.extract_collection_id(filename_with_date) == target
@@ -109,11 +110,11 @@ def test_extract_collection_id_from_cls_filename(dataset_dict, filename, target)
 @pytest.mark.parametrize(
     "dataset_dict",
     [
-        copy.deepcopy(lookup.PRODUCT),
-        shuffle_dict(lookup.PRODUCT),
-        shuffle_dict(lookup.PRODUCT),
-        shuffle_dict(lookup.PRODUCT),
-        shuffle_dict(lookup.PRODUCT),
+        copy.deepcopy(clms_metadata.constants.lookup_tables.DATASET_TO_PRODUCT_TYPE),
+        shuffle_dict(clms_metadata.constants.lookup_tables.DATASET_TO_PRODUCT_TYPE),
+        shuffle_dict(clms_metadata.constants.lookup_tables.DATASET_TO_PRODUCT_TYPE),
+        shuffle_dict(clms_metadata.constants.lookup_tables.DATASET_TO_PRODUCT_TYPE),
+        shuffle_dict(clms_metadata.constants.lookup_tables.DATASET_TO_PRODUCT_TYPE),
     ],
 )
 @pytest.mark.parametrize(
