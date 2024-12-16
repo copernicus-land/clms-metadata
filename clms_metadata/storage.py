@@ -65,6 +65,7 @@ class S3(Storage):
             endpoint_url=str(settings.s3.endpoint),
             aws_access_key_id=settings.s3.aws_access_key_id.get_secret_value(),
             aws_secret_access_key=settings.s3.aws_secret_access_key.get_secret_value(),
+            no_sign_request=settings.s3.no_sign_request,
         )
 
     def glob(self, path: str) -> Iterator[str]:

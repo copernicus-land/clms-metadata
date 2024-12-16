@@ -24,10 +24,13 @@ class S3Settings(BaseModel):
         default_factory=lambda: AnyUrl(os.getenv("AWS_ENDPOINT_URL"))
     )
     aws_access_key_id: SecretStr = Field(
-        default=SecretStr(os.getenv("AWS_ACCESS_KEY_ID"))
+        default_factory=lambda: SecretStr(os.getenv("AWS_ACCESS_KEY_ID"))
     )
     aws_secret_access_key: SecretStr = Field(
-        default=SecretStr(os.getenv("AWS_SECRET_ACCESS_KEY"))
+        default_factory=lambda: SecretStr(os.getenv("AWS_SECRET_ACCESS_KEY"))
+    )
+    no_sign_request: bool = Field(
+        default_factory=lambda: os.getenv("AWS_NO_SIGN_REQUEST", False)
     )
 
 
