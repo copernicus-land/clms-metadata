@@ -139,8 +139,18 @@ class FileSource(MetadataSource):
 
         if "lake" in properties:
             dataset_id = f"wl-lakes_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION).value}"
+            metadata.add_attribute(
+                name=attributes.WATER_LEVEL_LAKE_NAME,
+                value_type=StringAttribute,
+                factory=lambda: properties.get("lake"),
+            )
         elif "river" in properties:
             dataset_id = f"wl-rivers_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION).value}"
+            metadata.add_attribute(
+                name=attributes.WATER_LEVEL_RIVER_NAME,
+                value_type=StringAttribute,
+                factory=lambda: properties.get("river"),
+            )
         else:
             dataset_id = None
             logger.warning("Cannot determine dataset ID based on JSON properties")
@@ -149,6 +159,11 @@ class FileSource(MetadataSource):
             name=attributes.DATASET_IDENTIFIER,
             value_type=StringAttribute,
             factory=lambda: dataset_id,
+        )
+        metadata.add_attribute(
+            name=attributes.WATER_LEVEL_BASIN_NAME,
+            value_type=StringAttribute,
+            factory=lambda: properties.get("basin"),
         )
 
         metadata.geometry = content["geometry"]

@@ -17,6 +17,8 @@
         "datasetAlias": "wl-lakes_global_vector_daily",
         "component": "bio-geophysical",
         "areaOfInterest": "global",
-        "temporalRepeatRate": "daily"
+        "temporalRepeatRate": "daily",
+        "wlLakeName": "rukwa",
+        "wlBasinName": "Rukwa"
     }
 }

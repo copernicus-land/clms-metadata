@@ -18,6 +18,8 @@
         "component": "bio-geophysical",
         "areaOfInterest": "global",
         "temporalRepeatRate": "daily",
-        "platformShortName": "SENTINEL-3"
+        "platformShortName": "SENTINEL-3",
+        "wlRiverName": "Alto-madre-de-dios-trib-01",
+        "wlBasinName": "Amazonas"
     }
 }

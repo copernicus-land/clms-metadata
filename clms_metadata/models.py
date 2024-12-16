@@ -6,6 +6,7 @@ from typing import Annotated, Any, Literal, Type
 import ciso8601
 from cloudpathlib import CloudPath
 from geojson_pydantic.geometries import Geometry
+from loguru import logger
 from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, field_validator
 from pydantic.functional_serializers import PlainSerializer
 from pydantic.functional_validators import AfterValidator
@@ -105,7 +106,7 @@ MANDATORY_ATTRIBUTES = {
     attributes.COMPONENT: StringAttribute,  # TODO: to be moved to main properties?
     attributes.FILE_FORMAT: StringAttribute,
     attributes.TEMPORAL_REPEAT_RATE: StringAttribute,
-    "productVersion": StringAttribute,  # TODO: should this be kept?
+    attributes.PRODUCT_VERSION: StringAttribute,  # TODO: should this be kept?
     attributes.AREA_OF_INTEREST: StringAttribute,
 }
 
@@ -119,6 +120,9 @@ OPTIONAL_ATTRIBUTES = {
     attributes.PRODUCT_VARIABLE: StringAttribute,
     attributes.METRIC_GRID_SPACING: IntegerAttribute,  # not applicable for GeoJSON datasets
     attributes.GRID_LABEL: StringAttribute,  # not applicable for GeoJSON datasets
+    attributes.WATER_LEVEL_RIVER_NAME: StringAttribute,
+    attributes.WATER_LEVEL_LAKE_NAME: StringAttribute,
+    attributes.WATER_LEVEL_BASIN_NAME: StringAttribute,
 }
 
 
@@ -239,7 +243,12 @@ class Metadata(BaseModel):
         if not self.has_attribute(name):
             value = factory()
             if value is not None:
+                logger.debug("Adding attribute {}: {}", name, value)
                 self.attributes.append(value_type(name=name, value=value))
+            else:
+                logger.debug("No value for attribute {}, skipping.", name)
+        else:
+            logger.debug("Attribute {} already exists, skipping.", name)
 
 
 @partial_model
