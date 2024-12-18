@@ -1,7 +1,9 @@
 import re
 
-SENSOR_PLATFORM_MAPPING = {  # Some files have no platform metadata, so we need to derive it from the sensor name
-    "OLCI": "SENTINEL-3"
+INSTRUMENT_MISSION_MAPPING = {  # Some products have no mission metadata, so we need to derive it from the instrument name
+    "OLCI": "SENTINEL-3",
+    "SLSTR": "SENTINEL-3",
+    "MSI": "SENTINEL-2",
 }
 
 IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {

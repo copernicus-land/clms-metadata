@@ -81,19 +81,15 @@ class FileSource(MetadataSource):
                 )
                 metadata = set_platform(tags.get("platform"), metadata)
 
-                instrumentShortNames = [
-                    s.strip() for s in tags.get("sensor").split(",")
-                ]
+                sensors = [s.strip() for s in tags.get("sensor").split(",")]
                 metadata.add_attribute(
                     name=attributes.INSTRUMENT_SHORT_NAME
-                    if len(instrumentShortNames) == 1
+                    if len(sensors) == 1
                     else attributes.INSTRUMENT_SHORT_NAMES,
                     value_type=StringAttribute
-                    if len(instrumentShortNames) == 1
+                    if len(sensors) == 1
                     else ListStringAttribute,
-                    factory=lambda: instrumentShortNames[0]
-                    if len(instrumentShortNames) == 1
-                    else instrumentShortNames,
+                    factory=lambda: sensors[0] if len(sensors) == 1 else sensors,
                 )
                 if dataset_identifier := get_dataset_identifier_from_identifier_tag(
                     tags
@@ -340,6 +336,9 @@ def get_dataset_identifier_from_identifier_tag(tags: dict) -> Optional[str]:
         version = version_matcher.search(file_identifier).group()
         dataset_identifier = dataset_identifier.format(
             version_major=version.split(".")[0][1:]
+        )
+        logger.debug(
+            "Extracted dataset identifier {} from {}", dataset_identifier, identifier
         )
     except (IndexError, KeyError, re.error, ValueError, AttributeError) as e:
         logger.warning(

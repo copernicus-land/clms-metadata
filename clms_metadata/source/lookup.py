@@ -25,6 +25,7 @@ from clms_metadata.source import MetadataSource
 
 REGEX_RESOLUTION = re.compile(r"_(([\d.]+)(m|km))_")
 REGEX_NUM_TEMPORAL = re.compile(r"(\d+)([a-z]+)")
+REGEX_SENTINEL = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
 
 
 class LookupSource(MetadataSource):
@@ -109,12 +110,12 @@ class LookupSource(MetadataSource):
                 )
 
         if not metadata.has_attribute(
-            attributes.PLATFORM_SHORT_NAME
+            attributes.MISSION_SHORT_NAME
         ) and metadata.has_attribute(attributes.INSTRUMENT_SHORT_NAME):
             metadata.add_attribute(
-                name=attributes.PLATFORM_SHORT_NAME,
+                name=attributes.MISSION_SHORT_NAME,
                 value_type=StringAttribute,
-                factory=lambda: lookup_tables.SENSOR_PLATFORM_MAPPING.get(
+                factory=lambda: lookup_tables.INSTRUMENT_MISSION_MAPPING.get(
                     metadata.get_attribute(attributes.INSTRUMENT_SHORT_NAME).value, None
                 ),
             )
@@ -293,3 +294,18 @@ def calculate_content_date(
         end = nominal_date.replace(hour=23, minute=59, second=59, microsecond=999000)
 
     return ContentDate(start=start, end=end)
+
+
+def get_platform_acronym(platform_short_name: str) -> str:
+    """
+    Extract the platform acronym from the platform short name.
+    Currently, only the behaviour for Sentinel platforms is defined.
+    In all other cases, the original platform short name is returned.
+
+    :param platform_short_name: platform short name
+    :return: platform acronym
+    """
+    if m := REGEX_SENTINEL.match(platform_short_name):
+        return f"S{m.group(2)}{m.group(3)}"
+    else:
+        return platform_short_name
