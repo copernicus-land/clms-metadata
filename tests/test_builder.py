@@ -149,6 +149,7 @@ def test_cls_netcdf_products(file_name):
         "component",
         "fileFormat",
         "temporalRepeatRate",
+        "areaOfInterest",
     }
 
     assert_dict.update(
