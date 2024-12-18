@@ -1,7 +1,6 @@
 {
     "name": "c_gls_NDVI_199901010000_GLOBE_VGT_V3.0.1",
     "name_suffix": "cog",
-    "origin_date": "2024-12-05T13:06:55.798364Z",
     "content_type": "application/tiff",
     "product_type": "vegetation_indices",
     "content_date": {
