@@ -139,3 +139,7 @@ DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"lwq"): "lwq",
     re.compile(r"lswt"): "lswt",
 }
+
+SPATIAL_EXTENT_MAPPING = {
+    "northernhemisphere": "northern hemisphere"
+}

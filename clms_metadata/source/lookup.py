@@ -14,6 +14,7 @@ from clms_metadata.constants.lookup_tables import (
     DATASET_SHORT_NAMES,
     DATASET_TO_PRODUCT_TYPE,
     PRODUCT_NAME_TO_DATASET,
+    SPATIAL_EXTENT_MAPPING
 )
 from clms_metadata.models import (
     ContentDate,
@@ -185,7 +186,10 @@ def get_spatial_extent(collection_identifier: str) -> str:
     :param collection_identifier: collection identifier
     :return: spatial extent as a string
     """
-    return collection_identifier.split("_")[1]
+    spatial_extent = collection_identifier.split("_")[1]
+    if mapped_value := SPATIAL_EXTENT_MAPPING.get(spatial_extent):
+        spatial_extent = mapped_value
+    return spatial_extent
 
 
 def get_temporal_grid(collection_identifier: str) -> str:

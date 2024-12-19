@@ -1,7 +1,6 @@
 {
     "name": "c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1",
     "name_suffix": "nc",
-    "origin_date": "2024-12-05T13:04:39.377909Z",
     "content_type": "application/netcdf",
     "product_type": "vegetation_indices",
     "content_date": {

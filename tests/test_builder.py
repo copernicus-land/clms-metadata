@@ -122,7 +122,7 @@ def test_dmp_300m_v1_10daily_geotiff():
     ],
 )
 def test_cls_netcdf_products(file_name):
-    with open(test_data / "cls" / "cls_datasets_expected_metadata.json", "r") as f:
+    with open(test_root / "reference" / "cls" / "cls_datasets_expected_metadata.json", "r") as f:
         expected_data = [
             d for d in json.load(f) if d.get("name") == file_name.replace(".nc", "")
         ][0]
@@ -149,6 +149,7 @@ def test_cls_netcdf_products(file_name):
         "component",
         "fileFormat",
         "temporalRepeatRate",
+        "areaOfInterest",
     }
 
     assert_dict.update(
