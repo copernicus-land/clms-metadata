@@ -269,5 +269,21 @@
         "product_type": "lake_water_quality",
         "temporalRepeatRate": "10-daily",
         "areaOfInterest": "global"
+    },
+    {
+        "areaOfInterest": "europe",
+        "component": "bio-geophysical",
+        "content_type": "application/netcdf",
+        "datasetIdentifier": "lie_europe_250m_daily_v2",
+        "datasetVersion": 2,
+        "fileFormat": "nc",
+        "gridLabel": "250m",
+        "instrumentShortName": "Visible Infrared Imaging Radiometer Suite (VIIRS)",
+        "name": "c_gls_LIE250_202402190000_CEURO_VIIRS_V2.2.1",
+        "name_suffix": "nc",
+        "platformShortName": "NOAA-20",
+        "processingCenter": "Syke, FMI, ENVEO",
+        "product_type": "river_and_lake_ice_extent",
+        "temporalRepeatRate": "daily"
     }
 ]

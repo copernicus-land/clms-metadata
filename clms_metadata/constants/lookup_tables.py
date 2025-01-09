@@ -54,6 +54,9 @@ PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
         r"c_gls_LIE250_\d{12}_Baltic_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
     ): "lie_baltic_250m_daily_v{version_major}",
     re.compile(
+        r"c_gls_LIE250_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+    ): "lie_europe_250m_daily_v{version_major}",
+    re.compile(
         r"c_gls_SCE500_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
     ): "sce_europe_500m_daily_v{version_major}",
     re.compile(
