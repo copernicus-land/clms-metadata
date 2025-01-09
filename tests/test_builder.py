@@ -100,7 +100,7 @@ def test_dmp_300m_v1_10daily_geotiff():
 
 
 @pytest.mark.parametrize(
-    "file_name",  # , "resolution", "platform_name", "instrument_name"),
+    "file_name",
     [
         "c_gls_SCE500_201703010000_CEURO_MODIS_V1.0.1.nc",
         "c_gls_SCE_201801090000_NHEMI_VIIRS_V1.0.1.nc",
@@ -119,6 +119,7 @@ def test_dmp_300m_v1_10daily_geotiff():
         "c_gls_LWQ300_202409010000_GLOBE_OLCI_V2.0.0.nc",  # clms_global_lwq_300m_v2_10daily-nrt_netcdf
         "c_gls_LWQ1km_200205110000_GLOBE_MERIS_V1.1.nc",  # clms_global_lwq_1km_v1_10daily-reproc_netcdf
         "c_gls_LWQ100_202409010000_GLOBAL_MSI_V2.0.nc",  # clms_global_lwq_100m_v2_10daily-nrt_netcdf
+        "c_gls_LIE250_202402190000_CEURO_VIIRS_V2.2.1.nc",
     ],
 )
 def test_cls_netcdf_products(file_name):
