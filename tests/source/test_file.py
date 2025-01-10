@@ -20,7 +20,7 @@ from clms_metadata.source.file import (
         ),
         ("SENTINEL-3A AND SENTINEL-3B", {"SENTINEL3": ["SENTINEL3A", "SENTINEL3B"]}),
         ("SENTINEL3A AND SENTINEL3B", {"SENTINEL3": ["SENTINEL3A", "SENTINEL3B"]}),
-        ("TERRA (EOS AM-1)", {"TERRA": None}),
+        ("TERRA (EOS AM-1)", {"TERRA": ["TERRA"]}),
         ("NOAA-20 (JPSS-1)", {"NOAA20": None}),
         (
             "GOES, MSG, HIMAWARI",
@@ -32,7 +32,11 @@ from clms_metadata.source.file import (
         ),  # eg. lst_5km_v1_hourly: c_gls_LST_201303192300_GLOBE_GEO_V1.2.1
         (
             "HIMAWARI8, GOES16, MSG4",
-            {"HIMAWARI8": None, "GOES": ["GOES16"], "MSG4": None},
+            {
+                "HIMAWARI8": ["HIMAWARI8"],
+                "GOES": ["GOES16"],
+                "METEOSAT11": ["METEOSAT11"],
+            },
         ),  # eg. lst_5km_v1_hourly: c_gls_LST_202101180500_GLOBE_GEO_V1.2.1
         (
             "METOP B+C",
@@ -40,7 +44,12 @@ from clms_metadata.source.file import (
         ),  # eg. swi_12.5km_v3_10daily: c_gls_SWI10_202206111200_GLOBE_ASCAT_V3.2.1
         (
             "HIMAWARI8, GOES16, MSG2, MSG1",
-            {"HIMAWARI8": None, "GOES": ["GOES16"], "MSG2": None, "MSG1": None},
+            {
+                "HIMAWARI8": ["HIMAWARI8"],
+                "GOES": ["GOES16"],
+                "METEOSAT9": ["METEOSAT9"],
+                "METEOSAT8": ["METEOSAT8"],
+            },
         ),  # eg. lst_5km_v2_hourly: c_gls_LST_202112192300_GLOBE_GEO_V2.0.1
         (
             "MetOp-A",
@@ -48,7 +57,12 @@ from clms_metadata.source.file import (
         ),  # eg. swi_12.5km_v3_static: c_gls_SWI-STATIC-FM_201501010000_GLOBE_ASCAT_V1.1.1
         (
             "HIMAWARI9, GOES16, MSG4, MSG2",
-            {"HIMAWARI9": None, "GOES": ["GOES16"], "MSG4": None, "MSG2": None},
+            {
+                "HIMAWARI9": ["HIMAWARI9"],
+                "GOES": ["GOES16"],
+                "METEOSAT11": ["METEOSAT11"],
+                "METEOSAT9": ["METEOSAT9"],
+            },
         ),
         (
             "METOP A",
@@ -92,7 +106,12 @@ from clms_metadata.source.file import (
         ),  # eg. swi_12.5km_v3_static: c_gls_SWI-STATIC-CI_201001010000_GLOBE_SWI-GLDAS_V1.1.1
         (
             "GOESR,  MSG4,  MSG1,  HIMAWARI8",
-            {"GOESR": None, "MSG4": None, "MSG1": None, "HIMAWARI8": None},
+            {
+                "GOES": ["GOESR"],
+                "METEOSAT11": ["METEOSAT11"],
+                "METEOSAT8": ["METEOSAT8"],
+                "HIMAWARI8": ["HIMAWARI8"],
+            },
         ),  # eg. lst_5km_v2_10daily-tci: c_gls_LST10-TCI-MIN_202101110000_GLOBE_GEO_V2.1.1
         (
             "N/A",

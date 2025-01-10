@@ -286,7 +286,9 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
             platforms.update({p: None for p in mission.split(" ")})
 
     # Support for LST, eg MSG4 -> MSG-4
-    lst_regex = re.compile(r"(MSG|MTSAT|HIMAWARI|GOES)([0-9]+|E|R)")
+    regex_goes = re.compile(r"(GOES)(\d+|E|R)")
+    regex_msg = re.compile(r"(MSG)(\d+)")
+    lst_regex = re.compile(r"(MSG|MTSAT|HIMAWARI)(\d+)")
 
     # Hyphenate SENTINELs, eg SENTINEL3A => SENTINEL-3A
     # and extract serial identifier
@@ -294,21 +296,34 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
     ignore = ("N/A", "PLATFORM")
 
     for mission in list(platforms):
-        if match := lst_regex.match(mission):
+        if match := regex_goes.match(mission):
             platforms.pop(mission)
             mission, suffix = match.groups()
-            platform = f"{mission}{suffix}"
-            platforms[platform] = platforms.get(platform, None)
-        if match := regex_sentinel_serial.match(mission):
+            platforms[mission] = platforms.get(mission, list()) + [f"{mission}{suffix}"]
+        elif match := regex_msg.match(mission):
+            # rewrite MSG to METEOSAT
+            platforms.pop(mission)
+            base, num = match.groups()
+            num = int(num) + 7
+            mission = f"METEOSAT{num}"
+            platforms[mission] = [mission]
+        elif match := lst_regex.match(mission):
+            platforms.pop(mission)
+            base, suffix = match.groups()
+            mission = f"{base}{suffix}"
+            platforms[mission] = platforms.get(mission, None)
+        elif match := regex_sentinel_serial.match(mission):
             platforms.pop(mission)
             base, num, serial = match.groups()
             mission = f"{base}{num}"
             platforms[mission] = platforms.get(mission, list()) + [
                 build_platform_short_name(mission, serial)
             ]
-        if mission in ignore:
+        elif mission in ignore:
             platforms.pop(mission)
-        if platforms[mission] is None:
+
+        # try to add missing info
+        if mission in platforms and platforms[mission] is None:
             platform_short_name = lookup_platform_short_name(mission)
             if platform_short_name:
                 platforms[mission] = [platform_short_name]
