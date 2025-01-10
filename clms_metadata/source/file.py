@@ -14,7 +14,6 @@ from typing_extensions import Optional
 from clms_metadata.constants import attributes, lookup_tables
 from clms_metadata.models import (
     ContentDate,
-    ListStringAttribute,
     Metadata,
     StringAttribute,
 )
@@ -83,13 +82,9 @@ class FileSource(MetadataSource):
 
                 sensors = [s.strip() for s in tags.get("sensor").split(",")]
                 metadata.add_attribute(
-                    name=attributes.INSTRUMENT_SHORT_NAME
-                    if len(sensors) == 1
-                    else attributes.INSTRUMENT_SHORT_NAMES,
-                    value_type=StringAttribute
-                    if len(sensors) == 1
-                    else ListStringAttribute,
-                    factory=lambda: sensors[0] if len(sensors) == 1 else sensors,
+                    name=attributes.INSTRUMENT_SHORT_NAME,
+                    value_type=StringAttribute,
+                    factory=lambda: ",".join(sensors),
                 )
                 if dataset_identifier := get_dataset_identifier_from_identifier_tag(
                     tags
@@ -187,44 +182,42 @@ def set_platform(platformstr: str, metadata: Metadata) -> Metadata:
     :return: updated metadata object
     """
     platform_dict = parse_platform(platformstr)
-    platformShortNames = list(platform_dict.keys())
-    platforSerialIdentifiers = [
-        serial for v in platform_dict.values() if v for serial in v
-    ]
+    missionShortNames = list(platform_dict.keys())
+    platformShortNames = [serial for v in platform_dict.values() if v for serial in v]
 
     metadata.add_attribute(
-        name=attributes.PLATFORM_SHORT_NAME
-        if len(platformShortNames) == 1
-        else attributes.PLATFORM_SHORT_NAMES,
-        value_type=StringAttribute
-        if len(platformShortNames) == 1
-        else ListStringAttribute,
-        factory=lambda: platformShortNames[0]
-        if len(platformShortNames) == 1
-        else platformShortNames
-        if platformShortNames
-        else None,
+        name=attributes.MISSION_SHORT_NAME,
+        value_type=StringAttribute,
+        factory=lambda: ",".join(missionShortNames),
     )
+
     metadata.add_attribute(
-        name=attributes.PLATFORM_SERIAL_IDENTIFIER
-        if len(platforSerialIdentifiers) == 1
-        else attributes.PLATFORM_SERIAL_IDENTIFIERS,
-        value_type=StringAttribute
-        if len(platforSerialIdentifiers) == 1
-        else ListStringAttribute,
-        factory=lambda: platforSerialIdentifiers[0]
-        if len(platforSerialIdentifiers) == 1
-        else platforSerialIdentifiers
-        if platforSerialIdentifiers
-        else None,
+        name=attributes.PLATFORM_SHORT_NAME,
+        value_type=StringAttribute,
+        factory=lambda: ",".join(platformShortNames),
     )
+
     return metadata
+
+
+def build_platform_short_name(mission_short_name: str, serial: str | None) -> str:
+    if re.compile("(SENTINEL\d+)|(METOP)").match(mission_short_name) and serial:
+        return mission_short_name + serial
+
+
+def lookup_platform_short_name(mission_short_name: str) -> str:
+    for (
+        regex_mission,
+        template_platform_short_name,
+    ) in lookup_tables.MISSION_TO_PLATFORM.items():
+        if match := regex_mission.match(mission_short_name):
+            return template_platform_short_name.format_map(match.groupdict())
 
 
 def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
     """
     Get the platform information from the 'platform' metadata string.
-    Returns a dictionary of platformShortName to platformSerialIdentifier.
+    Returns a dictionary of missionShortName to platformShortName.
 
     :param platformstr: platform metadata string
     :return: platform information
@@ -241,72 +234,84 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
     ):
         platformstr = platformstr.split(" (")[0]
 
-    # turn platformstr into a map of platformShortName to platformSerialIdentifiers
+    # turn platformstr into a map of missionShortName to platformShortName
     platforms = {p.strip(): None for p in platformstr.split(",")}
+
+    # rewrite missionShortName to strip hyphens
+    platforms = {p.replace("-", ""): None for p in platforms}
 
     # Support for "AND" between platform names or platform serials
     # e.g. "SENTINEL-3A AND SENTINEL-3B" or "SENTINEL 3 (A AND B)"
-    bracket_serials_regex = r"\(([A-Z]) AND ([A-Z])\)"
+    regex_bracket_serials_regex = re.compile(r"\(([A-Z]) AND ([A-Z])\)")
     if " AND " in platformstr:
-        # repl_platforms = {}
-        for platf in list(platforms):
-            if regex_match_part := re.search(bracket_serials_regex, platf):
-                platforms.pop(platf)
-                (platform_short, platformserial) = platf.split(" (")
-                platform_short = platform_short.replace(" ", "-")
-                platforms[platform_short] = platforms.get(platform_short, list()) + [
-                    serial for serial in regex_match_part.groups()
+        for mission in list(platforms):
+            if regex_match_part := regex_bracket_serials_regex.search(mission):
+                platforms.pop(mission)
+                (mission, platformserial) = mission.split(" (")
+                mission = mission.replace(" ", "")  # TODO: can be removed?
+                platforms[mission] = platforms.get(mission, list()) + [
+                    build_platform_short_name(mission, serial)
+                    for serial in regex_match_part.groups()
                 ]
-            elif " AND " in platf:
-                serials = platforms.pop(platf)
-                platforms.update({p: serials for p in platf.split(" AND ")})
+            elif " AND " in mission:
+                serials = platforms.pop(mission)
+                platforms.update({p: serials for p in mission.split(" AND ")})
 
     # Support for SSM/SWI multi-mission products with eg "METOP B+C"
     if "+" in platformstr:
-        for platf in list(platforms):
-            if "+" in platf:
-                platforms.pop(platf)
-                (platform_short, platformserial) = platf.split(" ")
+        for mission in list(platforms):
+            if "+" in mission:
+                platforms.pop(mission)
+                (mission, platformserial) = mission.split(" ")
                 split_serial = platformserial.split("+")
-                platforms[platform_short] = (
-                    platforms.get(platform_short, list()) + split_serial
-                )
+                platforms[mission] = platforms.get(mission, list()) + [
+                    build_platform_short_name(mission, serial)
+                    for serial in split_serial
+                ]
 
     # We covered the AND and + syntaxes, all remaining spaces are between platforms
     # with exception of "SUOMI NPP" or "METOP X"
     metop_regex = re.compile(r"(METOP)[ -]?([A-Z])")
-    for platf in list(platforms):
-        if "SUOMI NPP" == platf:
+    for mission in list(platforms):
+        if "SUOMI NPP" == mission:
             continue
-        elif match := metop_regex.match(platf):
-            platforms.pop(platf)
-            platform_short, serial = match.groups()
-            platforms[platform_short] = platforms.get(platform_short, list()) + [serial]
-        elif " " in platf:
-            platforms.pop(platf)
-            platforms.update({p: None for p in platf.split(" ")})
+        elif match := metop_regex.match(mission):
+            platforms.pop(mission)
+            mission, serial = match.groups()
+            platforms[mission] = platforms.get(mission, list()) + [
+                build_platform_short_name(mission, serial)
+            ]
+        elif " " in mission:
+            platforms.pop(mission)
+            platforms.update({p: None for p in mission.split(" ")})
 
     # Support for LST, eg MSG4 -> MSG-4
     lst_regex = re.compile(r"(MSG|MTSAT|HIMAWARI|GOES)([0-9]+|E|R)")
 
     # Hyphenate SENTINELs, eg SENTINEL3A => SENTINEL-3A
     # and extract serial identifier
-    sentinel_regex = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
+    regex_sentinel_serial = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
     ignore = ("N/A", "PLATFORM")
 
-    for platf in list(platforms):
-        if match := lst_regex.match(platf):
-            platforms.pop(platf)
-            platform_short, suffix = match.groups()
-            platform = f"{platform_short}-{suffix}"
+    for mission in list(platforms):
+        if match := lst_regex.match(mission):
+            platforms.pop(mission)
+            mission, suffix = match.groups()
+            platform = f"{mission}{suffix}"
             platforms[platform] = platforms.get(platform, None)
-        if match := sentinel_regex.match(platf):
-            platforms.pop(platf)
+        if match := regex_sentinel_serial.match(mission):
+            platforms.pop(mission)
             base, num, serial = match.groups()
-            platform_short = f"{base}-{num}"
-            platforms[platform_short] = platforms.get(platform_short, list()) + [serial]
-        if platf in ignore:
-            platforms.pop(platf)
+            mission = f"{base}{num}"
+            platforms[mission] = platforms.get(mission, list()) + [
+                build_platform_short_name(mission, serial)
+            ]
+        if mission in ignore:
+            platforms.pop(mission)
+        if platforms[mission] is None:
+            platform_short_name = lookup_platform_short_name(mission)
+            if platform_short_name:
+                platforms[mission] = [platform_short_name]
     return platforms
 
 

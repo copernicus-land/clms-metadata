@@ -143,6 +143,19 @@ DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"lswt"): "lswt",
 }
 
-SPATIAL_EXTENT_MAPPING = {
-    "northernhemisphere": "northern hemisphere"
+SPATIAL_EXTENT_MAPPING = {"northernhemisphere": "northern hemisphere"}
+
+MISSION_TO_PLATFORM = {
+    re.compile(
+        r"(?P<name>(PROBAV)|(SPOT\d+)|(TERRA)|(AQUA)|(METEOSAT\d+)|(HIMAWARI[89])|(ENVISAT))"
+    ): "{name}",  # literal
+    re.compile(r"HIMAWARI6"): "MTSAT1R",
+    re.compile(r"HIMAWARI7"): "MTSAT2",
+}
+
+PLATFORM_SHORT_NAME_TO_ACRONYM = {
+    re.compile(
+        r"SENTINEL(?P<num>\d+)(?P<serial>[A-Z]+)"
+    ): "S{num}{serial}",  # Sentinel platforms
+    re.compile(r"(?P<name>(PROBAV)|(SPOT\d))"): "{name}",  # literal
 }

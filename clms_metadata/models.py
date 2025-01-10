@@ -91,11 +91,6 @@ class DateTimeOffsetAttribute(Attribute):
     value: DateTimeUTC
 
 
-class ListStringAttribute(Attribute):
-    value_type: Literal["List[String]"] = "List[String]"
-    value: list[str]
-
-
 MANDATORY_ATTRIBUTES = {
     attributes.PROCESSING_CENTER: StringAttribute,
     attributes.NOMINAL_DATE: DateTimeOffsetAttribute,
@@ -103,18 +98,21 @@ MANDATORY_ATTRIBUTES = {
     attributes.DATASET_SHORT_NAME: StringAttribute,
     attributes.DATASET_ALIAS: StringAttribute,
     attributes.DATASET_VERSION: IntegerAttribute,
-    attributes.COMPONENT: StringAttribute,  # TODO: to be moved to main properties?
+    attributes.COMPONENT: StringAttribute,
     attributes.FILE_FORMAT: StringAttribute,
     attributes.TEMPORAL_REPEAT_RATE: StringAttribute,
     attributes.PRODUCT_VERSION: StringAttribute,
     attributes.AREA_OF_INTEREST: StringAttribute,
+    attributes.MISSION_SHORT_NAME: StringAttribute,
+    attributes.PLATFORM_SHORT_NAME: StringAttribute,
+    attributes.PLATFORM_ACRONYM: StringAttribute,
+    attributes.INSTRUMENT_SHORT_NAME: StringAttribute,
 }
 
 OPTIONAL_ATTRIBUTES = {
     # only checked to have the following type when they are present
     attributes.CONSOLIDATION_PERIOD: IntegerAttribute,
-    attributes.SEASON: StringAttribute,
-    attributes.PRODUCT_VARIABLE: StringAttribute,
+    attributes.VPP_SEASON: StringAttribute,
     attributes.METRIC_GRID_SPACING: IntegerAttribute,  # not applicable for GeoJSON datasets
     attributes.GRID_LABEL: StringAttribute,  # not applicable for GeoJSON datasets
     attributes.WATER_LEVEL_RIVER_NAME: StringAttribute,
@@ -148,10 +146,7 @@ def validate_attributes(attrs: list[Attribute]) -> list[Attribute]:
 Attributes = Annotated[
     list[
         Annotated[
-            StringAttribute
-            | IntegerAttribute
-            | DateTimeOffsetAttribute
-            | ListStringAttribute,
+            StringAttribute | IntegerAttribute | DateTimeOffsetAttribute,
             Field(discriminator="value_type"),
         ]
     ],
