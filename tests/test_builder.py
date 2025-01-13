@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 
 import pyjson5
@@ -43,7 +42,7 @@ def test_ndvi_1km_v3_10daily(files, reference):
         storage=LocalFileSystem(), settings=Settings(link=LinkSettings(value="test"))
     )
     m = builder.build(files)
-    compare_with_reference(m, reference)
+    compare_with_reference_file(m, reference)
 
 
 @pytest.mark.parametrize(
@@ -124,42 +123,16 @@ def test_dmp_300m_v1_10daily_geotiff():
 )
 def test_cls_netcdf_products(file_name):
     with open(
-        test_root / "reference" / "cls" / "cls_datasets_expected_metadata.json", "r"
+        test_root / "reference" / "cls" / "cls_datasets_expected_metadata.json5", "r"
     ) as f:
         expected_data = [
-            d for d in json.load(f) if d.get("name") == file_name.replace(".nc", "")
+            d for d in pyjson5.load(f) if d.get("name") == file_name.replace(".nc", "")
         ][0]
 
     builder = MetadataBuilder(storage=LocalFileSystem(), settings=Settings())
     m = builder.build((test_data / "cls" / file_name,))
 
-    assert_dict = {
-        "name": m.name,
-        "name_suffix": m.name_suffix,
-        "content_type": m.content_type,
-        "product_type": m.product_type,
-    }
-
-    attributes = {
-        "gridLabel",
-        "platformShortName",
-        "platformShortNames",
-        "instrumentShortName",
-        "instrumentShortNames",
-        "processingCenter",
-        "datasetIdentifier",
-        "datasetVersion",
-        "component",
-        "fileFormat",
-        "temporalRepeatRate",
-        "areaOfInterest",
-    }
-
-    assert_dict.update(
-        {a: attr.value for a in attributes if (attr := m.get_attribute(a))}
-    )
-
-    assert assert_dict == expected_data
+    compare_with_reference(m, expected_data)
 
 
 @pytest.mark.parametrize(
@@ -184,10 +157,10 @@ def test_water_level_global_vector_daily(path, reference):
     builder = MetadataBuilder(storage=LocalFileSystem(), settings=Settings())
     m = builder.build((path,))
 
-    compare_with_reference(m, reference)
+    compare_with_reference_file(m, reference)
 
 
-def compare_with_reference(m: Metadata, reference: Path):
+def compare_with_reference_file(m: Metadata, reference: Path):
     """
     Compare the metadata model with a reference
 
@@ -197,7 +170,17 @@ def compare_with_reference(m: Metadata, reference: Path):
     """
     with open(reference) as f:
         expected = pyjson5.load(f)
+    compare_with_reference(m, expected)
 
+
+def compare_with_reference(m: Metadata, expected: dict):
+    """
+    Compare the metadata with a reference dictionary.
+
+    :param m: metadata model
+    :param expected: reference dictionary
+    :return:
+    """
     m_dict = m.model_dump()
     expected_attributes = expected.pop("attributes")
 
