@@ -178,7 +178,7 @@ class FileSource(MetadataSource):
         metadata.add_attribute(
             name=attributes.INSTRUMENT_SHORT_NAME,
             value_type=StringAttribute,
-            factory=lambda: ",".join(sensors) if sensors else None,
+            factory=lambda: ",".join(sensors) or None,
             allow_none=True,
         )
 
@@ -203,14 +203,14 @@ def set_platform(platformstr: str, metadata: Metadata) -> Metadata:
     metadata.add_attribute(
         name=attributes.MISSION_SHORT_NAME,
         value_type=StringAttribute,
-        factory=lambda: ",".join(missionShortNames),
+        factory=lambda: ",".join(missionShortNames) or None,
         allow_none=True,
     )
 
     metadata.add_attribute(
         name=attributes.PLATFORM_SHORT_NAME,
         value_type=StringAttribute,
-        factory=lambda: ",".join(platformShortNames),
+        factory=lambda: ",".join(platformShortNames) or None,
         allow_none=True,
     )
 

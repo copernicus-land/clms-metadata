@@ -20,6 +20,10 @@
         "temporalRepeatRate": "daily",
         "wlLakeName": "rukwa",
         "wlBasinName": "Rukwa",
-        "productVersion": "v2.2.0"
+        "productVersion": "v2.2.0",
+        "missionShortName": null,
+        "platformShortName": null,
+        "platformAcronym": null,
+        "instrumentShortName": null
     }
 }

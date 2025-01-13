@@ -205,6 +205,6 @@ def compare_with_reference(m: Metadata, reference: Path):
         assert v == m_dict.get(k)
 
     attributes = {a["name"]: a["value"] for a in m_dict["attributes"]}
-    assert expected_attributes == {
+    assert {
         k: v for k, v in attributes.items() if k in expected_attributes
-    }
+    } == expected_attributes
