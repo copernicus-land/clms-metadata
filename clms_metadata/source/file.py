@@ -9,7 +9,6 @@ import shapely.geometry
 from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
-from typing_extensions import Optional
 
 from clms_metadata.constants import attributes, lookup_tables
 from clms_metadata.models import (
@@ -176,7 +175,7 @@ class FileSource(MetadataSource):
         return metadata
 
 
-def set_platform(platformstr: str, metadata: Metadata) -> Metadata:
+def set_platform(platformstr: str | None, metadata: Metadata) -> Metadata:
     """
     Set the platform information on the metadata object.
 
@@ -221,12 +220,14 @@ def set_platform(platformstr: str, metadata: Metadata) -> Metadata:
     return metadata
 
 
-def build_platform_short_name(mission_short_name: str, serial: str | None) -> str:
+def build_platform_short_name(
+    mission_short_name: str, serial: str | None
+) -> str | None:
     if re.compile("(SENTINEL\d+)|(METOP)").match(mission_short_name) and serial:
         return mission_short_name + serial
 
 
-def regex_lookup(lookup_dict: dict[re.Pattern, str], key: str) -> str:
+def regex_lookup(lookup_dict: dict[re.Pattern, str], key: str) -> str | None:
     for regex, template in lookup_dict.items():
         if match := regex.match(key):
             return template.format_map(match.groupdict())
@@ -253,7 +254,9 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
         platformstr = platformstr.split(" (")[0]
 
     # turn platformstr into a map of missionShortName to platformShortName
-    platforms = {p.strip(): None for p in platformstr.split(",")}
+    platforms: dict[str, list[str] | None] = {
+        p.strip(): None for p in platformstr.split(",")
+    }
 
     # rewrite missionShortName to strip hyphens
     platforms = {p.replace("-", ""): None for p in platforms}
@@ -369,7 +372,7 @@ def parse_sensor(sensor_tag: str | None) -> list[str]:
     return sensors
 
 
-def get_dataset_identifier_from_identifier_tag(tags: dict) -> Optional[str]:
+def get_dataset_identifier_from_identifier_tag(tags: dict) -> str | None:
     """
     Extract the product identifier from the raster metadata and try to find a matching CDSE dataset identifier
     based on parent and product id.
