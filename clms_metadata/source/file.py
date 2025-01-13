@@ -80,11 +80,10 @@ class FileSource(MetadataSource):
                 )
                 metadata = set_platform(tags.get("platform"), metadata)
 
-                sensors = [s.strip() for s in tags.get("sensor").split(",")]
                 metadata.add_attribute(
                     name=attributes.INSTRUMENT_SHORT_NAME,
                     value_type=StringAttribute,
-                    factory=lambda: ",".join(sensors) or None,
+                    factory=lambda: ",".join(parse_sensor(tags.get("sensor"))) or None,
                     allow_none=True,
                 )
                 if dataset_identifier := get_dataset_identifier_from_identifier_tag(
@@ -168,17 +167,11 @@ class FileSource(MetadataSource):
             factory=lambda: self.get_processing_center(properties),
         )
 
-        # if "platform" in properties:
         metadata = set_platform(properties.get("platform"), metadata)
-        sensors = (
-            [s.strip() for s in properties.get("sensor").split(",")]
-            if "sensor" in properties
-            else []
-        )
         metadata.add_attribute(
             name=attributes.INSTRUMENT_SHORT_NAME,
             value_type=StringAttribute,
-            factory=lambda: ",".join(sensors) or None,
+            factory=lambda: ",".join(parse_sensor(properties.get("sensor"))) or None,
             allow_none=True,
         )
 
@@ -360,6 +353,25 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
             if platform_short_name:
                 platforms[mission] = [platform_short_name]
     return platforms
+
+
+def parse_sensor(sensor_tag: str | None) -> list[str]:
+    """
+    Parse the sensor tag in the product metadata.
+
+    :param sensor_tag: sensor tag embedded in the product
+    :return: a list of sensor strings
+    """
+    if sensor_tag is None:
+        return []
+    sensors = [s.strip() for s in sensor_tag.split(",")]
+    # if the long and short name are in the tag, extract the short name
+    regex_sensor_short = re.compile(r"[\w ]+ \((\w+)\)")
+    for i, s in enumerate(sensors):
+        if match := regex_sensor_short.match(s):
+            sensors[i] = match.group(1)
+
+    return sensors
 
 
 def get_dataset_identifier_from_identifier_tag(tags: dict) -> Optional[str]:
