@@ -84,7 +84,8 @@ class FileSource(MetadataSource):
                 metadata.add_attribute(
                     name=attributes.INSTRUMENT_SHORT_NAME,
                     value_type=StringAttribute,
-                    factory=lambda: ",".join(sensors),
+                    factory=lambda: ",".join(sensors) or None,
+                    allow_none=True,
                 )
                 if dataset_identifier := get_dataset_identifier_from_identifier_tag(
                     tags
@@ -167,8 +168,19 @@ class FileSource(MetadataSource):
             factory=lambda: self.get_processing_center(properties),
         )
 
-        if "platform" in properties:
-            metadata = set_platform(properties["platform"], metadata)
+        # if "platform" in properties:
+        metadata = set_platform(properties.get("platform"), metadata)
+        sensors = (
+            [s.strip() for s in properties.get("sensor").split(",")]
+            if "sensor" in properties
+            else []
+        )
+        metadata.add_attribute(
+            name=attributes.INSTRUMENT_SHORT_NAME,
+            value_type=StringAttribute,
+            factory=lambda: ",".join(sensors) if sensors else None,
+            allow_none=True,
+        )
 
         return metadata
 
@@ -181,7 +193,10 @@ def set_platform(platformstr: str, metadata: Metadata) -> Metadata:
     :param metadata: metadata object
     :return: updated metadata object
     """
-    platform_dict = parse_platform(platformstr)
+    if platformstr is None:
+        platform_dict = dict()
+    else:
+        platform_dict = parse_platform(platformstr)
     missionShortNames = list(platform_dict.keys())
     platformShortNames = [serial for v in platform_dict.values() if v for serial in v]
 
@@ -189,12 +204,30 @@ def set_platform(platformstr: str, metadata: Metadata) -> Metadata:
         name=attributes.MISSION_SHORT_NAME,
         value_type=StringAttribute,
         factory=lambda: ",".join(missionShortNames),
+        allow_none=True,
     )
 
     metadata.add_attribute(
         name=attributes.PLATFORM_SHORT_NAME,
         value_type=StringAttribute,
         factory=lambda: ",".join(platformShortNames),
+        allow_none=True,
+    )
+
+    metadata.add_attribute(
+        name=attributes.PLATFORM_ACRONYM,
+        value_type=StringAttribute,
+        factory=lambda: ",".join(
+            acronym
+            for platform_short_name in platformShortNames
+            if (
+                acronym := regex_lookup(
+                    lookup_tables.PLATFORM_SHORT_NAME_TO_ACRONYM, platform_short_name
+                )
+            )
+        )
+        or None,
+        allow_none=True,
     )
 
     return metadata
@@ -205,13 +238,10 @@ def build_platform_short_name(mission_short_name: str, serial: str | None) -> st
         return mission_short_name + serial
 
 
-def lookup_platform_short_name(mission_short_name: str) -> str:
-    for (
-        regex_mission,
-        template_platform_short_name,
-    ) in lookup_tables.MISSION_TO_PLATFORM.items():
-        if match := regex_mission.match(mission_short_name):
-            return template_platform_short_name.format_map(match.groupdict())
+def regex_lookup(lookup_dict: dict[re.Pattern, str], key: str) -> str:
+    for regex, template in lookup_dict.items():
+        if match := regex.match(key):
+            return template.format_map(match.groupdict())
 
 
 def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
@@ -324,7 +354,9 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
 
         # try to add missing info
         if mission in platforms and platforms[mission] is None:
-            platform_short_name = lookup_platform_short_name(mission)
+            platform_short_name = regex_lookup(
+                lookup_tables.MISSION_TO_PLATFORM, mission
+            )
             if platform_short_name:
                 platforms[mission] = [platform_short_name]
     return platforms

@@ -78,7 +78,7 @@ class Attribute(BaseModel, abc.ABC):
 
 class StringAttribute(Attribute):
     value_type: Literal["String"] = "String"
-    value: str
+    value: str | None
 
 
 class IntegerAttribute(Attribute):
@@ -223,7 +223,13 @@ class Metadata(BaseModel):
         """
         return next((a for a in self.attributes if a.name == name), None)
 
-    def add_attribute(self, name: str, value_type: Type[Attribute], factory: callable):
+    def add_attribute(
+        self,
+        name: str,
+        value_type: Type[Attribute],
+        factory: callable,
+        allow_none: bool = False,
+    ):
         """
         Add an attribute to the attribute list in the metadata.
 
@@ -232,9 +238,9 @@ class Metadata(BaseModel):
         :param factory: method to extract the attribute value
         :return:
         """
-        if not self.has_attribute(name):
+        if not self.has_attribute(name) or not self.get_attribute(name).value:
             value = factory()
-            if value is not None:
+            if value is not None or allow_none:
                 logger.debug("Adding attribute {}: {}", name, value)
                 self.attributes.append(value_type(name=name, value=value))
             else:

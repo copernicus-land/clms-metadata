@@ -159,4 +159,6 @@ PLATFORM_SHORT_NAME_TO_ACRONYM = {
         r"SENTINEL(?P<num>\d+)(?P<serial>[A-Z]+)"
     ): "S{num}{serial}",  # Sentinel platforms
     re.compile(r"(?P<name>(PROBAV)|(SPOT\d))"): "{name}",  # literal
+    re.compile(r"TERRA"): "EOS AM-1",
+    re.compile(r"ACQUA"): "EOS PM-1",
 }
