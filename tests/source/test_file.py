@@ -3,6 +3,7 @@ import pytest
 from clms_metadata.source.file import (
     get_dataset_identifier_from_identifier_tag,
     parse_platform,
+    parse_sensor,
 )
 
 
@@ -203,3 +204,17 @@ def test_get_platform(platformstr, expected):
 )
 def test_get_dataset_identifier_from_identifier_tag(tags, expected):
     assert get_dataset_identifier_from_identifier_tag(tags) == expected
+
+
+@pytest.mark.parametrize(
+    ("sensor_tag", "expected"),
+    [
+        ("OLCI", ["OLCI"]),
+        ("Visible Infrared Imaging Radiometer Suite (VIIRS)", ["VIIRS"]),
+        ("SSMIS, VIIRS", ["SSMIS", "VIIRS"]),
+        ("The Sea and Land Surface Temperature Radiometer (SLSTR)", ["SLSTR"]),
+        ("Moderate Resolution Imaging Spectrometer (MODIS)", ["MODIS"]),
+    ],
+)
+def test_parse_sensor(sensor_tag: str, expected: list[str]):
+    assert parse_sensor(sensor_tag) == expected
