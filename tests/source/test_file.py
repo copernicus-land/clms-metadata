@@ -22,7 +22,7 @@ from clms_metadata.source.file import (
         ("SENTINEL-3A AND SENTINEL-3B", {"SENTINEL3": ["SENTINEL3A", "SENTINEL3B"]}),
         ("SENTINEL3A AND SENTINEL3B", {"SENTINEL3": ["SENTINEL3A", "SENTINEL3B"]}),
         ("TERRA (EOS AM-1)", {"TERRA": ["TERRA"]}),
-        ("NOAA-20 (JPSS-1)", {"NOAA20": None}),
+        ("NOAA-20 (JPSS-1)", {"NOAA20": ["NOAA20"]}),
         (
             "GOES, MSG, HIMAWARI",
             {"GOES": None, "MSG": None, "HIMAWARI": None},

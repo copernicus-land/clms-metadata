@@ -84,7 +84,6 @@ class FileSource(MetadataSource):
                     name=attributes.INSTRUMENT_SHORT_NAME,
                     value_type=StringAttribute,
                     factory=lambda: ",".join(parse_sensor(tags.get("sensor"))) or None,
-                    allow_none=True,
                 )
                 if dataset_identifier := get_dataset_identifier_from_identifier_tag(
                     tags
@@ -172,7 +171,6 @@ class FileSource(MetadataSource):
             name=attributes.INSTRUMENT_SHORT_NAME,
             value_type=StringAttribute,
             factory=lambda: ",".join(parse_sensor(properties.get("sensor"))) or None,
-            allow_none=True,
         )
 
         return metadata
@@ -197,14 +195,12 @@ def set_platform(platformstr: str, metadata: Metadata) -> Metadata:
         name=attributes.MISSION_SHORT_NAME,
         value_type=StringAttribute,
         factory=lambda: ",".join(missionShortNames) or None,
-        allow_none=True,
     )
 
     metadata.add_attribute(
         name=attributes.PLATFORM_SHORT_NAME,
         value_type=StringAttribute,
         factory=lambda: ",".join(platformShortNames) or None,
-        allow_none=True,
     )
 
     metadata.add_attribute(
@@ -220,7 +216,6 @@ def set_platform(platformstr: str, metadata: Metadata) -> Metadata:
             )
         )
         or None,
-        allow_none=True,
     )
 
     return metadata

@@ -1,9 +1,10 @@
 import re
 
 INSTRUMENT_MISSION_MAPPING = {  # Some products have no mission metadata, so we need to derive it from the instrument name
-    "OLCI": "SENTINEL-3",
-    "SLSTR": "SENTINEL-3",
-    "MSI": "SENTINEL-2",
+    "OLCI": "SENTINEL3",
+    "SLSTR": "SENTINEL3",
+    "MSI": "SENTINEL2",
+    "SAR": "SENTINEL1",
 }
 
 IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
@@ -147,7 +148,7 @@ SPATIAL_EXTENT_MAPPING = {"northernhemisphere": "northern hemisphere"}
 
 MISSION_TO_PLATFORM = {
     re.compile(
-        r"(?P<name>(PROBAV)|(SPOT\d+)|(TERRA)|(AQUA)|(METEOSAT\d+)|(HIMAWARI[89])|(ENVISAT))"
+        r"(?P<name>(PROBAV)|(SPOT\d+)|(TERRA)|(AQUA)|(METEOSAT\d+)|(HIMAWARI[89])|(ENVISAT)|(NOAA20))"
     ): "{name}",  # literal
     re.compile(r"HIMAWARI6"): "MTSAT1R",
     re.compile(r"HIMAWARI7"): "MTSAT2",
