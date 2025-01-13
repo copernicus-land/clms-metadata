@@ -293,7 +293,7 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
     # Hyphenate SENTINELs, eg SENTINEL3A => SENTINEL-3A
     # and extract serial identifier
     regex_sentinel_serial = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
-    ignore = ("N/A", "PLATFORM")
+    ignore = ("N/A", "PLATFORM", "GLDASNOAH")
 
     for mission in list(platforms):
         if match := regex_goes.match(mission):

@@ -151,6 +151,7 @@ MISSION_TO_PLATFORM = {
     ): "{name}",  # literal
     re.compile(r"HIMAWARI6"): "MTSAT1R",
     re.compile(r"HIMAWARI7"): "MTSAT2",
+    re.compile(r"SUOMI NPP"): "NPP",
 }
 
 PLATFORM_SHORT_NAME_TO_ACRONYM = {
