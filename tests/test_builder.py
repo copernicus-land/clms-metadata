@@ -123,7 +123,9 @@ def test_dmp_300m_v1_10daily_geotiff():
     ],
 )
 def test_cls_netcdf_products(file_name):
-    with open(test_root / "reference" / "cls" / "cls_datasets_expected_metadata.json", "r") as f:
+    with open(
+        test_root / "reference" / "cls" / "cls_datasets_expected_metadata.json", "r"
+    ) as f:
         expected_data = [
             d for d in json.load(f) if d.get("name") == file_name.replace(".nc", "")
         ][0]
@@ -203,4 +205,6 @@ def compare_with_reference(m: Metadata, reference: Path):
         assert v == m_dict.get(k)
 
     attributes = {a["name"]: a["value"] for a in m_dict["attributes"]}
-    assert expected_attributes.items() <= attributes.items()
+    assert expected_attributes == {
+        k: v for k, v in attributes.items() if k in expected_attributes
+    }
