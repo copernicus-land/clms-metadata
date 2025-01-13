@@ -3,22 +3,26 @@ import pytest
 from clms_metadata.source.file import (
     get_dataset_identifier_from_identifier_tag,
     parse_platform,
+    parse_sensor,
 )
 
 
 @pytest.mark.parametrize(
     ("platformstr", "expected"),
     [
-        ("Proba-V", {"PROBA-V": None}),
-        ("SPOT-4", {"SPOT-4": None}),
-        ("METOP A+B", {"METOP": ["A", "B"]}),
-        ("Sentinel-1 A+B", {"SENTINEL-1": ["A", "B"]}),
-        ("Sentinel-3A", {"SENTINEL-3": ["A"]}),
-        ("METOP A+B, Sentinel-1 A+B", {"METOP": ["A", "B"], "SENTINEL-1": ["A", "B"]}),
-        ("SENTINEL-3A AND SENTINEL-3B", {"SENTINEL-3": ["A", "B"]}),
-        ("SENTINEL3A AND SENTINEL3B", {"SENTINEL-3": ["A", "B"]}),
-        ("TERRA (EOS AM-1)", {"TERRA": None}),
-        ("NOAA-20 (JPSS-1)", {"NOAA-20": None}),
+        ("Proba-V", {"PROBAV": ["PROBAV"]}),
+        ("SPOT-4", {"SPOT4": ["SPOT4"]}),
+        ("METOP A+B", {"METOP": ["METOPA", "METOPB"]}),
+        ("Sentinel-1 A+B", {"SENTINEL1": ["SENTINEL1A", "SENTINEL1B"]}),
+        ("Sentinel-3A", {"SENTINEL3": ["SENTINEL3A"]}),
+        (
+            "METOP A+B, Sentinel-1 A+B",
+            {"METOP": ["METOPA", "METOPB"], "SENTINEL1": ["SENTINEL1A", "SENTINEL1B"]},
+        ),
+        ("SENTINEL-3A AND SENTINEL-3B", {"SENTINEL3": ["SENTINEL3A", "SENTINEL3B"]}),
+        ("SENTINEL3A AND SENTINEL3B", {"SENTINEL3": ["SENTINEL3A", "SENTINEL3B"]}),
+        ("TERRA (EOS AM-1)", {"TERRA": ["TERRA"]}),
+        ("NOAA-20 (JPSS-1)", {"NOAA20": ["NOAA20"]}),
         (
             "GOES, MSG, HIMAWARI",
             {"GOES": None, "MSG": None, "HIMAWARI": None},
@@ -29,51 +33,65 @@ from clms_metadata.source.file import (
         ),  # eg. lst_5km_v1_hourly: c_gls_LST_201303192300_GLOBE_GEO_V1.2.1
         (
             "HIMAWARI8, GOES16, MSG4",
-            {"HIMAWARI-8": None, "GOES-16": None, "MSG-4": None},
+            {
+                "HIMAWARI8": ["HIMAWARI8"],
+                "GOES": ["GOES16"],
+                "METEOSAT11": ["METEOSAT11"],
+            },
         ),  # eg. lst_5km_v1_hourly: c_gls_LST_202101180500_GLOBE_GEO_V1.2.1
         (
             "METOP B+C",
-            {"METOP": ["B", "C"]},
+            {"METOP": ["METOPB", "METOPC"]},
         ),  # eg. swi_12.5km_v3_10daily: c_gls_SWI10_202206111200_GLOBE_ASCAT_V3.2.1
         (
             "HIMAWARI8, GOES16, MSG2, MSG1",
-            {"HIMAWARI-8": None, "GOES-16": None, "MSG-2": None, "MSG-1": None},
+            {
+                "HIMAWARI8": ["HIMAWARI8"],
+                "GOES": ["GOES16"],
+                "METEOSAT9": ["METEOSAT9"],
+                "METEOSAT8": ["METEOSAT8"],
+            },
         ),  # eg. lst_5km_v2_hourly: c_gls_LST_202112192300_GLOBE_GEO_V2.0.1
         (
             "MetOp-A",
-            {"METOP": ["A"]},
+            {"METOP": ["METOPA"]},
         ),  # eg. swi_12.5km_v3_static: c_gls_SWI-STATIC-FM_201501010000_GLOBE_ASCAT_V1.1.1
         (
             "HIMAWARI9, GOES16, MSG4, MSG2",
-            {"HIMAWARI-9": None, "GOES-16": None, "MSG-4": None, "MSG-2": None},
+            {
+                "HIMAWARI9": ["HIMAWARI9"],
+                "GOES": ["GOES16"],
+                "METEOSAT11": ["METEOSAT11"],
+                "METEOSAT9": ["METEOSAT9"],
+            },
         ),
         (
             "METOP A",
-            {"METOP": ["A"]},
+            {"METOP": ["METOPA"]},
         ),  # eg. swi_12.5km_v3_10daily: c_gls_SWI10_201204211200_GLOBE_ASCAT_V3.1.1
         (
             "DMSP, Suomi NPP",
-            {"DMSP": None, "SUOMI NPP": None},
+            {"DMSP": None, "SUOMI NPP": ["NPP"]},
         ),  # eg. swe_5km_v2_daily: c_gls_SWE5K_202408200000_NHEMI_SSMIS_V2.0.1
         (
             "SPOT-4, SPOT-5, Proba-V",
-            {"SPOT-4": None, "SPOT-5": None, "PROBA-V": None},
+            {"SPOT4": ["SPOT4"], "SPOT5": ["SPOT5"], "PROBAV": ["PROBAV"]},
         ),  # eg. ndvi_1km_v3_statistics: c_gls_NDVI-LTS_1999-2019-0521_GLOBE_VGT-PROBAV_V3.0.1
         (
             "Terra (EOS AM-1)",
-            {"TERRA": None},
+            {"TERRA": ["TERRA"]},
         ),  # eg. lie_250m_v1_daily: c_gls_LIE250_201704230000_Baltic_MODIS_V1.0.1
         (
             "Sentinel-3",
-            {"SENTINEL-3": None},
+            {"SENTINEL3": None},
         ),  # eg. fapar_300m_v1_10daily: c_gls_FAPAR300-RT1_202103100000_GLOBE_OLCI_V1.1.1
         (
             "ENVISAT",
-            {"ENVISAT": None},
+            {"ENVISAT": ["ENVISAT"]},
         ),  # eg. lwq_300m_v1_10daily-reproc: c_gls_LWQ300_200309210000_GLOBE_MERIS_V1.3.0
         (
             "Sentinel-2",
-            {"SENTINEL-2": None},
+            {"SENTINEL2": None},
         ),  # lwq_100m_v1_10daily-nrt: c_gls_LWQ100_202401210000_GLOBAL_MSI_V1.5
         (
             "PLATFORM",
@@ -81,15 +99,20 @@ from clms_metadata.source.file import (
         ),  # eg. lwq_300m_v1_10daily-nrt: c_gls_LWQ300_202010010000_GLOBE_OLCI_V1.4.0
         (
             "Sentinel-2A",
-            {"SENTINEL-2": ["A"]},
+            {"SENTINEL2": ["SENTINEL2A"]},
         ),  # eg. lwq_100m_v1_10daily-nrt: c_gls_LWQ100_201812210000_GLOBAL_MSI_V1.3
         (
             "MetOp-A, MetOp-B, GLDAS-NOAH",
-            {"METOP": ["A", "B"], "GLDAS-NOAH": None},
+            {"METOP": ["METOPA", "METOPB"]},  # TODO: what about GLDAS-NOAH?
         ),  # eg. swi_12.5km_v3_static: c_gls_SWI-STATIC-CI_201001010000_GLOBE_SWI-GLDAS_V1.1.1
         (
             "GOESR,  MSG4,  MSG1,  HIMAWARI8",
-            {"GOES-R": None, "MSG-4": None, "MSG-1": None, "HIMAWARI-8": None},
+            {
+                "GOES": ["GOESR"],
+                "METEOSAT11": ["METEOSAT11"],
+                "METEOSAT8": ["METEOSAT8"],
+                "HIMAWARI8": ["HIMAWARI8"],
+            },
         ),  # eg. lst_5km_v2_10daily-tci: c_gls_LST10-TCI-MIN_202101110000_GLOBE_GEO_V2.1.1
         (
             "N/A",
@@ -181,3 +204,17 @@ def test_get_platform(platformstr, expected):
 )
 def test_get_dataset_identifier_from_identifier_tag(tags, expected):
     assert get_dataset_identifier_from_identifier_tag(tags) == expected
+
+
+@pytest.mark.parametrize(
+    ("sensor_tag", "expected"),
+    [
+        ("OLCI", ["OLCI"]),
+        ("Visible Infrared Imaging Radiometer Suite (VIIRS)", ["VIIRS"]),
+        ("SSMIS, VIIRS", ["SSMIS", "VIIRS"]),
+        ("The Sea and Land Surface Temperature Radiometer (SLSTR)", ["SLSTR"]),
+        ("Moderate Resolution Imaging Spectrometer (MODIS)", ["MODIS"]),
+    ],
+)
+def test_parse_sensor(sensor_tag: str, expected: list[str]):
+    assert parse_sensor(sensor_tag) == expected

@@ -1,0 +1,402 @@
+[
+    {
+        "name": "c_gls_SCE500_201703010000_CEURO_MODIS_V1.0.1",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "snow_cover_extent",
+        "attributes": {
+            "gridLabel": "500m",
+            "processingCenter": "ENVEO IT GmbH",
+            "datasetIdentifier": "sce_europe_500m_daily_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "daily",
+            "areaOfInterest": "europe",
+            // NC_GLOBAL#platform=TERRA
+            "missionShortName": "TERRA",
+            "platformShortName": "TERRA",
+            "platformAcronym": "EOS AM-1",
+            // NC_GLOBAL#sensor=MODIS
+            "instrumentShortName": "MODIS",
+        }
+    },
+    {
+        "name": "c_gls_SCE_201801090000_NHEMI_VIIRS_V1.0.1",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "snow_cover_extent",
+        "attributes": {
+            "gridLabel": "1km",
+            "processingCenter": "ENVEO IT GmbH",
+            "datasetIdentifier": "sce_northernhemisphere_1km_daily_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "daily",
+            "areaOfInterest": "northern hemisphere",
+            // NC_GLOBAL#platform=Suomi_NPP
+            "missionShortName": "SUOMI NPP",
+            "platformShortName": "NPP",
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=VIIRS
+            "instrumentShortName": "VIIRS",
+        }
+    },
+    {
+        "name": "c_gls_SWE5K_200601010000_NHEMI_SSMIS_V1.0.2",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "snow_water_equivalent",
+        "attributes": {
+            "gridLabel": "5km",
+            "processingCenter": "FMI",
+            "datasetIdentifier": "swe_northernhemisphere_5km_daily_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "daily",
+            "areaOfInterest": "northern hemisphere",
+            // NC_GLOBAL#platform=DMSP, Suomi NPP
+            "missionShortName": "DMSP,SUOMI NPP",
+            // TODO: what to do with DMSP?
+            "platformShortName": "NPP",
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=SSMIS, VIIRS
+            "instrumentShortName": "SSMIS,VIIRS",
+        }
+    },
+    {
+        "name": "c_gls_LSWT_201611010000_GLOBE_SLSTRA_v1.0.2",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "land_surface_temperature",
+        "attributes": {
+            "gridLabel": "1km",
+            "processingCenter": "University of Reading",
+            "datasetIdentifier": "lswt-nrt_global_1km_10daily_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "10-daily",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=Sentinel3a
+            "missionShortName": "SENTINEL3",
+            "platformShortName": "SENTINEL3A",
+            "platformAcronym": "S3A",
+            // NC_GLOBAL#sensor=SLSTRA
+            // TODO: should be SLSTR?
+            "instrumentShortName": "SLSTRA"
+        }
+    },
+    {
+        "name": "c_gls_LSWT_200205110000_GLOBE_AATSR_v1.0.2",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "land_surface_temperature",
+        "attributes": {
+            "gridLabel": "1km",
+            "processingCenter": "University of Reading",
+            "datasetIdentifier": "lswt-offline_global_1km_10daily_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "10-daily",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=Envisat
+            "missionShortName": "ENVISAT",
+            "platformShortName": "ENVISAT",
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=AATSR
+            "instrumentShortName": "AATSR",
+        }
+    },
+    {
+        "name": "c_gls_WB100_202010010000_GLOBE_S2_V1.0.1",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "water_bodies",
+        "attributes": {
+            "gridLabel": "100m",
+            "processingCenter": "SIRS",
+            "datasetIdentifier": "wb_global_100m_monthly_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "monthly",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=Sentinel-2
+            "missionShortName": "SENTINEL2",
+            "platformShortName": null,
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=MSI
+            "instrumentShortName": "MSI",
+        }
+    },
+    {
+        "name": "c_gls_WB300_202010010000_GLOBE_S2_V2.0.1",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "water_bodies",
+        "attributes": {
+            "gridLabel": "300m",
+            "processingCenter": "SIRS",
+            "datasetIdentifier": "wb_global_300m_monthly_v2",
+            "datasetVersion": 2,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "monthly",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=Sentinel-2
+            "missionShortName": "SENTINEL2",
+            "platformShortName": null,
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=MSI
+            "instrumentShortName": "MSI"
+        }
+    },
+    {
+        "name": "c_gls_LWQ100_201812210000_GLOBAL_MSI_V1.3",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "lake_water_quality",
+        "attributes": {
+            "gridLabel": "100m",
+            "processingCenter": "Plymouth Marine Laboratory",
+            "datasetIdentifier": "lwq-nrt_global_100m_10daily_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "10-daily",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=Sentinel-2A
+            "missionShortName": "SENTINEL2",
+            "platformShortName": "SENTINEL2A",
+            "platformAcronym": "S2A",
+            // NC_GLOBAL#sensor=MSI
+            "instrumentShortName": "MSI",
+        }
+    },
+    {
+        "name": "c_gls_LWQ300_201604210000_GLOBE_OLCI_V1.3.0",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "lake_water_quality",
+        "attributes": {
+            "gridLabel": "300m",
+            "processingCenter": "Plymouth Marine Laboratory",
+            "datasetIdentifier": "lwq-nrt_global_300m_10daily_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "10-daily",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=PLATFORM
+            "missionShortName": "SENTINEL3",
+            "platformShortName": null,
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=OLCI
+            "instrumentShortName": "OLCI",
+        }
+    },
+    {
+        "name": "c_gls_LWQ300_200205110000_GLOBE_MERIS_V1.3.0",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "lake_water_quality",
+        "attributes": {
+            "gridLabel": "300m",
+            "processingCenter": "Plymouth Marine Laboratory",
+            "datasetIdentifier": "lwq-reproc_global_300m_10daily_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "10-daily",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=ENVISAT
+            "missionShortName": "ENVISAT",
+            "platformShortName": "ENVISAT",
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=MERIS
+            "instrumentShortName": "MERIS",
+        }
+    },
+    {
+        "name": "c_gls_LIE250_201703150000_Baltic_MODIS_V1.0.1",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "river_and_lake_ice_extent",
+        "attributes": {
+            "gridLabel": "250m",
+            "processingCenter": "SYKE, FMI, ENVEO",
+            "datasetIdentifier": "lie_baltic_250m_daily_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "daily",
+            "areaOfInterest": "baltic",
+            // NC_GLOBAL#platform=Terra (EOS AM-1)
+            "missionShortName": "TERRA",
+            "platformShortName": "TERRA",
+            "platformAcronym": "EOS AM-1",
+            // NC_GLOBAL#sensor=Moderate Resolution Imaging Spectrometer (MODIS)
+            "instrumentShortName": "MODIS"
+        }
+    },
+    {
+        "name": "c_gls_LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "river_and_lake_ice_extent",
+        "attributes": {
+            "gridLabel": "500m",
+            "processingCenter": "SYKE, FMI, ENVEO",
+            "datasetIdentifier": "lie_northernhemisphere_500m_daily_v1",
+            "datasetVersion": 1,
+            "component": "bio-geophysical",
+            "fileFormat": "nc",
+            "temporalRepeatRate": "daily",
+            "areaOfInterest": "northern hemisphere",
+            // NC_GLOBAL#platform=Sentinel 3 (A and B)
+            "missionShortName": "SENTINEL3",
+            "platformShortName": "SENTINEL3A,SENTINEL3B",
+            "platformAcronym": "S3A,S3B",
+            // NC_GLOBAL#sensor=The Sea and Land Surface Temperature Radiometer (SLSTR)
+            "instrumentShortName": "SLSTR"
+        }
+    },
+    {
+        "name": "c_gls_SWE5K_202407010000_NHEMI_SSMIS_V2.0.1",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "snow_water_equivalent",
+        "attributes": {
+            "component": "bio-geophysical",
+            "datasetIdentifier": "swe_northernhemisphere_5km_daily_v2",
+            "datasetVersion": 2,
+            "fileFormat": "nc",
+            "gridLabel": "5km",
+            "processingCenter": "FMI",
+            "temporalRepeatRate": "daily",
+            "areaOfInterest": "northern hemisphere",
+            // NC_GLOBAL#platform=DMSP, Suomi NPP
+            "missionShortName": "DMSP,SUOMI NPP",
+            // TODO: what to do with DMSP?
+            "platformShortName": "NPP",
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=SSMIS, VIIRS
+            "instrumentShortName": "SSMIS,VIIRS"
+        },
+    },
+    {
+        "name": "c_gls_LWQ300_202409010000_GLOBE_OLCI_V2.0.0",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "lake_water_quality",
+        "attributes": {
+            "component": "bio-geophysical",
+            "datasetIdentifier": "lwq-nrt_global_300m_10daily_v2",
+            "datasetVersion": 2,
+            "fileFormat": "nc",
+            "gridLabel": "300m",
+            "processingCenter": "Plymouth Marine Laboratory",
+            "temporalRepeatRate": "10-daily",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=Sentinel-3A and Sentinel-3B
+            "missionShortName": "SENTINEL3",
+            "platformShortName": "SENTINEL3A,SENTINEL3B",
+            "platformAcronym": "S3A,S3B",
+            // NC_GLOBAL#sensor=OLCI
+            "instrumentShortName": "OLCI"
+        }
+    },
+    {
+        "name": "c_gls_LWQ1km_201604210000_GLOBE_OLCI_V1.2",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "lake_water_quality",
+        "attributes": {
+            "component": "bio-geophysical",
+            "datasetIdentifier": "lwq-nrt_global_1km_10daily_v1",
+            "datasetVersion": 1,
+            "fileFormat": "nc",
+            "gridLabel": "1km",
+            "processingCenter": "Plymouth Marine Laboratory",
+            "temporalRepeatRate": "10-daily",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=Sentinel-3A
+            "missionShortName": "SENTINEL3",
+            "platformShortName": "SENTINEL3A",
+            "platformAcronym": "S3A",
+            // NC_GLOBAL#sensor=OLCI
+            "instrumentShortName": "OLCI"
+        }
+    },
+    {
+        "name": "c_gls_LWQ1km_200205110000_GLOBE_MERIS_V1.1",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "lake_water_quality",
+        "attributes": {
+            "component": "bio-geophysical",
+            "datasetIdentifier": "lwq-reproc_global_1km_10daily_v1",
+            "datasetVersion": 1,
+            "fileFormat": "nc",
+            "gridLabel": "1km",
+            "processingCenter": "Plymouth Marine Laboratory",
+            "temporalRepeatRate": "10-daily",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=Envisat
+            "missionShortName": "ENVISAT",
+            "platformShortName": "ENVISAT",
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=MERIS
+            "instrumentShortName": "MERIS"
+        }
+    },
+    {
+        "name": "c_gls_LWQ100_202409010000_GLOBAL_MSI_V2.0",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "lake_water_quality",
+        "attributes": {
+            "component": "bio-geophysical",
+            "datasetIdentifier": "lwq-nrt_global_100m_10daily_v2",
+            "datasetVersion": 2,
+            "fileFormat": "nc",
+            "gridLabel": "100m",
+            "processingCenter": "Brockmann Consult GmbH, Plymouth Marine Laboratory",
+            "temporalRepeatRate": "10-daily",
+            "areaOfInterest": "global",
+            // NC_GLOBAL#platform=Sentinel-2
+            "missionShortName": "SENTINEL2",
+            "platformShortName": null,
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=MSI
+            "instrumentShortName": "MSI"
+        }
+    },
+    {
+        "name": "c_gls_LIE250_202402190000_CEURO_VIIRS_V2.2.1",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "river_and_lake_ice_extent",
+        "attributes": {
+            "areaOfInterest": "europe",
+            "component": "bio-geophysical",
+            "datasetIdentifier": "lie_europe_250m_daily_v2",
+            "datasetVersion": 2,
+            "fileFormat": "nc",
+            "gridLabel": "250m",
+            "processingCenter": "Syke, FMI, ENVEO",
+            "temporalRepeatRate": "daily",
+            // NC_GLOBAL#platform=NOAA-20 (JPSS-1)
+            // TODO: value under discussion?
+            "missionShortName": "NOAA20",
+            "platformShortName": "NOAA20",
+            "platformAcronym": null,
+            // NC_GLOBAL#sensor=Visible Infrared Imaging Radiometer Suite (VIIRS)
+            "instrumentShortName": "VIIRS"
+        }
+    }
+]
