@@ -84,14 +84,12 @@ class FileSource(MetadataSource):
                     value_type=StringAttribute,
                     factory=lambda: ",".join(parse_sensor(tags.get("sensor"))) or None,
                 )
-                if dataset_identifier := get_dataset_identifier_from_identifier_tag(
-                    tags
-                ):
-                    metadata.add_attribute(
-                        name=attributes.DATASET_IDENTIFIER,
-                        value_type=StringAttribute,
-                        factory=lambda: dataset_identifier,
+                if not metadata.dataset_identifier and (
+                    dataset_identifier := get_dataset_identifier_from_identifier_tag(
+                        tags
                     )
+                ):
+                    metadata.dataset_identifier = dataset_identifier
 
         return metadata
 
@@ -145,11 +143,9 @@ class FileSource(MetadataSource):
             dataset_id = None
             logger.warning("Cannot determine dataset ID based on JSON properties")
 
-        metadata.add_attribute(
-            name=attributes.DATASET_IDENTIFIER,
-            value_type=StringAttribute,
-            factory=lambda: dataset_id,
-        )
+        if not metadata.dataset_identifier and dataset_id:
+            metadata.dataset_identifier = dataset_id
+
         metadata.add_attribute(
             name=attributes.WATER_LEVEL_BASIN_NAME,
             value_type=StringAttribute,

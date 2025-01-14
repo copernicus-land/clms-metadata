@@ -1,14 +1,11 @@
 from typing import Final
 
 PROCESSING_CENTER: Final[str] = "processingCenter"
-NOMINAL_DATE: Final[str] = "nominalDate"
 AREA_OF_INTEREST: Final[str] = "areaOfInterest"
-DATASET_IDENTIFIER: Final[str] = "datasetIdentifier"
 DATASET_SHORT_NAME: Final[str] = "datasetShortName"
 DATASET_ALIAS: Final[str] = "datasetAlias"
 DATASET_VERSION: Final[str] = "datasetVersion"
 PRODUCT_VERSION: Final[str] = "productVersion"
-COMPONENT: Final[str] = "component"
 FILE_FORMAT: Final[str] = "fileFormat"
 TEMPORAL_REPEAT_RATE: Final[str] = "temporalRepeatRate"
 METRIC_GRID_SPACING: Final[str] = "metricGridSpacing"
