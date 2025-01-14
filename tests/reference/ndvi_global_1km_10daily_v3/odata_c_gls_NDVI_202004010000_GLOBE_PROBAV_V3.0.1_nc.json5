@@ -7,7 +7,9 @@
     "ContentType": "application/netcdf",
     "Link": "ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
     "CollectionName": "CLMS",
+    "Component": "bio-geophysical",
     "ProductType": "vegetation_indices",
+    "DatasetIdentifier": "ndvi_global_1km_10daily_v3",
     "TargetFormat": "EXTRACTED",
     "DecompressionStep": false,
     "CompressionType": null,
@@ -15,6 +17,7 @@
         "Start": "2020-04-01T00:00:00Z",
         "End": "2020-04-10T23:59:59Z"
     },
+    "NominalDate": "2020-04-01T00:00:00Z",
     "GeoFootprint": {"type": "Polygon", "coordinates": [[[58.816964299999995, 13.915178599999999], [58.816964299999995, 14.09375], [58.941964299999995, 14.09375], [58.941964299999995, 13.915178599999999], [58.816964299999995, 13.915178599999999]]]},
     "Attributes": [
         {
@@ -26,11 +29,6 @@
             "Name": "datasetVersion",
             "ValueType": "Integer",
             "Value": 3
-        },
-        {
-            "Name": "nominalDate",
-            "ValueType": "DateTimeOffset",
-            "Value": "2020-04-01T00:00:00Z"
         },
         {
             "Name": "fileFormat",
@@ -63,11 +61,6 @@
             "Value": "VEGETATION"
         },
         {
-            "Name": "datasetIdentifier",
-            "ValueType": "String",
-            "Value": "ndvi_global_1km_10daily_v3"
-        },
-        {
             "Name": "datasetShortName",
             "ValueType": "String",
             "Value": "ndvi"
@@ -76,11 +69,6 @@
             "Name": "datasetAlias",
             "ValueType": "String",
             "Value": "ndvi_global_1km_10daily"
-        },
-        {
-            "Name": "component",
-            "ValueType": "String",
-            "Value": "bio-geophysical"
         },
         {
             "Name": "areaOfInterest",

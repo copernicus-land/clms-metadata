@@ -14,7 +14,7 @@ from clms_metadata.constants.lookup_tables import (
     DATASET_SHORT_NAMES,
     DATASET_TO_PRODUCT_TYPE,
     PRODUCT_NAME_TO_DATASET,
-    SPATIAL_EXTENT_MAPPING
+    SPATIAL_EXTENT_MAPPING,
 )
 from clms_metadata.models import (
     ContentDate,
@@ -38,60 +38,60 @@ class LookupSource(MetadataSource):
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
         super().get_info(product_files, metadata)
-        if not metadata.has_attribute(attributes.DATASET_IDENTIFIER):
-            if dataset_identifier := self.extract_collection_id(
-                file_name=metadata.name
-            ):
-                metadata.add_attribute(
-                    name=attributes.DATASET_IDENTIFIER,
-                    value_type=StringAttribute,
-                    factory=lambda: dataset_identifier,
-                )
-        dataset_identifier = metadata.get_attribute(attributes.DATASET_IDENTIFIER).value
+        if not metadata.dataset_identifier and (
+            dataset_identifier := self.extract_collection_id(file_name=metadata.name)
+        ):
+            metadata.dataset_identifier = dataset_identifier
+
+        # dataset_identifier = metadata.get_attribute(attributes.DATASET_IDENTIFIER).value
         metadata.add_attribute(
             name=attributes.DATASET_SHORT_NAME,
             value_type=StringAttribute,
             factory=lambda: part
-            if (part := dataset_identifier.split("_")[0]) in DATASET_SHORT_NAMES
-            else self.lookup_short_name(dataset_identifier),
+            if (part := metadata.dataset_identifier.split("_")[0])
+            in DATASET_SHORT_NAMES
+            else self.lookup_short_name(metadata.dataset_identifier),
         )  # TODO: check if correct
         metadata.add_attribute(
             name=attributes.DATASET_ALIAS,
             value_type=StringAttribute,
-            factory=lambda: dataset_identifier[: dataset_identifier.rfind("_")],
+            factory=lambda: metadata.dataset_identifier[
+                : metadata.dataset_identifier.rfind("_")
+            ],
         )
 
         if not metadata.product_type:
-            metadata.product_type = self.determine_product_type(dataset_identifier)
-        if not metadata.has_attribute(attributes.COMPONENT):
+            metadata.product_type = self.determine_product_type(
+                metadata.dataset_identifier
+            )
+        if not metadata.component:
             for component, product_types in COMPONENT_TO_PRODUCT_TYPES.items():
                 if metadata.product_type in product_types:
-                    metadata.add_attribute(
-                        attributes.COMPONENT, StringAttribute, lambda: component
-                    )
+                    metadata.component = component
+                    break
 
         metadata.add_attribute(
             name=attributes.AREA_OF_INTEREST,
             value_type=StringAttribute,
-            factory=lambda: get_spatial_extent(dataset_identifier),
+            factory=lambda: get_spatial_extent(metadata.dataset_identifier),
         )
 
         metadata.add_attribute(
             attributes.METRIC_GRID_SPACING,
             IntegerAttribute,
-            lambda: get_resolution(dataset_identifier),
+            lambda: get_resolution(metadata.dataset_identifier),
         )
         metadata.add_attribute(
             name=attributes.GRID_LABEL,
             value_type=StringAttribute,
             factory=lambda: match.group(1)
-            if (match := REGEX_RESOLUTION.search(dataset_identifier))
+            if (match := REGEX_RESOLUTION.search(metadata.dataset_identifier))
             else None,
         )
         metadata.add_attribute(
             name=attributes.TEMPORAL_REPEAT_RATE,
             value_type=StringAttribute,
-            factory=lambda: get_temporal_grid(dataset_identifier),
+            factory=lambda: get_temporal_grid(metadata.dataset_identifier),
         )
 
         if metadata.has_attribute(attributes.CONSOLIDATION_PERIOD):
@@ -103,7 +103,7 @@ class LookupSource(MetadataSource):
                     "Calculating content date from nominal date and temporal grid"
                 )
                 metadata.content_date = calculate_content_date(
-                    metadata.get_attribute(attributes.NOMINAL_DATE).value,
+                    metadata.nominal_date,
                     temporal_grid_delta,
                 )
                 logger.info(

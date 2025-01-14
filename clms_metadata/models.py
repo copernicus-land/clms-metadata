@@ -93,12 +93,9 @@ class DateTimeOffsetAttribute(Attribute):
 
 MANDATORY_ATTRIBUTES = {
     attributes.PROCESSING_CENTER: StringAttribute,
-    attributes.NOMINAL_DATE: DateTimeOffsetAttribute,
-    attributes.DATASET_IDENTIFIER: StringAttribute,
     attributes.DATASET_SHORT_NAME: StringAttribute,
     attributes.DATASET_ALIAS: StringAttribute,
     attributes.DATASET_VERSION: IntegerAttribute,
-    attributes.COMPONENT: StringAttribute,
     attributes.FILE_FORMAT: StringAttribute,
     attributes.TEMPORAL_REPEAT_RATE: StringAttribute,
     attributes.PRODUCT_VERSION: StringAttribute,
@@ -169,18 +166,11 @@ class Metadata(BaseModel):
     origin_date: DateTimeUTC
     """Date and time of the product at the source in UTC"""
 
-    publication_date: DateTimeUTC = Field(
-        default_factory=lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-    """Publication date and time of the product in UTC"""
-
-    modification_date: DateTimeUTC = Field(
-        default_factory=lambda: datetime.datetime.now(tz=datetime.timezone.utc)
-    )
-    """Date and time when the product metadata was last modified in UTC"""
-
     content_date: ContentDate
     """Sensing range period"""
+
+    nominal_date: DateTimeUTC
+    """Nominal date of the product"""
 
     geometry: Geometry
     """Geometry of the geo-referenced product"""
@@ -190,6 +180,12 @@ class Metadata(BaseModel):
 
     product_type: str
     """Product type"""
+
+    component: str
+    """Component"""
+
+    dataset_identifier: str
+    """Dataset identifier"""
 
     attributes: Attributes
 
@@ -236,6 +232,7 @@ class Metadata(BaseModel):
         :param name: attribute name
         :param value_type: type of the attribute value
         :param factory: method to extract the attribute value
+        :param allow_none: allow attribute value to be None
         :return:
         """
         if not self.has_attribute(name) or not self.get_attribute(name).value:
