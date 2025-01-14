@@ -1,0 +1,106 @@
+{
+    "@odata.context": "$metadata#Products(Attributes())",
+    "Name": "c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0_geojson",
+    "EvictionDate": "9999-12-31T23:59:59.999999Z",
+    "OriginDate": "2024-12-02T01:01:00Z",
+    "Online": true,
+    "ContentType": "application/geo+json",
+    "Link": "/home/stijn/PycharmProjects/clms-metadata/tests/data/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
+    "CollectionName": "CLMS",
+    "ProductType": "river_and_lake_water_level",
+    "TargetFormat": "EXTRACTED",
+    "DecompressionStep": false,
+    "CompressionType": null,
+    "ContentDate": {
+        "Start": "2018-12-04T14:39:00Z",
+        "End": "2024-11-29T14:40:00Z"
+    },
+    "GeoFootprint": {"type": "Point", "coordinates": [-71.6349, -11.6986]},
+    "Attributes": [
+        {
+            "Name": "productVersion",
+            "ValueType": "String",
+            "Value": "v2.2.0"
+        },
+        {
+            "Name": "datasetVersion",
+            "ValueType": "Integer",
+            "Value": 2
+        },
+        {
+            "Name": "nominalDate",
+            "ValueType": "DateTimeOffset",
+            "Value": "2024-11-29T14:40:00Z"
+        },
+        {
+            "Name": "fileFormat",
+            "ValueType": "String",
+            "Value": "geojson"
+        },
+        {
+            "Name": "wlRiverName",
+            "ValueType": "String",
+            "Value": "Alto-madre-de-dios-trib-01"
+        },
+        {
+            "Name": "datasetIdentifier",
+            "ValueType": "String",
+            "Value": "wl-rivers_global_vector_daily_v2"
+        },
+        {
+            "Name": "wlBasinName",
+            "ValueType": "String",
+            "Value": "Amazonas"
+        },
+        {
+            "Name": "processingCenter",
+            "ValueType": "String",
+            "Value": "CLS"
+        },
+        {
+            "Name": "missionShortName",
+            "ValueType": "String",
+            "Value": "SENTINEL3"
+        },
+        {
+            "Name": "platformShortName",
+            "ValueType": "String",
+            "Value": "SENTINEL3B"
+        },
+        {
+            "Name": "platformAcronym",
+            "ValueType": "String",
+            "Value": "S3B"
+        },
+        {
+            "Name": "datasetShortName",
+            "ValueType": "String",
+            "Value": "rwl"
+        },
+        {
+            "Name": "datasetAlias",
+            "ValueType": "String",
+            "Value": "wl-rivers_global_vector_daily"
+        },
+        {
+            "Name": "component",
+            "ValueType": "String",
+            "Value": "bio-geophysical"
+        },
+        {
+            "Name": "areaOfInterest",
+            "ValueType": "String",
+            "Value": "global"
+        },
+        {
+            "Name": "temporalRepeatRate",
+            "ValueType": "String",
+            "Value": "daily"
+        },
+        {
+            "Name": "instrumentShortName",
+            "ValueType": "String",
+            "Value": null
+        }
+    ]
+}
