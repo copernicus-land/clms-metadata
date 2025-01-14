@@ -34,7 +34,9 @@ def test_create(path: Path, reference_path: Path, tmp_path: Path):
     with open(reference_path) as f:
         reference = pyjson5.load(f)
 
-    output.pop("Link")
-    reference.pop("Link")
+    for ignore in ("Link", "OriginDate"):
+        assert ignore in output
+        output.pop(ignore)
+        reference.pop(ignore)
 
     assert output == reference
