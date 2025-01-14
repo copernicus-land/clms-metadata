@@ -47,7 +47,7 @@ class Writer(abc.ABC):
         :param metadata: metadata object
         :return: rendered string
         """
-        rendered = self.template.render(metadata=metadata.model_dump(exclude_none=True))
+        rendered = self.template.render(metadata=metadata.model_dump(mode="json"))
         return rendered
 
 
