@@ -20,38 +20,38 @@ test_reference = test_root / "reference"
         (
             (
                 test_data
-                / "ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
+                / "vegetation_indices/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
             ),
             test_reference
-            / "ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1_nc.json5",
+            / "vegetation_indices/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1_nc.json5",
         ),
         (
             tuple(
                 test_data
-                / "ndvi_global_1km_10daily_v3"
+                / "vegetation_indices/ndvi_global_1km_10daily_v3"
                 / f"c_gls_NDVI-{band}_199901010000_GLOBE_VGT_V3.0.1.tiff"
                 for band in ("NDVI", "NOBS", "QFLAG", "TIMEGRID", "UNC")
             ),
             test_reference
-            / "ndvi_global_1km_10daily_v3/c_gls_NDVI_199901010000_GLOBE_VGT_V3.0.1_cog.json5",
+            / "vegetation_indices/ndvi_global_1km_10daily_v3/c_gls_NDVI_199901010000_GLOBE_VGT_V3.0.1_cog.json5",
         ),
         # ba_global_300m_daily_v3
         (
             (
                 test_data
-                / "ba_global_300m_daily_v3/c_gls_BA300-NRT_202402200000_GLOBE_S3_V3.1.1.nc",
+                / "burnt_area/ba_global_300m_daily_v3/c_gls_BA300-NRT_202402200000_GLOBE_S3_V3.1.1.nc",
             ),
             test_reference
-            / "ba_global_300m_daily_v3/c_gls_BA300-NRT_202402200000_GLOBE_S3_V3.1.1_nc.json5",
+            / "burnt_area/ba_global_300m_daily_v3/c_gls_BA300-NRT_202402200000_GLOBE_S3_V3.1.1_nc.json5",
         ),
         # ba_global_300m_daily_v3
         (
             (
                 test_data
-                / "ba_global_300m_monthly_v3/c_gls_BA300-NTC_202306010000_GLOBE_S3_V3.1.1.nc",
+                / "burnt_area/ba_global_300m_monthly_v3/c_gls_BA300-NTC_202306010000_GLOBE_S3_V3.1.1.nc",
             ),
             test_reference
-            / "ba_global_300m_monthly_v3/c_gls_BA300-NTC_202306010000_GLOBE_S3_V3.1.1_nc.json5",
+            / "burnt_area/ba_global_300m_monthly_v3/c_gls_BA300-NTC_202306010000_GLOBE_S3_V3.1.1_nc.json5",
         ),
     ],
 )
@@ -72,8 +72,8 @@ def test_builder(files, reference):
         (
             "c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2",
             (
-                test_root
-                / "data/fapar_global_300m_10daily_v1/c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2.nc",
+                test_data
+                / "vegetation_properties/fapar_global_300m_10daily_v1/c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2.nc",
             ),
             ContentDate(start="2023-02-01T00:00:00Z", end="2023-02-10T23:59:59.999Z"),
         )
@@ -160,16 +160,16 @@ def test_cls_netcdf_products(file_name):
     ("path", "reference"),
     [
         (
-            test_root
-            / "data/wl-lakes_global_vector_daily_v2/c_gls_WL_202412050703_1300000000166_ALTI_V2.2.0.json",
-            test_root
-            / "reference/wl-lakes_global_vector_daily_v2/c_gls_WL_202412050703_1300000000166_ALTI_V2.2.0.json",
+            test_data
+            / "river_and_lake_water_level/wl-lakes_global_vector_daily_v2/c_gls_WL_202412050703_1300000000166_ALTI_V2.2.0.json",
+            test_reference
+            / "river_and_lake_water_level/wl-lakes_global_vector_daily_v2/c_gls_WL_202412050703_1300000000166_ALTI_V2.2.0.json",
         ),
         (
-            test_root
-            / "data/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
-            test_root
-            / "reference/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json5",
+            test_data
+            / "river_and_lake_water_level/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
+            test_reference
+            / "river_and_lake_water_level/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json5",
         ),
     ],
 )
