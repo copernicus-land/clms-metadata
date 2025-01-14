@@ -8,20 +8,22 @@ from clms_metadata.config import LinkSettings, Settings
 from clms_metadata.models import ContentDate, Metadata
 from clms_metadata.storage import LocalFileSystem
 
-test_data = Path(__file__).parent / "data"
 test_root = Path(__file__).parent
+test_data = test_root / "data"
+test_reference = test_root / "reference"
 
 
 @pytest.mark.parametrize(
     ("files", "reference"),
     [
+        # ndvi_global_1km_10daily_v3
         (
             (
-                test_root
-                / "data/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
+                test_data
+                / "ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
             ),
-            test_root
-            / "reference/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1_nc.json5",
+            test_reference
+            / "ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1_nc.json5",
         ),
         (
             tuple(
@@ -30,18 +32,37 @@ test_root = Path(__file__).parent
                 / f"c_gls_NDVI-{band}_199901010000_GLOBE_VGT_V3.0.1.tiff"
                 for band in ("NDVI", "NOBS", "QFLAG", "TIMEGRID", "UNC")
             ),
-            test_root
-            / "reference/ndvi_global_1km_10daily_v3/c_gls_NDVI_199901010000_GLOBE_VGT_V3.0.1_cog.json5",
+            test_reference
+            / "ndvi_global_1km_10daily_v3/c_gls_NDVI_199901010000_GLOBE_VGT_V3.0.1_cog.json5",
+        ),
+        # ba_global_300m_daily_v3
+        (
+            (
+                test_data
+                / "ba_global_300m_daily_v3/c_gls_BA300-NRT_202402200000_GLOBE_S3_V3.1.1.nc",
+            ),
+            test_reference
+            / "ba_global_300m_daily_v3/c_gls_BA300-NRT_202402200000_GLOBE_S3_V3.1.1_nc.json5",
+        ),
+        # ba_global_300m_daily_v3
+        (
+            (
+                test_data
+                / "ba_global_300m_monthly_v3/c_gls_BA300-NTC_202306010000_GLOBE_S3_V3.1.1.nc",
+            ),
+            test_reference
+            / "ba_global_300m_monthly_v3/c_gls_BA300-NTC_202306010000_GLOBE_S3_V3.1.1_nc.json5",
         ),
     ],
 )
-def test_ndvi_1km_v3_10daily(files, reference):
+def test_builder(files, reference):
     assert all(p.exists() for p in files)
 
     builder = MetadataBuilder(
         storage=LocalFileSystem(), settings=Settings(link=LinkSettings(value="test"))
     )
     m = builder.build(files)
+    print(m)
     compare_with_reference_file(m, reference)
 
 
@@ -188,6 +209,6 @@ def compare_with_reference(m: Metadata, expected: dict):
         assert v == m_dict.get(k)
 
     attributes = {a["name"]: a["value"] for a in m_dict["attributes"]}
-    assert {
+    assert expected_attributes == {
         k: v for k, v in attributes.items() if k in expected_attributes
-    } == expected_attributes
+    }

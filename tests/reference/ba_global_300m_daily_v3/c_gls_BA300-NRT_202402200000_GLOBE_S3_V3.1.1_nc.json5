@@ -1,0 +1,29 @@
+{
+    "name": "c_gls_BA300-NRT_202402200000_GLOBE_S3_V3.1.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "product_type": "burnt_area",
+    "content_date": {
+        "start": "2024-02-20T00:00:00Z",
+        "end": "2024-02-20T23:59:59Z"
+    },
+    "attributes": {
+        "productVersion": "v3.1.1",
+        "datasetVersion": 3,
+        "nominalDate": "2024-02-20T00:00:00Z",
+        "fileFormat": "nc",
+        "processingCenter": "VITO",
+        "missionShortName": "SENTINEL3",
+        "platformShortName": null,
+        "platformAcronym": null,
+        "instrumentShortName": "OLCI,SLSTR",
+        "datasetIdentifier": "ba_global_300m_daily_v3",
+        "datasetShortName": "ba",
+        "datasetAlias": "ba_global_300m_daily",
+        "component": "bio-geophysical",
+        "areaOfInterest": "global",
+        "gridLabel": "300m",
+        "metricGridSpacing": 300,
+        "temporalRepeatRate": "daily"
+    }
+}

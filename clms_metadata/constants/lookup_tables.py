@@ -25,58 +25,64 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
 }
 PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
     re.compile(
-        r"c_gls_NDVI_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_BA300-NRT_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    ): "ba_global_300m_daily_v{version_major}",
+    re.compile(
+        r"c_gls_BA300-NTC_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    ): "ba_global_300m_monthly_v{version_major}",
+    re.compile(
+        r"c_gls_NDVI_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "ndvi_global_1km_10daily_v{version_major}",
     re.compile(
-        r"c_gls_DMP300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_DMP300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "dmp_global_300m_10daily_v{version_major}",
     re.compile(
-        r"c_gls_FAPAR300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_FAPAR300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "fapar_global_300m_10daily_v{version_major}",
     re.compile(
-        r"c_gls_LSWT_\d{12}_GLOBE_AATSR_v(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_LSWT_\d{12}_GLOBE_AATSR_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "lswt-offline_global_1km_10daily_v{version_major}",
     re.compile(
-        r"c_gls_LSWT_\d{12}_GLOBE_SLSTR(?:A|AB)_v(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_LSWT_\d{12}_GLOBE_SLSTR(?:A|AB)_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "lswt-nrt_global_1km_10daily_v{version_major}",
     re.compile(
-        r"c_gls_LWQ300_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_LWQ300_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "lwq-nrt_global_300m_10daily_v{version_major}",
     re.compile(
-        r"c_gls_LWQ300_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_LWQ300_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "lwq-reproc_global_300m_10daily_v{version_major}",
     re.compile(
-        r"c_gls_LWQ100_\d{12}_GLOBAL_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d)"
+        r"c_gls_LWQ100_\d{12}_GLOBAL_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d)"
     ): "lwq-nrt_global_100m_10daily_v{version_major}",
     re.compile(
-        r"c_gls_LIE-NH_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_LIE-NH_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "lie_northernhemisphere_500m_daily_v{version_major}",
     re.compile(
-        r"c_gls_LIE250_\d{12}_Baltic_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_LIE250_\d{12}_Baltic_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "lie_baltic_250m_daily_v{version_major}",
     re.compile(
-        r"c_gls_LIE250_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_LIE250_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "lie_europe_250m_daily_v{version_major}",
     re.compile(
-        r"c_gls_SCE500_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_SCE500_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "sce_europe_500m_daily_v{version_major}",
     re.compile(
-        r"c_gls_SCE_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_SCE_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "sce_northernhemisphere_1km_daily_v{version_major}",
     re.compile(
-        r"c_gls_SWE5K_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_SWE5K_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "swe_northernhemisphere_5km_daily_v{version_major}",
     re.compile(
-        r"c_gls_WB100_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_WB100_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "wb_global_100m_monthly_v{version_major}",
     re.compile(
-        r"c_gls_WB300_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d).\d.\d)"
+        r"c_gls_WB300_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "wb_global_300m_monthly_v{version_major}",
     re.compile(
-        r"c_gls_LWQ1km_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d).\d)"
+        r"c_gls_LWQ1km_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d)\.\d)"
     ): "lwq-nrt_global_1km_10daily_v{version_major}",
     re.compile(
-        r"c_gls_LWQ1km_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d).\d)"
+        r"c_gls_LWQ1km_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d)\.\d)"
     ): "lwq-reproc_global_1km_10daily_v{version_major}",
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
@@ -90,6 +96,7 @@ DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^wb"): "water_bodies",
     re.compile(r"^lwq"): "lake_water_quality",
     re.compile(r"^lie"): "river_and_lake_ice_extent",
+    re.compile(r"ba_"): "burnt_area",
 }
 COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
     "bio-geophysical": {
@@ -103,6 +110,7 @@ COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
         "river_and_lake_ice_extent",
         "vegetation_properties",
         "river_and_lake_water_level",
+        "burnt_area",
     }
 }
 DATASET_SHORT_NAMES = {
