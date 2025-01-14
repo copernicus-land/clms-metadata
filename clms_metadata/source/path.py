@@ -11,7 +11,6 @@ from overrides import overrides
 
 from clms_metadata.constants import attributes
 from clms_metadata.models import (
-    DateTimeOffsetAttribute,
     IntegerAttribute,
     Metadata,
     StringAttribute,
@@ -54,11 +53,8 @@ class PathSource(MetadataSource):
             factory=lambda: int(version[1:].split(".")[0]),
         )
 
-        metadata.add_attribute(
-            name=attributes.NOMINAL_DATE,
-            value_type=DateTimeOffsetAttribute,
-            factory=lambda: get_nominal_date(product_id),
-        )
+        if not metadata.nominal_date:
+            metadata.nominal_date = get_nominal_date(product_id)
 
         if not metadata.content_type:
             metadata.content_type = get_content_type(product_files)

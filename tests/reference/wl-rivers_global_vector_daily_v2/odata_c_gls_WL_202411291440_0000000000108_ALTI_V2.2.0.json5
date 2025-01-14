@@ -5,9 +5,11 @@
     "OriginDate": "2024-12-02T01:01:00Z",
     "Online": true,
     "ContentType": "application/geo+json",
-    "Link": "/home/stijn/PycharmProjects/clms-metadata/tests/data/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
+    "Link": "wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
     "CollectionName": "CLMS",
+    "Component": "bio-geophysical",
     "ProductType": "river_and_lake_water_level",
+    "DatasetIdentifier": "wl-rivers_global_vector_daily_v2",
     "TargetFormat": "EXTRACTED",
     "DecompressionStep": false,
     "CompressionType": null,
@@ -15,7 +17,14 @@
         "Start": "2018-12-04T14:39:00Z",
         "End": "2024-11-29T14:40:00Z"
     },
-    "GeoFootprint": {"type": "Point", "coordinates": [-71.6349, -11.6986]},
+    "NominalDate": "2024-11-29T14:40:00Z",
+    "GeoFootprint": {
+        "type": "Point",
+        "coordinates": [
+            -71.6349,
+            -11.6986
+        ]
+    },
     "Attributes": [
         {
             "Name": "productVersion",
@@ -28,11 +37,6 @@
             "Value": 2
         },
         {
-            "Name": "nominalDate",
-            "ValueType": "DateTimeOffset",
-            "Value": "2024-11-29T14:40:00Z"
-        },
-        {
             "Name": "fileFormat",
             "ValueType": "String",
             "Value": "geojson"
@@ -41,11 +45,6 @@
             "Name": "wlRiverName",
             "ValueType": "String",
             "Value": "Alto-madre-de-dios-trib-01"
-        },
-        {
-            "Name": "datasetIdentifier",
-            "ValueType": "String",
-            "Value": "wl-rivers_global_vector_daily_v2"
         },
         {
             "Name": "wlBasinName",
@@ -81,11 +80,6 @@
             "Name": "datasetAlias",
             "ValueType": "String",
             "Value": "wl-rivers_global_vector_daily"
-        },
-        {
-            "Name": "component",
-            "ValueType": "String",
-            "Value": "bio-geophysical"
         },
         {
             "Name": "areaOfInterest",
