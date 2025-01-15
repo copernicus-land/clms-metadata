@@ -53,6 +53,60 @@ test_reference = test_root / "reference"
             test_reference
             / "burnt_area/ba_global_300m_monthly_v3/c_gls_BA300-NTC_202306010000_GLOBE_S3_V3.1.1_nc.json5",
         ),
+        # dmp_global_1km_10daily_v2/
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/dmp_global_1km_10daily_v2/c_gls_DMP_200109100000_GLOBE_VGT_V2.0.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/dmp_global_1km_10daily_v2/c_gls_DMP_200109100000_GLOBE_VGT_V2.0.1_nc.json5",
+        ),
+        # dmp_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/dmp_global_300m_10daily_v1/c_gls_DMP300-RT5_201502200000_GLOBE_PROBAV_V1.0.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/dmp_global_300m_10daily_v1/c_gls_DMP300-RT5_201502200000_GLOBE_PROBAV_V1.0.1_nc.json5",
+        ),
+        # gdmp_global_1km_10daily_v2
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/gdmp_global_1km_10daily_v2/c_gls_GDMP_199901310000_GLOBE_VGT_V2.0.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/gdmp_global_1km_10daily_v2/c_gls_GDMP_199901310000_GLOBE_VGT_V2.0.1_nc.json5",
+        ),
+        # gdmp_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/gdmp_global_300m_10daily_v1/c_gls_GDMP300-RT0_202501100000_GLOBE_OLCI_V1.1.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/gdmp_global_300m_10daily_v1/c_gls_GDMP300-RT0_202501100000_GLOBE_OLCI_V1.1.1_nc.json5",
+        ),
+        # gpp_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/gpp_global_300m_10daily_v1/c_gls_GPP300-RT2_202410310000_GLOBE_OLCI_V1.1.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/gpp_global_300m_10daily_v1/c_gls_GPP300-RT2_202410310000_GLOBE_OLCI_V1.1.1_nc.json5",
+        ),
+        # npp_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/npp_global_300m_10daily_v1/c_gls_NPP300-RT6_202307100000_GLOBE_OLCI_V1.1.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/npp_global_300m_10daily_v1/c_gls_NPP300-RT6_202307100000_GLOBE_OLCI_V1.1.1_nc.json5",
+        ),
     ],
 )
 def test_builder(files, reference):

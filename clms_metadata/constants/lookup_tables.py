@@ -34,8 +34,11 @@ PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
         r"c_gls_NDVI_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "ndvi_global_1km_10daily_v{version_major}",
     re.compile(
-        r"c_gls_DMP300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "dmp_global_300m_10daily_v{version_major}",
+        r"c_gls_(?P<variable>DMP|GDMP|NPP|GPP)300(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    ): "{variable}_global_300m_10daily_v{version_major}",
+    re.compile(
+        r"c_gls_(?P<variable>DMP|GDMP)(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    ): "{variable}_global_1km_10daily_v{version_major}",
     re.compile(
         r"c_gls_FAPAR300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "fapar_global_300m_10daily_v{version_major}",
@@ -87,7 +90,7 @@ PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"ndvi[_-]"): "vegetation_indices",
-    re.compile(r"g?dmp[_-]"): "dry-gross_dry_matter_productivity",
+    re.compile(r"dmp|gdmp|gpp|npp[_-]"): "dry-gross_dry_matter_productivity",
     re.compile(r"wl-(rivers|lakes)_"): "river_and_lake_water_level",
     re.compile(r"(fapar|fcover|lai)[_-]"): "vegetation_properties",
     re.compile(r"^sce"): "snow_cover_extent",
