@@ -1,0 +1,30 @@
+{
+    "name": "c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2023-02-01T00:00:00Z",
+        "end": "2023-02-10T23:59:59.999Z"
+    },
+    "nominal_date": "2023-02-10T00:00:00Z",
+    "product_type": "vegetation_properties",
+    "component": "bio-geophysical",
+    "dataset_identifier": "fapar_global_300m_10daily_v1",
+    "attributes": {
+        "productVersion": "v1.1.2",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "consolidationPeriod": 6,
+        "processingCenter": "VITO",
+        "missionShortName": "SENTINEL3",
+        "instrumentShortName": "OLCI",
+        "datasetShortName": "fapar",
+        "datasetAlias": "fapar_global_300m_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 300,
+        "gridLabel": "300m",
+        "temporalRepeatRate": "10-daily",
+        "platformShortName": null,
+        "platformAcronym": null
+    }
+}

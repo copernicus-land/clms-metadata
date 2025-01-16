@@ -1,0 +1,30 @@
+{
+    "name": "c_gls_GDMP300-RT0_202501100000_GLOBE_OLCI_V1.1.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2025-01-01T00:00:00Z",
+        "end": "2025-01-10T23:59:59Z"
+    },
+    "nominal_date": "2025-01-10T00:00:00Z",
+    "product_type": "dry-gross_dry_matter_productivity",
+    "component": "bio-geophysical",
+    "dataset_identifier": "gdmp_global_300m_10daily_v1",
+    "attributes": {
+        "productVersion": "v1.1.1",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "consolidationPeriod": 0,
+        "processingCenter": "VITO",
+        "missionShortName": "SENTINEL3",
+        "instrumentShortName": "OLCI",
+        "datasetShortName": "gdmp",
+        "datasetAlias": "gdmp_global_300m_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 300,
+        "gridLabel": "300m",
+        "temporalRepeatRate": "10-daily",
+        "platformShortName": null,
+        "platformAcronym": null
+    }
+}

@@ -384,17 +384,14 @@ def get_dataset_identifier_from_identifier_tag(tags: dict) -> str | None:
             raise (ValueError("No identifier found in raster metadata"))
 
         identifier_parts = identifier.split(":")
-        file_identifier = identifier_parts[-1]
         parent_identifier = identifier_parts[-2]
-        dataset_identifier = lookup_tables.IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING[
-            parent_identifier
+        [(match, template)] = [
+            (match, dataset_id_template)
+            for regex_id, dataset_id_template in lookup_tables.IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING.items()
+            if (match := regex_id.match(parent_identifier))
         ]
+        dataset_identifier = template.format_map(match.groupdict())
 
-        version_matcher = re.compile(r"[vV]\d+(\.\d+)+")
-        version = version_matcher.search(file_identifier).group()
-        dataset_identifier = dataset_identifier.format(
-            version_major=version.split(".")[0][1:]
-        )
         logger.debug(
             "Extracted dataset identifier {} from {}", dataset_identifier, identifier
         )

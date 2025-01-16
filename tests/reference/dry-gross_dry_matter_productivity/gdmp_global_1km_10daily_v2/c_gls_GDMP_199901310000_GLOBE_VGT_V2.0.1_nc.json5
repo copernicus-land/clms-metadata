@@ -1,0 +1,30 @@
+{
+    "name": "c_gls_GDMP_199901310000_GLOBE_VGT_V2.0.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "1999-01-21T00:00:00Z",
+        "end": "1999-01-31T23:59:59Z"
+    },
+    "nominal_date": "1999-01-31T00:00:00Z",
+    "product_type": "dry-gross_dry_matter_productivity",
+    "component": "bio-geophysical",
+    "dataset_identifier": "gdmp_global_1km_10daily_v2",
+    "attributes": {
+        "productVersion": "v2.0.1",
+        "datasetVersion": 2,
+        "fileFormat": "nc",
+        "processingCenter": "VITO",
+        "missionShortName": "SPOT4",
+        "platformShortName": "SPOT4",
+        "platformAcronym": "SPOT4",
+        "instrumentShortName": "VEGETATION-1",
+        // TODO: VEGETATION or VEGETATION-1?
+        "datasetShortName": "gdmp",
+        "datasetAlias": "gdmp_global_1km_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 1000,
+        "gridLabel": "1km",
+        "temporalRepeatRate": "10-daily"
+    }
+}

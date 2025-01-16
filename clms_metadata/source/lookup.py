@@ -135,7 +135,7 @@ class LookupSource(MetadataSource):
         """
         for regex, value in PRODUCT_NAME_TO_DATASET.items():
             if match := regex.match(file_name):
-                return value.format_map(match.groupdict())
+                return value.format_map(match.groupdict()).lower()
         raise ValueError(
             f"No collection regex match was found for filename {file_name}"
         )

@@ -7,22 +7,24 @@ from pyjson5 import pyjson5
 from clms_metadata.cli import odata
 
 test_root = Path(__file__).parent.parent
+test_data = test_root / "data"
+test_reference = test_root / "reference"
 
 
 @pytest.mark.parametrize(
     ("path", "reference_path"),
     [
         (  # ndvi_1km_v3_10daily
-            test_root
-            / "data/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
-            test_root
-            / "reference/ndvi_global_1km_10daily_v3/odata_c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1_nc.json5",
+            test_data
+            / "vegetation_indices/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
+            test_reference
+            / "vegetation_indices/ndvi_global_1km_10daily_v3/odata_c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1_nc.json5",
         ),
         (  # wl-rivers_vector_daily
-            test_root
-            / "data/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
-            test_root
-            / "reference/wl-rivers_global_vector_daily_v2/odata_c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json5",
+            test_data
+            / "river_and_lake_water_level/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
+            test_reference
+            / "river_and_lake_water_level/wl-rivers_global_vector_daily_v2/odata_c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json5",
         ),
     ],
 )

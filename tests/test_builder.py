@@ -8,40 +8,133 @@ from clms_metadata.config import LinkSettings, Settings
 from clms_metadata.models import ContentDate, Metadata
 from clms_metadata.storage import LocalFileSystem
 
-test_data = Path(__file__).parent / "data"
 test_root = Path(__file__).parent
+test_data = test_root / "data"
+test_reference = test_root / "reference"
 
 
 @pytest.mark.parametrize(
     ("files", "reference"),
     [
+        # ndvi_global_1km_10daily_v3
         (
             (
-                test_root
-                / "data/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
+                test_data
+                / "vegetation_indices/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1.nc",
             ),
-            test_root
-            / "reference/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1_nc.json5",
+            test_reference
+            / "vegetation_indices/ndvi_global_1km_10daily_v3/c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1_nc.json5",
         ),
         (
             tuple(
                 test_data
-                / "ndvi_global_1km_10daily_v3"
+                / "vegetation_indices/ndvi_global_1km_10daily_v3"
                 / f"c_gls_NDVI-{band}_199901010000_GLOBE_VGT_V3.0.1.tiff"
                 for band in ("NDVI", "NOBS", "QFLAG", "TIMEGRID", "UNC")
             ),
-            test_root
-            / "reference/ndvi_global_1km_10daily_v3/c_gls_NDVI_199901010000_GLOBE_VGT_V3.0.1_cog.json5",
+            test_reference
+            / "vegetation_indices/ndvi_global_1km_10daily_v3/c_gls_NDVI_199901010000_GLOBE_VGT_V3.0.1_cog.json5",
+        ),
+        # ba_global_300m_daily_v3
+        (
+            (
+                test_data
+                / "burnt_area/ba_global_300m_daily_v3/c_gls_BA300-NRT_202402200000_GLOBE_S3_V3.1.1.nc",
+            ),
+            test_reference
+            / "burnt_area/ba_global_300m_daily_v3/c_gls_BA300-NRT_202402200000_GLOBE_S3_V3.1.1_nc.json5",
+        ),
+        # ba_global_300m_daily_v3
+        (
+            (
+                test_data
+                / "burnt_area/ba_global_300m_monthly_v3/c_gls_BA300-NTC_202306010000_GLOBE_S3_V3.1.1.nc",
+            ),
+            test_reference
+            / "burnt_area/ba_global_300m_monthly_v3/c_gls_BA300-NTC_202306010000_GLOBE_S3_V3.1.1_nc.json5",
+        ),
+        # dmp_global_1km_10daily_v2/
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/dmp_global_1km_10daily_v2/c_gls_DMP_200109100000_GLOBE_VGT_V2.0.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/dmp_global_1km_10daily_v2/c_gls_DMP_200109100000_GLOBE_VGT_V2.0.1_nc.json5",
+        ),
+        # dmp_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/dmp_global_300m_10daily_v1/c_gls_DMP300-RT5_201502200000_GLOBE_PROBAV_V1.0.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/dmp_global_300m_10daily_v1/c_gls_DMP300-RT5_201502200000_GLOBE_PROBAV_V1.0.1_nc.json5",
+        ),
+        # gdmp_global_1km_10daily_v2
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/gdmp_global_1km_10daily_v2/c_gls_GDMP_199901310000_GLOBE_VGT_V2.0.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/gdmp_global_1km_10daily_v2/c_gls_GDMP_199901310000_GLOBE_VGT_V2.0.1_nc.json5",
+        ),
+        # gdmp_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/gdmp_global_300m_10daily_v1/c_gls_GDMP300-RT0_202501100000_GLOBE_OLCI_V1.1.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/gdmp_global_300m_10daily_v1/c_gls_GDMP300-RT0_202501100000_GLOBE_OLCI_V1.1.1_nc.json5",
+        ),
+        # gpp_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/gpp_global_300m_10daily_v1/c_gls_GPP300-RT2_202410310000_GLOBE_OLCI_V1.1.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/gpp_global_300m_10daily_v1/c_gls_GPP300-RT2_202410310000_GLOBE_OLCI_V1.1.1_nc.json5",
+        ),
+        # npp_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "dry-gross_dry_matter_productivity/npp_global_300m_10daily_v1/c_gls_NPP300-RT6_202307100000_GLOBE_OLCI_V1.1.1.nc",
+            ),
+            test_reference
+            / "dry-gross_dry_matter_productivity/npp_global_300m_10daily_v1/c_gls_NPP300-RT6_202307100000_GLOBE_OLCI_V1.1.1_nc.json5",
+        ),
+        # fapar_global_1km_10daily_v2
+        (
+            (
+                test_data
+                / "vegetation_properties/fapar_global_1km_10daily_v2/c_gls_FAPAR_199908100000_GLOBE_VGT_V2.0.2.nc",
+            ),
+            test_reference
+            / "vegetation_properties/fapar_global_1km_10daily_v2/c_gls_FAPAR_199908100000_GLOBE_VGT_V2.0.2_nc.json5",
+        ),
+        # fapar_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "vegetation_properties/fapar_global_300m_10daily_v1/c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2.nc",
+            ),
+            test_reference
+            / "vegetation_properties/fapar_global_300m_10daily_v1/c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2_nc.json5",
         ),
     ],
 )
-def test_ndvi_1km_v3_10daily(files, reference):
+def test_builder(files, reference):
     assert all(p.exists() for p in files)
 
     builder = MetadataBuilder(
         storage=LocalFileSystem(), settings=Settings(link=LinkSettings(value="test"))
     )
     m = builder.build(files)
+    print(m)
     compare_with_reference_file(m, reference)
 
 
@@ -51,8 +144,8 @@ def test_ndvi_1km_v3_10daily(files, reference):
         (
             "c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2",
             (
-                test_root
-                / "data/fapar_global_300m_10daily_v1/c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2.nc",
+                test_data
+                / "vegetation_properties/fapar_global_300m_10daily_v1/c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2.nc",
             ),
             ContentDate(start="2023-02-01T00:00:00Z", end="2023-02-10T23:59:59.999Z"),
         )
@@ -67,35 +160,6 @@ def test_fapar_global_300m_10daily_v1(name, files, content_date):
     m = builder.build(files)
     assert m.name == name
     assert m.content_date == content_date
-
-
-@pytest.mark.skip  # TODO: implement test for DMP
-def test_dmp_300m_v1_10daily_geotiff():
-    paths = [
-        (
-            test_data
-            / (
-                f"geotiff/dry_matter_productivity/dmp_300m_v1_10daily/2024/20240820/"
-                f"c_gls_DMP300-{band}-RT1_202408200000_GLOBE_OLCI_V1.1.1.tiff"
-            )
-        )
-        for band in ("DMP", "QFLAG")
-    ]
-    assert all(p.exists() for p in paths)
-
-    settings = Settings(
-        link=LinkSettings(value="c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"),
-    )
-
-    builder = MetadataBuilder(storage=LocalFileSystem(), settings=settings)
-    m = builder.build(paths)
-    assert m.name == "c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"
-    assert m.name_suffix == "cog"
-    assert m.content_type == "application/tiff"
-    assert m.get_attribute("datasetIdentifier").value == "dmp_global_300m_10daily_v1"
-    assert m.get_attribute("metricGridSpacing").value == 300
-    assert m.get_attribute("platformShortName").value == "SENTINEL-3"
-    assert m.get_attribute("instrumentShortName").value == "OLCI"
 
 
 @pytest.mark.parametrize(
@@ -139,16 +203,16 @@ def test_cls_netcdf_products(file_name):
     ("path", "reference"),
     [
         (
-            test_root
-            / "data/wl-lakes_global_vector_daily_v2/c_gls_WL_202412050703_1300000000166_ALTI_V2.2.0.json",
-            test_root
-            / "reference/wl-lakes_global_vector_daily_v2/c_gls_WL_202412050703_1300000000166_ALTI_V2.2.0.json",
+            test_data
+            / "river_and_lake_water_level/wl-lakes_global_vector_daily_v2/c_gls_WL_202412050703_1300000000166_ALTI_V2.2.0.json",
+            test_reference
+            / "river_and_lake_water_level/wl-lakes_global_vector_daily_v2/c_gls_WL_202412050703_1300000000166_ALTI_V2.2.0.json",
         ),
         (
-            test_root
-            / "data/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
-            test_root
-            / "reference/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json5",
+            test_data
+            / "river_and_lake_water_level/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
+            test_reference
+            / "river_and_lake_water_level/wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json5",
         ),
     ],
 )
@@ -168,8 +232,14 @@ def compare_with_reference_file(m: Metadata, reference: Path):
     :param reference: path to reference file
     :return:
     """
-    with open(reference) as f:
-        expected = pyjson5.load(f)
+    try:
+        with open(reference) as f:
+            expected = pyjson5.load(f)
+    except FileNotFoundError as e:
+        dump = m.model_dump()
+        dump["attributes"] = {a["name"]: a["value"] for a in dump["attributes"]}
+        print(dump)
+        raise e
     compare_with_reference(m, expected)
 
 
@@ -188,6 +258,6 @@ def compare_with_reference(m: Metadata, expected: dict):
         assert v == m_dict.get(k)
 
     attributes = {a["name"]: a["value"] for a in m_dict["attributes"]}
-    assert {
+    assert expected_attributes == {
         k: v for k, v in attributes.items() if k in expected_attributes
-    } == expected_attributes
+    }

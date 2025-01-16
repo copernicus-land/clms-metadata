@@ -1,0 +1,31 @@
+{
+    "name": "c_gls_GPP300-RT2_202410310000_GLOBE_OLCI_V1.1.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2024-10-21T00:00:00Z",
+        "end": "2024-10-31T23:59:59Z"
+    },
+    "nominal_date": "2024-10-31T00:00:00Z",
+
+    "product_type": "dry-gross_dry_matter_productivity",
+    "component": "bio-geophysical",
+    "dataset_identifier": "gpp_global_300m_10daily_v1",
+    "attributes": {
+        "areaOfInterest": "global",
+        "consolidationPeriod": 2,
+        "datasetAlias": "gpp_global_300m_10daily",
+        "datasetShortName": "gpp",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "gridLabel": "300m",
+        "instrumentShortName": "OLCI",
+        "metricGridSpacing": 300,
+        "missionShortName": "SENTINEL3",
+        "platformAcronym": null,
+        "platformShortName": null,
+        "processingCenter": "VITO",
+        "productVersion": "v1.1.1",
+        "temporalRepeatRate": "10-daily"
+    }
+}

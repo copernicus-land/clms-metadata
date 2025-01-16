@@ -63,3 +63,5 @@ ds = rioxarray.open_rasterio(path_in)
 ds = ds.rio.clip_box(min_x, min_y, max_x, max_y)
 ds.to_netcdf(path_out)
 ```
+
+A useful script to perform the clipping of a multi-dataset netCDF is included in this repository: [`scripts/clip.py`](./scripts/clip.py)

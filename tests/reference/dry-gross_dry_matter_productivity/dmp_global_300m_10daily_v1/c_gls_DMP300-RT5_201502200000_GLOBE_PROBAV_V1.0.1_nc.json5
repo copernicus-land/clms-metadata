@@ -1,0 +1,30 @@
+{
+    "name": "c_gls_DMP300-RT5_201502200000_GLOBE_PROBAV_V1.0.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2015-02-11T00:00:00Z",
+        "end": "2015-02-20T23:59:59Z"
+    },
+    "nominal_date": "2015-02-20T00:00:00Z",
+    "product_type": "dry-gross_dry_matter_productivity",
+    "component": "bio-geophysical",
+    "dataset_identifier": "dmp_global_300m_10daily_v1",
+    "attributes": {
+        "productVersion": "v1.0.1",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "consolidationPeriod": 5,
+        "processingCenter": "VITO",
+        "missionShortName": "PROBAV",
+        "platformShortName": "PROBAV",
+        "platformAcronym": "PROBAV",
+        "instrumentShortName": "VEGETATION",
+        "datasetShortName": "dmp",
+        "datasetAlias": "dmp_global_300m_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 300,
+        "gridLabel": "300m",
+        "temporalRepeatRate": "10-daily"
+    }
+}

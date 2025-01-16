@@ -167,7 +167,13 @@ def test_get_platform(platformstr, expected):
             {
                 "identifier": "urn:cgls:continents:lie_v1_250m:LIE250_201703150000_Baltic_MODIS_V1.0.1"
             },
-            "lie_baltic_250m_daily_v1",
+            None,  # lie_vx_250m not unique to Baltic
+        ),
+        (
+            {
+                "identifier": "=urn:cgls:continents:lie_v2_250m:LIE250_202402190000_CEURO_VIIRS_V2.2.1"
+            },
+            None,  # lie_vx_250m not unique to CEURO
         ),
         (
             {
@@ -190,12 +196,6 @@ def test_get_platform(platformstr, expected):
         (
             {
                 "identifier": "urn:cgls:global:not_in_mapping:LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1"
-            },
-            None,
-        ),
-        (
-            {
-                "identifier": "urn:cgls:global:lie_nh_v1_500m:LIE-NH_202104010000_NHEMI_SLSTR_1.1.1"
             },
             None,
         ),
