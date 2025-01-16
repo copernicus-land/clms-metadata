@@ -36,8 +36,8 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
         r"wb_v(?P<version_major>\d+)_300m"
     ): "wb_global_300m_monthly_v{version_major}",
     re.compile(
-        r"ndvi_v(?P<version_major>\d+)_1km"
-    ): "ndvi_global_1km_10daily_v{version_major}",
+        r"(?P<variable>ndvi|fapar)_v(?P<version_major>\d+)_1km"
+    ): "{variable}_global_1km_10daily_v{version_major}",
     re.compile(
         r"(?P<variable>fapar|dmp|gdmp|npp|gpp)300_v(?P<version_major>\d+)_333m"
     ): "{variable}_global_300m_10daily_v{version_major}",

@@ -107,6 +107,15 @@ test_reference = test_root / "reference"
             test_reference
             / "dry-gross_dry_matter_productivity/npp_global_300m_10daily_v1/c_gls_NPP300-RT6_202307100000_GLOBE_OLCI_V1.1.1_nc.json5",
         ),
+        # fapar_global_1km_10daily_v2
+        (
+            (
+                test_data
+                / "vegetation_properties/fapar_global_1km_10daily_v2/c_gls_FAPAR_199908100000_GLOBE_VGT_V2.0.2.nc",
+            ),
+            test_reference
+            / "vegetation_properties/fapar_global_1km_10daily_v2/c_gls_FAPAR_199908100000_GLOBE_VGT_V2.0.2_nc.json5",
+        ),
     ],
 )
 def test_builder(files, reference):
@@ -214,8 +223,14 @@ def compare_with_reference_file(m: Metadata, reference: Path):
     :param reference: path to reference file
     :return:
     """
-    with open(reference) as f:
-        expected = pyjson5.load(f)
+    try:
+        with open(reference) as f:
+            expected = pyjson5.load(f)
+    except FileNotFoundError as e:
+        dump = m.model_dump()
+        dump["attributes"] = {a["name"]: a["value"] for a in dump["attributes"]}
+        print(dump)
+        raise e
     compare_with_reference(m, expected)
 
 
