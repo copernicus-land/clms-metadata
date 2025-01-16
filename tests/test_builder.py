@@ -144,35 +144,6 @@ def test_fapar_global_300m_10daily_v1(name, files, content_date):
     assert m.content_date == content_date
 
 
-@pytest.mark.skip  # TODO: implement test for DMP
-def test_dmp_300m_v1_10daily_geotiff():
-    paths = [
-        (
-            test_data
-            / (
-                f"geotiff/dry_matter_productivity/dmp_300m_v1_10daily/2024/20240820/"
-                f"c_gls_DMP300-{band}-RT1_202408200000_GLOBE_OLCI_V1.1.1.tiff"
-            )
-        )
-        for band in ("DMP", "QFLAG")
-    ]
-    assert all(p.exists() for p in paths)
-
-    settings = Settings(
-        link=LinkSettings(value="c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"),
-    )
-
-    builder = MetadataBuilder(storage=LocalFileSystem(), settings=settings)
-    m = builder.build(paths)
-    assert m.name == "c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1"
-    assert m.name_suffix == "cog"
-    assert m.content_type == "application/tiff"
-    assert m.get_attribute("datasetIdentifier").value == "dmp_global_300m_10daily_v1"
-    assert m.get_attribute("metricGridSpacing").value == 300
-    assert m.get_attribute("platformShortName").value == "SENTINEL-3"
-    assert m.get_attribute("instrumentShortName").value == "OLCI"
-
-
 @pytest.mark.parametrize(
     "file_name",
     [
