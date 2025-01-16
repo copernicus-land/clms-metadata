@@ -8,5 +8,9 @@ app.command(clms_metadata.cli.odata.app, name="odata")
 app.command(clms_metadata.cli.product.app, name="product")
 
 
-if __name__ == "__main__":
+def main():
     app()
+
+
+if __name__ == "__main__":
+    main()

@@ -1,6 +1,6 @@
 [project]
 name = "clms-metadata"
-version = "0.1.0"
+version = "0.1.1"
 authors = [{name = "Stijn Caerts", email = "stijn.caerts@vito.be"}]
 dependencies = [
     "cyclopts~=3.0.0",
@@ -23,7 +23,7 @@ dependencies = [
 ]
 
 [project.scripts]
-"clms-metadata" = "clms_metadata.__main__:app"
+"clms-metadata" = "clms_metadata.__main__:main"
 
 [project.optional-dependencies]
 dev = [
