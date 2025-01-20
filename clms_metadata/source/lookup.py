@@ -94,7 +94,22 @@ class LookupSource(MetadataSource):
             factory=lambda: get_temporal_grid(metadata.dataset_identifier),
         )
 
-        if metadata.has_attribute(attributes.CONSOLIDATION_PERIOD):
+        if (
+            not metadata.has_attribute(attributes.CONSOLIDATION_PERIOD)
+            and metadata.get_attribute(attributes.TEMPORAL_REPEAT_RATE).value
+            == "10-daily"
+            and metadata.get_attribute(attributes.METRIC_GRID_SPACING).value == 300
+            and metadata.get_attribute(attributes.DATASET_VERSION) == 1
+            and metadata.get_attribute(attributes.MISSION_SHORT_NAME) == "PROBAV"
+        ):
+            # TODO: add test case for this branch
+            metadata.add_attribute(
+                name=attributes.CONSOLIDATION_PERIOD,
+                value_type=IntegerAttribute,
+                factory=lambda: 6,
+            )
+
+        if metadata.get_attribute(attributes.FILE_FORMAT).value != "geojson":
             temporal_grid_delta = get_relativedelta(
                 metadata.get_attribute(attributes.TEMPORAL_REPEAT_RATE).value
             )

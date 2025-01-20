@@ -361,8 +361,16 @@ def parse_sensor(sensor_tag: str | None) -> list[str]:
     sensors = [s.strip() for s in sensor_tag.split(",")]
     # if the long and short name are in the tag, extract the short name
     regex_sensor_short = re.compile(r"[\w ]+ \((\w+)\)")
+    # if the sensor name has VEGETATION with a suffix, only take VEGETATION
+    regex_spot_vegetation = re.compile(r"(VEGETATION)-\d+")
+    # if the sensor name has SLSTR with a suffix, only take SLSTR
+    regex_sentinel3_slstr = re.compile(r"(SLSTR)[A-Z]+")
     for i, s in enumerate(sensors):
         if match := regex_sensor_short.match(s):
+            sensors[i] = match.group(1)
+        if match := regex_spot_vegetation.match(s):
+            sensors[i] = match.group(1)
+        if match := regex_sentinel3_slstr.match(s):
             sensors[i] = match.group(1)
 
     return sensors

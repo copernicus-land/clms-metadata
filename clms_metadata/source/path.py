@@ -10,6 +10,12 @@ from loguru import logger
 from overrides import overrides
 
 from clms_metadata.constants import attributes
+from clms_metadata.constants.content_type import (
+    CONTENT_TYPE_GEOJSON,
+    CONTENT_TYPE_NETCDF,
+    CONTENT_TYPE_TIFF,
+)
+from clms_metadata.constants.lookup_tables import CONTENT_TYPE_TO_FILE_FORMAT
 from clms_metadata.models import (
     IntegerAttribute,
     Metadata,
@@ -17,10 +23,6 @@ from clms_metadata.models import (
 )
 from clms_metadata.source.base import MetadataSource
 
-CONTENT_TYPE_NETCDF: Final[str] = "application/netcdf"
-CONTENT_TYPE_TIFF: Final[str] = "application/tiff"
-CONTENT_TYPE_GEOJSON: Final[str] = "application/geo+json"
-CONTENT_TYPE_SHP: Final[str] = ""  # TODO
 REGEX_CONSOLIDATION: Final[re.Pattern] = re.compile(r"-RT(\d)_")
 
 
@@ -176,12 +178,7 @@ def get_content_type(paths: list[Path | CloudPath]) -> str:
 
 
 def get_suffix(content_type: str) -> str:
-    return {
-        CONTENT_TYPE_TIFF: "cog",
-        CONTENT_TYPE_NETCDF: "nc",
-        CONTENT_TYPE_GEOJSON: "geojson",
-        CONTENT_TYPE_SHP: "shp",
-    }[content_type]
+    return CONTENT_TYPE_TO_FILE_FORMAT[content_type]
 
 
 def get_consolidation_period(product_id: str) -> str | None:

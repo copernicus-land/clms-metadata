@@ -18,8 +18,7 @@
         "missionShortName": "SPOT4",
         "platformShortName": "SPOT4",
         "platformAcronym": "SPOT4",
-        "instrumentShortName": "VEGETATION-1",
-        // TODO: VEGETATION or VEGETATION-1?
+        "instrumentShortName": "VEGETATION",
         "datasetShortName": "ndvi",
         "datasetAlias": "ndvi_global_1km_10daily",
         "areaOfInterest": "global",

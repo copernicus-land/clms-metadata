@@ -85,8 +85,7 @@
             "platformShortName": "SENTINEL3A",
             "platformAcronym": "S3A",
             // NC_GLOBAL#sensor=SLSTRA
-            // TODO: should be SLSTR?
-            "instrumentShortName": "SLSTRA"
+            "instrumentShortName": "SLSTR"
         }
     },
     {

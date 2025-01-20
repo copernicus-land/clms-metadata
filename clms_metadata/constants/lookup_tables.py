@@ -1,5 +1,23 @@
 import re
 
+from clms_metadata.constants.content_type import (
+    CONTENT_TYPE_GEOJSON,
+    CONTENT_TYPE_NETCDF,
+    CONTENT_TYPE_SHP,
+    CONTENT_TYPE_TIFF,
+    FILE_FORMAT_GEOJSON,
+    FILE_FORMAT_NETCDF,
+    FILE_FORMAT_SHP,
+    FILE_FORMAT_TIFF,
+)
+
+CONTENT_TYPE_TO_FILE_FORMAT: dict[str, str] = {
+    CONTENT_TYPE_TIFF: FILE_FORMAT_TIFF,
+    CONTENT_TYPE_NETCDF: FILE_FORMAT_NETCDF,
+    CONTENT_TYPE_GEOJSON: FILE_FORMAT_GEOJSON,
+    CONTENT_TYPE_SHP: FILE_FORMAT_SHP,
+}
+
 INSTRUMENT_MISSION_MAPPING = {  # Some products have no mission metadata, so we need to derive it from the instrument name
     "OLCI": "SENTINEL3",
     "SLSTR": "SENTINEL3",
