@@ -24,6 +24,6 @@
         "areaOfInterest": "global",
         "gridLabel": "1km",
         "metricGridSpacing": 1000,
-        "temporalRepeatRate": "10-daily"
+        "temporalRepeatRate": "10daily"
     }
 }

@@ -25,7 +25,6 @@ from clms_metadata.models import (
 from clms_metadata.source import MetadataSource
 
 REGEX_RESOLUTION = re.compile(r"_(([\d.]+)(m|km))_")
-REGEX_NUM_TEMPORAL = re.compile(r"(\d+)([a-z]+)")
 REGEX_SENTINEL = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
 
 
@@ -43,7 +42,6 @@ class LookupSource(MetadataSource):
         ):
             metadata.dataset_identifier = dataset_identifier
 
-        # dataset_identifier = metadata.get_attribute(attributes.DATASET_IDENTIFIER).value
         metadata.add_attribute(
             name=attributes.DATASET_SHORT_NAME,
             value_type=StringAttribute,
@@ -93,21 +91,6 @@ class LookupSource(MetadataSource):
             value_type=StringAttribute,
             factory=lambda: get_temporal_grid(metadata.dataset_identifier),
         )
-
-        if (
-            not metadata.has_attribute(attributes.CONSOLIDATION_PERIOD)
-            and metadata.get_attribute(attributes.TEMPORAL_REPEAT_RATE).value
-            == "10-daily"
-            and metadata.get_attribute(attributes.METRIC_GRID_SPACING).value == 300
-            and metadata.get_attribute(attributes.DATASET_VERSION) == 1
-            and metadata.get_attribute(attributes.MISSION_SHORT_NAME) == "PROBAV"
-        ):
-            # TODO: add test case for this branch
-            metadata.add_attribute(
-                name=attributes.CONSOLIDATION_PERIOD,
-                value_type=IntegerAttribute,
-                factory=lambda: 6,
-            )
 
         if metadata.get_attribute(attributes.FILE_FORMAT).value != "geojson":
             temporal_grid_delta = get_relativedelta(
@@ -215,9 +198,6 @@ def get_temporal_grid(collection_identifier: str) -> str:
     :return:
     """
     temp = collection_identifier.split("_")[3]
-    # add separator between numbers and unit
-    if match := REGEX_NUM_TEMPORAL.match(temp):
-        return f"{match.group(1)}-{match.group(2)}"
     return temp
 
 
@@ -230,15 +210,15 @@ def get_relativedelta(temporal_grid: str) -> relativedelta:
     """
     if temporal_grid == "daily":
         return relativedelta(days=1)
-    if m := re.match(r"(\d+)-daily", temporal_grid):
+    if m := re.match(r"(\d+)daily", temporal_grid):
         return relativedelta(days=int(m.group(1)))
     if temporal_grid == "monthly":
         return relativedelta(months=1)
-    if m := re.match(r"(\d+)-monthly", temporal_grid):
+    if m := re.match(r"(\d+)monthly", temporal_grid):
         return relativedelta(months=int(m.group(1)))
     if temporal_grid == "yearly":
         return relativedelta(years=1)
-    if m := re.match(r"(\d+)-yearly", temporal_grid):
+    if m := re.match(r"(\d+)yearly", temporal_grid):
         return relativedelta(years=int(m.group(1)))
 
 

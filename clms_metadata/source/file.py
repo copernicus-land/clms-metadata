@@ -11,8 +11,10 @@ from loguru import logger
 from overrides import overrides
 
 from clms_metadata.constants import attributes, lookup_tables
+from clms_metadata.constants.regex import REGEX_CONSOLIDATION
 from clms_metadata.models import (
     ContentDate,
+    IntegerAttribute,
     Metadata,
     StringAttribute,
 )
@@ -90,6 +92,21 @@ class FileSource(MetadataSource):
                     )
                 ):
                     metadata.dataset_identifier = dataset_identifier
+
+                if (
+                    not metadata.has_attribute(attributes.CONSOLIDATION_PERIOD)
+                    and (processing_mode := tags.get("processing_mode"))
+                    and processing_mode.lower() == "consolidated"
+                    and not REGEX_CONSOLIDATION.search(tags.get("identifier"))
+                ):
+                    logger.info(
+                        "Consolidated product without explicit RT in product identifier, adding consolidationPeriod=6"
+                    )
+                    metadata.add_attribute(
+                        name=attributes.CONSOLIDATION_PERIOD,
+                        value_type=IntegerAttribute,
+                        factory=lambda: 6,
+                    )
 
         return metadata
 

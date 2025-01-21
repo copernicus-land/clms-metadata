@@ -25,6 +25,6 @@
         "platformShortName": null,
         "processingCenter": "VITO",
         "productVersion": "v1.1.1",
-        "temporalRepeatRate": "10-daily"
+        "temporalRepeatRate": "10daily"
     }
 }

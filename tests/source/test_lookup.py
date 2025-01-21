@@ -15,10 +15,10 @@ from clms_metadata.source.lookup import (
     ("temporal_grid", "expected"),
     [
         ("daily", relativedelta(days=1)),
-        ("10-daily", relativedelta(days=10)),
+        ("10daily", relativedelta(days=10)),
         ("monthly", relativedelta(months=1)),
         ("yearly", relativedelta(years=1)),
-        ("3-yearly", relativedelta(years=3)),
+        ("3yearly", relativedelta(years=3)),
     ],
 )
 def test_get_relativedelta(temporal_grid, expected):

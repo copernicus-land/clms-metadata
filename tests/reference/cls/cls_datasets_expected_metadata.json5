@@ -78,7 +78,7 @@
             "processingCenter": "University of Reading",
             "datasetVersion": 1,
             "fileFormat": "nc",
-            "temporalRepeatRate": "10-daily",
+            "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Sentinel3a
             "missionShortName": "SENTINEL3",
@@ -100,7 +100,7 @@
             "processingCenter": "University of Reading",
             "datasetVersion": 1,
             "fileFormat": "nc",
-            "temporalRepeatRate": "10-daily",
+            "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Envisat
             "missionShortName": "ENVISAT",
@@ -166,7 +166,7 @@
             "processingCenter": "Plymouth Marine Laboratory",
             "datasetVersion": 1,
             "fileFormat": "nc",
-            "temporalRepeatRate": "10-daily",
+            "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Sentinel-2A
             "missionShortName": "SENTINEL2",
@@ -188,7 +188,7 @@
             "processingCenter": "Plymouth Marine Laboratory",
             "datasetVersion": 1,
             "fileFormat": "nc",
-            "temporalRepeatRate": "10-daily",
+            "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=PLATFORM
             "missionShortName": "SENTINEL3",
@@ -210,7 +210,7 @@
             "processingCenter": "Plymouth Marine Laboratory",
             "datasetVersion": 1,
             "fileFormat": "nc",
-            "temporalRepeatRate": "10-daily",
+            "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=ENVISAT
             "missionShortName": "ENVISAT",
@@ -299,7 +299,7 @@
             "fileFormat": "nc",
             "gridLabel": "300m",
             "processingCenter": "Plymouth Marine Laboratory",
-            "temporalRepeatRate": "10-daily",
+            "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Sentinel-3A and Sentinel-3B
             "missionShortName": "SENTINEL3",
@@ -321,7 +321,7 @@
             "fileFormat": "nc",
             "gridLabel": "1km",
             "processingCenter": "Plymouth Marine Laboratory",
-            "temporalRepeatRate": "10-daily",
+            "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Sentinel-3A
             "missionShortName": "SENTINEL3",
@@ -343,7 +343,7 @@
             "fileFormat": "nc",
             "gridLabel": "1km",
             "processingCenter": "Plymouth Marine Laboratory",
-            "temporalRepeatRate": "10-daily",
+            "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Envisat
             "missionShortName": "ENVISAT",
@@ -365,7 +365,7 @@
             "fileFormat": "nc",
             "gridLabel": "100m",
             "processingCenter": "Brockmann Consult GmbH, Plymouth Marine Laboratory",
-            "temporalRepeatRate": "10-daily",
+            "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Sentinel-2
             "missionShortName": "SENTINEL2",

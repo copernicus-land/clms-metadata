@@ -3,7 +3,6 @@ import difflib
 import functools
 import re
 from pathlib import Path
-from typing import Final
 
 from cloudpathlib import CloudPath, S3Path
 from loguru import logger
@@ -16,14 +15,13 @@ from clms_metadata.constants.content_type import (
     CONTENT_TYPE_TIFF,
 )
 from clms_metadata.constants.lookup_tables import CONTENT_TYPE_TO_FILE_FORMAT
+from clms_metadata.constants.regex import REGEX_CONSOLIDATION
 from clms_metadata.models import (
     IntegerAttribute,
     Metadata,
     StringAttribute,
 )
 from clms_metadata.source.base import MetadataSource
-
-REGEX_CONSOLIDATION: Final[re.Pattern] = re.compile(r"-RT(\d)_")
 
 
 class PathSource(MetadataSource):

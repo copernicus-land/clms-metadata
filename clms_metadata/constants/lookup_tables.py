@@ -57,7 +57,7 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
         r"(?P<variable>ndvi|fapar)_v(?P<version_major>\d+)_1km"
     ): "{variable}_global_1km_10daily_v{version_major}",
     re.compile(
-        r"(?P<variable>fapar|dmp|gdmp|npp|gpp)300_v(?P<version_major>\d+)_333m"
+        r"(?P<variable>ndvi|fapar|fcover|dmp|gdmp|npp|gpp)300_v(?P<version_major>\d+)_333m"
     ): "{variable}_global_300m_10daily_v{version_major}",
 }
 PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
@@ -71,14 +71,14 @@ PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
         r"c_gls_(?P<variable>NDVI|FAPAR)(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "{variable}_global_1km_10daily_v{version_major}",
     re.compile(
-        r"c_gls_(?P<variable>DMP|GDMP|NPP|GPP)300(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+        r"c_gls_(?P<variable>DMP|GDMP|NPP|GPP|FAPAR|FCOVER|NDVI)300(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "{variable}_global_300m_10daily_v{version_major}",
     re.compile(
         r"c_gls_(?P<variable>DMP|GDMP)(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "{variable}_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_FAPAR300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "fapar_global_300m_10daily_v{version_major}",
+    # re.compile(
+    #     r"c_gls_FAPAR300-RT\d_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    # ): "fapar_global_300m_10daily_v{version_major}",
     re.compile(
         r"c_gls_LSWT_\d{12}_GLOBE_AATSR_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "lswt-offline_global_1km_10daily_v{version_major}",
@@ -190,6 +190,7 @@ DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"wl-lakes"): "lwl",
     re.compile(r"lwq"): "lwq",
     re.compile(r"lswt"): "lswt",
+    re.compile(r"fcover"): "fgvc",
 }
 
 SPATIAL_EXTENT_MAPPING = {"northernhemisphere": "northern hemisphere"}

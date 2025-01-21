@@ -23,7 +23,7 @@
         "areaOfInterest": "global",
         "metricGridSpacing": 300,
         "gridLabel": "300m",
-        "temporalRepeatRate": "10-daily",
+        "temporalRepeatRate": "10daily",
         "platformShortName": null,
         "platformAcronym": null
     }
