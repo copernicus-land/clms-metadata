@@ -54,7 +54,7 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
         r"wb_v(?P<version_major>\d+)_300m"
     ): "wb_global_300m_monthly_v{version_major}",
     re.compile(
-        r"(?P<variable>ndvi|fapar)_v(?P<version_major>\d+)_1km"
+        r"(?P<variable>ndvi|fapar|fcover)_v(?P<version_major>\d+)_1km"
     ): "{variable}_global_1km_10daily_v{version_major}",
     re.compile(
         r"(?P<variable>ndvi|fapar|fcover|dmp|gdmp|npp|gpp)300_v(?P<version_major>\d+)_333m"
@@ -68,7 +68,7 @@ PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
         r"c_gls_BA300-NTC_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "ba_global_300m_monthly_v{version_major}",
     re.compile(
-        r"c_gls_(?P<variable>NDVI|FAPAR)(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+        r"c_gls_(?P<variable>NDVI|FAPAR|FCOVER)(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "{variable}_global_1km_10daily_v{version_major}",
     re.compile(
         r"c_gls_(?P<variable>DMP|GDMP|NPP|GPP|FAPAR|FCOVER|NDVI)300(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"

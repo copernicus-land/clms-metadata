@@ -125,6 +125,15 @@ test_reference = test_root / "reference"
             test_reference
             / "vegetation_properties/fapar_global_300m_10daily_v1/c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2_nc.json5",
         ),
+        # fcover_global_1km_10daily_v2
+        (
+            (
+                test_data
+                / "vegetation_properties/fcover_global_1km_10daily_v2/c_gls_FCOVER-RT2_201909100000_GLOBE_PROBAV_V2.0.1.nc",
+            ),
+            test_reference
+            / "vegetation_properties/fcover_global_1km_10daily_v2/c_gls_FCOVER-RT2_201909100000_GLOBE_PROBAV_V2.0.1_nc.json5",
+        ),
         # fcover_global_300m_10daily_v1
         (
             (

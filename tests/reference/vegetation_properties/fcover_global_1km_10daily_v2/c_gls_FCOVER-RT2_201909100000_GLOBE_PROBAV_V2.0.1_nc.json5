@@ -1,0 +1,30 @@
+{
+    "name": "c_gls_FCOVER-RT2_201909100000_GLOBE_PROBAV_V2.0.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2019-09-01T00:00:00Z",
+        "end": "2019-09-10T23:59:59.999Z"
+    },
+    "nominal_date": "2019-09-10T00:00:00Z",
+    "product_type": "vegetation_properties",
+    "component": "bio-geophysical",
+    "dataset_identifier": "fcover_global_1km_10daily_v2",
+    "attributes": {
+        "productVersion": "v2.0.1",
+        "datasetVersion": 2,
+        "fileFormat": "nc",
+        "consolidationPeriod": 2,
+        "processingCenter": "VITO",
+        "missionShortName": "PROBAV",
+        "platformShortName": "PROBAV",
+        "platformAcronym": "PROBAV",
+        "instrumentShortName": "VEGETATION",
+        "datasetShortName": "fgvc",
+        "datasetAlias": "fcover_global_1km_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 1000,
+        "gridLabel": "1km",
+        "temporalRepeatRate": "10daily"
+    }
+}
