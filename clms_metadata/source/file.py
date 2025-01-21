@@ -125,6 +125,8 @@ class FileSource(MetadataSource):
         if processing_center == "LEGOS, CLS, CNES":
             processing_center = "CLS"
 
+        processing_center = ",".join(pc.strip() for pc in processing_center.split(","))
+
         return processing_center
 
     def _get_info_json(self, path: Path | CloudPath, metadata: Metadata):

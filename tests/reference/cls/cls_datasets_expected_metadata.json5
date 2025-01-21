@@ -229,7 +229,7 @@
         "component": "bio-geophysical",
         "attributes": {
             "gridLabel": "250m",
-            "processingCenter": "SYKE, FMI, ENVEO",
+            "processingCenter": "SYKE,FMI,ENVEO",
             "datasetVersion": 1,
             "fileFormat": "nc",
             "temporalRepeatRate": "daily",
@@ -251,7 +251,7 @@
         "component": "bio-geophysical",
         "attributes": {
             "gridLabel": "500m",
-            "processingCenter": "SYKE, FMI, ENVEO",
+            "processingCenter": "SYKE,FMI,ENVEO",
             "datasetVersion": 1,
             "fileFormat": "nc",
             "temporalRepeatRate": "daily",
@@ -364,7 +364,7 @@
             "datasetVersion": 2,
             "fileFormat": "nc",
             "gridLabel": "100m",
-            "processingCenter": "Brockmann Consult GmbH, Plymouth Marine Laboratory",
+            "processingCenter": "Brockmann Consult GmbH,Plymouth Marine Laboratory",
             "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Sentinel-2
@@ -387,7 +387,7 @@
             "datasetVersion": 2,
             "fileFormat": "nc",
             "gridLabel": "250m",
-            "processingCenter": "Syke, FMI, ENVEO",
+            "processingCenter": "Syke,FMI,ENVEO",
             "temporalRepeatRate": "daily",
             // NC_GLOBAL#platform=NOAA-20 (JPSS-1)
             // TODO: value under discussion?
