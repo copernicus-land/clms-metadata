@@ -10,8 +10,7 @@ from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.constants import attributes, lookup_tables
-from clms_metadata.constants.regex import REGEX_CONSOLIDATION
+from clms_metadata.constants import attributes, lookup_tables, regex
 from clms_metadata.models import (
     ContentDate,
     IntegerAttribute,
@@ -97,7 +96,7 @@ class FileSource(MetadataSource):
                     not metadata.has_attribute(attributes.CONSOLIDATION_PERIOD)
                     and (processing_mode := tags.get("processing_mode"))
                     and processing_mode.lower() == "consolidated"
-                    and not REGEX_CONSOLIDATION.search(tags.get("identifier"))
+                    and not regex.CONSOLIDATION.search(tags.get("identifier"))
                 ):
                     logger.info(
                         "Consolidated product without explicit RT in product identifier, adding consolidationPeriod=6"
@@ -238,13 +237,13 @@ def set_platform(platformstr: str | None, metadata: Metadata) -> Metadata:
 def build_platform_short_name(
     mission_short_name: str, serial: str | None
 ) -> str | None:
-    if re.compile("(SENTINEL\d+)|(METOP)").match(mission_short_name) and serial:
+    if regex.SENTINEL_OR_METOP.match(mission_short_name) and serial:
         return mission_short_name + serial
 
 
 def regex_lookup(lookup_dict: dict[re.Pattern, str], key: str) -> str | None:
-    for regex, template in lookup_dict.items():
-        if match := regex.match(key):
+    for lookup_regex, template in lookup_dict.items():
+        if match := lookup_regex.match(key):
             return template.format_map(match.groupdict())
 
 
@@ -278,10 +277,9 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
 
     # Support for "AND" between platform names or platform serials
     # e.g. "SENTINEL-3A AND SENTINEL-3B" or "SENTINEL 3 (A AND B)"
-    regex_bracket_serials_regex = re.compile(r"\(([A-Z]) AND ([A-Z])\)")
     if " AND " in platformstr:
         for mission in list(platforms):
-            if regex_match_part := regex_bracket_serials_regex.search(mission):
+            if regex_match_part := regex.PLATFORM_SERIALS_AND.search(mission):
                 platforms.pop(mission)
                 (mission, platformserial) = mission.split(" (")
                 mission = mission.replace(" ", "")  # TODO: can be removed?
@@ -307,11 +305,10 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
 
     # We covered the AND and + syntaxes, all remaining spaces are between platforms
     # with exception of "SUOMI NPP" or "METOP X"
-    metop_regex = re.compile(r"(METOP)[ -]?([A-Z])")
     for mission in list(platforms):
         if "SUOMI NPP" == mission:
             continue
-        elif match := metop_regex.match(mission):
+        elif match := regex.METOP.match(mission):
             platforms.pop(mission)
             mission, serial = match.groups()
             platforms[mission] = platforms.get(mission, list()) + [
@@ -321,34 +318,21 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
             platforms.pop(mission)
             platforms.update({p: None for p in mission.split(" ")})
 
-    # Support for LST, eg MSG4 -> MSG-4
-    regex_goes = re.compile(r"(GOES)(\d+|E|R)")
-    regex_msg = re.compile(r"(MSG)(\d+)")
-    lst_regex = re.compile(r"(MSG|MTSAT|HIMAWARI)(\d+)")
-
-    # Hyphenate SENTINELs, eg SENTINEL3A => SENTINEL-3A
-    # and extract serial identifier
-    regex_sentinel_serial = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
     ignore = ("N/A", "PLATFORM", "GLDASNOAH")
 
     for mission in list(platforms):
-        if match := regex_goes.match(mission):
+        if match := regex.GOES.match(mission):
             platforms.pop(mission)
             mission, suffix = match.groups()
             platforms[mission] = platforms.get(mission, list()) + [f"{mission}{suffix}"]
-        elif match := regex_msg.match(mission):
+        elif match := regex.MSG.match(mission):
             # rewrite MSG to METEOSAT
             platforms.pop(mission)
             base, num = match.groups()
             num = int(num) + 7
             mission = f"METEOSAT{num}"
             platforms[mission] = [mission]
-        elif match := lst_regex.match(mission):
-            platforms.pop(mission)
-            base, suffix = match.groups()
-            mission = f"{base}{suffix}"
-            platforms[mission] = platforms.get(mission, None)
-        elif match := regex_sentinel_serial.match(mission):
+        elif match := regex.SENTINEL_NUM_SERIAL.match(mission):
             platforms.pop(mission)
             base, num, serial = match.groups()
             mission = f"{base}{num}"
@@ -378,18 +362,16 @@ def parse_sensor(sensor_tag: str | None) -> list[str]:
     if sensor_tag is None:
         return []
     sensors = [s.strip() for s in sensor_tag.split(",")]
-    # if the long and short name are in the tag, extract the short name
-    regex_sensor_short = re.compile(r"[\w ]+ \((\w+)\)")
-    # if the sensor name has VEGETATION with a suffix, only take VEGETATION
-    regex_spot_vegetation = re.compile(r"(VEGETATION)-\d+")
-    # if the sensor name has SLSTR with a suffix, only take SLSTR
-    regex_sentinel3_slstr = re.compile(r"(SLSTR)[A-Z]+")
+
     for i, s in enumerate(sensors):
-        if match := regex_sensor_short.match(s):
+        if match := regex.NAME_WITH_SHORT_NAME_IN_BRACKETS.match(s):
+            # if the long and short name are in the tag, extract the short name
             sensors[i] = match.group(1)
-        if match := regex_spot_vegetation.match(s):
+        if match := regex.SENSOR_SPOT_VEGETATION.match(s):
+            # if the sensor name has VEGETATION with a number suffix, only take VEGETATION
             sensors[i] = match.group(1)
-        if match := regex_sentinel3_slstr.match(s):
+        if match := regex.SENSOR_SENTINEL3_SLSTR.match(s):
+            # if the sensor name has SLSTR with a suffix, only take SLSTR
             sensors[i] = match.group(1)
 
     return sensors

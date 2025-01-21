@@ -1,21 +1,19 @@
 import datetime
 import difflib
 import functools
-import re
 from pathlib import Path
 
 from cloudpathlib import CloudPath, S3Path
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.constants import attributes
+from clms_metadata.constants import attributes, regex
 from clms_metadata.constants.content_type import (
     CONTENT_TYPE_GEOJSON,
     CONTENT_TYPE_NETCDF,
     CONTENT_TYPE_TIFF,
 )
 from clms_metadata.constants.lookup_tables import CONTENT_TYPE_TO_FILE_FORMAT
-from clms_metadata.constants.regex import REGEX_CONSOLIDATION
 from clms_metadata.models import (
     IntegerAttribute,
     Metadata,
@@ -151,11 +149,11 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
             e.g. NDVI statistics
     """
     date_part = product_id.split("_")[3]
-    if re.match(r"\d{12}", date_part):
+    if regex.DATETIME_DIGITS.match(date_part):
         date = datetime.datetime.strptime(date_part, "%Y%m%d%H%M")
-    elif re.match(r"\d{4}----\d{4}", date_part):
+    elif regex.DATE_YEAR1_YEAR2.match(date_part):
         date = datetime.datetime.strptime(date_part[0:4], "%Y")
-    elif re.match(r"\d{4}-\d{4}-\d{4}", date_part):
+    elif regex.DATE_YEAR1_YEAR2_MMDD.match(date_part):
         date = datetime.datetime.strptime(date_part[0:4] + date_part[-4:], "%Y%m%d")
     else:
         raise ValueError(
@@ -180,7 +178,7 @@ def get_suffix(content_type: str) -> str:
 
 
 def get_consolidation_period(product_id: str) -> str | None:
-    if match := REGEX_CONSOLIDATION.search(product_id):
+    if match := regex.CONSOLIDATION.search(product_id):
         return int(match.group(1))
     else:
         return None

@@ -7,7 +7,7 @@ from cloudpathlib import CloudPath
 from dateutil.relativedelta import relativedelta
 from loguru import logger
 
-from clms_metadata.constants import attributes, lookup_tables
+from clms_metadata.constants import attributes, lookup_tables, regex
 from clms_metadata.constants.lookup_tables import (
     COMPONENT_TO_PRODUCT_TYPES,
     DATASET_NAME_TO_SHORT_NAME,
@@ -23,9 +23,6 @@ from clms_metadata.models import (
     StringAttribute,
 )
 from clms_metadata.source import MetadataSource
-
-REGEX_RESOLUTION = re.compile(r"_(([\d.]+)(m|km))_")
-REGEX_SENTINEL = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
 
 
 class LookupSource(MetadataSource):
@@ -83,7 +80,7 @@ class LookupSource(MetadataSource):
             name=attributes.GRID_LABEL,
             value_type=StringAttribute,
             factory=lambda: match.group(1)
-            if (match := REGEX_RESOLUTION.search(metadata.dataset_identifier))
+            if (match := regex.RESOLUTION.search(metadata.dataset_identifier))
             else None,
         )
         metadata.add_attribute(
@@ -131,8 +128,8 @@ class LookupSource(MetadataSource):
         :return: The collection identifier of the collection to which the file belongs.
         :raises ValueError: No match was found
         """
-        for regex, value in PRODUCT_NAME_TO_DATASET.items():
-            if match := regex.match(file_name):
+        for regex_product_name, value in PRODUCT_NAME_TO_DATASET.items():
+            if match := regex_product_name.match(file_name):
                 return value.format_map(match.groupdict()).lower()
         raise ValueError(
             f"No collection regex match was found for filename {file_name}"
@@ -145,8 +142,8 @@ class LookupSource(MetadataSource):
         :param collection_id: The identifier of the collection
         :return: The product type of the collection if a match is found, None otherwise
         """
-        for regex, product_type in DATASET_TO_PRODUCT_TYPE.items():
-            if regex.match(collection_id):
+        for regex_dataset, product_type in DATASET_TO_PRODUCT_TYPE.items():
+            if regex_dataset.match(collection_id):
                 return product_type
 
     @staticmethod
@@ -156,8 +153,8 @@ class LookupSource(MetadataSource):
         :param dataset_identifier: dataset identifier
         :return: dataset short name iff a match is found, None otherwise
         """
-        for regex, short_name in DATASET_NAME_TO_SHORT_NAME.items():
-            if regex.match(dataset_identifier):
+        for regex_dataset, short_name in DATASET_NAME_TO_SHORT_NAME.items():
+            if regex_dataset.match(dataset_identifier):
                 return short_name
 
 
@@ -168,7 +165,7 @@ def get_resolution(collection_identifier: str) -> int | None:
     :param collection_identifier: collection identifier
     :return: nominal resolution
     """
-    if match := REGEX_RESOLUTION.search(collection_identifier):
+    if match := regex.RESOLUTION.search(collection_identifier):
         factor = 1000 if match.group(3) == "km" else 1
         res_base = float(match.group(2))
         resolution = int(res_base * factor)
@@ -304,7 +301,7 @@ def get_platform_acronym(platform_short_name: str) -> str:
     :param platform_short_name: platform short name
     :return: platform acronym
     """
-    if m := REGEX_SENTINEL.match(platform_short_name):
+    if m := regex.SENTINEL_NUM_SERIAL.match(platform_short_name):
         return f"S{m.group(2)}{m.group(3)}"
     else:
         return platform_short_name
