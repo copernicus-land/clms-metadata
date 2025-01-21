@@ -88,7 +88,7 @@ class FileSource(MetadataSource):
                 )
                 if not metadata.dataset_identifier and (
                     dataset_identifier := get_dataset_identifier_from_identifier_tag(
-                        tags
+                        tags.get("identifier")
                     )
                 ):
                     metadata.dataset_identifier = dataset_identifier
@@ -393,17 +393,14 @@ def parse_sensor(sensor_tag: str | None) -> list[str]:
     return sensors
 
 
-def get_dataset_identifier_from_identifier_tag(tags: dict) -> str | None:
+def get_dataset_identifier_from_identifier_tag(identifier: str | None) -> str | None:
     """
-    Extract the product identifier from the raster metadata and try to find a matching CDSE dataset identifier
-    based on parent and product id.
+    Extract the dataset identifier based on the identifier tag embedded in the product metadata.
 
     When encountering exceptions None is returned so the "lookup" logic can still try to find a match.
-    :param tags: the raster metadata tags
-    :return: the CDSE dataset identifier if correctly constructed
+    :param identifier: the identifier tag embedded in the product
+    :return: the dataset identifier if it can be derived, None otherwise
     """
-    identifier = tags.get("identifier")
-
     try:
         if not identifier:
             raise (ValueError("No identifier found in raster metadata"))
@@ -422,7 +419,7 @@ def get_dataset_identifier_from_identifier_tag(tags: dict) -> str | None:
         )
     except (IndexError, KeyError, re.error, ValueError, AttributeError) as e:
         logger.warning(
-            f"Could not extract dataset identifier from {tags.get('identifier')} due to {repr(e)}"
+            f"Could not extract dataset identifier from {identifier} due to {repr(e)}"
         )
         return None
 
