@@ -59,6 +59,9 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
     re.compile(
         r"(?P<variable>ndvi|fapar|fcover|dmp|gdmp|npp|gpp)300_v(?P<version_major>\d+)_333m"
     ): "{variable}_global_300m_10daily_v{version_major}",
+    re.compile(
+        r"lst_(?P<version_major>\d+)_0.045degree"
+    ): "lst_global_5km_hourly_v{version_major}",
 }
 PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
     re.compile(
@@ -124,6 +127,9 @@ PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
     re.compile(
         r"c_gls_LWQ1km_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d)\.\d)"
     ): "lwq-reproc_global_1km_10daily_v{version_major}",
+    re.compile(
+        r"c_gls_LST_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>\d)\.\d)"
+    ): "lst_global_5km_hourly_v{version_major}",
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"ndvi[_-]"): "vegetation_indices",
@@ -132,7 +138,7 @@ DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"(fapar|fcover|lai)[_-]"): "vegetation_properties",
     re.compile(r"^sce"): "snow_cover_extent",
     re.compile(r"^swe"): "snow_water_equivalent",
-    re.compile(r"^lswt"): "land_surface_temperature",
+    re.compile(r"(lswt|lst)_"): "land_surface_temperature",
     re.compile(r"^wb"): "water_bodies",
     re.compile(r"^lwq"): "lake_water_quality",
     re.compile(r"^lie"): "river_and_lake_ice_extent",

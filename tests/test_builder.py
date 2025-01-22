@@ -143,6 +143,15 @@ test_reference = test_root / "reference"
             test_reference
             / "vegetation_properties/fcover_global_300m_10daily_v1/c_gls_FCOVER300_201503200000_GLOBE_PROBAV_V1.0.1_nc.json5",
         ),
+        # lst_global_5km_hourly_v1
+        (
+            (
+                test_data
+                / "land_surface_temperature/lst_global_5km_hourly_v1/c_gls_LST_201409261600_GLOBE_GEO_V1.2.1.nc",
+            ),
+            test_reference
+            / "land_surface_temperature/lst_global_5km_hourly_v1/c_gls_LST_201409261600_GLOBE_GEO_V1.2.1_nc.json5",
+        ),
     ],
 )
 def test_builder(files, reference):

@@ -217,6 +217,12 @@ def get_relativedelta(temporal_grid: str) -> relativedelta:
         return relativedelta(years=1)
     if m := re.match(r"(\d+)yearly", temporal_grid):
         return relativedelta(years=int(m.group(1)))
+    if temporal_grid == "hourly":
+        return relativedelta(hours=1)
+    if m := re.match(r"(\d+)hourly", temporal_grid):
+        return relativedelta(hours=int(m.group(1)))
+
+    raise ValueError(f"Unknown temporal grid: {temporal_grid}")
 
 
 def matches_temporal_grid(
