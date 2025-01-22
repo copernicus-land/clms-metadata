@@ -4,7 +4,7 @@
     "content_type": "application/netcdf",
     "content_date": {
         "start": "2019-09-01T00:00:00Z",
-        "end": "2019-09-10T23:00:00Z"
+        "end": "2019-09-10T23:00:00Z" // TODO: T23:59:59.999Z?
     },
     "nominal_date": "2019-09-01T00:00:00Z",
     "product_type": "land_surface_temperature",
