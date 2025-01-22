@@ -177,6 +177,14 @@ def test_get_platform(platformstr, expected):
             "urn:cgls:global:fcover_v2_1km:FCOVER-RT2_201909100000_GLOBE_PROBAV_V2.0.1",
             "fcover_global_1km_10daily_v2",
         ),
+        (
+            "urn:cgls:global:lst10-dc_v1_0.045degree:LST10-DC_201909010000_GLOBE_GEO_V1.2.1",
+            "lst-daily-cycle_global_5km_10daily_v1",
+        ),
+        (
+            "urn:cgls:global:lst_v2_0.045degree:LST_202501121100_GLOBE_GEO_V2.1.2",
+            "lst_global_5km_hourly_v2",
+        ),
     ],
 )
 def test_get_dataset_identifier_from_identifier_tag(identifier, expected):
