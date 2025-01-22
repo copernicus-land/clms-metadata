@@ -1,0 +1,31 @@
+{
+    "name": "c_gls_LST_202501121100_GLOBE_GEO_V2.1.2",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2025-01-12T10:30:00Z",
+        "end": "2025-01-12T11:30:00Z"
+    },
+    "nominal_date": "2025-01-12T11:00:00Z",
+    "product_type": "land_surface_temperature",
+    "component": "bio-geophysical",
+    "dataset_identifier": "lst_global_5km_hourly_v2",
+    "attributes": {
+        "productVersion": "v2.1.2",
+        "datasetVersion": 2,
+        "fileFormat": "nc",
+        "processingCenter": "IPMA",
+        // NC_GLOBAL#platform=HIMAWARI9, GOES16, MSG3, MSG2
+        "missionShortName": "HIMAWARI9,GOES,METEOSAT10,METEOSAT9",
+        "platformShortName": "HIMAWARI9,GOES16,METEOSAT10,METEOSAT9",
+        // NC_GLOBAL#sensor=AHI, ABI, SEVIRI, SEVIRI
+        "instrumentShortName": "AHI,ABI,SEVIRI,SEVIRI",
+        "datasetShortName": "lst",
+        "datasetAlias": "lst_global_5km_hourly",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 5000,
+        "gridLabel": "5km",
+        "temporalRepeatRate": "hourly",
+        "platformAcronym": null
+    }
+}
