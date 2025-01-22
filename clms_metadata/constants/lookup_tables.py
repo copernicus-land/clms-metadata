@@ -138,7 +138,7 @@ DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"(fapar|fcover|lai)[_-]"): "vegetation_properties",
     re.compile(r"^sce"): "snow_cover_extent",
     re.compile(r"^swe"): "snow_water_equivalent",
-    re.compile(r"(lswt|lst)_"): "land_surface_temperature",
+    re.compile(r"(lswt|lst)[_-]"): "land_surface_temperature",
     re.compile(r"^wb"): "water_bodies",
     re.compile(r"^lwq"): "lake_water_quality",
     re.compile(r"^lie"): "river_and_lake_ice_extent",
