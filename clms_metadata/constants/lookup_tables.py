@@ -65,6 +65,9 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
     re.compile(
         r"lst10-dc_v(?P<version_major>\d+)_0.045degree"
     ): "lst-daily-cycle_global_5km_10daily_v{version_major}",
+    re.compile(
+        r"lst10-tci_v(?P<version_major>\d+)_0.045degree"
+    ): "lst-tci_global_5km_10daily_v{version_major}",
 }
 PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
     re.compile(
@@ -136,6 +139,9 @@ PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
     re.compile(
         r"c_gls_LST10-DC_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>\d)\.\d)"
     ): "lst-daily-cycle_global_5km_10daily_v{version_major}",
+    re.compile(
+        r"c_gls_LST10-TCI_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>\d)\.\d)"
+    ): "lst-tci_global_5km_10daily_v{version_major}",
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"ndvi[_-]"): "vegetation_indices",
