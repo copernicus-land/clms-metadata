@@ -1,0 +1,29 @@
+{
+    "name": "c_gls_NDVI-STS_2015-2019-1211_GLOBE_PROBAV_V3.0.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2015-01-01T00:00:00Z",
+        "end": "2019-12-31T23:59:59Z"
+    },
+    "nominal_date": "2015-12-11T00:00:00Z",
+    "product_type": "vegetation_indices",
+    "component": "bio-geophysical",
+    "dataset_identifier": "ndvi-sts_global_1km_10daily_v3",
+    "attributes": {
+        "productVersion": "v3.0.1",
+        "datasetVersion": 3,
+        "fileFormat": "nc",
+        "processingCenter": "VITO",
+        "missionShortName": "PROBAV",
+        "platformShortName": "PROBAV",
+        "platformAcronym": "PROBAV",
+        "instrumentShortName": "VEGETATION",
+        "datasetShortName": "ndvi-sts",
+        "datasetAlias": "ndvi-sts_global_1km_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 1000,
+        "gridLabel": "1km",
+        "temporalRepeatRate": "10daily"
+    }
+}

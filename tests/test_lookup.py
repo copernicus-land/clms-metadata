@@ -97,6 +97,10 @@ def shuffle_dict(d: dict) -> dict:
         ("c_gls_LIE250_202402190000_CEURO_VIIRS_V2.2.1", "lie_europe_250m_daily_v2"),
         # no match
         ("c_gls_WB300_<unique>_LOBE_S2_V2.0.1", ValueError),
+        (
+            "c_gls_NDVI-STS_2015-2019-1211_GLOBE_PROBAV_V3.0.1",
+            "ndvi-sts_global_1km_10daily_v3",
+        ),
     ],
 )
 def test_extract_collection_id_from_cls_filename(dataset_dict, filename, target):

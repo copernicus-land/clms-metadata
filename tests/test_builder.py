@@ -242,6 +242,33 @@ test_reference = test_root / "reference"
             test_reference
             / "vegetation_indices/ndvi_global_300m_10daily_v2/c_gls_NDVI300_202101210000_GLOBE_OLCI_V2.0.1_nc.json5",
         ),
+        # ndvi-sts_global_1km_10daily_v3
+        (
+            (
+                test_data
+                / "vegetation_indices/ndvi-sts_global_1km_10daily_v3/c_gls_NDVI-STS_2015-2019-1211_GLOBE_PROBAV_V3.0.1.nc",
+            ),
+            test_reference
+            / "vegetation_indices/ndvi-sts_global_1km_10daily_v3/c_gls_NDVI-STS_2015-2019-1211_GLOBE_PROBAV_V3.0.1_nc.json5",
+        ),
+        # ndvi-lts_global_1km_10daily_v3
+        (
+            (
+                test_data
+                / "vegetation_indices/ndvi-lts_global_1km_10daily_v3/c_gls_NDVI-LTS_1999-2019-0511_GLOBE_VGT-PROBAV_V3.0.1.nc",
+            ),
+            test_reference
+            / "vegetation_indices/ndvi-lts_global_1km_10daily_v3/c_gls_NDVI-LTS_1999-2019-0511_GLOBE_VGT-PROBAV_V3.0.1_nc.json5",
+        ),
+        # ndvi-lts_global_1km_10daily_v2
+        (
+            (
+                test_data
+                / "vegetation_indices/ndvi-lts_global_1km_10daily_v2/c_gls_NDVI-LTS_1999-2017-1001_GLOBE_VGT-PROBAV_V2.2.1.nc",
+            ),
+            test_reference
+            / "vegetation_indices/ndvi-lts_global_1km_10daily_v2/c_gls_NDVI-LTS_1999-2017-1001_GLOBE_VGT-PROBAV_V2.2.1_nc.json5",
+        ),
     ],
 )
 def test_builder(files, reference):

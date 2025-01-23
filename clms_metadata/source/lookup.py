@@ -8,6 +8,7 @@ from dateutil.relativedelta import relativedelta
 from loguru import logger
 
 from clms_metadata.constants import attributes, lookup_tables, regex
+from clms_metadata.constants.content_type import FILE_FORMAT_GEOJSON
 from clms_metadata.constants.lookup_tables import (
     COMPONENT_TO_PRODUCT_TYPES,
     DATASET_NAME_TO_SHORT_NAME,
@@ -89,7 +90,11 @@ class LookupSource(MetadataSource):
             factory=lambda: get_temporal_grid(metadata.dataset_identifier),
         )
 
-        if metadata.get_attribute(attributes.FILE_FORMAT).value != "geojson":
+        if metadata.get_attribute(
+            attributes.FILE_FORMAT
+        ).value != FILE_FORMAT_GEOJSON and not regex.DATASET_NDVI_STATISTICS.match(
+            metadata.dataset_identifier
+        ):
             temporal_grid_delta = get_relativedelta(
                 metadata.get_attribute(attributes.TEMPORAL_REPEAT_RATE).value
             )

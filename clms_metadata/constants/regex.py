@@ -13,6 +13,7 @@ METOP: Final[re.Pattern] = re.compile(r"(METOP)[ -]?([A-Z])")
 PLATFORM_SERIALS_AND: Final[re.Pattern] = re.compile(r"\(([A-Z]) AND ([A-Z])\)")
 RESOLUTION: Final[re.Pattern] = re.compile(r"_(([\d.]+)(m|km))_")
 
+DATASET_NDVI_STATISTICS: Final[re.Pattern] = re.compile(r"ndvi-(sts|lts)_")
 
 # Date
 DATETIME_DIGITS: Final[re.Pattern] = re.compile(r"\d{12}")
