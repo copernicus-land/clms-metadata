@@ -1,0 +1,31 @@
+{
+    "name": "c_gls_LAI_200804200000_GLOBE_VGT_V2.0.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2008-04-11T00:00:00Z",
+        "end": "2008-04-20T23:59:59.999Z"
+    },
+    "nominal_date": "2008-04-20T00:00:00Z",
+    "product_type": "vegetation_properties",
+    "component": "bio-geophysical",
+    "dataset_identifier": "lai_global_1km_10daily_v2",
+    "attributes": {
+        "productVersion": "v2.0.1",
+        "datasetVersion": 2,
+        "fileFormat": "nc",
+        "processingCenter": "VITO",
+        // NC_GLOBAL#platform=SPOT-5
+        "missionShortName": "SPOT5",
+        "platformShortName": "SPOT5",
+        "platformAcronym": "SPOT5",
+        // NC_GLOBAL#sensor=VEGETATION-2
+        "instrumentShortName": "VEGETATION",
+        "datasetShortName": "lai",
+        "datasetAlias": "lai_global_1km_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 1000,
+        "gridLabel": "1km",
+        "temporalRepeatRate": "10daily"
+    }
+}

@@ -1,0 +1,30 @@
+{
+    "name": "c_gls_LAI300_201402200000_GLOBE_PROBAV_V1.0.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2014-02-11T00:00:00Z",
+        "end": "2014-02-20T23:59:59.999Z"
+    },
+    "nominal_date": "2014-02-20T00:00:00Z",
+    "product_type": "vegetation_properties",
+    "component": "bio-geophysical",
+    "dataset_identifier": "lai_global_300m_10daily_v1",
+    "attributes": {
+        "productVersion": "v1.0.1",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "processingCenter": "VITO",
+        "missionShortName": "PROBAV",
+        "platformShortName": "PROBAV",
+        "platformAcronym": "PROBAV",
+        "instrumentShortName": "VEGETATION",
+        "consolidationPeriod": 6,
+        "datasetShortName": "lai",
+        "datasetAlias": "lai_global_300m_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 300,
+        "gridLabel": "300m",
+        "temporalRepeatRate": "10daily"
+    }
+}

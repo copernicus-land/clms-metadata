@@ -197,6 +197,23 @@ test_reference = test_root / "reference"
             test_reference
             / "land_surface_temperature/lst-tci_global_5km_10daily_v2/c_gls_LST10-TCI_202101110000_GLOBE_GEO_V2.1.1_nc.json5",
         ),
+        # lai_global_1km_10daily_v2
+        (
+            (
+                test_data
+                / "vegetation_properties/lai_global_1km_10daily_v2/c_gls_LAI_200804200000_GLOBE_VGT_V2.0.1.nc",
+            ),
+            test_reference
+            / "vegetation_properties/lai_global_1km_10daily_v2/c_gls_LAI_200804200000_GLOBE_VGT_V2.0.1_nc.json5",
+        ),
+        (
+            (
+                test_data
+                / "vegetation_properties/lai_global_300m_10daily_v1/c_gls_LAI300_201402200000_GLOBE_PROBAV_V1.0.1.nc",
+            ),
+            test_reference
+            / "vegetation_properties/lai_global_300m_10daily_v1/c_gls_LAI300_201402200000_GLOBE_PROBAV_V1.0.1_nc.json5",
+        ),
     ],
 )
 def test_builder(files, reference):
