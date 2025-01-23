@@ -185,6 +185,10 @@ def test_get_platform(platformstr, expected):
             "urn:cgls:global:lst_v2_0.045degree:LST_202501121100_GLOBE_GEO_V2.1.2",
             "lst_global_5km_hourly_v2",
         ),
+        (
+            "urn:cgls:global:ndvi300_v1_333m:NDVI300_201706010000_GLOBE_PROBAV_V1.0.1",
+            "ndvi_global_300m_10daily_v1",
+        ),
     ],
 )
 def test_get_dataset_identifier_from_identifier_tag(identifier, expected):

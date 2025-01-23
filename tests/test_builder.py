@@ -206,6 +206,7 @@ test_reference = test_root / "reference"
             test_reference
             / "vegetation_properties/lai_global_1km_10daily_v2/c_gls_LAI_200804200000_GLOBE_VGT_V2.0.1_nc.json5",
         ),
+        # lai_global_300m_10daily_v1
         (
             (
                 test_data
@@ -213,6 +214,33 @@ test_reference = test_root / "reference"
             ),
             test_reference
             / "vegetation_properties/lai_global_300m_10daily_v1/c_gls_LAI300_201402200000_GLOBE_PROBAV_V1.0.1_nc.json5",
+        ),
+        # ndvi_global_1km_10daily_v2
+        (
+            (
+                test_data
+                / "vegetation_indices/ndvi_global_1km_10daily_v2/c_gls_NDVI_200112210000_GLOBE_VGT_V2.2.1.nc",
+            ),
+            test_reference
+            / "vegetation_indices/ndvi_global_1km_10daily_v2/c_gls_NDVI_200112210000_GLOBE_VGT_V2.2.1_nc.json5",
+        ),
+        # ndvi_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "vegetation_indices/ndvi_global_300m_10daily_v1/c_gls_NDVI300_201706010000_GLOBE_PROBAV_V1.0.1.nc",
+            ),
+            test_reference
+            / "vegetation_indices/ndvi_global_300m_10daily_v1/c_gls_NDVI300_201706010000_GLOBE_PROBAV_V1.0.1_nc.json5",
+        ),
+        # ndvi_global_300m_10daily_v2
+        (
+            (
+                test_data
+                / "vegetation_indices/ndvi_global_300m_10daily_v2/c_gls_NDVI300_202101210000_GLOBE_OLCI_V2.0.1.nc",
+            ),
+            test_reference
+            / "vegetation_indices/ndvi_global_300m_10daily_v2/c_gls_NDVI300_202101210000_GLOBE_OLCI_V2.0.1_nc.json5",
         ),
     ],
 )
