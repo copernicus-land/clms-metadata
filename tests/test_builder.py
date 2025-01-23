@@ -287,6 +287,7 @@ test_reference = test_root / "reference"
             test_reference
             / "soil_water_index/swi_global_12.5km_10daily_v3/c_gls_SWI10_201206211200_GLOBE_ASCAT_V3.1.1_nc.json5",
         ),
+        # swi_global_12.5km_daily_v3
         (
             (
                 test_data
@@ -294,6 +295,15 @@ test_reference = test_root / "reference"
             ),
             test_reference
             / "soil_water_index/swi_global_12.5km_daily_v3/c_gls_SWI_202302141200_GLOBE_ASCAT_V3.2.1_nc.json5",
+        ),
+        # swi-timeseries_global_12.5km_daily_v3
+        (
+            (
+                test_data
+                / "soil_water_index/swi-timeseries_global_12.5km_daily_v3/c_gls_SWI-TS_202312310000_C0348_ASCAT_V3.2.1.nc",
+            ),
+            test_reference
+            / "soil_water_index/swi-timeseries_global_12.5km_daily_v3/c_gls_SWI-TS_202312310000_C0348_ASCAT_V3.2.1_nc.json5",
         ),
     ],
 )
