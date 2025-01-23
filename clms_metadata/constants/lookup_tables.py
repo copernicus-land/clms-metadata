@@ -1,4 +1,5 @@
 import re
+from typing import Final
 
 from clms_metadata.constants.content_type import (
     CONTENT_TYPE_GEOJSON,
@@ -75,7 +76,9 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
         r"swi_v(?P<version_major>\d+)_0.1degree"
     ): "swi_global_12.5km_daily_v{version_major}",
 }
-PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
+PRODUCT_NAME_TO_DATASET: Final[
+    dict[re.Pattern, str]
+] = {  # product name regex to collection identifier
     re.compile(
         r"c_gls_BA300-NRT_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "ba_global_300m_daily_v{version_major}",

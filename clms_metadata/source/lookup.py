@@ -11,10 +11,7 @@ from clms_metadata.constants import attributes, lookup_tables, regex
 from clms_metadata.constants.content_type import FILE_FORMAT_GEOJSON
 from clms_metadata.constants.lookup_tables import (
     COMPONENT_TO_PRODUCT_TYPES,
-    DATASET_NAME_TO_SHORT_NAME,
     DATASET_SHORT_NAMES,
-    DATASET_TO_PRODUCT_TYPE,
-    PRODUCT_NAME_TO_DATASET,
     SPATIAL_EXTENT_MAPPING,
 )
 from clms_metadata.models import (
@@ -133,12 +130,24 @@ class LookupSource(MetadataSource):
         :return: The collection identifier of the collection to which the file belongs.
         :raises ValueError: No match was found
         """
-        for regex_product_name, value in PRODUCT_NAME_TO_DATASET.items():
-            if match := regex_product_name.match(file_name):
-                return value.format_map(match.groupdict()).lower()
-        raise ValueError(
-            f"No collection regex match was found for filename {file_name}"
-        )
+        try:
+            match: re.Match
+            template: str
+            [(match, template)] = [
+                (_match, _template)
+                for _regex, _template in lookup_tables.PRODUCT_NAME_TO_DATASET.items()
+                if (_match := _regex.match(file_name))
+            ]
+            return template.format_map(match.groupdict()).lower()
+        except ValueError as e:
+            logger.error(
+                "Cannot extract dataset identifier from product identifier {}",
+                file_name,
+            )
+            logger.error("Exception: {}", repr(e))
+            raise ValueError(
+                f"No collection regex match was found for filename {file_name}"
+            ) from e
 
     @staticmethod
     def determine_product_type(collection_id: str) -> Optional[str]:
@@ -147,9 +156,19 @@ class LookupSource(MetadataSource):
         :param collection_id: The identifier of the collection
         :return: The product type of the collection if a match is found, None otherwise
         """
-        for regex_dataset, product_type in DATASET_TO_PRODUCT_TYPE.items():
-            if regex_dataset.match(collection_id):
-                return product_type
+        try:
+            [product_type] = [
+                _pt
+                for _regex, _pt in lookup_tables.DATASET_TO_PRODUCT_TYPE.items()
+                if _regex.match(collection_id)
+            ]
+            return product_type
+        except ValueError as e:
+            logger.error(
+                "Cannot determine product type from collection identifier {}",
+                collection_id,
+            )
+            logger.error("Exception: {}", repr(e))
 
     @staticmethod
     def lookup_short_name(dataset_identifier: str) -> Optional[str]:
@@ -158,9 +177,18 @@ class LookupSource(MetadataSource):
         :param dataset_identifier: dataset identifier
         :return: dataset short name iff a match is found, None otherwise
         """
-        for regex_dataset, short_name in DATASET_NAME_TO_SHORT_NAME.items():
-            if regex_dataset.match(dataset_identifier):
-                return short_name
+        try:
+            [dataset_short_name] = [
+                _dsn
+                for _regex, _dsn in lookup_tables.DATASET_NAME_TO_SHORT_NAME.items()
+                if _regex.match(dataset_identifier)
+            ]
+            return dataset_short_name
+        except ValueError as e:
+            logger.error(
+                "Cannot get short datasetShortName for dataset {}", dataset_identifier
+            )
+            logger.error("Exception: {}", repr(e))
 
 
 def get_resolution(collection_identifier: str) -> int | None:

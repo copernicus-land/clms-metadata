@@ -1,35 +1,8 @@
-import copy
-import random
-
 import pytest
 
-import clms_metadata.constants.lookup_tables
 from clms_metadata.source import lookup
 
 
-def shuffle_dict(d: dict) -> dict:
-    """
-    Create a shuffled version of a dict.
-    Used for testing purposes to ensure that regex matches do not depend on mapping order
-
-    :param d: The dictionary to be shuffled
-    :return: A new shuffled dict with the same key-value pairs as the input
-    """
-    item_list = list(d.items())
-    random.shuffle(item_list)
-    return dict(item_list)
-
-
-@pytest.mark.parametrize(
-    "dataset_dict",
-    [
-        copy.deepcopy(clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET),
-        shuffle_dict(clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET),
-        shuffle_dict(clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET),
-        shuffle_dict(clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET),
-        shuffle_dict(clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET),
-    ],
-)
 @pytest.mark.parametrize(
     "filename, target",
     [
@@ -103,8 +76,7 @@ def shuffle_dict(d: dict) -> dict:
         ),
     ],
 )
-def test_extract_collection_id_from_cls_filename(dataset_dict, filename, target):
-    clms_metadata.constants.lookup_tables.PRODUCT_NAME_TO_DATASET = dataset_dict
+def test_extract_collection_id_from_cls_filename(filename, target):
     filename_with_date = filename.replace("<unique>", "201604210000")
     if isinstance(target, str):
         assert lookup.LookupSource.extract_collection_id(filename_with_date) == target
@@ -113,16 +85,6 @@ def test_extract_collection_id_from_cls_filename(dataset_dict, filename, target)
             lookup.LookupSource.extract_collection_id(filename_with_date)
 
 
-@pytest.mark.parametrize(
-    "dataset_dict",
-    [
-        copy.deepcopy(clms_metadata.constants.lookup_tables.DATASET_TO_PRODUCT_TYPE),
-        shuffle_dict(clms_metadata.constants.lookup_tables.DATASET_TO_PRODUCT_TYPE),
-        shuffle_dict(clms_metadata.constants.lookup_tables.DATASET_TO_PRODUCT_TYPE),
-        shuffle_dict(clms_metadata.constants.lookup_tables.DATASET_TO_PRODUCT_TYPE),
-        shuffle_dict(clms_metadata.constants.lookup_tables.DATASET_TO_PRODUCT_TYPE),
-    ],
-)
 @pytest.mark.parametrize(
     "collection_id, target",
     [
@@ -144,5 +106,5 @@ def test_extract_collection_id_from_cls_filename(dataset_dict, filename, target)
         ("w_something_else", None),
     ],
 )
-def test_determine_product_type(dataset_dict, collection_id, target):
+def test_determine_product_type(collection_id, target):
     assert lookup.LookupSource.determine_product_type(collection_id) == target
