@@ -1,0 +1,29 @@
+{
+    "name": "c_gls_SWI1km_201608131200_CEURO_SCATSAR_V1.0.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2016-08-12T12:00:01Z",
+        "end": "2016-08-13T12:00:00Z"
+    },
+    "nominal_date": "2016-08-13T12:00:00Z",
+    "product_type": "soil_water_index",
+    "component": "bio-geophysical",
+    "dataset_identifier": "swi_europe_1km_daily_v1",
+    "attributes": {
+        "productVersion": "v1.0.1",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "processingCenter": "TU Wien",
+        "missionShortName": "METOP,SENTINEL1",
+        "platformShortName": "METOPA,METOPB,SENTINEL1A,SENTINEL1B",
+        "platformAcronym": "S1A,S1B",
+        "instrumentShortName": "ASCAT,CSAR",
+        "datasetShortName": "swi",
+        "datasetAlias": "swi_europe_1km_daily",
+        "areaOfInterest": "europe",
+        "metricGridSpacing": 1000,
+        "gridLabel": "1km",
+        "temporalRepeatRate": "daily"
+    }
+}

@@ -68,6 +68,12 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
     re.compile(
         r"lst10-tci_v(?P<version_major>\d+)_0.045degree"
     ): "lst-tci_global_5km_10daily_v{version_major}",
+    re.compile(
+        r"swi10_v(?P<version_major>\d+)_0.1degree"
+    ): "swi_global_12.5km_10daily_v{version_major}",
+    re.compile(
+        r"swi_v(?P<version_major>\d+)_0.1degree"
+    ): "swi_global_12.5km_daily_v{version_major}",
 }
 PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
     re.compile(
@@ -142,6 +148,9 @@ PRODUCT_NAME_TO_DATASET = {  # product name regex to collection identifier
     re.compile(
         r"c_gls_NDVI-(?P<term>STS|LTS)_\d{4}-\d{4}-\d{4}_GLOBE_[-A-Z]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "ndvi-{term}_global_1km_10daily_v{version_major}",
+    re.compile(
+        r"c_gls_SWI1km_\d{12}_CEURO_[A-Z]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    ): "swi_europe_1km_daily_v{version_major}",
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"ndvi[_-]"): "vegetation_indices",
@@ -155,6 +164,7 @@ DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^lwq"): "lake_water_quality",
     re.compile(r"^lie"): "river_and_lake_ice_extent",
     re.compile(r"ba_"): "burnt_area",
+    re.compile(r"swi_"): "soil_water_index",
 }
 COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
     "bio-geophysical": {
@@ -169,6 +179,7 @@ COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
         "vegetation_properties",
         "river_and_lake_water_level",
         "burnt_area",
+        "soil_water_index",
     }
 }
 DATASET_SHORT_NAMES = {

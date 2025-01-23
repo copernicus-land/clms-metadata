@@ -1,0 +1,31 @@
+{
+    "name": "c_gls_SWI10_201206211200_GLOBE_ASCAT_V3.1.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2012-06-20T12:00:00Z",
+        "end": "2012-06-30T12:00:00Z"
+    },
+    "nominal_date": "2012-06-21T12:00:00Z",
+    "product_type": "soil_water_index",
+    "component": "bio-geophysical",
+    "dataset_identifier": "swi_global_12.5km_10daily_v3",
+    "attributes": {
+        "productVersion": "v3.1.1",
+        "datasetVersion": 3,
+        "fileFormat": "nc",
+        "processingCenter": "TU Wien",
+        // NC_GLOBAL#platform=METOP A
+        "missionShortName": "METOP",
+        "platformShortName": "METOPA",
+        // NC_GLOBAL#sensor=ASCAT
+        "instrumentShortName": "ASCAT",
+        "datasetShortName": "swi",
+        "datasetAlias": "swi_global_12.5km_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 12500,
+        "gridLabel": "12.5km",
+        "temporalRepeatRate": "10daily",
+        "platformAcronym": null
+    }
+}
