@@ -1,0 +1,29 @@
+{
+    "name": "c_gls_WB_200109110000_GLOBE_VGT_V2.1.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2001-09-11T00:00:00Z",
+        "end": "2001-09-20T23:59:59Z"
+    },
+    "nominal_date": "2001-09-11T00:00:00Z",
+    "product_type": "water_bodies",
+    "component": "bio-geophysical",
+    "dataset_identifier": "wb_global_1km_10daily_v2",
+    "attributes": {
+        "productVersion": "v2.1.1",
+        "datasetVersion": 2,
+        "fileFormat": "nc",
+        "processingCenter": "VITO",
+        "missionShortName": "SPOT4",
+        "platformShortName": "SPOT4",
+        "platformAcronym": "SPOT4",
+        "instrumentShortName": "VEGETATION",
+        "datasetShortName": "wb",
+        "datasetAlias": "wb_global_1km_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 1000,
+        "gridLabel": "1km",
+        "temporalRepeatRate": "10daily"
+    }
+}

@@ -1,0 +1,29 @@
+{
+    "name": "c_gls_WB300_201902210000_GLOBE_PROBAV_V1.0.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2019-02-21T00:00:00Z",
+        "end": "2019-02-28T23:59:59Z"
+    },
+    "nominal_date": "2019-02-21T00:00:00Z",
+    "product_type": "water_bodies",
+    "component": "bio-geophysical",
+    "dataset_identifier": "wb_global_300m_10daily_v1",
+    "attributes": {
+        "productVersion": "v1.0.1",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "processingCenter": "VITO",
+        "missionShortName": "PROBAV",
+        "platformShortName": "PROBAV",
+        "platformAcronym": "PROBAV",
+        "instrumentShortName": "VEGETATION",
+        "datasetShortName": "wb",
+        "datasetAlias": "wb_global_300m_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 300,
+        "gridLabel": "300m",
+        "temporalRepeatRate": "10daily"
+    }
+}

@@ -339,6 +339,24 @@ test_reference = test_root / "reference"
             test_reference
             / "surface_soil_moisture/ssm_europe_1km_daily_v1/c_gls_SSM1km_201909030000_CEURO_S1CSAR_V1.1.1_nc.json5",
         ),
+        # wb_global_1km_10daily_v2
+        (
+            (
+                test_data
+                / "water_bodies/wb_global_1km_10daily_v2/c_gls_WB_200109110000_GLOBE_VGT_V2.1.1.nc",
+            ),
+            test_reference
+            / "water_bodies/wb_global_1km_10daily_v2/c_gls_WB_200109110000_GLOBE_VGT_V2.1.1_nc.json5",
+        ),
+        # wb_global_300m_10daily_v1
+        (
+            (
+                test_data
+                / "water_bodies/wb_global_300m_10daily_v1/c_gls_WB300_201902210000_GLOBE_PROBAV_V1.0.1.nc",
+            ),
+            test_reference
+            / "water_bodies/wb_global_300m_10daily_v1/c_gls_WB300_201902210000_GLOBE_PROBAV_V1.0.1_nc.json5",
+        ),
     ],
 )
 def test_builder(files, reference):

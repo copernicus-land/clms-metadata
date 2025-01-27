@@ -64,12 +64,10 @@ from clms_metadata.source import lookup
         ),
         # clms_global_wb_100m_v1_monthly_netcdf
         ("c_gls_WB100_<unique>_GLOBE_S2_V1.0.1", "wb_global_100m_monthly_v1"),
-        # clms_global_wb_300m_v2_monthly_netcdf
-        ("c_gls_WB300_<unique>_GLOBE_S2_V2.0.1", "wb_global_300m_monthly_v2"),
         # clms_global_lie_250m_v2_daily_netcdf
         ("c_gls_LIE250_202402190000_CEURO_VIIRS_V2.2.1", "lie_europe_250m_daily_v2"),
         # no match
-        ("c_gls_WB300_<unique>_LOBE_S2_V2.0.1", ValueError),
+        ("c_gls_WB100_<unique>_LOBE_S2_V2.0.1", ValueError),
         (
             "c_gls_NDVI-STS_2015-2019-1211_GLOBE_PROBAV_V3.0.1",
             "ndvi-sts_global_1km_10daily_v3",

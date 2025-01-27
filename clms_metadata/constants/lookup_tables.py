@@ -36,7 +36,7 @@ MISSION_TO_INSTRUMENT = {  # mapping of missions with only one instrument
     "AQUA": "MODIS",
 }
 
-IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
+IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
     # re.compile(r"lie_v(?P<version_major>\d+)_250m"): "lie_baltic_250m_daily_v{version_major}",
     # re.compile(r"lie_v(?P<version_major>\d+)_250m"): "lie_europe_250m_daily_v{version_major}",
     re.compile(
@@ -64,6 +64,12 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
     re.compile(
         r"wb_v(?P<version_major>\d+)_300m"
     ): "wb_global_300m_monthly_v{version_major}",
+    re.compile(
+        r"wb300_v(?P<version_major>\d+)_333m"
+    ): "wb_global_300m_10daily_v{version_major}",
+    re.compile(
+        r"wb_v(?P<version_major>\d+)_1km"
+    ): "wb_global_1km_10daily_v{version_major}",
     re.compile(
         r"(?P<variable>ndvi|fapar|fcover|lai)_v(?P<version_major>\d+)_1km"
     ): "{variable}_global_1km_10daily_v{version_major}",
@@ -95,6 +101,7 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
         r"ssm_v(?P<version_major>\d+)_1km"
     ): "ssm_europe_1km_daily_v{version_major}",
 }
+
 PRODUCT_NAME_TO_DATASET: Final[
     dict[re.Pattern, str]
 ] = {  # product name regex to collection identifier
@@ -149,9 +156,10 @@ PRODUCT_NAME_TO_DATASET: Final[
     re.compile(
         r"c_gls_WB100_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "wb_global_100m_monthly_v{version_major}",
-    re.compile(
-        r"c_gls_WB300_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "wb_global_300m_monthly_v{version_major}",
+    # matches both 300m_10daily_v1 and 300m_monthly_v2
+    # re.compile(
+    #     r"c_gls_WB300_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    # ): "wb_global_300m_monthly_v{version_major}",
     re.compile(
         r"c_gls_LWQ1km_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d)\.\d)"
     ): "lwq-nrt_global_1km_10daily_v{version_major}",
