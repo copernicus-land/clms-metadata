@@ -63,10 +63,20 @@ class FileSource(MetadataSource):
                         else data.bounds
                     )
                 if not metadata.content_date:
-                    metadata.content_date = ContentDate(
-                        start=tags["time_coverage_start"],
-                        end=tags["time_coverage_end"],
-                    )
+                    if "time_coverage_start" in tags:
+                        metadata.content_date = ContentDate(
+                            start=tags["time_coverage_start"],
+                            end=tags["time_coverage_end"],
+                        )
+                    else:
+                        logger.warning(
+                            "No time coverage in raster tags, using nominal date '{}' as content date",
+                            metadata.content_date,
+                        )
+                        metadata.content_date = ContentDate(
+                            start=metadata.nominal_date,
+                            end=metadata.nominal_date,
+                        )
                 if not metadata.geometry:
                     # TODO: check if half-pixel shift is needed?
                     metadata.geometry = shapely.set_precision(

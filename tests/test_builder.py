@@ -305,6 +305,31 @@ test_reference = test_root / "reference"
             test_reference
             / "soil_water_index/swi-timeseries_global_12.5km_daily_v3/c_gls_SWI-TS_202312310000_C0348_ASCAT_V3.2.1_nc.json5",
         ),
+        # swi-static_global_12.5km_daily_v3
+        (
+            (
+                test_data
+                / "soil_water_index/swi-static_global_12.5km_daily_v3/c_gls_SWI-STATIC-CI_2007----2017_GLOBE_SWI-GLDAS_V1.1.1.nc",
+            ),
+            test_reference
+            / "soil_water_index/swi-static_global_12.5km_daily_v3/c_gls_SWI-STATIC-CI_2007----2017_GLOBE_SWI-GLDAS_V1.1.1_nc.json5",
+        ),
+        (
+            (
+                test_data
+                / "soil_water_index/swi-static_global_12.5km_daily_v3/c_gls_SWI-STATIC-CI_201101010000_GLOBE_SWI-GLDAS_V1.1.1.nc",
+            ),
+            test_reference
+            / "soil_water_index/swi-static_global_12.5km_daily_v3/c_gls_SWI-STATIC-CI_201101010000_GLOBE_SWI-GLDAS_V1.1.1_nc.json5",
+        ),
+        (
+            (
+                test_data
+                / "soil_water_index/swi-static_global_12.5km_daily_v3/c_gls_SWI-STATIC-TC_201501010000_GLOBE_GTOPO30_V1.1.1.nc",
+            ),
+            test_reference
+            / "soil_water_index/swi-static_global_12.5km_daily_v3/c_gls_SWI-STATIC-TC_201501010000_GLOBE_GTOPO30_V1.1.1_nc.json5",
+        ),
     ],
 )
 def test_builder(files, reference):
