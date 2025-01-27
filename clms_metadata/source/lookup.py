@@ -87,10 +87,10 @@ class LookupSource(MetadataSource):
             factory=lambda: get_temporal_grid(metadata.dataset_identifier),
         )
 
-        if metadata.get_attribute(
-            attributes.FILE_FORMAT
-        ).value != FILE_FORMAT_GEOJSON and not regex.DATASET_NDVI_STATISTICS.match(
-            metadata.dataset_identifier
+        if (
+            metadata.get_attribute(attributes.FILE_FORMAT).value != FILE_FORMAT_GEOJSON
+            and not regex.DATASET_NDVI_STATISTICS.match(metadata.dataset_identifier)
+            and not regex.DATASET_SWI_STATIC.match(metadata.dataset_identifier)
         ):
             temporal_grid_delta = get_relativedelta(
                 metadata.get_attribute(attributes.TEMPORAL_REPEAT_RATE).value

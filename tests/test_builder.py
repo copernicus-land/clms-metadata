@@ -328,7 +328,7 @@ test_reference = test_root / "reference"
                 / "soil_water_index/swi-static_global_12.5km_daily_v3/c_gls_SWI-STATIC-TC_201501010000_GLOBE_GTOPO30_V1.1.1.nc",
             ),
             test_reference
-            / "soil_water_index/swi-static_global_12.5km_daily_v3/c_gls_SWI-STATIC-TC_201501010000_GLOBE_GTOPO30_V1.1.1.nc",
+            / "soil_water_index/swi-static_global_12.5km_daily_v3/c_gls_SWI-STATIC-TC_201501010000_GLOBE_GTOPO30_V1.1.1_nc.json5",
         ),
     ],
 )
