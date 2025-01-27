@@ -383,6 +383,8 @@ def parse_sensor(sensor_tag: str | None) -> list[str]:
         if match := regex.SENSOR_SENTINEL3_SLSTR.match(s):
             # if the sensor name has SLSTR with a suffix, only take SLSTR
             sensors[i] = match.group(1)
+        if regex.SENSOR_SENTINEL1_SAR.match(s):
+            sensors[i] = "SAR"
 
     return sensors
 

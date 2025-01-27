@@ -330,6 +330,15 @@ test_reference = test_root / "reference"
             test_reference
             / "soil_water_index/swi-static_global_12.5km_daily_v3/c_gls_SWI-STATIC-TC_201501010000_GLOBE_GTOPO30_V1.1.1_nc.json5",
         ),
+        # ssm_europe_1km_daily_v1
+        (
+            (
+                test_data
+                / "surface_soil_moisture/ssm_europe_1km_daily_v1/c_gls_SSM1km_201909030000_CEURO_S1CSAR_V1.1.1.nc",
+            ),
+            test_reference
+            / "surface_soil_moisture/ssm_europe_1km_daily_v1/c_gls_SSM1km_201909030000_CEURO_S1CSAR_V1.1.1_nc.json5",
+        ),
     ],
 )
 def test_builder(files, reference):

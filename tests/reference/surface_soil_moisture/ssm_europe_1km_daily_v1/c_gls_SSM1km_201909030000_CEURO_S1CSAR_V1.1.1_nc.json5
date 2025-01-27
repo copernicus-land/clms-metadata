@@ -1,0 +1,31 @@
+{
+    "name": "c_gls_SSM1km_201909030000_CEURO_S1CSAR_V1.1.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2019-09-03T00:00:00Z",
+        "end": "2019-09-03T23:59:59Z"
+    },
+    "nominal_date": "2019-09-03T00:00:00Z",
+    "product_type": "surface_soil_moisture",
+    "component": "bio-geophysical",
+    "dataset_identifier": "ssm_europe_1km_daily_v1",
+    "attributes": {
+        "productVersion": "v1.1.1",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "processingCenter": "TU Wien",
+        // NC_GLOBAL#platform=Sentinel-1 A+B
+        "missionShortName": "SENTINEL1",
+        "platformShortName": "SENTINEL1A,SENTINEL1B",
+        "platformAcronym": "S1A,S1B",
+        // NC_GLOBAL#sensor=CSAR
+        "instrumentShortName": "SAR",
+        "datasetShortName": "ssm",
+        "datasetAlias": "ssm_europe_1km_daily",
+        "areaOfInterest": "europe",
+        "metricGridSpacing": 1000,
+        "gridLabel": "1km",
+        "temporalRepeatRate": "daily"
+    }
+}

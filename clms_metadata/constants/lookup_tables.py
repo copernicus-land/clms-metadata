@@ -81,6 +81,9 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
     re.compile(
         r"swi-static-[a-z]+_v(?P<version_major>\d+)_0.1degree",
     ): "swi-static_global_12.5km_daily_v{version_major}",
+    re.compile(
+        r"ssm_v(?P<version_major>\d+)_1km"
+    ): "ssm_europe_1km_daily_v{version_major}",
 }
 PRODUCT_NAME_TO_DATASET: Final[
     dict[re.Pattern, str]
@@ -166,6 +169,9 @@ PRODUCT_NAME_TO_DATASET: Final[
     re.compile(
         r"c_gls_SWI-STATIC-[A-Z]+_[\d-]{12}_GLOBE_[A-Z-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "swi-static_global_12.5km_daily_v{version_major}",
+    re.compile(
+        r"c_gls_SSM1km_\d{12}_CEURO_[A-Z-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    ): "ssm_europe_1km_daily_v{version_major}",
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"ndvi[_-]"): "vegetation_indices",
@@ -180,6 +186,7 @@ DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^lie"): "river_and_lake_ice_extent",
     re.compile(r"ba_"): "burnt_area",
     re.compile(r"swi[_-]"): "soil_water_index",
+    re.compile(r"ssm_"): "surface_soil_moisture",
 }
 COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
     "bio-geophysical": {
@@ -195,6 +202,7 @@ COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
         "river_and_lake_water_level",
         "burnt_area",
         "soil_water_index",
+        "surface_soil_moisture",
     }
 }
 DATASET_SHORT_NAMES = {
