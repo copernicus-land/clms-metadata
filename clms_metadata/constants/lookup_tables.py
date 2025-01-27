@@ -26,6 +26,16 @@ INSTRUMENT_MISSION_MAPPING = {  # Some products have no mission metadata, so we 
     "SAR": "SENTINEL1",
 }
 
+MISSION_TO_INSTRUMENT = {  # mapping of missions with only one instrument
+    "PROBAV": "VEGETATION",
+    "SPOT4": "VEGETATION",
+    "SPOT5": "VEGETATION",
+    "SENTINEL1": "SAR",
+    "SENTINEL2": "MSI",
+    "TERRA": "MODIS",
+    "AQUA": "MODIS",
+}
+
 IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING = {
     # re.compile(r"lie_v(?P<version_major>\d+)_250m"): "lie_baltic_250m_daily_v{version_major}",
     # re.compile(r"lie_v(?P<version_major>\d+)_250m"): "lie_europe_250m_daily_v{version_major}",
