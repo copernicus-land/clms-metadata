@@ -12,6 +12,12 @@ from rasterio.session import AWSSession
 
 from clms_metadata.config import Settings
 
+RASTERIO_SESSION_OPTS = dict(
+    CPL_DEBUG=False,
+    CPL_LOG_ERRORS=False,
+    GDAL_NETCDF_REPORT_EXTRA_DIM_VALUES=True,
+)
+
 
 class Storage(abc.ABC):
     @abc.abstractmethod
@@ -52,7 +58,7 @@ class Storage(abc.ABC):
         pass
 
     def rasterio_env(self) -> rasterio.Env:
-        return rasterio.Env()
+        return rasterio.Env(**RASTERIO_SESSION_OPTS)
 
 
 class S3(Storage):
@@ -110,6 +116,7 @@ class S3(Storage):
                 session=self.s3_client.sess,
                 endpoint_url=self.settings.s3.endpoint.host,  # strip protocol from S3 endpoint, GDAL cannot handle it
             ),
+            **RASTERIO_SESSION_OPTS,
         )
 
 

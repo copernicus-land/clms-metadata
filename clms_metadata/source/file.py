@@ -44,9 +44,8 @@ class FileSource(MetadataSource):
                 tags = rioxarray._io._parse_tags(data.tags())
                 logger.debug(tags)
                 if data.subdatasets:
-                    with rasterio.open(
-                        data.subdatasets[0], transform=data.transform
-                    ) as sub_data:
+                    logger.debug("Opening subdataset {}", data.subdatasets[0])
+                    with rasterio.open(data.subdatasets[0]) as sub_data:
                         bounds = (
                             rasterio.warp.transform_bounds(
                                 sub_data.crs, "EPSG:4326", *sub_data.bounds
