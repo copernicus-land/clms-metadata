@@ -19,6 +19,8 @@ from clms_metadata.models import (
 )
 from clms_metadata.source.base import MetadataSource
 
+EPSG_4326 = rasterio.crs.CRS.from_epsg(4326)
+
 
 class FileSource(MetadataSource):
     """Retrieve metadata from the file content."""
@@ -43,24 +45,6 @@ class FileSource(MetadataSource):
             with rasterio.open(str(path)) as data:
                 tags = rioxarray._io._parse_tags(data.tags())
                 logger.debug(tags)
-                if data.subdatasets:
-                    logger.debug("Opening subdataset {}", data.subdatasets[0])
-                    with rasterio.open(data.subdatasets[0]) as sub_data:
-                        bounds = (
-                            rasterio.warp.transform_bounds(
-                                sub_data.crs, "EPSG:4326", *sub_data.bounds
-                            )
-                            if sub_data.crs
-                            else sub_data.bounds
-                        )
-                else:
-                    bounds = (
-                        rasterio.warp.transform_bounds(
-                            data.crs, "EPSG:4326", *data.bounds
-                        )
-                        if data.crs
-                        else data.bounds
-                    )
                 if not metadata.content_date:
                     if "time_coverage_start" in tags:
                         metadata.content_date = ContentDate(
@@ -78,6 +62,7 @@ class FileSource(MetadataSource):
                         )
                 if not metadata.geometry:
                     # TODO: check if half-pixel shift is needed?
+                    bounds = get_raster_bounds(data, tags)
                     metadata.geometry = shapely.set_precision(
                         shapely.geometry.box(*bounds),
                         grid_size=self.settings.geometry.precision,
@@ -419,3 +404,101 @@ def get_dataset_identifier_from_identifier_tag(identifier: str | None) -> str | 
         return None
 
     return dataset_identifier
+
+
+def get_raster_bounds(
+    ds: rasterio.DatasetReader, tags: dict
+) -> tuple[float, float, float, float]:
+    """
+    Get the bounds of a raster dataset.
+
+
+    A few options are considered to extract the bounds:
+        * bounds reported by rasterio
+        * bounds of a subdataset reported by rasterio
+        * bounds constructed from the geospatial_lon/lat_min/max tags
+        * calculating bounds from netCDF lon/lat variables
+
+    :param ds: raster dataset
+    :param tags: raster metadata tags
+    :return: bounds as a tuple (left, bottom, right, top)
+    """
+    bounds: tuple[float, float, float, float]
+    if ds.crs:
+        # get bounds of the raster directly
+        bounds = rasterio.warp.transform_bounds(ds.crs, EPSG_4326, *ds.bounds)
+        logger.debug("Bounds from raster: {}", bounds)
+        return bounds
+    else:
+        logger.debug("No CRS in dataset")
+
+    if ds.subdatasets:
+        # get bounds of a subdataset
+        logger.debug("Opening subdataset {}", ds.subdatasets[0])
+        with rasterio.open(ds.subdatasets[0]) as sub_ds:
+            if sub_ds.crs:
+                bounds = rasterio.warp.transform_bounds(
+                    sub_ds.crs, EPSG_4326, *sub_ds.bounds
+                )
+                logger.debug("Bounds from subdataset: {}", bounds)
+                return bounds
+            elif sub_ds.transform != rasterio.transform.Affine.identity():
+                logger.debug(
+                    "No CRS in subdataset, but transform is present. Using bounds as-is, assuming EPSG:4326."
+                )
+                bounds = sub_ds.bounds
+                logger.debug("Bounds from subdataset: {}", bounds)
+                return bounds
+            else:
+                logger.debug("No CRS in subdataset")
+
+    if all(
+        t in tags
+        for t in (
+            "geospatial_lat_min",
+            "geospatial_lat_max",
+            "geospatial_lon_min",
+            "geospatial_lon_max",
+        )
+    ):
+        # get bounds from raster tags
+        bounds = (
+            tags["geospatial_lon_min"],
+            tags["geospatial_lat_min"],
+            tags["geospatial_lon_max"],
+            tags["geospatial_lat_max"],
+        )
+        logger.debug("Bounds from tags: {}", bounds)
+        return bounds
+
+    if ds.driver == "netCDF":
+        bounds = calculate_netcdf_bounds(ds)
+        logger.debug("Bounds calculated from netCDF lon/lat variables: {}", bounds)
+        return bounds
+
+    raise Exception("Unable to extract bounds from raster")
+
+
+def calculate_netcdf_bounds(
+    dataset: rasterio.DatasetReader
+) -> tuple[float, float, float, float]:
+    """
+    Calculate the bounds of a netCDF dataset from the lon and lat variables.
+
+    This is a slow operation as it requires to load all values in the lon and lat variables of the dataset.
+    So it should only be used as a last resort.
+
+    :param dataset: netCDF dataset
+    :return: bounds as a tuple (left, bottom, right, top)
+    """
+    import numpy as np
+
+    name_base = "netcdf:" + f'"{dataset.files[0]}"'
+    name_lon = name_base + ":lon"
+    name_lat = name_base + ":lat"
+    with rasterio.open(name_lon) as ds_lon, rasterio.open(name_lat) as ds_lat:
+        lon_arr = ds_lon.read(1)
+        lon_min, lon_max = np.min(lon_arr).item(), np.max(lon_arr).item()
+        lat_arr = ds_lat.read(1)
+        lat_min, lat_max = np.min(lat_arr).item(), np.max(lat_arr).item()
+    return lon_min, lat_min, lon_max, lat_max
