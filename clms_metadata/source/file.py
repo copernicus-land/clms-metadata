@@ -431,7 +431,10 @@ def get_raster_bounds(
         # get bounds of the raster directly
         bounds = rasterio.warp.transform_bounds(ds.crs, EPSG_4326, *ds.bounds)
         logger.debug("Bounds from raster: {}", bounds)
-        return bounds
+        if is_bounds_plausible(bounds):
+            return bounds
+        else:
+            logger.warning("Bounds {} are not plausible", bounds)
     else:
         logger.debug("No CRS in dataset")
 
@@ -444,16 +447,20 @@ def get_raster_bounds(
                     sub_ds.crs, EPSG_4326, *sub_ds.bounds
                 )
                 logger.debug("Bounds from subdataset: {}", bounds)
-                return bounds
-            elif sub_ds.transform != rasterio.transform.Affine.identity():
+                if is_bounds_plausible(bounds):
+                    return bounds
+                else:
+                    logger.warning("Bounds {} are not plausible", bounds)
+            if sub_ds.transform != rasterio.transform.Affine.identity():
                 logger.debug(
-                    "No CRS in subdataset, but transform is present. Using bounds as-is, assuming EPSG:4326."
+                    "Ignoring (missing) CRS in subdataset. Using bounds as-is, assuming EPSG:4326."
                 )
                 bounds = sub_ds.bounds
                 logger.debug("Bounds from subdataset: {}", bounds)
-                return bounds
-            else:
-                logger.debug("No CRS in subdataset")
+                if is_bounds_plausible(bounds):
+                    return bounds
+                else:
+                    logger.warning("Bounds {} are not plausible", bounds)
 
     if all(
         t in tags
@@ -505,3 +512,13 @@ def calculate_netcdf_bounds(
         lat_arr = ds_lat.read(1)
         lat_min, lat_max = np.min(lat_arr).item(), np.max(lat_arr).item()
     return lon_min, lat_min, lon_max, lat_max
+
+
+def is_bounds_plausible(bounds: tuple[float, float, float, float]) -> bool:
+    left, bottom, right, top = bounds
+    if not -181 <= left <= right <= 181:
+        return False
+    if not -91 <= bottom <= top <= 91:
+        return False
+
+    return True
