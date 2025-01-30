@@ -73,6 +73,9 @@ class Settings(BaseSettings):
     geometry: GeometrySettings = GeometrySettings()
     link: LinkSettings = LinkSettings()
 
+    vsicached: bool = False
+    """Open raster files via the vsicached virtual filesystem"""
+
     model_config = SettingsConfigDict(
         env_nested_delimiter="__",
         nested_model_default_partial_update=True,

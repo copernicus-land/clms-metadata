@@ -42,7 +42,10 @@ class FileSource(MetadataSource):
         with self.storage.rasterio_env():
             # with rioxarray.open_rasterio(str(path)) as data:
             # use rasterio directly to work around issue https://github.com/corteva/rioxarray/issues/829
-            with rasterio.open(str(path)) as data:
+            path_ds = str(path)
+            if self.settings.vsicached and isinstance(path, Path):
+                path_ds = f"/vsicached?file={path}"
+            with rasterio.open(path_ds) as data:
                 tags = rioxarray._io._parse_tags(data.tags())
                 logger.debug(tags)
                 if not metadata.content_date:
