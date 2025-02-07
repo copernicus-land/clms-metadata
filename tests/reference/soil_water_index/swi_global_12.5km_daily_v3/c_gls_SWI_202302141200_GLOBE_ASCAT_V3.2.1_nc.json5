@@ -1,31 +1,31 @@
 {
-    'name': 'c_gls_SWI_202302141200_GLOBE_ASCAT_V3.2.1',
-    'name_suffix': 'nc',
-    'content_type': 'application/netcdf',
-    'content_date': {
-        'start': '2023-02-13T12:00:00Z',
-        'end': '2023-02-14T12:00:00Z'
+    "name": "c_gls_SWI_202302141200_GLOBE_ASCAT_V3.2.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2023-02-13T12:00:00Z",
+        "end": "2023-02-14T12:00:00Z"
     },
-    'nominal_date': '2023-02-14T12:00:00Z',
-    'product_type': 'soil_water_index',
-    'component': 'bio-geophysical',
-    'dataset_identifier': 'swi_global_12.5km_daily_v3',
-    'attributes': {
-        'productVersion': 'v3.2.1',
-        'datasetVersion': 3,
-        'fileFormat': 'nc',
-        'processingCenter': 'TU Wien',
+    "nominal_date": "2023-02-14T12:00:00Z",
+    "product_type": "soil_water_index",
+    "component": "bio-geophysical",
+    "dataset_identifier": "swi_global_12.5km_daily_v3",
+    "attributes": {
+        "productVersion": "v3.2.1",
+        "datasetVersion": 3,
+        "fileFormat": "nc",
+        "processingCenter": "TU Wien",
         // NC_GLOBAL#platform=METOP B+C
-        'missionShortName': 'METOP',
-        'platformShortName': 'METOPB,METOPC',
+        "missionShortName": "METOP",
+        "platformShortName": "METOPB,METOPC",
         // NC_GLOBAL#sensor=ASCAT
-        'instrumentShortName': 'ASCAT',
-        'datasetShortName': 'swi',
-        'datasetAlias': 'swi_global_12.5km_daily',
-        'areaOfInterest': 'global',
-        'metricGridSpacing': 12500,
-        'gridLabel': '12.5km',
-        'temporalRepeatRate': 'daily',
-        'platformAcronym': null
+        "instrumentShortName": "ASCAT",
+        "datasetShortName": "swi",
+        "datasetAlias": "swi_global_12.5km_daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 12500,
+        "gridLabel": "12.5km",
+        "temporalRepeatRate": "daily",
+        "platformAcronym": null
     }
 }

@@ -118,6 +118,19 @@ class LookupSource(MetadataSource):
                 ),
             )
 
+        if m := regex.SWI_STATIC.match(metadata.name):
+            metadata.add_attribute(
+                name=attributes.SWI_SUB_PARAMETER,
+                value_type=StringAttribute,
+                factory=lambda: m.group(attributes.SWI_SUB_PARAMETER),
+            )
+        if m := regex.SWI_TIMESERIES.match(metadata.name):
+            metadata.add_attribute(
+                name=attributes.SWI_TS_CELL_ID,
+                value_type=StringAttribute,
+                factory=lambda: m.group(attributes.SWI_TS_CELL_ID),
+            )
+
         return metadata
 
     @staticmethod

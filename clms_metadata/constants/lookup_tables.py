@@ -1,6 +1,7 @@
 import re
 from typing import Final
 
+from clms_metadata.constants import regex
 from clms_metadata.constants.content_type import (
     CONTENT_TYPE_GEOJSON,
     CONTENT_TYPE_NETCDF,
@@ -181,12 +182,8 @@ PRODUCT_NAME_TO_DATASET: Final[
     re.compile(
         r"c_gls_SWI1km_\d{12}_CEURO_[A-Z]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "swi_europe_1km_daily_v{version_major}",
-    re.compile(
-        r"c_gls_SWI-TS_\d{12}_\w+_[A-Z]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "swi-timeseries_global_12.5km_daily_v{version_major}",
-    re.compile(
-        r"c_gls_SWI-STATIC-[A-Z]+_[\d-]{12}_GLOBE_[A-Z-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "swi-static_global_12.5km_daily_v{version_major}",
+    regex.SWI_TIMESERIES: "swi-timeseries_global_12.5km_daily_v{version_major}",
+    regex.SWI_STATIC: "swi-static_global_12.5km_daily_v{version_major}",
     re.compile(
         r"c_gls_SSM1km_\d{12}_CEURO_[A-Z-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "ssm_europe_1km_daily_v{version_major}",
