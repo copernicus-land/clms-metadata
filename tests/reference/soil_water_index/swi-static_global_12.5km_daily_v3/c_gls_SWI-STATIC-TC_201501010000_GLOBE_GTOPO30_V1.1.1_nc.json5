@@ -26,6 +26,7 @@
         // NC_GLOBAL#platform=N/A
         "missionShortName": null,
         "platformShortName": null,
-        "platformAcronym": null
+        "platformAcronym": null,
+        "swiSubParameter": "TC"
     }
 }

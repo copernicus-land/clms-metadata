@@ -32,3 +32,11 @@ DATE_YEAR1_YEAR2_MMDD: Final[re.Pattern] = re.compile(r"\d{4}-\d{4}-\d{4}")
 """
 Regex for date format YEAR1-YEAR2-MMDD (4 digits, hyphen, 4 digits, hyphen, 4 digits)
 """
+
+
+SWI_STATIC: Final[re.Pattern] = re.compile(
+    r"c_gls_SWI-STATIC-(?P<swiSubParameter>[A-Z]+)_[\d-]{12}_GLOBE_[A-Z-0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+)
+SWI_TIMESERIES: Final[re.Pattern] = re.compile(
+    r"c_gls_SWI-TS_\d{12}_(?P<swiTSCellId>C\d{4})+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+)

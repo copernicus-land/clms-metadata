@@ -24,6 +24,7 @@
         "metricGridSpacing": 12500,
         "gridLabel": "12.5km",
         "temporalRepeatRate": "daily",
-        "platformAcronym": null
+        "platformAcronym": null,
+        "swiTSCellId": "C0348"
     }
 }
