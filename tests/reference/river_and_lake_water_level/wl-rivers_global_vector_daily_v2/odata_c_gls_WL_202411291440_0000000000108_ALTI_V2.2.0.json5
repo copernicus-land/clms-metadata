@@ -94,7 +94,7 @@
         {
             "Name": "instrumentShortName",
             "ValueType": "String",
-            "Value": null
+            "Value": "unspecified"
         }
     ]
 }

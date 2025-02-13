@@ -24,9 +24,9 @@
         "gridLabel": "12.5km",
         "temporalRepeatRate": "daily",
         // NC_GLOBAL#platform=N/A
-        "missionShortName": null,
-        "platformShortName": null,
-        "platformAcronym": null,
+        "missionShortName": "unspecified",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified",
         "swiSubParameter": "TC"
     }
 }

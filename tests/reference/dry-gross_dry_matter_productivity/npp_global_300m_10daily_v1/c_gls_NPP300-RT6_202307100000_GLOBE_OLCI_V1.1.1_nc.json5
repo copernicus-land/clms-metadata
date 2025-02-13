@@ -21,8 +21,8 @@
         "instrumentShortName": "OLCI",
         "metricGridSpacing": 300,
         "missionShortName": "SENTINEL3",
-        "platformAcronym": null,
-        "platformShortName": null,
+        "platformAcronym": "unspecified",
+        "platformShortName": "unspecified",
         "processingCenter": "VITO",
         "productVersion": "v1.1.1",
         "temporalRepeatRate": "10daily"

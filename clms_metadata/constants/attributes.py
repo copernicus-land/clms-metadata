@@ -1,5 +1,8 @@
 from typing import Final
 
+"""
+Attribute names
+"""
 PROCESSING_CENTER: Final[str] = "processingCenter"
 AREA_OF_INTEREST: Final[str] = "areaOfInterest"
 DATASET_SHORT_NAME: Final[str] = "datasetShortName"
@@ -22,3 +25,8 @@ VPP_SEASON: Final[str] = "vppSeason"
 VPP_SUB_PARAMETER: Final[str] = "vppSubParameter"
 SWI_SUB_PARAMETER: Final[str] = "swiSubParameter"
 SWI_TS_CELL_ID: Final[str] = "swiTSCellId"
+
+"""
+Attribute values
+"""
+UNSPECIFIED: Final[str] = "unspecified"

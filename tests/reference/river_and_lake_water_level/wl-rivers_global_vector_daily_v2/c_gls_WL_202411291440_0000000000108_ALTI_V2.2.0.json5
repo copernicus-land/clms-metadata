@@ -21,7 +21,7 @@
         "missionShortName": "SENTINEL3",
         "platformShortName": "SENTINEL3B",
         "platformAcronym": "S3B",
-        "instrumentShortName": null,
+        "instrumentShortName": "unspecified",
         "wlRiverName": "Alto-madre-de-dios-trib-01",
         "wlBasinName": "Amazonas",
         "productVersion": "v2.2.0"
