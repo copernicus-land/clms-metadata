@@ -10,6 +10,7 @@ from pydantic_settings import (
     SettingsConfigDict,
 )
 
+from clms_metadata.constants.attributes import UNSPECIFIED
 from clms_metadata.types import MetadataSourceStr
 
 
@@ -67,7 +68,7 @@ class Settings(BaseSettings):
         else None
     )
     sources: list[MetadataSourceStr] = Field(
-        default_factory=lambda: ["Path", "File", "Settings", "Lookup", "Null"]
+        default_factory=lambda: ["Path", "File", "Settings", "Lookup", "Unspecified"]
     )
     metadata: Optional[MetadataSettings] = None
     geometry: GeometrySettings = GeometrySettings()
@@ -76,10 +77,14 @@ class Settings(BaseSettings):
     vsicached: bool = False
     """Open raster files via the vsicached virtual filesystem"""
 
+    unspecified: str | None = UNSPECIFIED
+    """Placeholder value for unspecified attributes"""
+
     model_config = SettingsConfigDict(
         env_nested_delimiter="__",
         nested_model_default_partial_update=True,
         extra="ignore",
+        env_parse_none_str="None",
     )
 
     @classmethod

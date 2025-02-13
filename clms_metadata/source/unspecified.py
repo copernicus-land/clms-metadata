@@ -7,9 +7,9 @@ from clms_metadata.models import Metadata, StringAttribute
 from clms_metadata.source import MetadataSource
 
 
-class NullSource(MetadataSource):
+class UnspecifiedSource(MetadataSource):
     """
-    Source to add mandatory attributes with a null value if they do not exist already.
+    Source to add mandatory attributes with the configured 'unspecified' value if they do not exist already.
     """
 
     def get_info(
@@ -25,7 +25,7 @@ class NullSource(MetadataSource):
                 metadata.add_attribute(
                     name=attr_name,
                     value_type=StringAttribute,
-                    factory=lambda: None,
+                    factory=lambda: self.settings.unspecified,
                     allow_none=True,
                 )
 

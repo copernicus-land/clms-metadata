@@ -21,9 +21,9 @@
         "wlLakeName": "rukwa",
         "wlBasinName": "Rukwa",
         "productVersion": "v2.2.0",
-        "missionShortName": null,
-        "platformShortName": null,
-        "platformAcronym": null,
-        "instrumentShortName": null
+        "missionShortName": "unspecified",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified",
+        "instrumentShortName": "unspecified"
     }
 }

@@ -38,7 +38,7 @@
             // NC_GLOBAL#platform=Suomi_NPP
             "missionShortName": "SUOMI NPP",
             "platformShortName": "NPP",
-            "platformAcronym": null,
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=VIIRS
             "instrumentShortName": "VIIRS",
         }
@@ -61,7 +61,7 @@
             "missionShortName": "DMSP,SUOMI NPP",
             // TODO: what to do with DMSP?
             "platformShortName": "NPP",
-            "platformAcronym": null,
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=SSMIS, VIIRS
             "instrumentShortName": "SSMIS,VIIRS",
         }
@@ -105,7 +105,7 @@
             // NC_GLOBAL#platform=Envisat
             "missionShortName": "ENVISAT",
             "platformShortName": "ENVISAT",
-            "platformAcronym": null,
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=AATSR
             "instrumentShortName": "AATSR",
         }
@@ -126,8 +126,8 @@
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Sentinel-2
             "missionShortName": "SENTINEL2",
-            "platformShortName": null,
-            "platformAcronym": null,
+            "platformShortName": "unspecified",
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=MSI
             "instrumentShortName": "MSI",
         }
@@ -148,8 +148,8 @@
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Sentinel-2
             "missionShortName": "SENTINEL2",
-            "platformShortName": null,
-            "platformAcronym": null,
+            "platformShortName": "unspecified",
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=MSI
             "instrumentShortName": "MSI"
         }
@@ -192,8 +192,8 @@
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=PLATFORM
             "missionShortName": "SENTINEL3",
-            "platformShortName": null,
-            "platformAcronym": null,
+            "platformShortName": "unspecified",
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=OLCI
             "instrumentShortName": "OLCI",
         }
@@ -215,7 +215,7 @@
             // NC_GLOBAL#platform=ENVISAT
             "missionShortName": "ENVISAT",
             "platformShortName": "ENVISAT",
-            "platformAcronym": null,
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=MERIS
             "instrumentShortName": "MERIS",
         }
@@ -282,7 +282,7 @@
             "missionShortName": "DMSP,SUOMI NPP",
             // TODO: what to do with DMSP?
             "platformShortName": "NPP",
-            "platformAcronym": null,
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=SSMIS, VIIRS
             "instrumentShortName": "SSMIS,VIIRS"
         },
@@ -348,7 +348,7 @@
             // NC_GLOBAL#platform=Envisat
             "missionShortName": "ENVISAT",
             "platformShortName": "ENVISAT",
-            "platformAcronym": null,
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=MERIS
             "instrumentShortName": "MERIS"
         }
@@ -369,8 +369,8 @@
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Sentinel-2
             "missionShortName": "SENTINEL2",
-            "platformShortName": null,
-            "platformAcronym": null,
+            "platformShortName": "unspecified",
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=MSI
             "instrumentShortName": "MSI"
         }
@@ -393,7 +393,7 @@
             // TODO: value under discussion?
             "missionShortName": "NOAA20",
             "platformShortName": "NOAA20",
-            "platformAcronym": null,
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=Visible Infrared Imaging Radiometer Suite (VIIRS)
             "instrumentShortName": "VIIRS"
         }

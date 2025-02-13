@@ -25,7 +25,7 @@
         "metricGridSpacing": 5000,
         "gridLabel": "5km",
         "temporalRepeatRate": "10daily",
-        "platformShortName": null,
-        "platformAcronym": null
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified"
     }
 }
