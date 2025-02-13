@@ -108,7 +108,7 @@ from clms_metadata.source.file import (
         (
             "GOESR,  MSG4,  MSG1,  HIMAWARI8",
             {
-                "GOES": ["GOESR"],
+                "GOES": [],
                 "METEOSAT11": ["METEOSAT11"],
                 "METEOSAT8": ["METEOSAT8"],
                 "HIMAWARI8": ["HIMAWARI8"],
