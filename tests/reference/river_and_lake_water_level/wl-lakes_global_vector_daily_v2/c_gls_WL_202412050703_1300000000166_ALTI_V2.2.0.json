@@ -1,15 +1,15 @@
 {
     "name": "c_gls_WL_202412050703_1300000000166_ALTI_V2.2.0",
-    "origin_date": "2024-12-07T00:58:23Z",
+    "origin_date": "2024-12-07T00:58:23.000000Z",
     "content_type": "application/geo+json",
     "component": "bio-geophysical",
     "product_type": "river_and_lake_water_level",
     "dataset_identifier": "wl-lakes_global_vector_daily_v2",
     "content_date": {
-        "start": "1992-10-21T15:07:00Z",
-        "end": "2024-12-05T07:03:00Z"
+        "start": "1992-10-21T15:07:00.000000Z",
+        "end": "2024-12-05T07:03:00.000000Z"
     },
-    "nominal_date": "2024-12-05T07:03:00Z",
+    "nominal_date": "2024-12-05T07:03:00.000000Z",
     "attributes": {
         "datasetVersion": 2,
         "fileFormat": "geojson",

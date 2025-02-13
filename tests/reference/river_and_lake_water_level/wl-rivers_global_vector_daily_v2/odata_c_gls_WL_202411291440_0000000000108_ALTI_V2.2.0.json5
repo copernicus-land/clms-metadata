@@ -2,7 +2,7 @@
     "@odata.context": "$metadata#Products(Attributes())",
     "Name": "c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0_geojson",
     "EvictionDate": "9999-12-31T23:59:59.999999Z",
-    "OriginDate": "2024-12-02T01:01:00Z",
+    "OriginDate": "2024-12-02T01:01:00.000000Z",
     "Online": true,
     "ContentType": "application/geo+json",
     "Link": "wl-rivers_global_vector_daily_v2/c_gls_WL_202411291440_0000000000108_ALTI_V2.2.0.json",
@@ -14,10 +14,10 @@
     "DecompressionStep": false,
     "CompressionType": null,
     "ContentDate": {
-        "Start": "2018-12-04T14:39:00Z",
-        "End": "2024-11-29T14:40:00Z"
+        "Start": "2018-12-04T14:39:00.000000Z",
+        "End": "2024-11-29T14:40:00.000000Z"
     },
-    "NominalDate": "2024-11-29T14:40:00Z",
+    "NominalDate": "2024-11-29T14:40:00.000000Z",
     "GeoFootprint": {
         "type": "Point",
         "coordinates": [

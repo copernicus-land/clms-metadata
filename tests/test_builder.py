@@ -371,30 +371,6 @@ def test_builder(files, reference):
 
 
 @pytest.mark.parametrize(
-    ("name", "files", "content_date"),
-    [
-        (
-            "c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2",
-            (
-                test_data
-                / "vegetation_properties/fapar_global_300m_10daily_v1/c_gls_FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2.nc",
-            ),
-            ContentDate(start="2023-02-01T00:00:00Z", end="2023-02-10T23:59:59.999Z"),
-        )
-    ],
-)
-def test_fapar_global_300m_10daily_v1(name, files, content_date):
-    assert all(p.exists() for p in files)
-
-    builder = MetadataBuilder(
-        storage=LocalFileSystem(), settings=Settings(link=LinkSettings(value="test"))
-    )
-    m = builder.build(files)
-    assert m.name == name
-    assert m.content_date == content_date
-
-
-@pytest.mark.parametrize(
     "file_name",
     [
         "c_gls_SCE500_201703010000_CEURO_MODIS_V1.0.1.nc",

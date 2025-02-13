@@ -3,10 +3,10 @@
     "name_suffix": "nc",
     "content_type": "application/netcdf",
     "content_date": {
-        "start": "2025-01-12T10:30:00Z",
-        "end": "2025-01-12T11:30:00Z"
+        "start": "2025-01-12T10:30:00.000000Z",
+        "end": "2025-01-12T11:30:00.000000Z"
     },
-    "nominal_date": "2025-01-12T11:00:00Z",
+    "nominal_date": "2025-01-12T11:00:00.000000Z",
     "product_type": "land_surface_temperature",
     "component": "bio-geophysical",
     "dataset_identifier": "lst_global_5km_hourly_v2",

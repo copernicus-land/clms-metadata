@@ -6,10 +6,10 @@
     "product_type": "burnt_area",
     "dataset_identifier": "ba_global_300m_daily_v3",
     "content_date": {
-        "start": "2024-02-20T00:00:00Z",
-        "end": "2024-02-20T23:59:59Z"
+        "start": "2024-02-20T00:00:00.000000Z",
+        "end": "2024-02-20T23:59:59.999999Z"
     },
-    "nominal_date": "2024-02-20T00:00:00Z",
+    "nominal_date": "2024-02-20T00:00:00.000000Z",
     "attributes": {
         "productVersion": "v3.1.1",
         "datasetVersion": 3,
