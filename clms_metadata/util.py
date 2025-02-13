@@ -12,10 +12,11 @@ def format_zulu(date: datetime.datetime) -> str:
     :param date: the datetime object to format
     :return: the formatted datetime string
     """
-    timespec = "auto"
-    if date.microsecond:
-        # prefer milliseconds if possible
-        timespec = "milliseconds" if date.microsecond % 1000 == 0 else "microseconds"
+    timespec = "microseconds"
+    # timespec = "auto"
+    # if date.microsecond:
+    #     # prefer milliseconds if possible
+    #     timespec = "milliseconds" if date.microsecond % 1000 == 0 else "microseconds"
     if date.tzinfo is None:
         return date.isoformat(timespec=timespec) + "Z"
     else:

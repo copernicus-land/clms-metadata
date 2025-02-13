@@ -3,10 +3,10 @@
     "name_suffix": "nc",
     "content_type": "application/netcdf",
     "content_date": {
-        "start": "2019-02-21T00:00:00Z",
-        "end": "2019-02-28T23:59:59Z"
+        "start": "2019-02-21T00:00:00.000000Z",
+        "end": "2019-02-28T23:59:59.999999Z"
     },
-    "nominal_date": "2019-02-21T00:00:00Z",
+    "nominal_date": "2019-02-21T00:00:00.000000Z",
     "product_type": "water_bodies",
     "component": "bio-geophysical",
     "dataset_identifier": "wb_global_300m_10daily_v1",

@@ -3,10 +3,10 @@
     "name_suffix": "nc",
     "content_type": "application/netcdf",
     "content_date": {
-        "start": "2015-02-11T00:00:00Z",
-        "end": "2015-02-20T23:59:59Z"
+        "start": "2015-02-11T00:00:00.000000Z",
+        "end": "2015-02-20T23:59:59.999999Z"
     },
-    "nominal_date": "2015-02-20T00:00:00Z",
+    "nominal_date": "2015-02-20T00:00:00.000000Z",
     "product_type": "dry-gross_dry_matter_productivity",
     "component": "bio-geophysical",
     "dataset_identifier": "dmp_global_300m_10daily_v1",
