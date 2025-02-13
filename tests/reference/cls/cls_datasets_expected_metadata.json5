@@ -494,7 +494,6 @@
             "processingCenter": "Syke,FMI,ENVEO",
             "temporalRepeatRate": "daily",
             // NC_GLOBAL#platform=NOAA-20 (JPSS-1)
-            // TODO: value under discussion?
             "missionShortName": "NOAA20",
             "platformShortName": "NOAA20",
             "platformAcronym": "unspecified",
