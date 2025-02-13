@@ -3,10 +3,10 @@
     "name_suffix": "nc",
     "content_type": "application/netcdf",
     "content_date": {
-        "start": "2023-05-21T00:00:00Z",
-        "end": "2023-05-31T23:00:00Z"  // TODO: T23:59:59.999Z?
+        "start": "2023-05-21T00:00:00.000000Z",
+        "end": "2023-05-31T23:00:00.000000Z"
     },
-    "nominal_date": "2023-05-21T00:00:00Z",
+    "nominal_date": "2023-05-21T00:00:00.000000Z",
     "product_type": "land_surface_temperature",
     "component": "bio-geophysical",
     "dataset_identifier": "lst-daily-cycle_global_5km_10daily_v2",

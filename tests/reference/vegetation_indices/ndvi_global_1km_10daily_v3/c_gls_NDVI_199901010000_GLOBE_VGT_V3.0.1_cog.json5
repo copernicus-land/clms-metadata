@@ -6,10 +6,10 @@
     "product_type": "vegetation_indices",
     "dataset_identifier": "ndvi_global_1km_10daily_v3",
     "content_date": {
-        "start": "1999-01-01T00:00:00Z",
-        "end": "1999-01-10T23:59:59Z"
+        "start": "1999-01-01T00:00:00.000000Z",
+        "end": "1999-01-10T23:59:59.999999Z"
     },
-    "nominal_date": "1999-01-01T00:00:00Z",
+    "nominal_date": "1999-01-01T00:00:00.000000Z",
     "attributes": {
         "productVersion": "v3.0.1",
         "datasetVersion": 3,

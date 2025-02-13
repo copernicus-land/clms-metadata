@@ -106,6 +106,18 @@ class LookupSource(MetadataSource):
                 logger.info(
                     "Updated content date: {}", metadata.content_date.model_dump()
                 )
+        if (
+            metadata.content_date.end.second == 59
+            and metadata.content_date.end.minute % 10 == 9
+            and (
+                not metadata.content_date.end.microsecond
+                or re.match(r"9+0*", str(metadata.content_date.end.microsecond))
+            )
+        ):
+            # fix end date precision to microseconds
+            metadata.content_date.end = metadata.content_date.end.replace(
+                microsecond=999999
+            )
 
         if not metadata.has_attribute(
             attributes.MISSION_SHORT_NAME
@@ -325,7 +337,7 @@ def calculate_content_date(
             if nominal_date.month != next_anchor.month or next_anchor.day == 31:
                 # set next anchor to first of the next month
                 next_anchor = next_anchor.replace(month=nominal_date.month + 1, day=1)
-        end = next_anchor - datetime.timedelta(milliseconds=1)
+        end = next_anchor - datetime.timedelta(microseconds=1)
     else:
         # assume nominal date as end of content date
         prev_anchor = nominal_date + datetime.timedelta(days=1) - temporal_grid
@@ -339,7 +351,7 @@ def calculate_content_date(
             )
 
         start = prev_anchor
-        end = nominal_date.replace(hour=23, minute=59, second=59, microsecond=999000)
+        end = nominal_date.replace(hour=23, minute=59, second=59, microsecond=999999)
 
     return ContentDate(start=start, end=end)
 

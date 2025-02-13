@@ -3,10 +3,10 @@
     'name_suffix': 'nc',
     'content_type': 'application/netcdf',
     'content_date': {
-        'start': '2021-01-11T00:00:00Z',
-        'end': '2021-01-20T23:00:00Z'
+        'start': '2021-01-11T00:00:00.000000Z',
+        'end': '2021-01-20T23:00:00.000000Z'
     },
-    'nominal_date': '2021-01-11T00:00:00Z',
+    'nominal_date': '2021-01-11T00:00:00.000000Z',
     'product_type': 'land_surface_temperature',
     'component': 'bio-geophysical',
     'dataset_identifier': 'lst-tci_global_5km_10daily_v2',

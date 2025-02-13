@@ -3,10 +3,10 @@
     "name_suffix": "nc",
     "content_type": "application/netcdf",
     "content_date": {
-        "start": "1999-01-01T00:00:00Z",
-        "end": "2017-12-31T23:59:59Z"
+        "start": "1999-01-01T00:00:00.000000Z",
+        "end": "2017-12-31T23:59:59.999999Z"
     },
-    "nominal_date": "1999-10-01T00:00:00Z",
+    "nominal_date": "1999-10-01T00:00:00.000000Z",
     "product_type": "vegetation_indices",
     "component": "bio-geophysical",
     "dataset_identifier": "ndvi-lts_global_1km_10daily_v2",

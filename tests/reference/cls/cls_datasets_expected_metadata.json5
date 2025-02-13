@@ -6,6 +6,11 @@
         "product_type": "snow_cover_extent",
         "dataset_identifier": "sce_europe_500m_daily_v1",
         "component": "bio-geophysical",
+        "content_date": {  // DATETIME: not at start/end of day
+            "start": "2017-03-01T06:35:00.000000Z",
+            "end": "2017-03-01T11:45:00.000000Z"
+        },
+        "nominal_date": "2017-03-01T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "500m",
             "processingCenter": "ENVEO IT GmbH",
@@ -28,6 +33,13 @@
         "product_type": "snow_cover_extent",
         "dataset_identifier": "sce_northernhemisphere_1km_daily_v1",
         "component": "bio-geophysical",
+        "content_date": {  // DATETIME: not at start/end of day
+            // NC_GLOBAL#time_coverage_start=2018-01-09T00:48:03.1Z
+            "start": "2018-01-09T00:48:03.100000Z",
+            // NC_GLOBAL#time_coverage_end=2018-01-09T23:03:45.6Z
+            "end": "2018-01-09T23:03:45.600000Z"
+        },
+        "nominal_date": "2018-01-09T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "1km",
             "processingCenter": "ENVEO IT GmbH",
@@ -50,6 +62,11 @@
         "product_type": "snow_water_equivalent",
         "dataset_identifier": "swe_northernhemisphere_5km_daily_v1",
         "component": "bio-geophysical",
+        "content_date": {
+            "start": "2006-01-01T00:00:00.000000Z",
+            "end": "2006-01-01T23:59:59.999999Z"
+        },
+        "nominal_date": "2006-01-01T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "5km",
             "processingCenter": "FMI",
@@ -73,6 +90,13 @@
         "product_type": "land_surface_temperature",
         "dataset_identifier": "lswt-nrt_global_1km_10daily_v1",
         "component": "bio-geophysical",
+        "content_date": {
+            // NC_GLOBAL#time_coverage_start=20161101T000000Z
+            "start": "2016-11-01T00:00:00.000000Z",
+            // NC_GLOBAL#time_coverage_end=20161110T000000Z
+            "end": "2016-11-10T00:00:00.000000Z"  // DATETIME: end at 00:00 on last day of 10-day interval
+        },
+        "nominal_date": "2016-11-01T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "1km",
             "processingCenter": "University of Reading",
@@ -95,6 +119,13 @@
         "product_type": "land_surface_temperature",
         "dataset_identifier": "lswt-offline_global_1km_10daily_v1",
         "component": "bio-geophysical",
+        "content_date": {
+            // NC_GLOBAL#time_coverage_start=20020511T000000Z
+            "start": "2002-05-11T00:00:00.000000Z",
+            // NC_GLOBAL#time_coverage_end=20020520T000000Z
+            "end": "2002-05-20T00:00:00.000000Z"  // DATETIME: end at 00:00 on last day of 10-day interval
+        },
+        "nominal_date": "2002-05-11T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "1km",
             "processingCenter": "University of Reading",
@@ -117,6 +148,11 @@
         "product_type": "water_bodies",
         "dataset_identifier": "wb_global_100m_monthly_v1",
         "component": "bio-geophysical",
+        "content_date": {
+            "start": "2020-10-01T00:00:00.000000Z",
+            "end": "2020-10-31T23:59:59.999999Z"
+        },
+        "nominal_date": "2020-10-01T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "100m",
             "processingCenter": "SIRS",
@@ -139,6 +175,11 @@
         "product_type": "water_bodies",
         "dataset_identifier": "wb_global_300m_monthly_v2",
         "component": "bio-geophysical",
+        "content_date": {
+            "start": "2020-10-01T00:00:00.000000Z",
+            "end": "2020-10-31T23:59:59.999999Z"
+        },
+        "nominal_date": "2020-10-01T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "300m",
             "processingCenter": "SIRS",
@@ -161,6 +202,13 @@
         "product_type": "lake_water_quality",
         "component": "bio-geophysical",
         "dataset_identifier": "lwq-nrt_global_100m_10daily_v1",
+        "content_date": {
+            // NC_GLOBAL#time_coverage_start=21-Dec-2018 00:00:00
+            "start": "2018-12-21T00:00:00.000000Z",
+            // NC_GLOBAL#time_coverage_end=31-Dec-2018 23:59:59
+            "end": "2018-12-31T23:59:59.999999Z"
+        },
+        "nominal_date": "2018-12-21T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "100m",
             "processingCenter": "Plymouth Marine Laboratory",
@@ -183,6 +231,13 @@
         "product_type": "lake_water_quality",
         "dataset_identifier": "lwq-nrt_global_300m_10daily_v1",
         "component": "bio-geophysical",
+        "content_date": {
+            // NC_GLOBAL#time_coverage_start=21-Apr-2016 00:00:00
+            "start": "2016-04-21T00:00:00.000000Z",
+            // NC_GLOBAL#time_coverage_end=30-Apr-2016 23:59:59
+            "end": "2016-04-30T23:59:59.999999Z"
+        },
+        "nominal_date": "2016-04-21T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "300m",
             "processingCenter": "Plymouth Marine Laboratory",
@@ -205,6 +260,13 @@
         "product_type": "lake_water_quality",
         "dataset_identifier": "lwq-reproc_global_300m_10daily_v1",
         "component": "bio-geophysical",
+        "content_date": {
+            // NC_GLOBAL#time_coverage_start=11-May-2002 00:00:00
+            "start": "2002-05-11T00:00:00.000000Z",
+            // NC_GLOBAL#time_coverage_end=20-May-2002 23:59:59
+            "end": "2002-05-20T23:59:59.999999Z"
+        },
+        "nominal_date": "2002-05-11T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "300m",
             "processingCenter": "Plymouth Marine Laboratory",
@@ -227,6 +289,11 @@
         "product_type": "river_and_lake_ice_extent",
         "dataset_identifier": "lie_baltic_250m_daily_v1",
         "component": "bio-geophysical",
+        "content_date": {
+            "start": "2017-03-15T00:00:01.000000Z",  // DATETIME: start on second 1
+            "end": "2017-03-15T23:59:59.999999Z"
+        },
+        "nominal_date": "2017-03-15T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "250m",
             "processingCenter": "SYKE,FMI,ENVEO",
@@ -249,6 +316,13 @@
         "product_type": "river_and_lake_ice_extent",
         "dataset_identifier": "lie_northernhemisphere_500m_daily_v1",
         "component": "bio-geophysical",
+        "content_date": {   // DATETIME: not at start/end of day
+            // NC_GLOBAL#time_coverage_start=2021-04-01T00:33:34Z
+            "start": "2021-04-01T00:33:34.000000Z",
+            // NC_GLOBAL#time_coverage_end=2021-04-01T21:42:53Z
+            "end": "2021-04-01T21:42:53.000000Z"
+        },
+        "nominal_date": "2021-04-01T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "500m",
             "processingCenter": "SYKE,FMI,ENVEO",
@@ -271,6 +345,11 @@
         "product_type": "snow_water_equivalent",
         "dataset_identifier": "swe_northernhemisphere_5km_daily_v2",
         "component": "bio-geophysical",
+        "content_date": {
+            "start": "2024-07-01T00:00:00.000000Z",
+            "end": "2024-07-01T23:59:59.999999Z"
+        },
+        "nominal_date": "2024-07-01T00:00:00.000000Z",
         "attributes": {
             "datasetVersion": 2,
             "fileFormat": "nc",
@@ -294,6 +373,11 @@
         "product_type": "lake_water_quality",
         "dataset_identifier": "lwq-nrt_global_300m_10daily_v2",
         "component": "bio-geophysical",
+        "content_date": {
+            "start": "2024-09-01T00:00:00.000000Z",
+            "end": "2024-09-10T23:59:59.999999Z"
+        },
+        "nominal_date": "2024-09-01T00:00:00.000000Z",
         "attributes": {
             "datasetVersion": 2,
             "fileFormat": "nc",
@@ -316,6 +400,11 @@
         "product_type": "lake_water_quality",
         "component": "bio-geophysical",
         "dataset_identifier": "lwq-nrt_global_1km_10daily_v1",
+        "content_date": {
+            "start": "2016-04-21T00:00:00.000000Z",
+            "end": "2016-04-30T23:59:59.999999Z"
+        },
+        "nominal_date": "2016-04-21T00:00:00.000000Z",
         "attributes": {
             "datasetVersion": 1,
             "fileFormat": "nc",
@@ -338,6 +427,11 @@
         "product_type": "lake_water_quality",
         "component": "bio-geophysical",
         "dataset_identifier": "lwq-reproc_global_1km_10daily_v1",
+        "content_date": {
+            "start": "2002-05-11T00:00:00.000000Z",
+            "end": "2002-05-20T23:59:59.999999Z"
+        },
+        "nominal_date": "2002-05-11T00:00:00.000000Z",
         "attributes": {
             "datasetVersion": 1,
             "fileFormat": "nc",
@@ -360,6 +454,11 @@
         "product_type": "lake_water_quality",
         "component": "bio-geophysical",
         "dataset_identifier": "lwq-nrt_global_100m_10daily_v2",
+        "content_date": {
+            "start": "2024-09-01T00:00:00.000000Z",
+            "end": "2024-09-10T23:59:59.999999Z"
+        },
+        "nominal_date": "2024-09-01T00:00:00.000000Z",
         "attributes": {
             "datasetVersion": 2,
             "fileFormat": "nc",
@@ -382,6 +481,11 @@
         "product_type": "river_and_lake_ice_extent",
         "component": "bio-geophysical",
         "dataset_identifier": "lie_europe_250m_daily_v2",
+        "content_date": {
+            "start": "2024-02-19T00:00:01.000000Z",  // DATETIME: start on second 1
+            "end": "2024-02-19T23:59:59.999999Z"
+        },
+        "nominal_date": "2024-02-19T00:00:00.000000Z",
         "attributes": {
             "areaOfInterest": "europe",
             "datasetVersion": 2,
