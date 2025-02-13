@@ -13,7 +13,7 @@
         "nominal_date": "2017-03-01T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "500m",
-            "processingCenter": "ENVEO IT GmbH",
+            "processingCenter": "ENVEO IT",
             "datasetVersion": 1,
             "fileFormat": "nc",
             "temporalRepeatRate": "daily",
@@ -42,7 +42,7 @@
         "nominal_date": "2018-01-09T00:00:00.000000Z",
         "attributes": {
             "gridLabel": "1km",
-            "processingCenter": "ENVEO IT GmbH",
+            "processingCenter": "ENVEO IT",
             "datasetVersion": 1,
             "fileFormat": "nc",
             "temporalRepeatRate": "daily",
@@ -463,7 +463,7 @@
             "datasetVersion": 2,
             "fileFormat": "nc",
             "gridLabel": "100m",
-            "processingCenter": "Brockmann Consult GmbH,Plymouth Marine Laboratory",
+            "processingCenter": "Brockmann Consult,Plymouth Marine Laboratory",
             "temporalRepeatRate": "10daily",
             "areaOfInterest": "global",
             // NC_GLOBAL#platform=Sentinel-2
