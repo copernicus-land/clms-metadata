@@ -107,15 +107,17 @@ class LookupSource(MetadataSource):
                     "Updated content date: {}", metadata.content_date.model_dump()
                 )
         if (
-            metadata.content_date.end.second == 59 and
-            metadata.content_date.end.minute % 10 == 9 and
-            (
+            metadata.content_date.end.second == 59
+            and metadata.content_date.end.minute % 10 == 9
+            and (
                 not metadata.content_date.end.microsecond
                 or re.match(r"9+0*", str(metadata.content_date.end.microsecond))
             )
         ):
             # fix end date precision to microseconds
-            metadata.content_date.end = metadata.content_date.end.replace(microsecond=999999)
+            metadata.content_date.end = metadata.content_date.end.replace(
+                microsecond=999999
+            )
 
         if not metadata.has_attribute(
             attributes.MISSION_SHORT_NAME
