@@ -21,7 +21,7 @@
             // NC_GLOBAL#platform=TERRA
             "missionShortName": "TERRA",
             "platformShortName": "TERRA",
-            "platformAcronym": "EOS AM-1",
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=MODIS
             "instrumentShortName": "MODIS",
         }
@@ -304,7 +304,7 @@
             // NC_GLOBAL#platform=Terra (EOS AM-1)
             "missionShortName": "TERRA",
             "platformShortName": "TERRA",
-            "platformAcronym": "EOS AM-1",
+            "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=Moderate Resolution Imaging Spectrometer (MODIS)
             "instrumentShortName": "MODIS"
         }
