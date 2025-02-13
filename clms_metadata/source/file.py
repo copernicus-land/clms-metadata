@@ -321,7 +321,8 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
         if match := regex.GOES.match(mission):
             platforms.pop(mission)
             mission, suffix = match.groups()
-            platforms[mission] = platforms.get(mission, list()) + [f"{mission}{suffix}"]
+            names = [f"{mission}{suffix}"] if suffix else list()
+            platforms[mission] = platforms.get(mission, list()) + names
         elif match := regex.MSG.match(mission):
             # rewrite MSG to METEOSAT
             platforms.pop(mission)
