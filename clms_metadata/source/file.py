@@ -417,32 +417,26 @@ def get_raster_bounds(
             return bounds
         else:
             logger.warning("Bounds {} are not plausible", bounds)
+    if ds.transform != rasterio.transform.Affine.identity():
+        logger.debug(
+            "Ignoring (missing) CRS in dataset. Using bounds as-is, assuming EPSG:4326."
+        )
+        bounds = ds.bounds
+        logger.debug("Bounds from dataset: {}", bounds)
+        if is_bounds_plausible(bounds):
+            return bounds
+        else:
+            logger.warning("Bounds {} are not plausible", bounds)
     else:
-        logger.debug("No CRS in dataset")
+        logger.debug("No CRS or transform in dataset {}", ds.name)
 
     if ds.subdatasets:
         # get bounds of a subdataset
         logger.debug("Opening subdataset {}", ds.subdatasets[0])
         with rasterio.open(ds.subdatasets[0]) as sub_ds:
-            if sub_ds.crs:
-                bounds = rasterio.warp.transform_bounds(
-                    sub_ds.crs, EPSG_4326, *sub_ds.bounds
-                )
-                logger.debug("Bounds from subdataset: {}", bounds)
-                if is_bounds_plausible(bounds):
-                    return bounds
-                else:
-                    logger.warning("Bounds {} are not plausible", bounds)
-            if sub_ds.transform != rasterio.transform.Affine.identity():
-                logger.debug(
-                    "Ignoring (missing) CRS in subdataset. Using bounds as-is, assuming EPSG:4326."
-                )
-                bounds = sub_ds.bounds
-                logger.debug("Bounds from subdataset: {}", bounds)
-                if is_bounds_plausible(bounds):
-                    return bounds
-                else:
-                    logger.warning("Bounds {} are not plausible", bounds)
+            bounds = get_raster_bounds(sub_ds, tags)
+            if bounds:
+                return bounds
 
     if all(
         t in tags
