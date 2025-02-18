@@ -73,7 +73,7 @@ class FileSource(MetadataSource):
                 metadata.add_attribute(
                     name=attributes.PROCESSING_CENTER,
                     value_type=StringAttribute,
-                    factory=lambda: self.get_processing_center(tags),
+                    factory=lambda: get_processing_center(tags),
                 )
                 metadata = set_platform(tags.get("platform"), metadata)
 
@@ -105,25 +105,6 @@ class FileSource(MetadataSource):
                     )
 
         return metadata
-
-    def get_processing_center(self, tags: dict) -> str | None:
-        """
-        Get the processing center information from the raster or vector metadata.
-
-        :param tags: metadata tags
-        :return: processing center, if available
-        """
-        processing_center = tags.get("institution") or tags.get("processing_centre")
-        if processing_center is not None:
-            processing_center = processing_center.replace(" NV", "").replace(
-                " GMBH", ""
-            )
-        if processing_center == "LEGOS, CLS, CNES":
-            processing_center = "CLS"
-
-        processing_center = ",".join(pc.strip() for pc in processing_center.split(","))
-
-        return processing_center
 
     def _get_info_json(self, path: Path | CloudPath, metadata: Metadata):
         with open(path) as f:
@@ -173,7 +154,7 @@ class FileSource(MetadataSource):
         metadata.add_attribute(
             name=attributes.PROCESSING_CENTER,
             value_type=StringAttribute,
-            factory=lambda: self.get_processing_center(properties),
+            factory=lambda: get_processing_center(properties),
         )
 
         metadata = set_platform(properties.get("platform"), metadata)
@@ -523,3 +504,23 @@ def is_bounds_plausible(bounds: tuple[float, float, float, float]) -> bool:
         return False
 
     return True
+
+
+def get_processing_center(tags: dict) -> str | None:
+    """
+    Get the processing center information from the raster or vector metadata.
+
+    :param tags: metadata tags
+    :return: processing center, if available
+    """
+    processing_center = tags.get("institution") or tags.get("processing_centre")
+    if processing_center is not None:
+        processing_center = re.sub(
+            r" (NV|GMBH)", "", processing_center, flags=re.IGNORECASE
+        )
+    if processing_center == "LEGOS, CLS, CNES":
+        processing_center = "CLS"
+
+    processing_center = ",".join(pc.strip() for pc in processing_center.split(","))
+
+    return processing_center
