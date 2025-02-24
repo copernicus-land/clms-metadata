@@ -57,7 +57,7 @@ class FileSource(MetadataSource):
                     else:
                         logger.warning(
                             "No time coverage in raster tags, using nominal date '{}' as content date",
-                            metadata.content_date,
+                            metadata.nominal_date,
                         )
                         metadata.content_date = ContentDate(
                             start=metadata.nominal_date,
