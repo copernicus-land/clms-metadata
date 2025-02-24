@@ -357,6 +357,11 @@ test_reference = test_root / "reference"
             test_reference
             / "water_bodies/wb_global_300m_10daily_v1/c_gls_WB300_201902210000_GLOBE_PROBAV_V1.0.1_nc.json5",
         ),
+        (
+            (test_data / "dynamic_land_cover/lc_global_100m_yearly_v3/2018",),
+            test_reference
+            / "dynamic_land_cover/lc_global_100m_yearly_v3/PROBAV_LC100_global_v3.0.1_2018-conso_EPSG-4326.json5",
+        ),
     ],
 )
 def test_builder(files, reference):

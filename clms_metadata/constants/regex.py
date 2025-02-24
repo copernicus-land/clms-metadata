@@ -13,6 +13,7 @@ GOES: Final[re.Pattern] = re.compile(r"(GOES)(?:(\d+)|E|R)")
 METOP: Final[re.Pattern] = re.compile(r"(METOP)[ -]?([A-Z])")
 PLATFORM_SERIALS_AND: Final[re.Pattern] = re.compile(r"\(([A-Z]) AND ([A-Z])\)")
 RESOLUTION: Final[re.Pattern] = re.compile(r"_(([\d.]+)(m|km))_")
+VERSION: Final[re.Pattern] = re.compile(r"v\d\.\d(:?\.\d)?")
 
 DATASET_NDVI_STATISTICS: Final[re.Pattern] = re.compile(r"ndvi-(sts|lts)_")
 DATASET_SWI_STATIC: Final[re.Pattern] = re.compile(r"swi-static")
@@ -39,4 +40,19 @@ SWI_STATIC: Final[re.Pattern] = re.compile(
 )
 SWI_TIMESERIES: Final[re.Pattern] = re.compile(
     r"c_gls_SWI-TS_\d{12}_(?P<swiTSCellId>C\d{4})+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+)
+LC100: Final[re.Pattern] = re.compile(
+    r"(?:(?P<tile>[A-Za-z\d]+)_)?"  # optional tile
+    r"(?P<sensor>[A-Za-z]+)"
+    r"_"
+    r"LC(?P<resolution>\d+)"
+    r"_"
+    r"global"
+    r"_"
+    r"v(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    r"_"
+    r"(?P<year>\d{4})-(?P<mode>\w+)"
+    r"(?:_(?P<layer>[\w\-]+))?"  # no layer in reduced product ID
+    r"_"
+    r"(?P<crs>[\w\-]+)"
 )
