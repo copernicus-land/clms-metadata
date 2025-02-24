@@ -39,7 +39,11 @@ class PathSource(MetadataSource):
         if not metadata.name:
             metadata.name = product_id
 
-        version = product_id.rsplit("_", 1)[1].lower()
+        version = next(
+            substr.lower()
+            for substr in reversed(product_id.split("_"))
+            if regex.VERSION.match(substr.lower())
+        )
         metadata.add_attribute(  # full version
             name=attributes.PRODUCT_VERSION,
             value_type=StringAttribute,
@@ -155,6 +159,8 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
         date = datetime.datetime.strptime(date_part[0:4], "%Y")
     elif regex.DATE_YEAR1_YEAR2_MMDD.match(date_part):
         date = datetime.datetime.strptime(date_part[0:4] + date_part[-4:], "%Y%m%d")
+    elif match := regex.LC100.match(product_id):
+        date = datetime.datetime.strptime(match.group("year"), "%Y")
     else:
         raise ValueError(
             f"Product ID {product_id} did not match any of the expected nominal date formats"

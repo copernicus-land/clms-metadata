@@ -1,0 +1,31 @@
+{
+    "name": "PROBAV_LC100_global_v3.0.1_2018-conso_EPSG-4326",
+    "name_suffix": "cog",
+    "content_type": "application/tiff",
+    "content_date": {
+        // time_coverage_start=2017-01-01T00:00:00Z
+        "start": "2018-01-01T00:00:00.000000Z",
+        // time_coverage_end=2019-12-31T23:59:59Z
+        "end": "2018-12-31T23:59:59.999999Z"
+    },
+    "nominal_date": "2018-01-01T00:00:00.000000Z",
+    "product_type": "dynamic_land_cover",
+    "component": "landcover_landuse",
+    "dataset_identifier": "lc_global_100m_yearly_v3",
+    "attributes": {
+        "productVersion": "v3.0.1",
+        "datasetVersion": 3,
+        "fileFormat": "cog",
+        "processingCenter": "VITO",
+        "missionShortName": "PROBAV",
+        "platformShortName": "PROBAV",
+        "platformAcronym": "PROBAV",
+        "instrumentShortName": "VEGETATION",
+        "datasetShortName": "lc",
+        "datasetAlias": "lc_global_100m_yearly",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 100,
+        "gridLabel": "100m",
+        "temporalRepeatRate": "yearly"
+    }
+}
