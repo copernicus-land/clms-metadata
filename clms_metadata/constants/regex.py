@@ -13,7 +13,7 @@ GOES: Final[re.Pattern] = re.compile(r"(GOES)(?:(\d+)|E|R)")
 METOP: Final[re.Pattern] = re.compile(r"(METOP)[ -]?([A-Z])")
 PLATFORM_SERIALS_AND: Final[re.Pattern] = re.compile(r"\(([A-Z]) AND ([A-Z])\)")
 RESOLUTION: Final[re.Pattern] = re.compile(r"_(([\d.]+)(m|km))_")
-VERSION: Final[re.Pattern] = re.compile(r"v\d\.\d\.\d")
+VERSION: Final[re.Pattern] = re.compile(r"v\d\.\d(:?\.\d)?")
 
 DATASET_NDVI_STATISTICS: Final[re.Pattern] = re.compile(r"ndvi-(sts|lts)_")
 DATASET_SWI_STATIC: Final[re.Pattern] = re.compile(r"swi-static")
