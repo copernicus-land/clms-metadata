@@ -89,8 +89,13 @@ class LookupSource(MetadataSource):
 
         if (
             metadata.get_attribute(attributes.FILE_FORMAT).value != FILE_FORMAT_GEOJSON
-            and not regex.DATASET_NDVI_STATISTICS.match(metadata.dataset_identifier)
-            and not regex.DATASET_SWI_STATIC.match(metadata.dataset_identifier)
+            and not any(
+                r.match(metadata.dataset_identifier) for r in (
+                    regex.DATASET_NDVI_STATISTICS,
+                    regex.DATASET_SWI_STATIC,
+                    regex.DATASET_SWI_TIMESERIES,
+                )
+            )
         ):
             temporal_grid_delta = get_relativedelta(
                 metadata.get_attribute(attributes.TEMPORAL_REPEAT_RATE).value
