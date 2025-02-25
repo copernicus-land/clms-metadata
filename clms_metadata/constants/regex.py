@@ -17,6 +17,7 @@ VERSION: Final[re.Pattern] = re.compile(r"v\d\.\d(:?\.\d)?")
 
 DATASET_NDVI_STATISTICS: Final[re.Pattern] = re.compile(r"ndvi-(sts|lts)_")
 DATASET_SWI_STATIC: Final[re.Pattern] = re.compile(r"swi-static")
+DATASET_SWI_TIMESERIES: Final[re.Pattern] = re.compile(r"swi-timeseries")
 
 # Date
 DATETIME_DIGITS: Final[re.Pattern] = re.compile(r"\d{12}")

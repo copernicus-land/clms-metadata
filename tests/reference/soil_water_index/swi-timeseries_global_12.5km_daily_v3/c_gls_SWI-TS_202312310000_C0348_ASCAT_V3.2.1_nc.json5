@@ -3,8 +3,8 @@
     "name_suffix": "nc",
     "content_type": "application/netcdf",
     "content_date": {
-        "start": "2023-12-31T00:00:00.000000Z",
-        "end": "2023-12-31T23:59:59.999999Z"
+        "start": "2007-01-01T12:00:00.000000Z",
+        "end": "2023-12-31T12:00:00.000000Z"
     },
     "nominal_date": "2023-12-31T00:00:00.000000Z",
     "product_type": "soil_water_index",
