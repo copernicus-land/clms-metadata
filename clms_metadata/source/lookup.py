@@ -14,7 +14,7 @@ from clms_metadata.constants.lookup_tables import (
     DATASET_SHORT_NAMES,
     SPATIAL_EXTENT_MAPPING,
 )
-from clms_metadata.models import (
+from clms_metadata.models.metadata import (
     ContentDate,
     IntegerAttribute,
     Metadata,

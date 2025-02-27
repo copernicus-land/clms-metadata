@@ -3,7 +3,7 @@ from pathlib import Path
 from cloudpathlib import CloudPath
 from overrides import overrides
 
-from clms_metadata.models import IntegerAttribute, Metadata, StringAttribute
+from clms_metadata.models.metadata import IntegerAttribute, Metadata, StringAttribute
 from clms_metadata.source.base import MetadataSource
 
 

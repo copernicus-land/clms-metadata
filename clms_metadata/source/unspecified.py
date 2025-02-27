@@ -3,7 +3,7 @@ from pathlib import Path
 from cloudpathlib import CloudPath
 
 from clms_metadata.constants import attributes
-from clms_metadata.models import Metadata, StringAttribute
+from clms_metadata.models.metadata import Metadata, StringAttribute
 from clms_metadata.source import MetadataSource
 
 

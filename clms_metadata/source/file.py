@@ -11,7 +11,7 @@ from loguru import logger
 from overrides import overrides
 
 from clms_metadata.constants import attributes, lookup_tables, regex
-from clms_metadata.models import (
+from clms_metadata.models.metadata import (
     ContentDate,
     IntegerAttribute,
     Metadata,

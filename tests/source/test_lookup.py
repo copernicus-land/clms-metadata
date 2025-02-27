@@ -3,7 +3,7 @@ import datetime
 import pytest
 from dateutil.relativedelta import relativedelta
 
-from clms_metadata.models import ContentDate
+from clms_metadata.models.metadata import ContentDate
 from clms_metadata.source.lookup import (
     calculate_content_date,
     get_relativedelta,

@@ -5,7 +5,7 @@ import pytest
 
 from clms_metadata.builder import MetadataBuilder
 from clms_metadata.config import LinkSettings, Settings
-from clms_metadata.models import Metadata
+from clms_metadata.models.metadata import Metadata
 from clms_metadata.storage import LocalFileSystem
 
 test_root = Path(__file__).parent

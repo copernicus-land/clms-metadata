@@ -4,7 +4,7 @@ from cloudpathlib import AnyPath, CloudPath
 from loguru import logger
 
 from clms_metadata.config import Settings
-from clms_metadata.models import Metadata, PartialMetadata
+from clms_metadata.models.metadata import Metadata, PartialMetadata
 from clms_metadata.source import MetadataSource
 from clms_metadata.storage import Storage
 

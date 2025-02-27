@@ -1,15 +1,13 @@
 import abc
 import datetime
 from pathlib import Path
-from typing import Annotated, Any, Literal, Type
+from typing import Any, Annotated, Literal, Type
 
 import ciso8601
 from cloudpathlib import CloudPath
 from geojson_pydantic.geometries import Geometry
 from loguru import logger
-from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, field_validator
-from pydantic.functional_serializers import PlainSerializer
-from pydantic.functional_validators import AfterValidator
+from pydantic import BeforeValidator, AfterValidator, PlainSerializer, BaseModel, Field, ConfigDict, field_validator
 
 from clms_metadata.constants import attributes
 from clms_metadata.util import format_zulu, partial_model
@@ -105,7 +103,6 @@ MANDATORY_ATTRIBUTES = {
     attributes.PLATFORM_ACRONYM: StringAttribute,
     attributes.INSTRUMENT_SHORT_NAME: StringAttribute,
 }
-
 OPTIONAL_ATTRIBUTES = {
     # only checked to have the following type when they are present
     attributes.CONSOLIDATION_PERIOD: IntegerAttribute,

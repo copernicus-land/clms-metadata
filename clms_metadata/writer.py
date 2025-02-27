@@ -7,7 +7,7 @@ import jinja2
 from loguru import logger
 
 from clms_metadata.config import Settings
-from clms_metadata.models import Metadata
+from clms_metadata.models.metadata import Metadata
 
 
 class Writer(abc.ABC):

@@ -16,7 +16,7 @@ from clms_metadata.constants.content_type import (
     CONTENT_TYPE_TIFF,
 )
 from clms_metadata.constants.lookup_tables import CONTENT_TYPE_TO_FILE_FORMAT, COG_EXTENSIONS
-from clms_metadata.models import (
+from clms_metadata.models.metadata import (
     IntegerAttribute,
     Metadata,
     StringAttribute,
