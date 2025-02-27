@@ -357,10 +357,28 @@ test_reference = test_root / "reference"
             test_reference
             / "water_bodies/wb_global_300m_10daily_v1/c_gls_WB300_201902210000_GLOBE_PROBAV_V1.0.1_nc.json5",
         ),
+        # lc_global_100m_yearly_v3
         (
             (test_data / "dynamic_land_cover/lc_global_100m_yearly_v3/2018",),
             test_reference
             / "dynamic_land_cover/lc_global_100m_yearly_v3/PROBAV_LC100_global_v3.0.1_2018-conso_EPSG-4326.json5",
+        ),
+        # toc_global_300m_daily_v2
+        (
+            (
+                test_data
+                / "top_of_canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190104000021_X33Y07_S3A_v2.3.4.nc",
+            ),
+            test_reference
+            / "top_of_canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190104000021_X33Y07_S3A_v2.3.4_nc.json5",
+        ),
+        (
+            (
+                test_data
+                / "top_of_canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190129233203_X35Y03_S3B_v2.3.4_cog",
+            ),
+            test_reference
+            / "top_of_canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190129233203_X35Y03_S3B_v2.3.4_cog.json5",
         ),
     ],
 )

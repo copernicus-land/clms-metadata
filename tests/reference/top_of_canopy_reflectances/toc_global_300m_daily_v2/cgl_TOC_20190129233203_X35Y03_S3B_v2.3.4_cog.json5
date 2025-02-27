@@ -1,0 +1,29 @@
+{
+    "name": "cgl_TOC_20190129233203_X35Y03_S3B_v2.3.4",
+    "name_suffix": "cog",
+    "content_type": "application/tiff",
+    "content_date": {
+        "start": "2019-01-29T23:32:03.000000Z",
+        "end": "2019-01-29T23:35:03.000000Z"
+    },
+    "nominal_date": "2019-01-29T23:32:03.000000Z",
+    "product_type": "top_of_canopy_reflectances",
+    "component": "bio-geophysical",
+    "dataset_identifier": "toc_global_300m_daily_v2",
+    "attributes": {
+        "productVersion": "v2.3.4",
+        "datasetVersion": 2,
+        "fileFormat": "cog",
+        "processingCenter": "VITO",
+        "missionShortName": "SENTINEL3",
+        "platformShortName": "SENTINEL3B",
+        "platformAcronym": "S3B",
+        "instrumentShortName": "OLCI,SLSTR",
+        "datasetShortName": "tcr",
+        "datasetAlias": "toc_global_300m_daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 300,
+        "gridLabel": "300m",
+        "temporalRepeatRate": "daily"
+    }
+}

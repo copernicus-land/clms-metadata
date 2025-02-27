@@ -2,6 +2,7 @@ import pytest
 
 from clms_metadata.source.file import (
     get_dataset_identifier_from_identifier_tag,
+    get_processing_center,
     parse_platform,
     parse_sensor,
 )
@@ -207,3 +208,20 @@ def test_get_dataset_identifier_from_identifier_tag(identifier, expected):
 )
 def test_parse_sensor(sensor_tag: str, expected: list[str]):
     assert parse_sensor(sensor_tag) == expected
+
+
+@pytest.mark.parametrize(
+    ("institution_tag", "expected"),
+    [
+        ("VITO", "VITO"),
+        ("vito", "VITO"),
+        ("VITO NV", "VITO"),
+        ("LEGOS, CLS, CNES", "CLS"),
+        (
+            "Brockmann Consult GmbH, Plymouth Marine Laboratory",
+            "Brockmann Consult,Plymouth Marine Laboratory",
+        ),
+    ],
+)
+def test_get_processing_center(institution_tag: str, expected: str):
+    assert get_processing_center({"institution": institution_tag}) == expected
