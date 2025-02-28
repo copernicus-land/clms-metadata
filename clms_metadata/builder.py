@@ -1,10 +1,11 @@
-from pathlib import Path
+from pathlib import Path, PurePath
 
 from cloudpathlib import AnyPath, CloudPath
 from loguru import logger
 
 from clms_metadata.config import Settings
 from clms_metadata.models.metadata import Metadata, PartialMetadata
+from clms_metadata.models.name_list import EOAssetNameList
 from clms_metadata.source import MetadataSource
 from clms_metadata.storage import Storage
 
@@ -13,10 +14,12 @@ class MetadataBuilder:
     def __init__(self, storage: Storage, settings: Settings):
         self.settings: Settings = settings
         self.storage = storage
+        self.eo_asset_name_list = _load_eo_asset_name_list(settings)
         self.sources = [
-            MetadataSource[source](self.settings, self.storage)
+            MetadataSource[source](self.settings, self.storage, self.eo_asset_name_list)
             for source in settings.sources
         ]
+
 
     def build(self, paths: tuple[Path | CloudPath, ...]) -> Metadata:
         """
@@ -68,3 +71,18 @@ class MetadataBuilder:
                 len(paths) == 1
             ), "Either expected link to be set as a value, rewrite template or as a single input path."
             return paths[0]
+
+
+def _load_eo_asset_name_list(settings: Settings) -> EOAssetNameList:
+    if not settings.cache_dir.exists():
+        logger.debug("Creating cache directory {}", settings.cache_dir)
+        settings.cache_dir.mkdir(parents=True)
+
+    local_path = settings.cache_dir / PurePath(settings.eo_asset_name_list_url.path).name
+    if not local_path.exists():
+        logger.info("Fetching EOAssetNameList from {}", settings.eo_asset_name_list_url)
+        # fetch file from remote
+        import urllib.request
+        urllib.request.urlretrieve(url=str(settings.eo_asset_name_list_url), filename=local_path)
+
+    return EOAssetNameList.from_yaml(local_path)
