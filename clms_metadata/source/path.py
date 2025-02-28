@@ -3,6 +3,7 @@ import difflib
 import functools
 import re
 from pathlib import Path
+import re
 
 from cloudpathlib import CloudPath, S3Path
 from loguru import logger
@@ -14,7 +15,7 @@ from clms_metadata.constants.content_type import (
     CONTENT_TYPE_NETCDF,
     CONTENT_TYPE_TIFF,
 )
-from clms_metadata.constants.lookup_tables import CONTENT_TYPE_TO_FILE_FORMAT
+from clms_metadata.constants.lookup_tables import CONTENT_TYPE_TO_FILE_FORMAT, COG_EXTENSIONS
 from clms_metadata.models import (
     IntegerAttribute,
     Metadata,
@@ -106,6 +107,18 @@ def get_common_name(paths: list[Path | CloudPath]) -> str:
     :return: product name derived from the file names
     """
     values = set(map(lambda p: p.stem, paths))
+    all_files_are_cog = all([p for p in paths if p.suffix in COG_EXTENSIONS])
+
+    # Handle case of single file cogs with band in filename. (https://jira.vito.be/browse/GDD-3911)
+    if len(values) == 1 and all_files_are_cog:
+        try:
+            parts = list(values)[0].split("_")  # decompose filename in parts to only try to replace in the relevant part
+            parts[2] = re.sub(r'-[^-_]*(?=-|_|$)', '', parts[2], count=1)  # replace everything between the first occurrence of - and the next occurrence of either - or _
+            values = {"_".join(parts)}
+        except Exception as e:
+            logger.exception(f"Unhandled cog filename pattern: {values}")
+            raise(e)
+
 
     common = functools.reduce(_common_name_pair, values)
     # filter out duplicate consecutive hyphens or underscores
