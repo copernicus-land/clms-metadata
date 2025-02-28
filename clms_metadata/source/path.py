@@ -1,6 +1,7 @@
 import datetime
 import difflib
 import functools
+import re
 from pathlib import Path
 
 from cloudpathlib import CloudPath, S3Path
@@ -152,14 +153,18 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
         - YEAR1-YEAR2-MMDD (4 digits, hyphen, 4 digits, hyphen, 4 digits) -> nominal date = YEAR1/MM/DD:
             e.g. NDVI statistics
     """
-    date_part = product_id.split("_")[3]
-    if regex.DATETIME_DIGITS.match(date_part):
+    # remove c_gls or cgl from the start of the string
+    trimmed_id = re.sub(r"^((c_gls)|cgl)_", "", product_id)
+    date_part = trimmed_id.split("_")[1]
+    if regex.DATETIME_DIGITS_MINUTES.fullmatch(date_part):
         date = datetime.datetime.strptime(date_part, "%Y%m%d%H%M")
-    elif regex.DATE_YEAR1_YEAR2.match(date_part):
+    elif regex.DATETIME_DIGITS_SECONDS.fullmatch(date_part):
+        date = datetime.datetime.strptime(date_part, "%Y%m%d%H%M%S")
+    elif regex.DATE_YEAR1_YEAR2.fullmatch(date_part):
         date = datetime.datetime.strptime(date_part[0:4], "%Y")
-    elif regex.DATE_YEAR1_YEAR2_MMDD.match(date_part):
+    elif regex.DATE_YEAR1_YEAR2_MMDD.fullmatch(date_part):
         date = datetime.datetime.strptime(date_part[0:4] + date_part[-4:], "%Y%m%d")
-    elif match := regex.LC100.match(product_id):
+    elif match := regex.LC100.fullmatch(product_id):
         date = datetime.datetime.strptime(match.group("year"), "%Y")
     else:
         raise ValueError(

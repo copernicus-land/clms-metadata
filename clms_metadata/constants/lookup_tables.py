@@ -188,22 +188,26 @@ PRODUCT_NAME_TO_DATASET: Final[
         r"c_gls_SSM1km_\d{12}_CEURO_[A-Z-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "ssm_europe_1km_daily_v{version_major}",
     regex.LC100: "lc_global_100m_yearly_v{version_major}",
+    re.compile(
+        r"cgl_TOC_\d{14}_X\d{2}Y\d{2}_\w+_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    ): "toc_global_300m_daily_v{version_major}",
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
-    re.compile(r"ndvi[_-]"): "vegetation_indices",
-    re.compile(r"dmp|gdmp|gpp|npp[_-]"): "dry-gross_dry_matter_productivity",
-    re.compile(r"wl-(rivers|lakes)_"): "river_and_lake_water_level",
-    re.compile(r"(fapar|fcover|lai)[_-]"): "vegetation_properties",
+    re.compile(r"^ndvi[_-]"): "vegetation_indices",
+    re.compile(r"^(dmp|gdmp|gpp|npp)[_-]"): "dry-gross_dry_matter_productivity",
+    re.compile(r"^wl-(rivers|lakes)_"): "river_and_lake_water_level",
+    re.compile(r"^(fapar|fcover|lai)[_-]"): "vegetation_properties",
     re.compile(r"^sce"): "snow_cover_extent",
     re.compile(r"^swe"): "snow_water_equivalent",
-    re.compile(r"(lswt|lst)[_-]"): "land_surface_temperature",
+    re.compile(r"^(lswt|lst)[_-]"): "land_surface_temperature",
     re.compile(r"^wb"): "water_bodies",
     re.compile(r"^lwq"): "lake_water_quality",
     re.compile(r"^lie"): "river_and_lake_ice_extent",
-    re.compile(r"ba_"): "burnt_area",
-    re.compile(r"swi[_-]"): "soil_water_index",
-    re.compile(r"ssm_"): "surface_soil_moisture",
-    re.compile(r"lc_global"): "dynamic_land_cover",
+    re.compile(r"^ba_"): "burnt_area",
+    re.compile(r"^swi[_-]"): "soil_water_index",
+    re.compile(r"^ssm_"): "surface_soil_moisture",
+    re.compile(r"^lc_global"): "dynamic_land_cover",
+    re.compile(r"^toc_"): "top_of_canopy_reflectances",
 }
 COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
     "bio-geophysical": {
@@ -220,6 +224,7 @@ COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
         "burnt_area",
         "soil_water_index",
         "surface_soil_moisture",
+        "top_of_canopy_reflectances",
     },
     "landcover_landuse": {"dynamic_land_cover"},
 }
@@ -256,14 +261,15 @@ DATASET_SHORT_NAMES = {
     "lie",
 }
 DATASET_NAME_TO_SHORT_NAME = {
-    re.compile(r"wl-rivers"): "rwl",
-    re.compile(r"wl-lakes"): "lwl",
-    re.compile(r"lwq"): "lwq",
-    re.compile(r"lswt"): "lswt",
-    re.compile(r"fcover"): "fgvc",
-    re.compile(r"lst-daily-cycle"): "lst-dc",
-    re.compile(r"swi-timeseries"): "swi-ts",
-    re.compile(r"swi-static"): "swi-sl",
+    re.compile(r"^wl-rivers"): "rwl",
+    re.compile(r"^wl-lakes"): "lwl",
+    re.compile(r"^lwq"): "lwq",
+    re.compile(r"^lswt"): "lswt",
+    re.compile(r"^fcover"): "fgvc",
+    re.compile(r"^lst-daily-cycle"): "lst-dc",
+    re.compile(r"^swi-timeseries"): "swi-ts",
+    re.compile(r"^swi-static"): "swi-sl",
+    re.compile(r"^toc_"): "tcr",
 }
 
 SPATIAL_EXTENT_MAPPING = {"northernhemisphere": "northern hemisphere"}

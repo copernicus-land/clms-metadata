@@ -4,6 +4,7 @@ from typing import Final
 CONSOLIDATION: Final[re.Pattern] = re.compile(r"-RT(\d)_")
 SENTINEL_OR_METOP: Final[re.Pattern] = re.compile(r"(SENTINEL\d+)|(METOP)")
 SENTINEL_NUM_SERIAL: Final[re.Pattern] = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
+SENTINEL_SHORT_NUM_SERIAL: Final[re.Pattern] = re.compile(r"(S)(\d+)([A-Z]+)")
 NAME_WITH_SHORT_NAME_IN_BRACKETS: Final[re.Pattern] = re.compile(r"[\w ]+ \((\w+)\)")
 SENSOR_SPOT_VEGETATION: Final[re.Pattern] = re.compile(r"(VEGETATION)-\d+")
 SENSOR_SENTINEL1_SAR: Final[re.Pattern] = re.compile(r"C-?SAR")
@@ -20,9 +21,14 @@ DATASET_SWI_STATIC: Final[re.Pattern] = re.compile(r"swi-static")
 DATASET_SWI_TIMESERIES: Final[re.Pattern] = re.compile(r"swi-timeseries")
 
 # Date
-DATETIME_DIGITS: Final[re.Pattern] = re.compile(r"\d{12}")
+DATETIME_DIGITS_MINUTES: Final[re.Pattern] = re.compile(r"\d{12}")
 """
 Regex for date format YYYYMMDDhhmm (12 digits)
+"""
+
+DATETIME_DIGITS_SECONDS: Final[re.Pattern] = re.compile(r"\d{14}")
+"""
+Regex for date format YYYYMMDDhhmmss (14 digits)
 """
 
 DATE_YEAR1_YEAR2: Final[re.Pattern] = re.compile(r"\d{4}----\d{4}")

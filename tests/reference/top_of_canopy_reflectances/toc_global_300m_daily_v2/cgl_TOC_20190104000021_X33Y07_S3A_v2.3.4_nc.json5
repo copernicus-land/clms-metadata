@@ -1,0 +1,32 @@
+{
+    "name": "cgl_TOC_20190104000021_X33Y07_S3A_v2.3.4",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        // NC_GLOBAL#time_coverage_start=2019-01-04T00:00:21Z
+        "start": "2019-01-04T00:00:21.000000Z",
+        // NC_GLOBAL#time_coverage_end=2019-01-04T00:03:21Z
+        "end": "2019-01-04T00:03:21.000000Z"
+    },
+    "nominal_date": "2019-01-04T00:00:21.000000Z",
+    "product_type": "top_of_canopy_reflectances",
+    "component": "bio-geophysical",
+    "dataset_identifier": "toc_global_300m_daily_v2",
+    "attributes": {
+        "productVersion": "v2.3.4",
+        "datasetVersion": 2,
+        "fileFormat": "nc",
+        "processingCenter": "VITO",
+        // NC_GLOBAL#platform=S3A
+        "missionShortName": "SENTINEL3",
+        "platformShortName": "SENTINEL3A",
+        "platformAcronym": "S3A",
+        "instrumentShortName": "OLCI,SLSTR",
+        "datasetShortName": "tcr",
+        "datasetAlias": "toc_global_300m_daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 300,
+        "gridLabel": "300m",
+        "temporalRepeatRate": "daily"
+    }
+}

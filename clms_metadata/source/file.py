@@ -311,10 +311,13 @@ def parse_platform(platformstr: str) -> dict[str, list[str] | None]:
             num = int(num) + 7
             mission = f"METEOSAT{num}"
             platforms[mission] = [mission]
-        elif match := regex.SENTINEL_NUM_SERIAL.match(mission):
+        elif match := (
+            regex.SENTINEL_NUM_SERIAL.match(mission)
+            or regex.SENTINEL_SHORT_NUM_SERIAL.match(mission)
+        ):
             platforms.pop(mission)
             base, num, serial = match.groups()
-            mission = f"{base}{num}"
+            mission = f"SENTINEL{num}"
             platforms[mission] = platforms.get(mission, list()) + [
                 build_platform_short_name(mission, serial)
             ]
@@ -512,8 +515,16 @@ def get_processing_center(tags: dict) -> str | None:
         processing_center = re.sub(
             r" (NV|GMBH)", "", processing_center, flags=re.IGNORECASE
         )
-    if processing_center == "LEGOS, CLS, CNES":
-        processing_center = "CLS"
+        processing_center = re.sub(
+            r"LEGOS, CLS, CNES", "CLS", processing_center, flags=re.IGNORECASE
+        )
+        # capitalize known processing centers
+        processing_center = re.sub(
+            r"(VITO|CLS|EODC|FMI|IPMA)",
+            lambda m: m.group(1).upper(),
+            processing_center,
+            flags=re.IGNORECASE,
+        )
 
     processing_center = ",".join(pc.strip() for pc in processing_center.split(","))
 
