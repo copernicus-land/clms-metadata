@@ -1,11 +1,12 @@
+import shutil
 from pathlib import Path
 
 import cyclopts
-from clms_metadata.config import Settings
-from loguru import logger
 import rich
+from loguru import logger
 from rich.tree import Tree
-import shutil
+
+from clms_metadata.config import Settings
 
 app = cyclopts.App()
 settings = Settings()
@@ -41,9 +42,7 @@ def _build_directory_tree(path: Path, tree: Tree):
     paths = sorted(path.iterdir(), key=lambda p: (p.is_file(), p.name.lower()))
     for p in paths:
         if p.is_dir():
-            branch = tree.add(
-                f":open_file_folder: [link file://{p}]{p.name}"
-            )
+            branch = tree.add(f":open_file_folder: [link file://{p}]{p.name}")
             _build_directory_tree(p, branch)
         else:
             tree.add(f":page_facing_up: [link file://{p}]{p.name}")

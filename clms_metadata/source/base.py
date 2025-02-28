@@ -18,7 +18,9 @@ class MetadataSource(abc.ABC, Registry, suffix="Source"):
     Different sources can be implemented to extract metadata in various ways.
     """
 
-    def __init__(self, settings: Settings, storage: Storage, eo_asset_name_list: EOAssetNameList):
+    def __init__(
+        self, settings: Settings, storage: Storage, eo_asset_name_list: EOAssetNameList
+    ):
         self.settings = settings
         self.storage = storage
         self.eo_asset_name_list = eo_asset_name_list

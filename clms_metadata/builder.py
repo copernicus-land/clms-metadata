@@ -20,7 +20,6 @@ class MetadataBuilder:
             for source in settings.sources
         ]
 
-
     def build(self, paths: tuple[Path | CloudPath, ...]) -> Metadata:
         """
         Build a Metadata object for the product.
@@ -78,11 +77,16 @@ def _load_eo_asset_name_list(settings: Settings) -> EOAssetNameList:
         logger.debug("Creating cache directory {}", settings.cache_dir)
         settings.cache_dir.mkdir(parents=True)
 
-    local_path = settings.cache_dir / PurePath(settings.eo_asset_name_list_url.path).name
+    local_path = (
+        settings.cache_dir / PurePath(settings.eo_asset_name_list_url.path).name
+    )
     if not local_path.exists():
         logger.info("Fetching EOAssetNameList from {}", settings.eo_asset_name_list_url)
         # fetch file from remote
         import urllib.request
-        urllib.request.urlretrieve(url=str(settings.eo_asset_name_list_url), filename=local_path)
+
+        urllib.request.urlretrieve(
+            url=str(settings.eo_asset_name_list_url), filename=local_path
+        )
 
     return EOAssetNameList.from_yaml(local_path)
