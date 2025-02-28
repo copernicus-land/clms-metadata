@@ -283,3 +283,5 @@ PLATFORM_SHORT_NAME_TO_ACRONYM = {
     ): "S{num}{serial}",  # Sentinel platforms
     re.compile(r"(?P<name>(PROBAV)|(SPOT\d))"): "{name}",  # literal
 }
+
+COG_EXTENSIONS = ['.tiff', '.tif', '.geotiff', '.geotif', '.cog']
