@@ -10,26 +10,26 @@ from clms_metadata.constants import attributes
 
 
 class Instrument(BaseModel):
-    instrumentName: str
-    instrumentShortName: str
+    instrumentName: str | None
+    instrumentShortName: str | None
 
 
 class Platform(BaseModel):
-    platformName: str
-    platformShortName: str
-    platformAcronym: str
-    alternativePlatformName: str
+    platformName: str | None
+    platformShortName: str | None
+    platformAcronym: str | None
+    alternativePlatformName: str | None
     instruments: list[Instrument]
 
 
 class Mission(BaseModel):
-    missionName: str
-    missionShortName: str
+    missionName: str | None
+    missionShortName: str | None
     platforms: list[Platform]
 
 
 class Program(BaseModel):
-    programShortName: str
+    programShortName: str | None
     missions: list[Mission]
 
 
@@ -74,7 +74,7 @@ class EOAssetNameList(BaseModel):
         }
 
     @cached_property
-    def instrumentShortNames(self):
+    def instrumentShortNames(self) -> set[str]:
         return {
             i.instrumentShortName
             for program in self.EOasset
@@ -97,7 +97,7 @@ class EOAssetNameList(BaseModel):
         :param instrument: instrument short name
         :return: dictionary of attribute names to attribute values
         """
-        result = defaultdict(set)
+        hits = defaultdict(set)
         # search for all matching values
         logger.info(
             "Lookup with parameters mission:{} platform:{} instrument:{}",
@@ -127,26 +127,24 @@ class EOAssetNameList(BaseModel):
                         obj_platform.instruments,
                     )
                     for obj_instrument in filtered_instruments:
-                        result[attributes.MISSION_SHORT_NAME].add(
+                        hits[attributes.MISSION_SHORT_NAME].add(
                             obj_mission.missionShortName
                         )
-                        result[attributes.PLATFORM_SHORT_NAME].add(
+                        hits[attributes.PLATFORM_SHORT_NAME].add(
                             obj_platform.platformShortName
                         )
-                        result[attributes.PLATFORM_ACRONYM].add(
+                        hits[attributes.PLATFORM_ACRONYM].add(
                             obj_platform.platformAcronym
                         )
-                        result[attributes.INSTRUMENT_SHORT_NAME].add(
+                        hits[attributes.INSTRUMENT_SHORT_NAME].add(
                             obj_instrument.instrumentShortName
                         )
 
         # only keep attributes with a unique value
-        for key, value in dict(result).items():
-            logger.debug("{}: {}", key, value)
+        result = dict()
+        for key, value in hits.items():
             if len(value) == 1:
                 [value] = value
                 result[key] = value
-            else:
-                result.pop(key)
 
         return result

@@ -18,7 +18,7 @@
         "missionShortName": "SPOT4,SPOT5,PROBAV",
         "platformShortName": "SPOT4,SPOT5,PROBAV",
         "platformAcronym": "SPOT4,SPOT5,PROBAV",
-        "instrumentShortName": "VEGETATION,VEGETATION,VEGETATION",
+        "instrumentShortName": "VEGETATION",
         "datasetShortName": "ndvi-lts",
         "datasetAlias": "ndvi-lts_global_1km_10daily",
         "areaOfInterest": "global",

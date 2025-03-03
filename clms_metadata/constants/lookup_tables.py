@@ -20,22 +20,6 @@ CONTENT_TYPE_TO_FILE_FORMAT: dict[str, str] = {
     CONTENT_TYPE_SHP: FILE_FORMAT_SHP,
 }
 
-INSTRUMENT_MISSION_MAPPING = {  # Some products have no mission metadata, so we need to derive it from the instrument name
-    "OLCI": "SENTINEL3",
-    "SLSTR": "SENTINEL3",
-    "MSI": "SENTINEL2",
-    "SAR": "SENTINEL1",
-}
-
-MISSION_TO_INSTRUMENT = {  # mapping of missions with only one instrument
-    "PROBAV": "VEGETATION",
-    "SPOT4": "VEGETATION",
-    "SPOT5": "VEGETATION",
-    "SENTINEL1": "SAR",
-    "SENTINEL2": "MSI",
-    "TERRA": "MODIS",
-    "AQUA": "MODIS",
-}
 
 IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
     # re.compile(r"lie_v(?P<version_major>\d+)_250m"): "lie_baltic_250m_daily_v{version_major}",
@@ -274,20 +258,4 @@ DATASET_NAME_TO_SHORT_NAME = {
 
 SPATIAL_EXTENT_MAPPING = {"northernhemisphere": "northern hemisphere"}
 
-MISSION_TO_PLATFORM = {
-    re.compile(
-        r"(?P<name>(PROBAV)|(SPOT\d+)|(TERRA)|(AQUA)|(METEOSAT\d+)|(HIMAWARI[89])|(ENVISAT)|(NOAA20))"
-    ): "{name}",  # literal
-    re.compile(r"HIMAWARI6"): "MTSAT1R",
-    re.compile(r"HIMAWARI7"): "MTSAT2",
-    re.compile(r"SUOMI NPP"): "NPP",
-}
-
-PLATFORM_SHORT_NAME_TO_ACRONYM = {
-    re.compile(
-        r"SENTINEL(?P<num>\d+)(?P<serial>[A-Z]+)"
-    ): "S{num}{serial}",  # Sentinel platforms
-    re.compile(r"(?P<name>(PROBAV)|(SPOT\d))"): "{name}",  # literal
-}
-
-COG_EXTENSIONS = ['.tiff', '.tif', '.geotiff', '.geotif', '.cog']
+COG_EXTENSIONS = [".tiff", ".tif", ".geotiff", ".geotif", ".cog"]

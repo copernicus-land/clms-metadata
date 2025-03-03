@@ -16,9 +16,9 @@
         "fileFormat": "nc",
         "processingCenter": "IPMA",
         // NC_GLOBAL#platform=GOES, MSG, MTSAT
-        "missionShortName": "GOES,MSG,MTSAT",  // TODO: these values are not in the Excel
+        "missionShortName": "GOES,unspecified",
         // NC_GLOBAL#sensor=IMAGER, SEVIRI, IMAGER
-        "instrumentShortName": "IMAGER,SEVIRI,IMAGER",  // TODO: valid values?
+        "instrumentShortName": "SEVIRI,unspecified",
         "datasetShortName": "lst",
         "datasetAlias": "lst_global_5km_hourly",
         "areaOfInterest": "global",

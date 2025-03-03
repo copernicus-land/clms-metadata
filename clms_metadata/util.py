@@ -1,6 +1,7 @@
 import datetime
+from collections import OrderedDict
 from copy import deepcopy
-from typing import Any, Optional, Tuple, Type
+from typing import Any, Iterable, Optional, Tuple, Type
 
 from pydantic import BaseModel, create_model
 from pydantic.fields import FieldInfo
@@ -50,3 +51,18 @@ def partial_model(model: Type[BaseModel]):
             for field_name, field_info in model.model_fields.items()
         },
     )
+
+
+def unique_list(list_in: Iterable) -> list:
+    """
+    Filter duplicate entries from a list while maintaining ordering.
+    If None occurs in the list, it will be placed as the last element.
+
+    :param list_in:
+    :return:
+    """
+    list_dict = OrderedDict.fromkeys(list_in)
+    if None in list_dict:
+        list_dict.move_to_end(None)
+
+    return list(list_dict.keys())

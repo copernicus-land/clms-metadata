@@ -48,7 +48,7 @@
             "temporalRepeatRate": "daily",
             "areaOfInterest": "northern hemisphere",
             // NC_GLOBAL#platform=Suomi_NPP
-            "missionShortName": "SUOMI NPP",
+            "missionShortName": "SUOMINPP",
             "platformShortName": "NPP",
             "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=VIIRS
@@ -75,7 +75,7 @@
             "temporalRepeatRate": "daily",
             "areaOfInterest": "northern hemisphere",
             // NC_GLOBAL#platform=DMSP, Suomi NPP
-            "missionShortName": "DMSP,SUOMI NPP",
+            "missionShortName": "SUOMINPP,unspecified",
             // TODO: what to do with DMSP?
             "platformShortName": "NPP",
             "platformAcronym": "unspecified",
@@ -358,7 +358,7 @@
             "temporalRepeatRate": "daily",
             "areaOfInterest": "northern hemisphere",
             // NC_GLOBAL#platform=DMSP, Suomi NPP
-            "missionShortName": "DMSP,SUOMI NPP",
+            "missionShortName": "SUOMINPP,unspecified",
             // TODO: what to do with DMSP?
             "platformShortName": "NPP",
             "platformAcronym": "unspecified",

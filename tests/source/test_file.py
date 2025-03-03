@@ -1,5 +1,6 @@
 import pytest
 
+from clms_metadata.models.name_list import EOAssetNameList
 from clms_metadata.source.file import (
     get_dataset_identifier_from_identifier_tag,
     get_processing_center,
@@ -26,11 +27,11 @@ from clms_metadata.source.file import (
         ("NOAA-20 (JPSS-1)", {"NOAA20": ["NOAA20"]}),
         (
             "GOES, MSG, HIMAWARI",
-            {"GOES": None, "MSG": None, "HIMAWARI": None},
+            {"GOES": None, None: None},
         ),  # eg. lst_5km_v1_10daily-daily-cycle: c_gls_LST10-DC_201710210000_GLOBE_GEO_V1.2.1
         (
             "GOES, MSG, MTSAT",
-            {"GOES": None, "MSG": None, "MTSAT": None},
+            {"GOES": None, None: None},
         ),  # eg. lst_5km_v1_hourly: c_gls_LST_201303192300_GLOBE_GEO_V1.2.1
         (
             "HIMAWARI8, GOES16, MSG4",
@@ -72,7 +73,7 @@ from clms_metadata.source.file import (
         ),  # eg. swi_12.5km_v3_10daily: c_gls_SWI10_201204211200_GLOBE_ASCAT_V3.1.1
         (
             "DMSP, Suomi NPP",
-            {"DMSP": None, "SUOMI NPP": ["NPP"]},
+            {"SUOMINPP": ["NPP"], None: None},
         ),  # eg. swe_5km_v2_daily: c_gls_SWE5K_202408200000_NHEMI_SSMIS_V2.0.1
         (
             "SPOT-4, SPOT-5, Proba-V",
@@ -96,7 +97,7 @@ from clms_metadata.source.file import (
         ),  # lwq_100m_v1_10daily-nrt: c_gls_LWQ100_202401210000_GLOBAL_MSI_V1.5
         (
             "PLATFORM",
-            {},
+            {None: None},
         ),  # eg. lwq_300m_v1_10daily-nrt: c_gls_LWQ300_202010010000_GLOBE_OLCI_V1.4.0
         (
             "Sentinel-2A",
@@ -104,7 +105,7 @@ from clms_metadata.source.file import (
         ),  # eg. lwq_100m_v1_10daily-nrt: c_gls_LWQ100_201812210000_GLOBAL_MSI_V1.3
         (
             "MetOp-A, MetOp-B, GLDAS-NOAH",
-            {"METOP": ["METOPA", "METOPB"]},  # TODO: what about GLDAS-NOAH?
+            {"METOP": ["METOPA", "METOPB"], None: None},  # TODO: what about GLDAS-NOAH?
         ),  # eg. swi_12.5km_v3_static: c_gls_SWI-STATIC-CI_201001010000_GLOBE_SWI-GLDAS_V1.1.1
         (
             "GOESR,  MSG4,  MSG1,  HIMAWARI8",
@@ -117,12 +118,16 @@ from clms_metadata.source.file import (
         ),  # eg. lst_5km_v2_10daily-tci: c_gls_LST10-TCI-MIN_202101110000_GLOBE_GEO_V2.1.1
         (
             "N/A",
-            {},
+            {None: None},
         ),  # eg. swi_12.5km_v3_static c_gls_SWI-STATIC-TC_201501010000_GLOBE_GTOPO30_V1.1.1
+        (
+            "S3A",
+            {"SENTINEL3": ["SENTINEL3A"]},
+        ),
     ],
 )
-def test_get_platform(platformstr, expected):
-    assert parse_platform(platformstr) == expected
+def test_get_platform(platformstr, expected, eo_asset_name_list):
+    assert parse_platform(platformstr, eo_asset_name_list) == expected
 
 
 @pytest.mark.parametrize(
@@ -206,8 +211,10 @@ def test_get_dataset_identifier_from_identifier_tag(identifier, expected):
         ("Moderate Resolution Imaging Spectrometer (MODIS)", ["MODIS"]),
     ],
 )
-def test_parse_sensor(sensor_tag: str, expected: list[str]):
-    assert parse_sensor(sensor_tag) == expected
+def test_parse_sensor(
+    sensor_tag: str, expected: list[str], eo_asset_name_list: EOAssetNameList
+):
+    assert parse_sensor(sensor_tag, eo_asset_name_list=eo_asset_name_list) == expected
 
 
 @pytest.mark.parametrize(

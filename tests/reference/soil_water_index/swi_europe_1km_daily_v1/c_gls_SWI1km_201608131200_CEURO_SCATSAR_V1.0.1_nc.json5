@@ -17,7 +17,7 @@
         "processingCenter": "TU Wien",
         "missionShortName": "METOP,SENTINEL1",
         "platformShortName": "METOPA,METOPB,SENTINEL1A,SENTINEL1B",
-        "platformAcronym": "S1A,S1B",
+        "platformAcronym": "S1A,S1B,unspecified",
         "instrumentShortName": "ASCAT,SAR",
         "datasetShortName": "swi",
         "datasetAlias": "swi_europe_1km_daily",
