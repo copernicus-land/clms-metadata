@@ -367,18 +367,18 @@ test_reference = test_root / "reference"
         (
             (
                 test_data
-                / "top_of_canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190104000021_X33Y07_S3A_v2.3.4.nc",
+                / "top-of-canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190104000021_X33Y07_S3A_v2.3.4.nc",
             ),
             test_reference
-            / "top_of_canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190104000021_X33Y07_S3A_v2.3.4_nc.json5",
+            / "top-of-canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190104000021_X33Y07_S3A_v2.3.4_nc.json5",
         ),
         (
             (
                 test_data
-                / "top_of_canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190129233203_X35Y03_S3B_v2.3.4_cog",
+                / "top-of-canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190129233203_X35Y03_S3B_v2.3.4_cog",
             ),
             test_reference
-            / "top_of_canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190129233203_X35Y03_S3B_v2.3.4_cog.json5",
+            / "top-of-canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190129233203_X35Y03_S3B_v2.3.4_cog.json5",
         ),
     ],
 )

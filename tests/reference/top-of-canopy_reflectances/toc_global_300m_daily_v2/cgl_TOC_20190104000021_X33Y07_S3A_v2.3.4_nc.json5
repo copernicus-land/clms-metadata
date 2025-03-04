@@ -9,7 +9,7 @@
         "end": "2019-01-04T00:03:21.000000Z"
     },
     "nominal_date": "2019-01-04T00:00:21.000000Z",
-    "product_type": "top_of_canopy_reflectances",
+    "product_type": "top-of-canopy_reflectances",
     "component": "bio-geophysical",
     "dataset_identifier": "toc_global_300m_daily_v2",
     "attributes": {
