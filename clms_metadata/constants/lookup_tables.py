@@ -207,7 +207,7 @@ DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^swi[_-]"): "soil_water_index",
     re.compile(r"^ssm_"): "surface_soil_moisture",
     re.compile(r"^lc_global"): "dynamic_land_cover",
-    re.compile(r"^toc_"): "top_of_canopy_reflectances",
+    re.compile(r"^toc_"): "top-of-canopy_reflectances",
 }
 COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
     "bio-geophysical": {
@@ -224,7 +224,7 @@ COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
         "burnt_area",
         "soil_water_index",
         "surface_soil_moisture",
-        "top_of_canopy_reflectances",
+        "top-of-canopy_reflectances",
     },
     "landcover_landuse": {"dynamic_land_cover"},
 }
