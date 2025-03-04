@@ -58,8 +58,5 @@ LC100: Final[re.Pattern] = re.compile(
     r"_"
     r"v(?P<version>(?P<version_major>\d)\.\d\.\d)"
     r"_"
-    r"(?P<year>\d{4})-(?P<mode>\w+)"
-    r"(?:_(?P<layer>[\w\-]+))?"  # no layer in reduced product ID
-    r"_"
-    r"(?P<crs>[\w\-]+)"
+    r"(?P<year>\d{4})"
 )

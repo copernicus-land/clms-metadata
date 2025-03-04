@@ -128,6 +128,9 @@ def get_common_name(paths: list[Path | CloudPath]) -> str:
         common = common.replace("-_", "_")
         common = common.replace("_-", "_")
     logger.debug("Reduced product identifier to {}", common)
+
+    common = handle_anomalous_collections(name=common)
+
     return common
 
 
@@ -153,6 +156,18 @@ def _common_name_pair(a: str, b: str) -> str:
             # don't include the block if it cannot be trimmed to delimiting characters
             continue
     return common
+
+def handle_anomalous_collections(name: str) -> str:
+    """
+    Some collections do not following conventions.
+    These are handled outside the normal flow by taking the generated common name and correcting it.
+
+    :param name: The common name created by the common logic
+    :return: The corrected common name
+    """
+    if 'LC100' in name:  # clms_global_lcc_100m_v3_yearly_geotiff
+        return name.split('-')[0]  # PROBAV_LC100_global_v3.0.1_2016-conso_EPSG-4326 -> PROBAV_LC100_global_v3.0.1_2016
+    return name
 
 
 def get_nominal_date(product_id: str) -> datetime.datetime:
