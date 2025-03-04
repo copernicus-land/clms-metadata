@@ -32,7 +32,7 @@ class PathSource(MetadataSource):
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
         super().get_info(product_files, metadata)
-        if len(product_files) == 1:
+        if len(product_files) == 1 and get_content_type(product_files) != CONTENT_TYPE_TIFF:
             product_id = product_files[0].stem
         else:
             # try to find common string
