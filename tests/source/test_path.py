@@ -63,7 +63,7 @@ from clms_metadata.source.path import get_common_name
                     "PROBAV_LC100_global_v3.0.1_2019-nrt_Tree-CoverFraction-layer_EPSG-4326.tif"
                 ),
             ],
-            "PROBAV_LC100_global_v3.0.1_2019-nrt_EPSG-4326",
+            "PROBAV_LC100_global_v3.0.1_2019",
         ),
         (
                 [
