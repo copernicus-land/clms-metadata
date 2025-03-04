@@ -4,10 +4,12 @@ from cloudpathlib import AnyPath, CloudPath
 from loguru import logger
 
 from clms_metadata.config import Settings
-from clms_metadata.models.metadata import Metadata, PartialMetadata
+from clms_metadata.constants import attributes
+from clms_metadata.models.metadata import Metadata, PartialMetadata, StringAttribute
 from clms_metadata.models.name_list import EOAssetNameList
 from clms_metadata.source import MetadataSource
 from clms_metadata.storage import Storage
+from clms_metadata.util import unique_list
 
 
 class MetadataBuilder:
@@ -43,6 +45,7 @@ class MetadataBuilder:
             )
 
         partial.path = self._get_link(paths, partial)
+        partial = self.set_mission_info(partial)
 
         m = Metadata.model_validate(partial.model_dump())
         return m
@@ -70,6 +73,79 @@ class MetadataBuilder:
                 len(paths) == 1
             ), "Either expected link to be set as a value, rewrite template or as a single input path."
             return paths[0]
+
+    def set_mission_info(
+        self,
+        metadata: PartialMetadata,
+    ) -> Metadata:
+        """
+        Set the mission, platform and instrument attributes on the metadata object.
+        This method uses the information stored in the `missions` field of the metadata object.
+
+        :param metadata: partial metadata object
+        :return:
+        """
+        # add the mission/platform/instrument attributes
+        mission_short_names = unique_list(
+            msn if (msn := m.missionShortName) != self.settings.unspecified else None
+            for m in metadata.missions
+        )
+        metadata.add_attribute(
+            name=attributes.MISSION_SHORT_NAME,
+            value_type=StringAttribute,
+            factory=lambda: ",".join(
+                map(lambda v: v or self.settings.unspecified, mission_short_names)
+            )
+            or self.settings.unspecified,
+            allow_none=True,
+        )
+
+        platform_short_names = unique_list(
+            psn if (psn := p.platformShortName) != self.settings.unspecified else None
+            for m in metadata.missions
+            for p in m.platforms
+        )
+        metadata.add_attribute(
+            name=attributes.PLATFORM_SHORT_NAME,
+            value_type=StringAttribute,
+            factory=lambda: ",".join(
+                map(lambda v: v or self.settings.unspecified, platform_short_names)
+            )
+            or self.settings.unspecified,
+            allow_none=True,
+        )
+
+        platform_acronyms = unique_list(
+            pa if (pa := p.platformAcronym) != self.settings.unspecified else None
+            for m in metadata.missions
+            for p in m.platforms
+        )
+        metadata.add_attribute(
+            name=attributes.PLATFORM_ACRONYM,
+            value_type=StringAttribute,
+            factory=lambda: ",".join(
+                map(lambda v: v or self.settings.unspecified, platform_acronyms)
+            )
+            or self.settings.unspecified,
+            allow_none=True,
+        )
+
+        instrument_short_names = unique_list(
+            isn if (isn := i.instrumentShortName) != self.settings.unspecified else None
+            for m in metadata.missions
+            for p in m.platforms
+            for i in p.instruments
+        )
+        metadata.add_attribute(
+            name=attributes.INSTRUMENT_SHORT_NAME,
+            value_type=StringAttribute,
+            factory=lambda: ",".join(
+                map(lambda v: v or self.settings.unspecified, instrument_short_names)
+            )
+            or self.settings.unspecified,
+            allow_none=True,
+        )
+        return metadata
 
 
 def _load_eo_asset_name_list(settings: Settings) -> EOAssetNameList:

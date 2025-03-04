@@ -20,6 +20,7 @@ from clms_metadata.models.metadata import (
     Metadata,
     StringAttribute,
 )
+from clms_metadata.models.name_list import autocomplete
 from clms_metadata.source import MetadataSource
 
 
@@ -124,35 +125,7 @@ class LookupSource(MetadataSource):
                 microsecond=999999
             )
 
-        result = self.eo_asset_name_list.lookup(
-            mission=a.value
-            if (a := metadata.get_attribute(attributes.MISSION_SHORT_NAME))
-            and not a.value == self.settings.unspecified
-            else None,
-            platform=a.value
-            if (a := metadata.get_attribute(attributes.PLATFORM_SHORT_NAME))
-            and not a.value == self.settings.unspecified
-            else None,
-            instrument=a.value
-            if (a := metadata.get_attribute(attributes.INSTRUMENT_SHORT_NAME))
-            and not a.value == self.settings.unspecified
-            else None,
-        )
-
-        for attribute, value in result.items():
-            if a := metadata.get_attribute(attribute):
-                if a.value != value:
-                    logger.info(
-                        "Overwriting value for attribute {}: {} -> {}",
-                        attribute,
-                        a.value,
-                        value,
-                    )
-                    a.value = value
-            else:
-                metadata.add_attribute(
-                    name=attribute, value_type=StringAttribute, factory=lambda: value
-                )
+        autocomplete(metadata.missions, metadata.instruments, self.eo_asset_name_list)
 
         if m := regex.SWI_STATIC.match(metadata.name):
             metadata.add_attribute(

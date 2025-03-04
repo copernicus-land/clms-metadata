@@ -4,7 +4,6 @@ from clms_metadata.source.file import FileSource
 from clms_metadata.source.lookup import LookupSource
 from clms_metadata.source.path import PathSource
 from clms_metadata.source.settings import SettingsSource
-from clms_metadata.source.unspecified import UnspecifiedSource
 
 __all__ = [
     "MetadataSource",
@@ -13,5 +12,4 @@ __all__ = [
     "PathSource",
     "SettingsSource",
     "LookupSource",
-    "UnspecifiedSource",
 ]

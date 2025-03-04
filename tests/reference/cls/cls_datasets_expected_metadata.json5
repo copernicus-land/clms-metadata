@@ -76,11 +76,10 @@
             "areaOfInterest": "northern hemisphere",
             // NC_GLOBAL#platform=DMSP, Suomi NPP
             "missionShortName": "SUOMINPP,unspecified",
-            // TODO: what to do with DMSP?
-            "platformShortName": "NPP",
+            "platformShortName": "NPP,unspecified",
             "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=SSMIS, VIIRS
-            "instrumentShortName": "SSMIS,VIIRS",
+            "instrumentShortName": "VIIRS,SSMIS",
         }
     },
     {
@@ -360,10 +359,10 @@
             // NC_GLOBAL#platform=DMSP, Suomi NPP
             "missionShortName": "SUOMINPP,unspecified",
             // TODO: what to do with DMSP?
-            "platformShortName": "NPP",
+            "platformShortName": "NPP,unspecified",
             "platformAcronym": "unspecified",
             // NC_GLOBAL#sensor=SSMIS, VIIRS
-            "instrumentShortName": "SSMIS,VIIRS"
+            "instrumentShortName": "VIIRS,SSMIS"
         },
     },
     {

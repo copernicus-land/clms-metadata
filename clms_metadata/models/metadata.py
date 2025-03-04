@@ -1,15 +1,24 @@
 import abc
 import datetime
 from pathlib import Path
-from typing import Any, Annotated, Literal, Type
+from typing import Annotated, Any, Literal, Type
 
 import ciso8601
 from cloudpathlib import CloudPath
 from geojson_pydantic.geometries import Geometry
 from loguru import logger
-from pydantic import BeforeValidator, AfterValidator, PlainSerializer, BaseModel, Field, ConfigDict, field_validator
+from pydantic import (
+    AfterValidator,
+    BaseModel,
+    BeforeValidator,
+    ConfigDict,
+    Field,
+    PlainSerializer,
+    field_validator,
+)
 
 from clms_metadata.constants import attributes
+from clms_metadata.models.name_list import Mission
 from clms_metadata.util import format_zulu, partial_model
 
 
@@ -247,3 +256,5 @@ class Metadata(BaseModel):
 class PartialMetadata(Metadata):
     model_config = ConfigDict(validate_assignment=True)
     attributes: Attributes = Field(default_factory=list)  # add default
+    missions: list[Mission] = Field(default_factory=list, exclude=True)
+    instruments: list[str] = Field(default_factory=list, exclude=True)

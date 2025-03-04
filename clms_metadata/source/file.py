@@ -17,7 +17,7 @@ from clms_metadata.models.metadata import (
     Metadata,
     StringAttribute,
 )
-from clms_metadata.models.name_list import EOAssetNameList
+from clms_metadata.models.name_list import EOAssetNameList, Mission, Platform
 from clms_metadata.source.base import MetadataSource
 from clms_metadata.util import unique_list
 
@@ -77,19 +77,15 @@ class FileSource(MetadataSource):
                     value_type=StringAttribute,
                     factory=lambda: get_processing_center(tags),
                 )
-                metadata = self.set_platform(tags.get("platform"), metadata)
-
-                metadata.add_attribute(
-                    name=attributes.INSTRUMENT_SHORT_NAME,
-                    value_type=StringAttribute,
-                    factory=lambda: ",".join(
-                        sensor if sensor else self.settings.unspecified
-                        for sensor in parse_sensor(
-                            tags.get("sensor"), self.eo_asset_name_list
-                        )
-                    )
-                    or None,
+                metadata.missions = list(
+                    parse_platform(
+                        tags.get("platform"), self.eo_asset_name_list
+                    ).values()
                 )
+                metadata.instruments.extend(
+                    parse_sensor(tags.get("sensor"), self.eo_asset_name_list)
+                )
+
                 if not metadata.dataset_identifier and (
                     dataset_identifier := get_dataset_identifier_from_identifier_tag(
                         tags.get("identifier")
@@ -165,73 +161,11 @@ class FileSource(MetadataSource):
             factory=lambda: get_processing_center(properties),
         )
 
-        metadata = self.set_platform(properties.get("platform"), metadata)
-        metadata.add_attribute(
-            name=attributes.INSTRUMENT_SHORT_NAME,
-            value_type=StringAttribute,
-            factory=lambda: ",".join(
-                sensor if sensor else self.settings.unspecified
-                for sensor in parse_sensor(
-                    properties.get("sensor"), self.eo_asset_name_list
-                )
-            )
-            or None,
+        metadata.missions = list(
+            parse_platform(properties.get("platform"), self.eo_asset_name_list).values()
         )
-
-        return metadata
-
-    def set_platform(self, platformstr: str | None, metadata: Metadata) -> Metadata:
-        """
-        Set the platform information on the metadata object.
-
-        :param platformstr: platform string
-        :param metadata: metadata object
-        :return: updated metadata object
-        """
-        if platformstr is None:
-            platform_dict = dict()
-        else:
-            platform_dict = parse_platform(platformstr, self.eo_asset_name_list)
-        missionShortNames = list(
-            k if k else self.settings.unspecified for k in platform_dict.keys()
-        )
-        platformShortNames = [
-            serial for v in platform_dict.values() if v for serial in v
-        ]
-
-        metadata.add_attribute(
-            name=attributes.MISSION_SHORT_NAME,
-            value_type=StringAttribute,
-            factory=lambda: ",".join(missionShortNames) or None,
-        )
-
-        metadata.add_attribute(
-            name=attributes.PLATFORM_SHORT_NAME,
-            value_type=StringAttribute,
-            factory=lambda: ",".join(platformShortNames) or None,
-        )
-
-        metadata.add_attribute(
-            name=attributes.PLATFORM_ACRONYM,
-            value_type=StringAttribute,
-            factory=lambda: ",".join(
-                map(
-                    lambda v: v if v else self.settings.unspecified,
-                    unique_list(
-                        platform_acronym
-                        if (
-                            platform_acronym := self.eo_asset_name_list.lookup(
-                                mission=mission_short_name, platform=platform_short_name
-                            ).get(attributes.PLATFORM_ACRONYM)
-                        )
-                        != self.settings.unspecified
-                        else None
-                        for mission_short_name, platform_short_names in platform_dict.items()
-                        for platform_short_name in platform_short_names or []
-                    ),
-                )
-            )
-            or None,
+        metadata.instruments.extend(
+            parse_sensor(properties.get("sensor"), self.eo_asset_name_list)
         )
 
         return metadata
@@ -252,7 +186,7 @@ def regex_lookup(lookup_dict: dict[re.Pattern, str], key: str) -> str | None:
 
 def parse_platform(
     platformstr: str, eo_asset_name_list: EOAssetNameList
-) -> dict[str | None, list[str] | None]:
+) -> dict[str, Mission]:
     """
     Get the platform information from the 'platform' metadata string.
     Returns a dictionary of missionShortName to platformShortName.
@@ -260,100 +194,150 @@ def parse_platform(
     :param platformstr: platform metadata string
     :return: platform information
     """
-    platformstr = platformstr.upper().replace("_", "-").strip()
+    if platformstr is None:
+        return dict()
+    platformstr = platformstr.upper().strip()
+    platformstr = re.sub(r"[-_]", "", platformstr)
     platformstr = re.sub(r"SUOMI[-_ ]NPP", "SUOMINPP", platformstr, flags=re.IGNORECASE)
 
     # support for platforms with LIE 250m with old name for TERRA/AQUA/NOAA-20
     # TERRA (EOS AM-1) => [TERRA]
     if (
-        any(modis in platformstr for modis in ["AQUA", "TERRA", "NOAA-20"])
+        any(modis in platformstr for modis in ["AQUA", "TERRA", "NOAA20"])
         and " (" in platformstr
     ):
         platformstr = platformstr.split(" (")[0]
 
     # turn platformstr into a map of missionShortName to platformShortName
-    platforms: dict[str, list[str] | None] = {
-        p.strip(): None for p in platformstr.split(",")
+    missions: dict[str, Mission] = {
+        name.strip(): Mission(missionShortName=name.strip())
+        for name in platformstr.split(",")
     }
-
-    # rewrite missionShortName to strip hyphens
-    platforms = {p.replace("-", ""): None for p in platforms}
+    # platforms: dict[str, list[str] | None] = {
+    #     p.strip(): None for p in platformstr.split(",")
+    # }
 
     # Support for "AND" between platform names or platform serials
     # e.g. "SENTINEL-3A AND SENTINEL-3B" or "SENTINEL 3 (A AND B)"
     if " AND " in platformstr:
-        for mission in list(platforms):
-            if regex_match_part := regex.PLATFORM_SERIALS_AND.search(mission):
-                platforms.pop(mission)
-                (mission, platformserial) = mission.split(" (")
-                mission = mission.replace(" ", "")  # TODO: can be removed?
-                platforms[mission] = platforms.get(mission, list()) + [
-                    build_platform_short_name(mission, serial)
+        for mission_short_name in list(missions):
+            if regex_match_part := regex.PLATFORM_SERIALS_AND.search(
+                mission_short_name
+            ):
+                missions.pop(mission_short_name)
+                (mission_short_name, _) = mission_short_name.split(" (")
+                mission_short_name = mission_short_name.replace(" ", "")
+                if mission_short_name not in missions:
+                    missions[mission_short_name] = Mission(
+                        missionShortName=mission_short_name
+                    )
+                missions[mission_short_name].platforms.extend(
+                    Platform(
+                        platformShortName=build_platform_short_name(
+                            mission_short_name, serial
+                        )
+                    )
                     for serial in regex_match_part.groups()
-                ]
-            elif " AND " in mission:
-                serials = platforms.pop(mission)
-                platforms.update({p: serials for p in mission.split(" AND ")})
+                )
+            elif " AND " in mission_short_name:
+                missions.pop(mission_short_name)
+                for m in mission_short_name.split(" AND "):
+                    if m not in missions:
+                        missions[m] = Mission(missionShortName=m)
 
     # Support for SSM/SWI multi-mission products with eg "METOP B+C"
     if "+" in platformstr:
-        for mission in list(platforms):
-            if "+" in mission:
-                platforms.pop(mission)
-                (mission, platformserial) = mission.split(" ")
-                split_serial = platformserial.split("+")
-                platforms[mission] = platforms.get(mission, list()) + [
-                    build_platform_short_name(mission, serial)
+        for mission_short_name in list(missions):
+            if "+" in mission_short_name:
+                missions.pop(mission_short_name)
+                (mission_short_name, platform_serial) = mission_short_name.split(" ")
+                split_serial = platform_serial.split("+")
+                if mission_short_name not in missions:
+                    missions[mission_short_name] = Mission(
+                        missionShortName=mission_short_name
+                    )
+                missions[mission_short_name].platforms.extend(
+                    Platform(
+                        platformShortName=build_platform_short_name(
+                            mission_short_name, serial
+                        )
+                    )
                     for serial in split_serial
-                ]
+                )
 
     # We covered the AND and + syntaxes, all remaining spaces are between platforms
     # with exception of "METOP X"
-    for mission in list(platforms):
-        if match := regex.METOP.match(mission):
-            platforms.pop(mission)
-            mission, serial = match.groups()
-            platforms[mission] = platforms.get(mission, list()) + [
-                build_platform_short_name(mission, serial)
-            ]
-        elif " " in mission:
-            platforms.pop(mission)
-            platforms.update({p: None for p in mission.split(" ")})
+    for mission_short_name in list(missions):
+        if match := regex.METOP.match(mission_short_name):
+            missions.pop(mission_short_name)
+            mission_short_name, serial = match.groups()
+            if mission_short_name not in missions:
+                missions[mission_short_name] = Mission(
+                    missionShortName=mission_short_name
+                )
+            missions[mission_short_name].platforms.append(
+                Platform(
+                    platformShortName=build_platform_short_name(
+                        mission_short_name, serial
+                    )
+                )
+            )
+        elif " " in mission_short_name:
+            missions.pop(mission_short_name)
+            for msn in mission_short_name.split(" "):
+                if msn not in missions:
+                    missions[msn] = Mission(missionShortName=msn)
 
-    for mission in list(platforms):
-        if match := regex.GOES.match(mission):
-            platforms.pop(mission)
-            mission, suffix = match.groups()
-            names = [f"{mission}{suffix}"] if suffix else list()
-            platforms[mission] = platforms.get(mission, list()) + names
-        elif match := regex.MSG.match(mission):
+    # refine missions into platforms
+    for mission_short_name in list(missions):
+        if match := regex.GOES.match(mission_short_name):
+            missions.pop(mission_short_name)
+            mission_short_name, suffix = match.groups()
+            platform_names = [f"{mission_short_name}{suffix}"] if suffix else list()
+            if mission_short_name not in missions:
+                missions[mission_short_name] = Mission(
+                    missionShortName=mission_short_name
+                )
+            missions[mission_short_name].platforms.extend(
+                Platform(platformShortName=name) for name in platform_names
+            )
+        elif match := regex.MSG.match(mission_short_name):
             # rewrite MSG to METEOSAT
-            platforms.pop(mission)
+            missions.pop(mission_short_name)
             base, num = match.groups()
             num = int(num) + 7
-            mission = f"METEOSAT{num}"
-            platforms[mission] = [mission]
+            mission_short_name = f"METEOSAT{num}"
+            if mission_short_name not in missions:
+                missions[mission_short_name] = Mission(
+                    missionShortName=mission_short_name
+                )
+            missions[mission_short_name].platforms.append(
+                Platform(platformShortName=mission_short_name)
+            )
         elif match := (
-            regex.SENTINEL_NUM_SERIAL.match(mission)
-            or regex.SENTINEL_SHORT_NUM_SERIAL.match(mission)
+            regex.SENTINEL_NUM_SERIAL.match(mission_short_name)
+            or regex.SENTINEL_SHORT_NUM_SERIAL.match(mission_short_name)
         ):
-            platforms.pop(mission)
+            missions.pop(mission_short_name)
             base, num, serial = match.groups()
-            mission = f"SENTINEL{num}"
-            platforms[mission] = platforms.get(mission, list()) + [
-                build_platform_short_name(mission, serial)
-            ]
-        elif mission not in eo_asset_name_list.missionShortNames:
-            platforms.pop(mission)
-            platforms[None] = None
+            mission_short_name = f"SENTINEL{num}"
+            if mission_short_name not in missions:
+                missions[mission_short_name] = Mission(
+                    missionShortName=mission_short_name
+                )
+            missions[mission_short_name].platforms.append(
+                Platform(
+                    platformShortName=build_platform_short_name(
+                        mission_short_name, serial
+                    )
+                )
+            )
+        elif mission_short_name not in eo_asset_name_list.missionShortNames:
+            missions.pop(mission_short_name)
+            missions[None] = Mission()
             continue
 
-        # try to add missing info
-        if mission is not None and platforms[mission] is None:
-            result = eo_asset_name_list.lookup(mission=mission)
-            if platform_short_name := result.get(attributes.PLATFORM_SHORT_NAME):
-                platforms[mission] = [platform_short_name]
-    return platforms
+    return missions
 
 
 def parse_sensor(
