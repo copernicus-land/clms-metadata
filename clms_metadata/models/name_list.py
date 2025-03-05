@@ -71,15 +71,20 @@ class Mission(BaseModel):
             if not self.missionShortName:
                 self.missionShortName = common.missionShortName
         if not self.platforms:
-            self.platforms.append(Platform())
-        for platform in self.platforms:
-            platform_reference_traces = [
-                rt
-                for rt in reference_traces
-                if rt[1].platformShortName == platform.platformShortName
-            ] or reference_traces
+            # create empty platform and use common info of all traces
+            platform = Platform()
+            platform.autocomplete(reference_traces, instrument_short_names)
+            self.platforms.append(platform)
+        else:
+            for platform in self.platforms:
+                # autocomplete platform-specific information
+                platform_reference_traces = [
+                    rt
+                    for rt in reference_traces
+                    if rt[1].platformShortName == platform.platformShortName
+                ]
 
-            platform.autocomplete(platform_reference_traces, instrument_short_names)
+                platform.autocomplete(platform_reference_traces, instrument_short_names)
 
 
 class Program(BaseModel):
