@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 from typing import Optional
 
+import platformdirs
 import yaml
 from pydantic import BaseModel, ConfigDict, Field, SecretStr
 from pydantic.networks import AnyUrl
@@ -10,6 +11,7 @@ from pydantic_settings import (
     SettingsConfigDict,
 )
 
+import clms_metadata
 from clms_metadata.constants.attributes import UNSPECIFIED
 from clms_metadata.types import MetadataSourceStr
 
@@ -68,7 +70,12 @@ class Settings(BaseSettings):
         else None
     )
     sources: list[MetadataSourceStr] = Field(
-        default_factory=lambda: ["Path", "File", "Settings", "Lookup", "Unspecified"]
+        default_factory=lambda: [
+            "Path",
+            "File",
+            "Settings",
+            "Lookup",
+        ]
     )
     metadata: Optional[MetadataSettings] = None
     geometry: GeometrySettings = GeometrySettings()
@@ -79,6 +86,13 @@ class Settings(BaseSettings):
 
     unspecified: str | None = UNSPECIFIED
     """Placeholder value for unspecified attributes"""
+
+    cache_dir: Path = platformdirs.user_cache_dir(
+        appname=clms_metadata.__name__, version=clms_metadata.__version__
+    )
+    """Cache directory, defaults to user cache directory"""
+
+    eo_asset_name_list_url: AnyUrl = "https://raw.githubusercontent.com/cgls/CLMS_EOAssets/refs/heads/main/EOassetNameList.yaml"
 
     model_config = SettingsConfigDict(
         env_nested_delimiter="__",

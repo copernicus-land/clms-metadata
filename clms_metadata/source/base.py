@@ -7,7 +7,8 @@ from cloudpathlib import CloudPath
 from loguru import logger
 
 from clms_metadata.config import Settings
-from clms_metadata.models import Metadata
+from clms_metadata.models.metadata import Metadata
+from clms_metadata.models.name_list import EOAssetNameList
 from clms_metadata.storage import Storage
 
 
@@ -17,9 +18,12 @@ class MetadataSource(abc.ABC, Registry, suffix="Source"):
     Different sources can be implemented to extract metadata in various ways.
     """
 
-    def __init__(self, settings: Settings, storage: Storage):
+    def __init__(
+        self, settings: Settings, storage: Storage, eo_asset_name_list: EOAssetNameList
+    ):
         self.settings = settings
         self.storage = storage
+        self.eo_asset_name_list = eo_asset_name_list
 
     @abstractmethod
     def get_info(

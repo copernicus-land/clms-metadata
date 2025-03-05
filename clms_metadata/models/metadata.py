@@ -7,11 +7,18 @@ import ciso8601
 from cloudpathlib import CloudPath
 from geojson_pydantic.geometries import Geometry
 from loguru import logger
-from pydantic import BaseModel, BeforeValidator, ConfigDict, Field, field_validator
-from pydantic.functional_serializers import PlainSerializer
-from pydantic.functional_validators import AfterValidator
+from pydantic import (
+    AfterValidator,
+    BaseModel,
+    BeforeValidator,
+    ConfigDict,
+    Field,
+    PlainSerializer,
+    field_validator,
+)
 
 from clms_metadata.constants import attributes
+from clms_metadata.models.name_list import Mission
 from clms_metadata.util import format_zulu, partial_model
 
 
@@ -105,7 +112,6 @@ MANDATORY_ATTRIBUTES = {
     attributes.PLATFORM_ACRONYM: StringAttribute,
     attributes.INSTRUMENT_SHORT_NAME: StringAttribute,
 }
-
 OPTIONAL_ATTRIBUTES = {
     # only checked to have the following type when they are present
     attributes.CONSOLIDATION_PERIOD: IntegerAttribute,
@@ -250,3 +256,5 @@ class Metadata(BaseModel):
 class PartialMetadata(Metadata):
     model_config = ConfigDict(validate_assignment=True)
     attributes: Attributes = Field(default_factory=list)  # add default
+    missions: list[Mission] = Field(default_factory=list, exclude=True)
+    instruments: list[str] = Field(default_factory=list, exclude=True)

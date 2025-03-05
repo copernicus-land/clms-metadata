@@ -19,7 +19,7 @@
         "missionShortName": "HIMAWARI8,GOES,METEOSAT11",
         "platformShortName": "HIMAWARI8,GOES16,METEOSAT11",
         // NC_GLOBAL#sensor=ABI, SEVIRI, AHI
-        "instrumentShortName": "ABI,SEVIRI,AHI",
+        "instrumentShortName": "AHI,ABI,SEVIRI",
         "datasetShortName": "lst-dc",
         "datasetAlias": "lst-daily-cycle_global_5km_10daily",
         "areaOfInterest": "global",

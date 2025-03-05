@@ -19,7 +19,7 @@
         "missionShortName": "HIMAWARI9,GOES,METEOSAT10,METEOSAT9",
         "platformShortName": "HIMAWARI9,GOES16,METEOSAT10,METEOSAT9",
         // NC_GLOBAL#sensor=AHI, ABI, SEVIRI, SEVIRI
-        "instrumentShortName": "AHI,ABI,SEVIRI,SEVIRI",
+        "instrumentShortName": "AHI,ABI,SEVIRI",
         "datasetShortName": "lst",
         "datasetAlias": "lst_global_5km_hourly",
         "areaOfInterest": "global",

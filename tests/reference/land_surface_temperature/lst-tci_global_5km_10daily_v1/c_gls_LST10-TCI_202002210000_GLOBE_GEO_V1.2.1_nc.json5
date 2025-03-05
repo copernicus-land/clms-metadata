@@ -16,7 +16,7 @@
         "fileFormat": "nc",
         "processingCenter": "IPMA",
         // NC_GLOBAL#platform=GOES, MSG, HIMAWARI
-        "missionShortName": "GOES,MSG,HIMAWARI",  // TODO: correct?
+        "missionShortName": "GOES,unspecified",
         // NC_GLOBAL#sensor=ABI, SEVIRI, AHI
         "instrumentShortName": "ABI,SEVIRI,AHI",
         "datasetShortName": "lst-tci",

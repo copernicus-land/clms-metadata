@@ -4,7 +4,7 @@ from cloudpathlib import CloudPath
 from overrides import overrides
 
 from clms_metadata.config import Settings
-from clms_metadata.models import ContentDate, Metadata, StringAttribute
+from clms_metadata.models.metadata import ContentDate, Metadata, StringAttribute
 from clms_metadata.source.base import MetadataSource
 from clms_metadata.storage import Storage
 

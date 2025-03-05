@@ -14,12 +14,13 @@ from clms_metadata.constants.lookup_tables import (
     DATASET_SHORT_NAMES,
     SPATIAL_EXTENT_MAPPING,
 )
-from clms_metadata.models import (
+from clms_metadata.models.metadata import (
     ContentDate,
     IntegerAttribute,
     Metadata,
     StringAttribute,
 )
+from clms_metadata.models.name_list import autocomplete
 from clms_metadata.source import MetadataSource
 
 
@@ -124,16 +125,7 @@ class LookupSource(MetadataSource):
                 microsecond=999999
             )
 
-        if not metadata.has_attribute(
-            attributes.MISSION_SHORT_NAME
-        ) and metadata.has_attribute(attributes.INSTRUMENT_SHORT_NAME):
-            metadata.add_attribute(
-                name=attributes.MISSION_SHORT_NAME,
-                value_type=StringAttribute,
-                factory=lambda: lookup_tables.INSTRUMENT_MISSION_MAPPING.get(
-                    metadata.get_attribute(attributes.INSTRUMENT_SHORT_NAME).value, None
-                ),
-            )
+        autocomplete(metadata.missions, metadata.instruments, self.eo_asset_name_list)
 
         if m := regex.SWI_STATIC.match(metadata.name):
             metadata.add_attribute(

@@ -33,8 +33,10 @@ def test_create(path: Path, reference_path: Path, tmp_path: Path):
     [path_output] = [p for p in tmp_path.iterdir() if p.is_file()]
     with open(path_output) as f:
         output = json.load(f)
+        output["Attributes"].sort(key=lambda x: x["Name"])
     with open(reference_path) as f:
         reference = pyjson5.load(f)
+        reference["Attributes"].sort(key=lambda x: x["Name"])
 
     for ignore in ("Link", "OriginDate"):
         assert ignore in output

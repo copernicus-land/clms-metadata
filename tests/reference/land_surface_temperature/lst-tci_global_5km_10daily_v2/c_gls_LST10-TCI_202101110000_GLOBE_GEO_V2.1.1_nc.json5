@@ -17,9 +17,9 @@
         'processingCenter': 'IPMA',
         // NC_GLOBAL#platform=GOESR,  MSG4,  MSG1,  HIMAWARI8
         'missionShortName': 'HIMAWARI8,GOES,METEOSAT11,METEOSAT8',
-        'platformShortName': 'HIMAWARI8,METEOSAT11,METEOSAT8',
+        'platformShortName': 'HIMAWARI8,METEOSAT11,METEOSAT8,unspecified',
         // NC_GLOBAL#sensor=ABI, SEVIRI, SEVIRI, AHI
-        'instrumentShortName': 'ABI,SEVIRI,SEVIRI,AHI',
+        'instrumentShortName': 'AHI,ABI,SEVIRI',
         'datasetShortName': 'lst-tci',
         'datasetAlias': 'lst-tci_global_5km_10daily',
         'areaOfInterest': 'global',

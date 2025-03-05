@@ -13,13 +13,13 @@ dependencies = [
     "shapely~=2.0.6",
     "geojson-pydantic~=1.2.0",
     "jinja2~=3.1.4",
-    "yarl~=1.18.3",
     "overrides~=7.7.0",
     "boto3~=1.35.37",
     "cloudpathlib~=0.20.0",
     "opensearch-py~=2.8.0",
     "rioxarray==0.18.2",
     "cftime~=1.6.4",
+    "platformdirs~=4.3.6",
 ]
 
 [project.scripts]

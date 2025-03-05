@@ -5,7 +5,7 @@ import pytest
 
 from clms_metadata.builder import MetadataBuilder
 from clms_metadata.config import LinkSettings, Settings
-from clms_metadata.models import Metadata
+from clms_metadata.models.metadata import Metadata
 from clms_metadata.storage import LocalFileSystem
 
 test_root = Path(__file__).parent
@@ -489,6 +489,6 @@ def compare_with_reference(m: Metadata, expected: dict):
         assert v == m_dict.get(k)
 
     attributes = {a["name"]: a["value"] for a in m_dict["attributes"]}
-    assert expected_attributes == {
+    assert {
         k: v for k, v in attributes.items() if k in expected_attributes
-    }
+    } == expected_attributes

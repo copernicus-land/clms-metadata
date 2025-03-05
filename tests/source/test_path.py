@@ -66,28 +66,28 @@ from clms_metadata.source.path import get_common_name
             "PROBAV_LC100_global_v3.0.1_2019",
         ),
         (
-                [
-                    Path("c_gls_NDVI300-NDVI_201401010000_GLOBE_PROBAV_V1.0.1.tiff"),
-                ],
-                "c_gls_NDVI300_201401010000_GLOBE_PROBAV_V1.0.1",
+            [
+                Path("c_gls_NDVI300-NDVI_201401010000_GLOBE_PROBAV_V1.0.1.tiff"),
+            ],
+            "c_gls_NDVI300_201401010000_GLOBE_PROBAV_V1.0.1",
         ),
         (
-                [
-                    Path("c_gls_BA300-DOB-NTC_201901010000_GLOBE_S3_V3.1.1.tiff"),
-                ],
-                "c_gls_BA300-NTC_201901010000_GLOBE_S3_V3.1.1",
+            [
+                Path("c_gls_BA300-DOB-NTC_201901010000_GLOBE_S3_V3.1.1.tiff"),
+            ],
+            "c_gls_BA300-NTC_201901010000_GLOBE_S3_V3.1.1",
         ),
         (
-                [
-                    Path("c_gls_BA300-DOB-NRT_202307010000_GLOBE_S3_V3.1.1.tiff"),
-                ],
-                "c_gls_BA300-NRT_202307010000_GLOBE_S3_V3.1.1",
+            [
+                Path("c_gls_BA300-DOB-NRT_202307010000_GLOBE_S3_V3.1.1.tiff"),
+            ],
+            "c_gls_BA300-NRT_202307010000_GLOBE_S3_V3.1.1",
         ),
         (
-                [
-                    Path("c_gls_BA300_202307010000_GLOBE_S3_V3.1.1.tiff"),
-                ],
-                "c_gls_BA300_202307010000_GLOBE_S3_V3.1.1",
+            [
+                Path("c_gls_BA300_202307010000_GLOBE_S3_V3.1.1.tiff"),
+            ],
+            "c_gls_BA300_202307010000_GLOBE_S3_V3.1.1",
         ),
     ],
 )
