@@ -85,6 +85,9 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
     re.compile(
         r"ssm_v(?P<version_major>\d+)_1km"
     ): "ssm_europe_1km_daily_v{version_major}",
+    re.compile(
+        r"lsp300_v(?P<version_major>\d+)_333m"
+    ): "lsp_global_300m_yearly_v{version_major}",
 }
 
 PRODUCT_NAME_TO_DATASET: Final[
@@ -192,6 +195,7 @@ DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^ssm_"): "surface_soil_moisture",
     re.compile(r"^lc_global"): "dynamic_land_cover",
     re.compile(r"^toc_"): "top-of-canopy_reflectances",
+    re.compile(r"^lsp_"): "vegetation_phenology_and_productivity_parameters",
 }
 COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
     "bio-geophysical": {
@@ -209,6 +213,7 @@ COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
         "soil_water_index",
         "surface_soil_moisture",
         "top-of-canopy_reflectances",
+        "vegetation_phenology_and_productivity_parameters",
     },
     "landcover_landuse": {"dynamic_land_cover"},
 }

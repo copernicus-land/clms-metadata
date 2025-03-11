@@ -1,0 +1,35 @@
+{
+    "name": "c_gls_LSP300-AMPL-S2_202301010000_GLOBE_OLCI_V1.0.1",
+    "name_suffix": "cog",
+    "content_type": "application/tiff",
+    "content_date": {
+        // time_coverage_start=2023-01-01T00:00:00Z
+        "start": "2023-01-01T00:00:00.000000Z",
+        // time_coverage_end=2024-02-29T23:59:59Z -> end date computed from nominal date
+        "end": "2023-12-31T23:59:59.999999Z"
+    },
+    "nominal_date": "2023-01-01T00:00:00.000000Z",
+    "product_type": "vegetation_phenology_and_productivity_parameters",
+    "component": "bio-geophysical",
+    "dataset_identifier": "lsp_global_300m_yearly_v1",
+    "attributes": {
+        "productVersion": "v1.0.1",
+        "datasetVersion": 1,
+        "fileFormat": "cog",
+        "processingCenter": "VITO",
+        "datasetShortName": "lsp",
+        "datasetAlias": "lsp_global_300m_yearly",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 300,
+        "gridLabel": "300m",
+        "temporalRepeatRate": "yearly",
+        // platform=Sentinel-3
+        "missionShortName": "SENTINEL3",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified",
+        // sensor=OLCI
+        "instrumentShortName": "OLCI",
+        "vppSeason": "S2",
+        "vppSubParameter": "AMPL"
+    }
+}

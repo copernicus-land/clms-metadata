@@ -89,6 +89,10 @@ from clms_metadata.source.path import get_common_name
             ],
             "c_gls_BA300_202307010000_GLOBE_S3_V3.1.1",
         ),
+        (
+            [Path("c_gls_LSP300-AMPL-S2_202301010000_GLOBE_OLCI_V1.0.1.tiff")],
+            "c_gls_LSP300-AMPL-S2_202301010000_GLOBE_OLCI_V1.0.1",
+        ),
     ],
 )
 def test_get_common_name(paths, expected_name):

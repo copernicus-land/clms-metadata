@@ -3,7 +3,6 @@ import difflib
 import functools
 import re
 from pathlib import Path
-import re
 
 from cloudpathlib import CloudPath, S3Path
 from loguru import logger
@@ -15,7 +14,10 @@ from clms_metadata.constants.content_type import (
     CONTENT_TYPE_NETCDF,
     CONTENT_TYPE_TIFF,
 )
-from clms_metadata.constants.lookup_tables import CONTENT_TYPE_TO_FILE_FORMAT, COG_EXTENSIONS
+from clms_metadata.constants.lookup_tables import (
+    COG_EXTENSIONS,
+    CONTENT_TYPE_TO_FILE_FORMAT,
+)
 from clms_metadata.models.metadata import (
     IntegerAttribute,
     Metadata,
@@ -32,7 +34,10 @@ class PathSource(MetadataSource):
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
         super().get_info(product_files, metadata)
-        if len(product_files) == 1 and get_content_type(product_files) != CONTENT_TYPE_TIFF:
+        if (
+            len(product_files) == 1
+            and get_content_type(product_files) != CONTENT_TYPE_TIFF
+        ):
             product_id = product_files[0].stem
         else:
             # try to find common string
@@ -111,14 +116,20 @@ def get_common_name(paths: list[Path | CloudPath]) -> str:
 
     # Handle case of single file cogs with band in filename. (https://jira.vito.be/browse/GDD-3911)
     if len(values) == 1 and all_files_are_cog:
+        [value] = values  # retrieve single item from set by unpacking
+        if regex.LSP.match(value):
+            return value
         try:
-            parts = list(values)[0].split("_")  # decompose filename in parts to only try to replace in the relevant part
-            parts[2] = re.sub(r'-[^-_]*(?=-|_|$)', '', parts[2], count=1)  # replace everything between the first occurrence of - and the next occurrence of either - or _
+            parts = value.split(
+                "_"
+            )  # decompose filename in parts to only try to replace in the relevant part
+            parts[2] = re.sub(
+                r"-[^-_]*(?=-|_|$)", "", parts[2], count=1
+            )  # replace everything between the first occurrence of - and the next occurrence of either - or _
             values = {"_".join(parts)}
         except Exception as e:
             logger.exception(f"Unhandled cog filename pattern: {values}")
-            raise(e)
-
+            raise e
 
     common = functools.reduce(_common_name_pair, values)
     # filter out duplicate consecutive hyphens or underscores
@@ -157,6 +168,7 @@ def _common_name_pair(a: str, b: str) -> str:
             continue
     return common
 
+
 def handle_anomalous_collections(name: str) -> str:
     """
     Some collections do not following conventions.
@@ -165,8 +177,12 @@ def handle_anomalous_collections(name: str) -> str:
     :param name: The common name created by the common logic
     :return: The corrected common name
     """
-    if 'LC100' in name:  # clms_global_lcc_100m_v3_yearly_geotiff
-        return name.split('-')[0]  # PROBAV_LC100_global_v3.0.1_2016-conso_EPSG-4326 -> PROBAV_LC100_global_v3.0.1_2016
+    if "LC100" in name:  # clms_global_lcc_100m_v3_yearly_geotiff
+        return name.split(
+            "-"
+        )[
+            0
+        ]  # PROBAV_LC100_global_v3.0.1_2016-conso_EPSG-4326 -> PROBAV_LC100_global_v3.0.1_2016
     return name
 
 
