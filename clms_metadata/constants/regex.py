@@ -60,3 +60,7 @@ LC100: Final[re.Pattern] = re.compile(
     r"_"
     r"(?P<year>\d{4})"
 )
+
+LSP: Final[re.Pattern] = re.compile(
+    r"c_gls_LSP300-(?P<vppSubParameter>\w+)-(?P<vppSeason>S\d)_\d{12}_GLOBE_[A-Z-0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+)

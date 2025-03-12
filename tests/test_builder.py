@@ -380,6 +380,15 @@ test_reference = test_root / "reference"
             test_reference
             / "top-of-canopy_reflectances/toc_global_300m_daily_v2/cgl_TOC_20190129233203_X35Y03_S3B_v2.3.4_cog.json5",
         ),
+        # lsp_global_300m_yearly_v1
+        (
+            (
+                test_data
+                / "vegetation_phenology_and_productivity_parameters/lsp_global_300m_yearly_v1/c_gls_LSP300-AMPL-S2_202301010000_GLOBE_OLCI_V1.0.1.tiff",
+            ),
+            test_reference
+            / "vegetation_phenology_and_productivity_parameters/lsp_global_300m_yearly_v1/c_gls_LSP300-AMPL-S2_202301010000_GLOBE_OLCI_V1.0.1_cog.json5",
+        ),
     ],
 )
 def test_builder(files, reference):

@@ -140,6 +140,18 @@ class LookupSource(MetadataSource):
                 factory=lambda: m.group(attributes.SWI_TS_CELL_ID),
             )
 
+        if m := regex.LSP.match(metadata.name):
+            metadata.add_attribute(
+                name=attributes.VPP_SEASON,
+                value_type=StringAttribute,
+                factory=lambda: m.group(attributes.VPP_SEASON),
+            )
+            metadata.add_attribute(
+                name=attributes.VPP_SUB_PARAMETER,
+                value_type=StringAttribute,
+                factory=lambda: m.group(attributes.VPP_SUB_PARAMETER),
+            )
+
         return metadata
 
     @staticmethod
