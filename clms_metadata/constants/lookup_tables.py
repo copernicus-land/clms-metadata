@@ -181,7 +181,8 @@ PRODUCT_NAME_TO_DATASET: Final[
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^ndvi[_-]"): "vegetation_indices",
-    re.compile(r"^(dmp|gdmp|gpp|npp)[_-]"): "dry-gross_dry_matter_productivity",
+    re.compile(r"^(dmp|gdmp)[_-]"): "dry-gross_dry_matter_productivity",
+    re.compile(r"^(gpp|npp)[_-]"): "net-gross_primary_production",
     re.compile(r"^wl-(rivers|lakes)_"): "river_and_lake_water_level",
     re.compile(r"^(fapar|fcover|lai)[_-]"): "vegetation_properties",
     re.compile(r"^sce"): "snow_cover_extent",
@@ -201,6 +202,7 @@ COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
     "bio-geophysical": {
         "vegetation_indices",
         "dry-gross_dry_matter_productivity",
+        "net-gross_primary_production",
         "snow_cover_extent",
         "snow_water_equivalent",
         "land_surface_temperature",
