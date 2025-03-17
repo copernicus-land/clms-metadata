@@ -1,20 +1,20 @@
 {
-    "name": "c_gls_GPP300-RT2_202410310000_GLOBE_OLCI_V1.1.1",
+    "name": "c_gls_NPP300-RT6_202307100000_GLOBE_OLCI_V1.1.1",
     "name_suffix": "nc",
     "content_type": "application/netcdf",
     "content_date": {
-        "start": "2024-10-21T00:00:00.000000Z",
-        "end": "2024-10-31T23:59:59.999999Z"
+        "start": "2023-07-01T00:00:00.000000Z",
+        "end": "2023-07-10T23:59:59.999999Z"
     },
-    "nominal_date": "2024-10-31T00:00:00.000000Z",
-    "product_type": "dry-gross_dry_matter_productivity",
+    "nominal_date": "2023-07-10T00:00:00.000000Z",
+    "product_type": "net-gross_primary_production",
     "component": "bio-geophysical",
-    "dataset_identifier": "gpp_global_300m_10daily_v1",
+    "dataset_identifier": "npp_global_300m_10daily_v1",
     "attributes": {
         "areaOfInterest": "global",
-        "consolidationPeriod": 2,
-        "datasetAlias": "gpp_global_300m_10daily",
-        "datasetShortName": "gpp",
+        "consolidationPeriod": 6,
+        "datasetAlias": "npp_global_300m_10daily",
+        "datasetShortName": "npp",
         "datasetVersion": 1,
         "fileFormat": "nc",
         "gridLabel": "300m",
