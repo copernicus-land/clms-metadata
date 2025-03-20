@@ -175,9 +175,7 @@ PRODUCT_NAME_TO_DATASET: Final[
         r"c_gls_SSM1km_\d{12}_CEURO_[A-Z-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "ssm_europe_1km_daily_v{version_major}",
     regex.LC100: "lc_global_100m_yearly_v{version_major}",
-    re.compile(
-        r"cgl_TOC_\d{14}_X\d{2}Y\d{2}_\w+_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "toc_global_300m_daily_v{version_major}",
+    regex.TOC: "toc_global_300m_daily_v{version_major}",
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^ndvi[_-]"): "vegetation_indices",

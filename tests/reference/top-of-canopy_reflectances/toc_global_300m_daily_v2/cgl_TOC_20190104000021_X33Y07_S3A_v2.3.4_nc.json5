@@ -27,6 +27,7 @@
         "areaOfInterest": "global",
         "metricGridSpacing": 300,
         "gridLabel": "300m",
-        "temporalRepeatRate": "daily"
+        "temporalRepeatRate": "daily",
+        "cellID": "X33Y07"
     }
 }
