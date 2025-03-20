@@ -127,6 +127,13 @@ class LookupSource(MetadataSource):
 
         autocomplete(metadata.missions, metadata.instruments, self.eo_asset_name_list)
 
+        if m := regex.SWI_STATIC.match(metadata.name):
+            metadata.add_attribute(
+                name=attributes.SWI_SUB_PARAMETER,
+                value_type=StringAttribute,
+                factory=lambda: m.group(attributes.SWI_SUB_PARAMETER),
+            )
+
         if m := regex.SWI_TIMESERIES.match(metadata.name) or regex.TOC.match(
             metadata.name
         ):
