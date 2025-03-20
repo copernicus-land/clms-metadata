@@ -25,6 +25,6 @@
         "gridLabel": "12.5km",
         "temporalRepeatRate": "daily",
         "platformAcronym": "unspecified",
-        "swiTSCellId": "C0348"
+        "cellID": "C0348"
     }
 }

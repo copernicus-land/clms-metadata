@@ -46,7 +46,7 @@ SWI_STATIC: Final[re.Pattern] = re.compile(
     r"c_gls_SWI-STATIC-(?P<swiSubParameter>[A-Z]+)_[\d-]{12}_GLOBE_[A-Z-0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
 )
 SWI_TIMESERIES: Final[re.Pattern] = re.compile(
-    r"c_gls_SWI-TS_\d{12}_(?P<swiTSCellId>C\d{4})+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    r"c_gls_SWI-TS_\d{12}_(?P<cellID>C\d{4})+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
 )
 LC100: Final[re.Pattern] = re.compile(
     r"(?:(?P<tile>[A-Za-z\d]+)_)?"  # optional tile
@@ -63,4 +63,7 @@ LC100: Final[re.Pattern] = re.compile(
 
 LSP: Final[re.Pattern] = re.compile(
     r"c_gls_LSP300-(?P<vppSubParameter>\w+)-(?P<vppSeason>S\d)_\d{12}_GLOBE_[A-Z-0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+)
+TOC: Final[re.Pattern] = re.compile(
+    r"cgl_TOC_\d{14}_(?P<cellID>X\d{2}Y\d{2})_\w+_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
 )

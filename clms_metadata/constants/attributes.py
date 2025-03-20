@@ -23,8 +23,7 @@ WATER_LEVEL_BASIN_NAME: Final[str] = "wlBasinName"
 MISSION_SHORT_NAME: Final[str] = "missionShortName"
 VPP_SEASON: Final[str] = "vppSeason"
 VPP_SUB_PARAMETER: Final[str] = "vppSubParameter"
-SWI_SUB_PARAMETER: Final[str] = "swiSubParameter"
-SWI_TS_CELL_ID: Final[str] = "swiTSCellId"
+CELL_ID: Final[str] = "cellID"
 
 """
 Attribute values
