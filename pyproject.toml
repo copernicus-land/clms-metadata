@@ -1,6 +1,6 @@
 [project]
 name = "clms-metadata"
-version = "1.2.2"
+version = "1.2.3"
 authors = [{name = "Stijn Caerts", email = "stijn.caerts@vito.be"}]
 dependencies = [
     "cyclopts~=3.4.0",
