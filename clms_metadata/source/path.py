@@ -46,11 +46,12 @@ class PathSource(MetadataSource):
         if not metadata.name:
             metadata.name = product_id
 
-        version = next(
-            substr.lower()
-            for substr in reversed(product_id.split("_"))
-            if regex.VERSION.match(substr.lower())
-        )
+        if m := regex.VERSION_DOTTED.search(product_id.lower()) or regex.VERSION_DIGITS_ONLY.search(product_id.lower()):
+            version = m.group(0)
+            major_version = int(m.group(1))
+        else:
+            raise ValueError(f"Could not extract version from product identifier {product_id}")
+
         metadata.add_attribute(  # full version
             name=attributes.PRODUCT_VERSION,
             value_type=StringAttribute,
@@ -59,7 +60,7 @@ class PathSource(MetadataSource):
         metadata.add_attribute(  # major version as int
             name=attributes.DATASET_VERSION,
             value_type=IntegerAttribute,
-            factory=lambda: int(version[1:].split(".")[0]),
+            factory=lambda: major_version,
         )
 
         if not metadata.nominal_date:
@@ -209,6 +210,8 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
     elif regex.DATE_YEAR1_YEAR2_MMDD.fullmatch(date_part):
         date = datetime.datetime.strptime(date_part[0:4] + date_part[-4:], "%Y%m%d")
     elif match := regex.LC100.fullmatch(product_id):
+        date = datetime.datetime.strptime(match.group("year"), "%Y")
+    elif match := regex.LCFM.match(product_id):
         date = datetime.datetime.strptime(match.group("year"), "%Y")
     else:
         raise ValueError(

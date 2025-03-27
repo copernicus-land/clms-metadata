@@ -51,10 +51,15 @@ class FileSource(MetadataSource):
                 tags = rioxarray._io._parse_tags(data.tags())
                 logger.debug(tags)
                 if not metadata.content_date:
-                    if "time_coverage_start" in tags:
+                    if "time_coverage_start" in tags and "time_coverage_end" in tags:
                         metadata.content_date = ContentDate(
                             start=tags["time_coverage_start"],
                             end=tags["time_coverage_end"],
+                        )
+                    elif "time_start" in tags and "time_end" in tags:
+                        metadata.content_date = ContentDate(
+                            start=tags["time_start"],
+                            end=tags["time_end"],
                         )
                     else:
                         logger.warning(
@@ -537,7 +542,8 @@ def get_processing_center(tags: dict) -> str | None:
             processing_center,
             flags=re.IGNORECASE,
         )
-
-    processing_center = ",".join(pc.strip() for pc in processing_center.split(","))
+        processing_center = ",".join(pc.strip() for pc in processing_center.split(","))
+    elif (c := tags.get("copyright")) and (m := re.search(r"processed by (\w+)", c)):
+        processing_center = m.group(1)
 
     return processing_center

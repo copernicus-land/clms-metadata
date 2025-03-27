@@ -176,6 +176,7 @@ PRODUCT_NAME_TO_DATASET: Final[
     ): "ssm_europe_1km_daily_v{version_major}",
     regex.LC100: "lc_global_100m_yearly_v{version_major}",
     regex.TOC: "toc_global_300m_daily_v{version_major}",
+    regex.LCFM: "lcfm_global_10m_yearly_v1",  # TODO
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^ndvi[_-]"): "vegetation_indices",
@@ -192,7 +193,7 @@ DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^ba_"): "burnt_area",
     re.compile(r"^swi[_-]"): "soil_water_index",
     re.compile(r"^ssm_"): "surface_soil_moisture",
-    re.compile(r"^lc_global"): "dynamic_land_cover",
+    re.compile(r"^(lc_global|lcfm)"): "dynamic_land_cover",
     re.compile(r"^toc_"): "top-of-canopy_reflectances",
     re.compile(r"^lsp_"): "vegetation_phenology_and_productivity_parameters",
 }
@@ -259,6 +260,7 @@ DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"^swi-timeseries"): "swi-ts",
     re.compile(r"^swi-static"): "swi-sl",
     re.compile(r"^toc_"): "tcr",
+    re.compile(r"^lcfm_"): "lcfm",  # TODO
 }
 
 SPATIAL_EXTENT_MAPPING = {"northernhemisphere": "northern hemisphere"}
