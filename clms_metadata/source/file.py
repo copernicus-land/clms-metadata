@@ -66,12 +66,14 @@ class FileSource(MetadataSource):
                             end=metadata.nominal_date,
                         )
                 if not metadata.geometry:
-                    # TODO: check if half-pixel shift is needed?
                     bounds = get_raster_bounds(data, tags)
+                    geometry = shapely.geometry.box(*bounds)
+                    geometry = shapely.make_valid(geometry)
                     metadata.geometry = shapely.set_precision(
-                        shapely.geometry.box(*bounds),
+                        geometry,
                         grid_size=self.settings.geometry.precision,
-                    )
+                        mode="keep_collapsed",
+                    ) or geometry
                 metadata.add_attribute(
                     name=attributes.PROCESSING_CENTER,
                     value_type=StringAttribute,
