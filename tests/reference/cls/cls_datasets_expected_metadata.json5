@@ -86,7 +86,7 @@
         "name": "c_gls_LSWT_201611010000_GLOBE_SLSTRA_v1.0.2",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "product_type": "land_surface_temperature",
+        "product_type": "lake_surface_water_temperature",
         "dataset_identifier": "lswt-nrt_global_1km_10daily_v1",
         "component": "bio-geophysical",
         "content_date": {
@@ -115,7 +115,7 @@
         "name": "c_gls_LSWT_200205110000_GLOBE_AATSR_v1.0.2",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
-        "product_type": "land_surface_temperature",
+        "product_type": "lake_surface_water_temperature",
         "dataset_identifier": "lswt-offline_global_1km_10daily_v1",
         "component": "bio-geophysical",
         "content_date": {
