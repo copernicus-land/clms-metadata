@@ -176,7 +176,18 @@ PRODUCT_NAME_TO_DATASET: Final[
     ): "ssm_europe_1km_daily_v{version_major}",
     regex.LC100: "lc_global_100m_yearly_v{version_major}",
     regex.TOC: "toc_global_300m_daily_v{version_major}",
-    regex.LCFM: "lcfm_global_10m_yearly_v1",  # TODO
+    re.compile(
+        r"LCFM_LCM-(?P<resolution>\d+)_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
+    ): "lcfm-lcm_global_{resolution}m_yearly_v{version_major}",
+    re.compile(
+        r"LCFM_TCD-(?P<resolution>\d+)_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
+    ): "lcfm-tcd_pantropical_{resolution}m_yearly_v{version_major}",
+    re.compile(
+        r"LCFM_LSC-(?P<resolution>\d+)-ANNUAL_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
+    ): "lcfm-lsc_global_{resolution}m_yearly_v{version_major}",
+    re.compile(
+        r"LCFM_LSC-(?P<resolution>\d+)-MONTHLY_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
+    ): "lcfm-lsc_global_{resolution}m_monthly_v{version_major}",
 }
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^ndvi[_-]"): "vegetation_indices",
@@ -249,6 +260,7 @@ DATASET_SHORT_NAMES = {
     "rwl",
     "lwq",
     "lie",
+    "lcfm",
 }
 DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"^wl-rivers"): "rwl",
@@ -260,9 +272,12 @@ DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"^swi-timeseries"): "swi-ts",
     re.compile(r"^swi-static"): "swi-sl",
     re.compile(r"^toc_"): "tcr",
-    re.compile(r"^lcfm_"): "lcfm",  # TODO
+    re.compile(r"^lcfm[_-]"): "lcfm",
 }
 
-SPATIAL_EXTENT_MAPPING = {"northernhemisphere": "northern hemisphere"}
+SPATIAL_EXTENT_MAPPING = {
+    "northernhemisphere": "northern hemisphere",
+    "pantropical": "pan tropical",
+}
 
 COG_EXTENSIONS = [".tiff", ".tif", ".geotiff", ".geotif", ".cog"]

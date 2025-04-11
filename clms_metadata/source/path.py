@@ -46,11 +46,15 @@ class PathSource(MetadataSource):
         if not metadata.name:
             metadata.name = product_id
 
-        if m := regex.VERSION_DOTTED.search(product_id.lower()) or regex.VERSION_DIGITS_ONLY.search(product_id.lower()):
+        if m := regex.VERSION_DOTTED.search(
+            product_id.lower()
+        ) or regex.VERSION_DIGITS_ONLY.search(product_id.lower()):
             version = m.group(0)
             major_version = int(m.group(1))
         else:
-            raise ValueError(f"Could not extract version from product identifier {product_id}")
+            raise ValueError(
+                f"Could not extract version from product identifier {product_id}"
+            )
 
         metadata.add_attribute(  # full version
             name=attributes.PRODUCT_VERSION,
@@ -115,6 +119,9 @@ def get_common_name(paths: list[Path | CloudPath]) -> str:
     values = set(map(lambda p: p.stem, paths))
     all_files_are_cog = all([p for p in paths if p.suffix in COG_EXTENSIONS])
 
+    if m := regex.LCFM.match(next(iter(values))):
+        return m.group(0)
+
     # Handle case of single file cogs with band in filename. (https://jira.vito.be/browse/GDD-3911)
     if len(values) == 1 and all_files_are_cog:
         [value] = values  # retrieve single item from set by unpacking
@@ -133,6 +140,8 @@ def get_common_name(paths: list[Path | CloudPath]) -> str:
             raise e
 
     common = functools.reduce(_common_name_pair, values)
+    # strip trailing hyphens and underscores
+    common = re.sub(r"([_-]+$)", "", common)
     # filter out duplicate consecutive hyphens or underscores
     while any(substr in common for substr in ("__", "--", "-_", "_-")):
         common = common.replace("__", "_")
@@ -155,7 +164,7 @@ def _common_name_pair(a: str, b: str) -> str:
     for i, block in enumerate(blocks):
         str_block = a[block.a : block.a + block.size]
         try:
-            if i > 1:
+            if i >= 1:
                 # trim start of block to - or _
                 index = min([str_block.index(c) for c in ("_", "-") if c in str_block])
                 str_block = str_block[index:]

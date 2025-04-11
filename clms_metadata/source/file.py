@@ -527,7 +527,9 @@ def get_processing_center(tags: dict) -> str | None:
     :param tags: metadata tags
     :return: processing center, if available
     """
-    processing_center = tags.get("institution") or tags.get("processing_centre")
+    processing_center = (
+        tags.get("institution") or tags.get("processing_centre") or tags.get("producer")
+    )
     if processing_center is not None:
         processing_center = re.sub(
             r" (NV|GMBH)", "", processing_center, flags=re.IGNORECASE

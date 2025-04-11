@@ -69,5 +69,5 @@ TOC: Final[re.Pattern] = re.compile(
     r"cgl_TOC_\d{14}_(?P<cellID>X\d{2}Y\d{2})_\w+_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
 )
 LCFM: Final[re.Pattern] = re.compile(
-    r"LCFM_(?P<product_type>[\w-]+)_V\d{3}_(?P<year>\d{4})_(?P<tile>\w+)"
+    r"LCFM_(?P<product_type>[\w-]+)_V\d{3}_(?P<year>\d{4})_(?P<cellID>[NS]\d{2}[EW]\d{3})"
 )
