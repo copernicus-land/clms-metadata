@@ -204,6 +204,9 @@ def parse_platform(
     platformstr = platformstr.upper().strip()
     platformstr = re.sub(r"[-_]", "", platformstr)
     platformstr = re.sub(r"SUOMI[-_ ]NPP", "SUOMINPP", platformstr, flags=re.IGNORECASE)
+    platformstr = re.sub(
+        regex.SENTINEL_WITH_SPACE, lambda m: f"{m.group(1)}{m.group(2)}", platformstr
+    )
 
     # support for platforms with LIE 250m with old name for TERRA/AQUA/NOAA-20
     # TERRA (EOS AM-1) => [TERRA]
@@ -218,9 +221,6 @@ def parse_platform(
         name.strip(): Mission(missionShortName=name.strip())
         for name in platformstr.split(",")
     }
-    # platforms: dict[str, list[str] | None] = {
-    #     p.strip(): None for p in platformstr.split(",")
-    # }
 
     # Support for "AND" between platform names or platform serials
     # e.g. "SENTINEL-3A AND SENTINEL-3B" or "SENTINEL 3 (A AND B)"
