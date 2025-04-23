@@ -51,10 +51,15 @@ class FileSource(MetadataSource):
                 tags = rioxarray._io._parse_tags(data.tags())
                 logger.debug(tags)
                 if not metadata.content_date:
-                    if "time_coverage_start" in tags:
+                    if "time_coverage_start" in tags and "time_coverage_end" in tags:
                         metadata.content_date = ContentDate(
                             start=tags["time_coverage_start"],
                             end=tags["time_coverage_end"],
+                        )
+                    elif "time_start" in tags and "time_end" in tags:
+                        metadata.content_date = ContentDate(
+                            start=tags["time_start"],
+                            end=tags["time_end"],
                         )
                     else:
                         logger.warning(
@@ -201,6 +206,9 @@ def parse_platform(
     platformstr = platformstr.upper().strip()
     platformstr = re.sub(r"[-_]", "", platformstr)
     platformstr = re.sub(r"SUOMI[-_ ]NPP", "SUOMINPP", platformstr, flags=re.IGNORECASE)
+    platformstr = re.sub(
+        regex.SENTINEL_WITH_SPACE, lambda m: f"{m.group(1)}{m.group(2)}", platformstr
+    )
 
     # support for platforms with LIE 250m with old name for TERRA/AQUA/NOAA-20
     # TERRA (EOS AM-1) => [TERRA]
@@ -215,9 +223,6 @@ def parse_platform(
         name.strip(): Mission(missionShortName=name.strip())
         for name in platformstr.split(",")
     }
-    # platforms: dict[str, list[str] | None] = {
-    #     p.strip(): None for p in platformstr.split(",")
-    # }
 
     # Support for "AND" between platform names or platform serials
     # e.g. "SENTINEL-3A AND SENTINEL-3B" or "SENTINEL 3 (A AND B)"
@@ -524,7 +529,9 @@ def get_processing_center(tags: dict) -> str | None:
     :param tags: metadata tags
     :return: processing center, if available
     """
-    processing_center = tags.get("institution") or tags.get("processing_centre")
+    processing_center = (
+        tags.get("institution") or tags.get("processing_centre") or tags.get("producer")
+    )
     if processing_center is not None:
         processing_center = re.sub(
             r" (NV|GMBH)", "", processing_center, flags=re.IGNORECASE
@@ -539,7 +546,8 @@ def get_processing_center(tags: dict) -> str | None:
             processing_center,
             flags=re.IGNORECASE,
         )
-
-    processing_center = ",".join(pc.strip() for pc in processing_center.split(","))
+        processing_center = ",".join(pc.strip() for pc in processing_center.split(","))
+    elif (c := tags.get("copyright")) and (m := re.search(r"processed by (\w+)", c)):
+        processing_center = m.group(1)
 
     return processing_center

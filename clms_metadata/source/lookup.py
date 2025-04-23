@@ -134,8 +134,10 @@ class LookupSource(MetadataSource):
                 factory=lambda: m.group(attributes.SWI_SUB_PARAMETER),
             )
 
-        if m := regex.SWI_TIMESERIES.match(metadata.name) or regex.TOC.match(
-            metadata.name
+        if m := (
+            regex.SWI_TIMESERIES.match(metadata.name)
+            or regex.TOC.match(metadata.name)
+            or regex.LCFM.match(metadata.name)
         ):
             metadata.add_attribute(
                 name=attributes.CELL_ID,

@@ -5,6 +5,7 @@ CONSOLIDATION: Final[re.Pattern] = re.compile(r"-RT(\d)_")
 SENTINEL_OR_METOP: Final[re.Pattern] = re.compile(r"(SENTINEL\d+)|(METOP)")
 SENTINEL_NUM_SERIAL: Final[re.Pattern] = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
 SENTINEL_SHORT_NUM_SERIAL: Final[re.Pattern] = re.compile(r"(S)(\d+)([A-Z]+)")
+SENTINEL_WITH_SPACE: Final[re.Pattern] = re.compile(r"(SENTINEL)\s+([0-9A-Z]+)")
 NAME_WITH_SHORT_NAME_IN_BRACKETS: Final[re.Pattern] = re.compile(r"[\w ]+ \((\w+)\)")
 SENSOR_SPOT_VEGETATION: Final[re.Pattern] = re.compile(r"(VEGETATION)-\d+")
 SENSOR_SENTINEL1_SAR: Final[re.Pattern] = re.compile(r"C-?SAR")
@@ -14,7 +15,8 @@ GOES: Final[re.Pattern] = re.compile(r"(GOES)(?:(\d+)|E|R)")
 METOP: Final[re.Pattern] = re.compile(r"(METOP)[ -]?([A-Z])")
 PLATFORM_SERIALS_AND: Final[re.Pattern] = re.compile(r"\(([A-Z]) AND ([A-Z])\)")
 RESOLUTION: Final[re.Pattern] = re.compile(r"_(([\d.]+)(m|km))_")
-VERSION: Final[re.Pattern] = re.compile(r"v\d\.\d(:?\.\d)?")
+VERSION_DOTTED: Final[re.Pattern] = re.compile(r"v(\d)\.\d(:?\.\d)?")
+VERSION_DIGITS_ONLY: Final[re.Pattern] = re.compile(r"v(\d)\d{2}")
 
 DATASET_NDVI_STATISTICS: Final[re.Pattern] = re.compile(r"ndvi-(sts|lts)_")
 DATASET_SWI_STATIC: Final[re.Pattern] = re.compile(r"swi-static")
@@ -66,4 +68,7 @@ LSP: Final[re.Pattern] = re.compile(
 )
 TOC: Final[re.Pattern] = re.compile(
     r"cgl_TOC_\d{14}_(?P<cellID>X\d{2}Y\d{2})_\w+_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
+)
+LCFM: Final[re.Pattern] = re.compile(
+    r"LCFM_(?P<product_type>[\w-]+)_V\d{3}_(?P<year>\d{4})_(?P<cellID>[NS]\d{2}[EW]\d{3})"
 )
