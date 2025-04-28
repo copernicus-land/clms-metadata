@@ -74,11 +74,14 @@ class FileSource(MetadataSource):
                     bounds = get_raster_bounds(data, tags)
                     geometry = shapely.geometry.box(*bounds)
                     geometry = shapely.make_valid(geometry)
-                    metadata.geometry = shapely.set_precision(
-                        geometry,
-                        grid_size=self.settings.geometry.precision,
-                        mode="keep_collapsed",
-                    ) or geometry
+                    metadata.geometry = (
+                        shapely.set_precision(
+                            geometry,
+                            grid_size=self.settings.geometry.precision,
+                            mode="keep_collapsed",
+                        )
+                        or geometry
+                    )
                 metadata.add_attribute(
                     name=attributes.PROCESSING_CENTER,
                     value_type=StringAttribute,
@@ -159,7 +162,15 @@ class FileSource(MetadataSource):
             factory=lambda: properties.get("basin"),
         )
 
-        metadata.geometry = content["geometry"]
+        geometry = shapely.geometry.shape(content["geometry"])
+        metadata.geometry = (
+            shapely.set_precision(
+                geometry,
+                grid_size=self.settings.geometry.precision,
+                mode="keep_collapsed",
+            )
+            or geometry
+        )
         metadata.origin_date = properties["updated"]
 
         metadata.add_attribute(
