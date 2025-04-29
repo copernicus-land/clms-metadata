@@ -9,6 +9,6 @@ COPY dist/${PACKAGE_NAME} /tmp/${PACKAGE_NAME}
 RUN apt update && apt install -y libexpat1
 RUN pip install --no-cache-dir /tmp/${PACKAGE_NAME}
 
-ADD https://raw.githubusercontent.com/cgls/CLMS_EOAssets/refs/heads/main/EOassetNameList.yaml ${CACHE_DIR}
+ADD https://raw.githubusercontent.com/copernicus-land/EOAssets/refs/heads/main/EOassetNameList.yaml ${CACHE_DIR}
 
 ENTRYPOINT ["clms-metadata"]
