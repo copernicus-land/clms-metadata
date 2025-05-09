@@ -95,6 +95,11 @@
             "Name": "instrumentShortName",
             "ValueType": "String",
             "Value": "unspecified"
+        },
+        {
+            "Name": "cellID",
+            "ValueType": "String",
+            "Value": "0000000000108"
         }
     ]
 }

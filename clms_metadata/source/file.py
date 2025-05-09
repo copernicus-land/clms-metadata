@@ -135,6 +135,12 @@ class FileSource(MetadataSource):
                 end=properties["time_coverage_end"],
             )
 
+        metadata.add_attribute(
+            name=attributes.CELL_ID,
+            value_type=StringAttribute,
+            factory=lambda: properties["resource"],
+        )
+
         if "lake" in properties:
             dataset_id = f"wl-lakes_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION).value}"
             metadata.add_attribute(
