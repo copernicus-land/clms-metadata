@@ -24,6 +24,7 @@
         "instrumentShortName": "unspecified",
         "wlRiverName": "Alto-madre-de-dios-trib-01",
         "wlBasinName": "Amazonas",
-        "productVersion": "v2.2.0"
+        "productVersion": "v2.2.0",
+        "cellID": "0000000000108"
     }
 }
