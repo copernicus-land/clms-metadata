@@ -121,6 +121,10 @@ def get_common_name(paths: list[Path | CloudPath]) -> str:
 
     if m := regex.LCFM.match(next(iter(values))):
         return m.group(0)
+    if all(matches := [regex.LST10_DAILY_CYCLE.match(v) for v in values]):
+        return "{prefix}_{date}0000_GLOBE_GEO_V{version}".format_map(
+            matches[0].groupdict()
+        )
 
     # Handle case of single file cogs with band in filename. (https://jira.vito.be/browse/GDD-3911)
     if len(values) == 1 and all_files_are_cog:

@@ -165,10 +165,18 @@ test_reference = test_root / "reference"
         (
             (
                 test_data
-                / "land_surface_temperature/lst-daily-cycle_global_5km_10daily_v1/c_gls_LST10-DC_201909010000_GLOBE_GEO_V1.2.1.nc",
+                / "land_surface_temperature/lst-daily-cycle_global_5km_10daily_v1/nc/c_gls_LST10-DC_201909010000_GLOBE_GEO_V1.2.1.nc",
             ),
             test_reference
             / "land_surface_temperature/lst-daily-cycle_global_5km_10daily_v1/c_gls_LST10-DC_201909010000_GLOBE_GEO_V1.2.1_nc.json5",
+        ),
+        (
+            (
+                test_data
+                / "land_surface_temperature/lst-daily-cycle_global_5km_10daily_v1/cog/",
+            ),
+            test_reference
+            / "land_surface_temperature/lst-daily-cycle_global_5km_10daily_v1/c_gls_LST10-DC_201701110000_GLOBE_GEO_V1.2.1_cog.json5",
         ),
         # lst-daily-cycle_global_5km_10daily_v2
         (

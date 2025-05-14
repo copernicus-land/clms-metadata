@@ -1,0 +1,31 @@
+{
+    "name": "c_gls_LST10-DC_201701110000_GLOBE_GEO_V1.2.1",
+    "name_suffix": "cog",
+    "content_type": "application/tiff",
+    "content_date": {
+        "start": "2017-01-11T00:00:00.000000Z",
+        "end": "2017-01-20T23:00:00.000000Z"
+    },
+    "nominal_date": "2017-01-11T00:00:00.000000Z",
+    "product_type": "land_surface_temperature",
+    "component": "bio-geophysical",
+    "dataset_identifier": "lst-daily-cycle_global_5km_10daily_v1",
+    "attributes": {
+        "productVersion": "v1.2.1",
+        "datasetVersion": 1,
+        "fileFormat": "cog",
+        "processingCenter": "IPMA",
+        // platform=GOES, MSG, HIMAWARI
+        "missionShortName": "GOES,unspecified",
+        // sensor=IMAGER, SEVIRI, AHI
+        "instrumentShortName": "SEVIRI,AHI,unspecified",
+        "datasetShortName": "lst-dc",
+        "datasetAlias": "lst-daily-cycle_global_5km_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 5000,
+        "gridLabel": "5km",
+        "temporalRepeatRate": "10daily",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified"
+    }
+}

@@ -72,3 +72,7 @@ TOC: Final[re.Pattern] = re.compile(
 LCFM: Final[re.Pattern] = re.compile(
     r"LCFM_(?P<product_type>[\w-]+)_V\d{3}_(?P<year>\d{4})_(?P<cellID>[NS]\d{2}[EW]\d{3})"
 )
+
+LST10_DAILY_CYCLE: Final[re.Pattern] = re.compile(
+    r"(?P<prefix>c_gls_LST10-DC)(-(?P<band>\w+))?_(?P<date>\d{8})(?P<time>\d{4})_GLOBE_GEO_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+)
