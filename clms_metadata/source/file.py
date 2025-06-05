@@ -61,15 +61,7 @@ class FileSource(MetadataSource):
                             start=tags["time_start"],
                             end=tags["time_end"],
                         )
-                    else:
-                        logger.warning(
-                            "No time coverage in raster tags, using nominal date '{}' as content date",
-                            metadata.nominal_date,
-                        )
-                        metadata.content_date = ContentDate(
-                            start=metadata.nominal_date,
-                            end=metadata.nominal_date,
-                        )
+
                 if not metadata.geometry:
                     bounds = get_raster_bounds(data, tags)
                     geometry = shapely.geometry.box(*bounds)
