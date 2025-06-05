@@ -7,7 +7,7 @@ pythonPipeline {
   run_tests               = true
   extras_require          = 'dev'
   build_container_image   = true
-  docker_deploy           = false
   docker_registry_prod    = 'vito-docker.artifactory.vgt.vito.be'
-  dev_hosts               = ['nifi-dev-01.vgt.vito.be', 'nifi-dev-02.vgt.vito.be', 'nifi-dev-03.vgt.vito.be']
+  enable_uv               = true
+  enable_caching          = true
 }
