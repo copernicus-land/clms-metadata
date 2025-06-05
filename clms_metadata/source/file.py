@@ -62,6 +62,9 @@ class FileSource(MetadataSource):
                             end=tags["time_end"],
                         )
 
+                if "creation_time" in tags:
+                    metadata.origin_date = tags["creation_time"]
+
                 if not metadata.geometry:
                     bounds = get_raster_bounds(data, tags)
                     geometry = shapely.geometry.box(*bounds)
@@ -543,7 +546,7 @@ def get_processing_center(tags: dict) -> str | None:
     )
     if processing_center is not None:
         processing_center = re.sub(
-            r" (NV|GMBH)", "", processing_center, flags=re.IGNORECASE
+            r" (NV|GMBH|AG)", "", processing_center, flags=re.IGNORECASE
         )
         processing_center = re.sub(
             r"LEGOS, CLS, CNES", "CLS", processing_center, flags=re.IGNORECASE
