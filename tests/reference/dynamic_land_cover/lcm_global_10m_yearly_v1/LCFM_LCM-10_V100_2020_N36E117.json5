@@ -1,0 +1,31 @@
+{
+    "name": "LCFM_LCM-10_V100_2020_N36E117",
+    "name_suffix": "cog",
+    "content_type": "application/tiff",
+    "origin_date": "2025-06-10T15:38:01.000000Z",
+    "content_date": {
+        "start": "2020-01-01T00:00:00.000000Z",
+        "end": "2020-12-31T23:59:59.999999Z"
+    },
+    "nominal_date": "2020-01-01T00:00:00.000000Z",
+    "product_type": "dynamic_land_cover",
+    "component": "landcover_landuse",
+    "dataset_identifier": "lcm_global_10m_yearly_v1",
+    "attributes": {
+        "productVersion": "v100",
+        "datasetVersion": 1,
+        "fileFormat": "cog",
+        "processingCenter": "VITO",
+        "datasetShortName": "lcm",
+        "datasetAlias": "lcm_global_10m_yearly",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 10,
+        "gridLabel": "10m",
+        "temporalRepeatRate": "yearly",
+        "cellID": "N36E117",
+        "missionShortName": "SENTINEL1,SENTINEL2",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified",
+        "instrumentShortName": "SAR,MSI"
+    }
+}
