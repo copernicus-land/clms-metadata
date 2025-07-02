@@ -133,6 +133,9 @@ PRODUCT_NAME_TO_DATASET: Final[
         r"c_gls_LIE250_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "lie_europe_250m_daily_v{version_major}",
     re.compile(
+        r"c_gls_LIE500_\d{12}_GLOBAL_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    ): "lie_global_500m_daily_v{version_major}",
+    re.compile(
         r"c_gls_SCE500_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "sce_europe_500m_daily_v{version_major}",
     re.compile(
