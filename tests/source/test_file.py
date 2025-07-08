@@ -7,7 +7,7 @@ from clms_metadata.models.name_list import (
     Platform,
 )
 from clms_metadata.source.file import (
-    get_dataset_identifier_from_identifier_tag,
+    get_dataset_identifier_from_parent_identifier,
     get_processing_center,
     parse_platform,
     parse_sensor,
@@ -326,71 +326,71 @@ def test_get_platform(platformstr, expected, eo_asset_name_list):
     "identifier, expected",
     [
         (
-            "urn:cgls:continents:sce500_v1_0.005degree:SCE500_201703010000_CEURO_MODIS_V1.0.1",
+            "urn:cgls:continents:sce500_v1_0.005degree",
             "sce_europe_500m_daily_v1",
         ),
         (
-            "urn:cgls:global:sce_v1_0.01degree:SCE_201801090000_NHEMI_VIIRS_V1.0.1",
+            "urn:cgls:global:sce_v1_0.01degree",
             "sce_northernhemisphere_1km_daily_v1",
         ),
         (
-            "urn:cgls:global:swe_V1_5km:SWE5K_200601010000_NHEMI_SSMIS_V1.0.2",
+            "urn:cgls:global:swe_V1_5km",
             "swe_northernhemisphere_5km_daily_v1",
         ),
         (
-            "urn:cgls:global:wb_v1_100m:WB100_202010010000_GLOBE_S2_V1.0.1",
+            "urn:cgls:global:wb_v1_100m",
             "wb_global_100m_monthly_v1",
         ),
         (
-            "urn:cgls:global:wb_v2_300m:WB300_202010010000_GLOBE_S2_V2.0.1",
+            "urn:cgls:global:wb_v2_300m",
             "wb_global_300m_monthly_v2",
         ),
         (
-            "urn:cgls:global:lwq_v1_100:c_gls_LWQ100_201812210000_UTM_GLOBE_MSI_V1.3",
+            "urn:cgls:global:lwq_v1_100",
             "lwq-nrt_global_100m_10daily_v1",
         ),
         (
-            "urn:cgls:continents:lie_v1_250m:LIE250_201703150000_Baltic_MODIS_V1.0.1",
+            "urn:cgls:continents:lie_v1_250m",
             None,
         ),  # lie_vx_250m not unique to Baltic
         (
-            "urn:cgls:continents:lie_v2_250m:LIE250_202402190000_CEURO_VIIRS_V2.2.1",
+            "urn:cgls:continents:lie_v2_250m",
             None,
         ),  # lie_vx_250m not unique to CEURO
         (
-            "urn:cgls:global:lie_nh_v1_500m:LIE-NH_202104010000_NHEMI_SLSTR_v1.1.1",
+            "urn:cgls:global:lie_nh_v1_500m",
             "lie_northernhemisphere_500m_daily_v1",
         ),
         (
-            "urn:cgls:global:fapar300_v1_333m:FAPAR300-RT6_202302100000_GLOBE_OLCI_V1.1.2",
+            "urn:cgls:global:fapar300_v1_333m",
             "fapar_global_300m_10daily_v1",
         ),
         (
-            "urn:cgls:global:ndvi_v3_1km:NDVI_202004010000_GLOBE_PROBAV_V3.0.1",
+            "urn:cgls:global:ndvi_v3_1km",
             "ndvi_global_1km_10daily_v3",
         ),
-        ("urn:cgls:global:not_in_mapping:LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1", None),
+        ("urn:cgls:global:not_in_mapping", None),
         ("LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1", None),
         (
-            "urn:cgls:global:fcover_v2_1km:FCOVER-RT2_201909100000_GLOBE_PROBAV_V2.0.1",
+            "urn:cgls:global:fcover_v2_1km",
             "fcover_global_1km_10daily_v2",
         ),
         (
-            "urn:cgls:global:lst10-dc_v1_0.045degree:LST10-DC_201909010000_GLOBE_GEO_V1.2.1",
+            "urn:cgls:global:lst10-dc_v1_0.045degree",
             "lst-daily-cycle_global_5km_10daily_v1",
         ),
         (
-            "urn:cgls:global:lst_v2_0.045degree:LST_202501121100_GLOBE_GEO_V2.1.2",
+            "urn:cgls:global:lst_v2_0.045degree",
             "lst_global_5km_hourly_v2",
         ),
         (
-            "urn:cgls:global:ndvi300_v1_333m:NDVI300_201706010000_GLOBE_PROBAV_V1.0.1",
+            "urn:cgls:global:ndvi300_v1_333m",
             "ndvi_global_300m_10daily_v1",
         ),
     ],
 )
-def test_get_dataset_identifier_from_identifier_tag(identifier, expected):
-    assert get_dataset_identifier_from_identifier_tag(identifier) == expected
+def test_get_dataset_identifier_from_parent_identifier(identifier, expected):
+    assert get_dataset_identifier_from_parent_identifier(identifier) == expected
 
 
 @pytest.mark.parametrize(

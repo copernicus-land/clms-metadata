@@ -92,8 +92,8 @@ class FileSource(MetadataSource):
                 )
 
                 if not metadata.dataset_identifier and (
-                    dataset_identifier := get_dataset_identifier_from_identifier_tag(
-                        tags.get("identifier")
+                    dataset_identifier := get_dataset_identifier_from_parent_identifier(
+                        tags.get("parent_identifier")
                     )
                 ):
                     metadata.dataset_identifier = dataset_identifier
@@ -392,7 +392,7 @@ def parse_sensor(
     return sensors
 
 
-def get_dataset_identifier_from_identifier_tag(identifier: str | None) -> str | None:
+def get_dataset_identifier_from_parent_identifier(identifier: str | None) -> str | None:
     """
     Extract the dataset identifier based on the identifier tag embedded in the product metadata.
 
@@ -405,7 +405,7 @@ def get_dataset_identifier_from_identifier_tag(identifier: str | None) -> str | 
             raise (ValueError("No identifier found in raster metadata"))
 
         identifier_parts = identifier.split(":")
-        parent_identifier = identifier_parts[-2]
+        parent_identifier = identifier_parts[-1]
         [(match, template)] = [
             (match, dataset_id_template)
             for regex_id, dataset_id_template in lookup_tables.IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING.items()
