@@ -3,12 +3,12 @@ import re
 from pathlib import Path
 
 import rasterio
-import rasterio.warp
 import rioxarray
 import shapely.geometry
 from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
+from pyproj import CRS, Transformer
 
 from clms_metadata.constants import attributes, lookup_tables, regex
 from clms_metadata.models.metadata import (
@@ -21,7 +21,7 @@ from clms_metadata.models.name_list import EOAssetNameList, Mission, Platform
 from clms_metadata.source.base import MetadataSource
 from clms_metadata.util import unique_list
 
-EPSG_4326 = rasterio.crs.CRS.from_epsg(4326)
+EPSG_4326 = CRS.from_epsg(4326)
 
 
 class FileSource(MetadataSource):
@@ -66,8 +66,7 @@ class FileSource(MetadataSource):
                     metadata.origin_date = tags["creation_time"]
 
                 if not metadata.geometry:
-                    bounds = get_raster_bounds(data, tags)
-                    geometry = shapely.geometry.box(*bounds)
+                    geometry = get_raster_bounds(data, tags)
                     geometry = shapely.make_valid(geometry)
                     metadata.geometry = (
                         shapely.set_precision(
@@ -425,9 +424,7 @@ def get_dataset_identifier_from_parent_identifier(identifier: str | None) -> str
     return dataset_identifier
 
 
-def get_raster_bounds(
-    ds: rasterio.DatasetReader, tags: dict
-) -> tuple[float, float, float, float]:
+def get_raster_bounds(ds: rasterio.DatasetReader, tags: dict) -> shapely.Polygon:
     """
     Get the bounds of a raster dataset.
 
@@ -440,27 +437,28 @@ def get_raster_bounds(
 
     :param ds: raster dataset
     :param tags: raster metadata tags
-    :return: bounds as a tuple (left, bottom, right, top)
+    :return: geometry as a (reprojected) box (left, bottom, right, top)
     """
-    bounds: tuple[float, float, float, float]
     if ds.crs:
         # get bounds of the raster directly
-        bounds = rasterio.warp.transform_bounds(ds.crs, EPSG_4326, *ds.bounds)
-        logger.debug("Bounds from raster: {}", bounds)
-        if is_bounds_plausible(bounds):
-            return bounds
+        geo = shapely.geometry.box(*ds.bounds)
+        transformer = Transformer.from_crs(ds.crs, EPSG_4326, always_xy=True)
+        geo = shapely.transform(geo, transformer.transform, interleaved=False)
+        logger.debug("Bounds from raster: {}", geo)
+        if is_bounds_plausible(geo):
+            return geo
         else:
-            logger.warning("Bounds {} are not plausible", bounds)
+            logger.warning("Bounds {} are not plausible", geo)
     if ds.transform != rasterio.transform.Affine.identity():
         logger.debug(
             "Ignoring (missing) CRS in dataset. Using bounds as-is, assuming EPSG:4326."
         )
-        bounds = ds.bounds
-        logger.debug("Bounds from dataset: {}", bounds)
-        if is_bounds_plausible(bounds):
-            return bounds
+        geo = shapely.geometry.box(*ds.bounds)
+        logger.debug("Bounds from dataset: {}", geo)
+        if is_bounds_plausible(geo):
+            return geo
         else:
-            logger.warning("Bounds {} are not plausible", bounds)
+            logger.warning("Bounds {} are not plausible", geo)
     else:
         logger.debug("No CRS or transform in dataset {}", ds.name)
 
@@ -468,9 +466,9 @@ def get_raster_bounds(
         # get bounds of a subdataset
         logger.debug("Opening subdataset {}", ds.subdatasets[0])
         with rasterio.open(ds.subdatasets[0]) as sub_ds:
-            bounds = get_raster_bounds(sub_ds, tags)
-            if bounds:
-                return bounds
+            geo = get_raster_bounds(sub_ds, tags)
+            if geo:
+                return geo
 
     if all(
         t in tags
@@ -482,19 +480,19 @@ def get_raster_bounds(
         )
     ):
         # get bounds from raster tags
-        bounds = (
+        geo = shapely.geometry.box(
             tags["geospatial_lon_min"],
             tags["geospatial_lat_min"],
             tags["geospatial_lon_max"],
             tags["geospatial_lat_max"],
         )
-        logger.debug("Bounds from tags: {}", bounds)
-        return bounds
+        logger.debug("Bounds from tags: {}", geo)
+        return geo
 
     if ds.driver == "netCDF":
-        bounds = calculate_netcdf_bounds(ds)
-        logger.debug("Bounds calculated from netCDF lon/lat variables: {}", bounds)
-        return bounds
+        geo = shapely.geometry.box(*calculate_netcdf_bounds(ds))
+        logger.debug("Bounds calculated from netCDF lon/lat variables: {}", geo)
+        return geo
 
     raise Exception("Unable to extract bounds from raster")
 
@@ -524,8 +522,8 @@ def calculate_netcdf_bounds(
     return lon_min, lat_min, lon_max, lat_max
 
 
-def is_bounds_plausible(bounds: tuple[float, float, float, float]) -> bool:
-    left, bottom, right, top = bounds
+def is_bounds_plausible(geo: shapely.Polygon) -> bool:
+    left, bottom, right, top = geo.bounds
     if not -181 <= left <= right <= 181:
         return False
     if not -91 <= bottom <= top <= 91:
