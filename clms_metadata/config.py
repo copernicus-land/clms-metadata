@@ -92,7 +92,7 @@ class Settings(BaseSettings):
     )
     """Cache directory, defaults to user cache directory"""
 
-    eo_asset_name_list_url: AnyUrl = "https://raw.githubusercontent.com/copernicus-land/EOAssets/refs/heads/main/EOassetNameList.yaml"
+    eo_asset_name_list_url: AnyUrl = "https://raw.githubusercontent.com/copernicus-land/EOAssets/1990be98767b60386b31bb273b50548cf3ecff1d/EOassetNameList.yaml"
 
     model_config = SettingsConfigDict(
         env_nested_delimiter="__",
