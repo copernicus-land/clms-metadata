@@ -190,6 +190,12 @@ PRODUCT_NAME_TO_DATASET: Final[
     re.compile(
         r"LCFM_LSC-(?P<resolution>\d+)-MONTHLY_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
     ): "lsc_global_{resolution}m_monthly_v{version_major}",
+    re.compile(
+        r"clms_HF300_\d{12}_GLOBE_S3_V(?P<version>(?P<version_major>\d)\.\d)"
+    ): "hf_global_300m_daily_v{version_major}",
+    re.compile(
+        r"clms_ETA300_\d{12}_GLOBE_S3_V(?P<version>(?P<version_major>\d)\.\d)"
+    ): "eta_global_300m_10daily_v{version_major}",
 }
 
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
@@ -211,6 +217,8 @@ DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^(lc_global|lcm|tcd|lsc)_"): "dynamic_land_cover",
     re.compile(r"^toc_"): "top-of-canopy_reflectances",
     re.compile(r"^lsp_"): "vegetation_phenology_and_productivity_parameters",
+    re.compile(r"^hf_"): "surface_energy-water_flux",
+    re.compile(r"^eta_"): "surface_energy-water_flux",
 }
 COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
     "bio-geophysical": {
@@ -231,6 +239,7 @@ COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
         "surface_soil_moisture",
         "top-of-canopy_reflectances",
         "vegetation_phenology_and_productivity_parameters",
+        "surface_energy-water_flux",
     },
     "landcover_landuse": {"dynamic_land_cover", "crop_types", "cropping_patterns"},
 }
@@ -268,6 +277,8 @@ DATASET_SHORT_NAMES = {
     "lsc",
     "lcm",
     "tcd",
+    "eta",
+    "hf",
 }
 DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"^wl-rivers"): "rwl",

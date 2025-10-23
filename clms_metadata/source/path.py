@@ -215,7 +215,7 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
             e.g. NDVI statistics
     """
     # remove c_gls or cgl from the start of the string
-    trimmed_id = re.sub(r"^((c_gls)|cgl)_", "", product_id)
+    trimmed_id = re.sub(r"^((c_gls)|cgl|clms)_", "", product_id)
     date_part = trimmed_id.split("_")[1]
     if regex.DATETIME_DIGITS_MINUTES.fullmatch(date_part):
         date = datetime.datetime.strptime(date_part, "%Y%m%d%H%M")

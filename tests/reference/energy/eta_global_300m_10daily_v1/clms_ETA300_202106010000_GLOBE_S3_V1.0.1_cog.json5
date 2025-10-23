@@ -1,0 +1,32 @@
+{
+    "name": "clms_ETA300_202106010000_GLOBE_S3_V1.0.1",
+    "name_suffix": "cog",
+    "content_type": "application/tiff",
+    "content_date": {
+        "start": "2021-06-01T00:00:00.000000Z",
+        "end": "2021-06-10T23:59:59.999999Z"
+    },
+    "nominal_date": "2021-06-01T00:00:00.000000Z",
+    "product_type": "surface_energy-water_flux",
+    "component": "bio-geophysical",
+    "dataset_identifier": "eta_global_300m_10daily_v1",
+    "attributes": {
+        "productVersion": "v1.0.1",
+        "datasetVersion": 1,
+        "fileFormat": "cog",
+        "processingCenter": "VITO",
+        // NC_GLOBAL#platform=GOES, MSG, MTSAT
+        "missionShortName": "SENTINEL3",
+        // NC_GLOBAL#sensor=IMAGER, SEVIRI, IMAGER
+        "instrumentShortName": "unspecified",
+        "datasetShortName": "eta",
+        "datasetAlias": "eta_global_300m_10daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 300,
+        "gridLabel": "300m",
+        "temporalRepeatRate": "10daily",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified"
+    }
+}
+
