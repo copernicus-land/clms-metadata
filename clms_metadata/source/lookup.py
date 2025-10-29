@@ -328,13 +328,20 @@ def matches_temporal_grid(
         + datetime.timedelta(days=1),
         content_date.start,
     )
-    abs_delta = (
-        content_date.end.replace(hour=0, minute=0, second=0, microsecond=0)
-        + datetime.timedelta(days=1)
-        - content_date.start
-    )
+    cmp_date = content_date.end.replace(
+        hour=0, minute=0, second=0, microsecond=0
+    ) + datetime.timedelta(days=1)
+    lower_bound = content_date.start + temporal_grid - datetime.timedelta(days=2)
+    upper_bound = content_date.start + temporal_grid + datetime.timedelta(days=1)
     logger.debug("Content date delta: {}", delta)
-    return delta == temporal_grid or temporal_grid.days + 1 >= abs_delta.days
+    if delta == temporal_grid:
+        return True
+    elif temporal_grid + relativedelta(days=1) == delta:
+        return True
+    elif lower_bound <= cmp_date <= upper_bound:
+        return True
+    else:
+        return False
 
 
 def calculate_content_date(
