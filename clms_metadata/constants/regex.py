@@ -17,10 +17,14 @@ PLATFORM_SERIALS_AND: Final[re.Pattern] = re.compile(r"\(([A-Z]) AND ([A-Z])\)")
 RESOLUTION: Final[re.Pattern] = re.compile(r"_(([\d.]+)(m|km))_")
 VERSION_DOTTED: Final[re.Pattern] = re.compile(r"v(\d)\.\d(:?\.\d)?")
 VERSION_DIGITS_ONLY: Final[re.Pattern] = re.compile(r"v(\d)\d{2}")
+VERSION_Vxx_Rxx: Final[re.Pattern] = re.compile(r"v(\d\d)_r(\d\d)")
 
 DATASET_NDVI_STATISTICS: Final[re.Pattern] = re.compile(r"ndvi-(sts|lts)_")
 DATASET_SWI_STATIC: Final[re.Pattern] = re.compile(r"swi-static")
 DATASET_SWI_TIMESERIES: Final[re.Pattern] = re.compile(r"swi-timeseries")
+DATASET_CLMS_PREFIX: Final[re.Pattern] = re.compile(
+    r"clms_(?P<product_family>\w+)_(?P<descriptive_name>[\w\-]+)_(?P<spatial_extent>\w+)_(?P<projection>\w+)_(?P<resolution>\d+(:?m|km))_(?P<temporal_grid>\w+)_v(?P<version_major>\d)"
+)
 
 # Date
 DATETIME_DIGITS_MINUTES: Final[re.Pattern] = re.compile(r"\d{12}")
@@ -42,6 +46,10 @@ DATE_YEAR1_YEAR2_MMDD: Final[re.Pattern] = re.compile(r"\d{4}-\d{4}-\d{4}")
 """
 Regex for date format YEAR1-YEAR2-MMDD (4 digits, hyphen, 4 digits, hyphen, 4 digits)
 """
+
+DATE_VLCC_S: Final[re.Pattern] = re.compile(r"_S(\d{4})_")
+
+DATE_VLCC_C: Final[re.Pattern] = re.compile(r"_C(\d{4})-(\d{4})_")
 
 
 SWI_STATIC: Final[re.Pattern] = re.compile(

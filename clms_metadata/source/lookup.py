@@ -34,7 +34,10 @@ class LookupSource(MetadataSource):
     ) -> Metadata:
         super().get_info(product_files, metadata)
         if not metadata.dataset_identifier and (
-            dataset_identifier := self.extract_collection_id(file_name=metadata.name)
+            dataset_identifier := self.extract_collection_id(
+                file_name=metadata.name,
+                attrs={a.name: a.value for a in metadata.attributes},
+            )
         ):
             metadata.dataset_identifier = dataset_identifier
 
@@ -49,9 +52,7 @@ class LookupSource(MetadataSource):
         metadata.add_attribute(
             name=attributes.DATASET_ALIAS,
             value_type=StringAttribute,
-            factory=lambda: metadata.dataset_identifier[
-                : metadata.dataset_identifier.rfind("_")
-            ],
+            factory=lambda: get_dataset_alias(metadata.dataset_identifier),
         )
 
         if not metadata.content_date:
@@ -170,7 +171,9 @@ class LookupSource(MetadataSource):
         return metadata
 
     @staticmethod
-    def extract_collection_id(file_name: str) -> Optional[str]:
+    def extract_collection_id(
+        file_name: str, attrs: dict | None = None
+    ) -> Optional[str]:
         """
         Iterate through regexes for all known collections until a match with the filename is found.
         Extract the major version number from the filename and use it to complete the collection identifier.
@@ -187,7 +190,7 @@ class LookupSource(MetadataSource):
                 for _regex, _template in lookup_tables.PRODUCT_NAME_TO_DATASET.items()
                 if (_match := _regex.match(file_name))
             ]
-            return template.format_map(match.groupdict()).lower()
+            return template.format_map(match.groupdict() | attrs).lower()
         except ValueError as e:
             logger.error(
                 "Cannot extract dataset identifier from product identifier {}",
@@ -263,7 +266,10 @@ def get_spatial_extent(collection_identifier: str) -> str:
     :param collection_identifier: collection identifier
     :return: spatial extent as a string
     """
-    spatial_extent = collection_identifier.split("_")[1]
+    if m := regex.DATASET_CLMS_PREFIX.match(collection_identifier):
+        spatial_extent = m.group("spatial_extent")
+    else:
+        spatial_extent = collection_identifier.split("_")[1]
     if mapped_value := SPATIAL_EXTENT_MAPPING.get(spatial_extent):
         spatial_extent = mapped_value
     return spatial_extent
@@ -276,8 +282,10 @@ def get_temporal_grid(collection_identifier: str) -> str:
     :param collection_identifier: dataset name
     :return:
     """
-    temp = collection_identifier.split("_")[3]
-    return temp
+    if m := regex.DATASET_CLMS_PREFIX.match(collection_identifier):
+        return m.group("temporal_grid")
+    else:
+        return collection_identifier.split("_")[3]
 
 
 def get_relativedelta(temporal_grid: str) -> relativedelta:
@@ -400,3 +408,19 @@ def get_platform_acronym(platform_short_name: str) -> str:
         return f"S{m.group(2)}{m.group(3)}"
     else:
         return platform_short_name
+
+
+def get_dataset_alias(dataset_identifier: str) -> str:
+    """
+    Derive the dataset alias from the dataset identifier.
+
+    :param dataset_identifier: dataset identifier
+    :return: dataset alias
+    """
+    if m := regex.DATASET_CLMS_PREFIX.match(dataset_identifier):
+        alias = m.expand(
+            r"clms_\g<product_family>_\g<descriptive_name>_\g<resolution>_\g<temporal_grid>"
+        )
+        return alias
+
+    return dataset_identifier[: dataset_identifier.rfind("_")]

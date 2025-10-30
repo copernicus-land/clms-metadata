@@ -47,6 +47,13 @@ class MetadataBuilder:
         partial.path = self._get_link(paths, partial)
         partial = self.set_mission_info(partial)
 
+        if not partial.has_attribute(attributes.PROCESSING_CENTER):
+            partial.add_attribute(
+                name=attributes.PROCESSING_CENTER,
+                value_type=StringAttribute,
+                factory=lambda: self.settings.unspecified,
+            )
+
         m = Metadata.model_validate(partial.model_dump())
         return m
 
