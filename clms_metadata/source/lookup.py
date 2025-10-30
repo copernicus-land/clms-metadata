@@ -182,6 +182,7 @@ class LookupSource(MetadataSource):
         :return: The collection identifier of the collection to which the file belongs.
         :raises ValueError: No match was found
         """
+        attrs = attrs or {}
         try:
             match: re.Match
             template: str
