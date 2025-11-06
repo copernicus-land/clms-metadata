@@ -1,7 +1,7 @@
 import re
 from typing import Final
 
-from clms_metadata.constants import attributes, regex
+from clms_metadata.constants import regex
 from clms_metadata.constants.content_type import (
     CONTENT_TYPE_GEOJSON,
     CONTENT_TYPE_NETCDF,
@@ -196,12 +196,12 @@ PRODUCT_NAME_TO_DATASET: Final[
     re.compile(
         r"LCFM_LSC-(?P<resolution>\d+)-MONTHLY_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
     ): "lsc_global_{resolution}m_monthly_v{version_major}",
-    **{
-        re.compile(
-            rf"CLMS_HRLVLCC_{key}_.*_03035_V(?P<version_major>\d{{2}})_R\d{{2}}"
-        ): f"clms_vlcc_{value}_europe_laea_10m_yearly_v{{{attributes.DATASET_VERSION}}}"
-        for key, value in VLCC.items()
-    },
+    # **{
+    #     re.compile(
+    #         rf"CLMS_HRLVLCC_{key}_.*_03035_V(?P<version_major>\d{{2}})_R\d{{2}}"
+    #     ): f"clms_vlcc_{value}_europe_laea_10m_yearly_v{{{attributes.DATASET_VERSION}}}"
+    #     for key, value in VLCC.items()
+    # },
 }
 
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
@@ -224,17 +224,17 @@ DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^toc_"): "top-of-canopy_reflectances",
     re.compile(r"^lsp_"): "vegetation_phenology_and_productivity_parameters",
     re.compile(r"^clms_vlcc_croptypes_"): "crop_types",
-    re.compile(
-        r"^clms_vlcc_(bare-soil-after|"
-        r"bare-soil-after-confidencelayers|"
-        r"bare-soil-before|"
-        r"bare-soil-before-confidencelayers|"
-        r"cropping-seasons-yearly|"
-        r"fallow-land-presence|"
-        r"fallow-land-presence-confidencelayers"
-        r"main-crop-duration|"
-        r"main-crop-duration-confidencelayers)"
-    ): "cropping_patterns",
+    # re.compile(
+    #     r"^clms_vlcc_(bare-soil-after|"
+    #     r"bare-soil-after-confidencelayers|"
+    #     r"bare-soil-before|"
+    #     r"bare-soil-before-confidencelayers|"
+    #     r"cropping-seasons-yearly|"
+    #     r"fallow-land-presence|"
+    #     r"fallow-land-presence-confidencelayers"
+    #     r"main-crop-duration|"
+    #     r"main-crop-duration-confidencelayers)"
+    # ): "cropping_patterns",
 }
 COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
     "bio-geophysical": {
@@ -303,8 +303,8 @@ DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"^swi-timeseries"): "swi-ts",
     re.compile(r"^swi-static"): "swi-sl",
     re.compile(r"^toc_"): "tcr",
-    re.compile(r"^clms_vlcc_croptypes_"): "cty",
-    re.compile(r"^clms_vlcc_fallow-land-presence"): "cpflp",
+    # re.compile(r"^clms_vlcc_croptypes_"): "cty",
+    # re.compile(r"^clms_vlcc_fallow-land-presence"): "cpflp",
 }
 
 SPATIAL_EXTENT_MAPPING = {

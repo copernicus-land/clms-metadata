@@ -1,12 +1,15 @@
 import datetime
+import importlib.resources
 import re
 from pathlib import Path
 from typing import Optional
 
+import yaml
 from cloudpathlib import CloudPath
 from dateutil.relativedelta import relativedelta
 from loguru import logger
 
+from clms_metadata.config import Settings
 from clms_metadata.constants import attributes, lookup_tables, regex
 from clms_metadata.constants.content_type import FILE_FORMAT_GEOJSON
 from clms_metadata.constants.lookup_tables import (
@@ -14,14 +17,16 @@ from clms_metadata.constants.lookup_tables import (
     DATASET_SHORT_NAMES,
     SPATIAL_EXTENT_MAPPING,
 )
+from clms_metadata.models.dataset_mapping import DatasetMapping
 from clms_metadata.models.metadata import (
     ContentDate,
     IntegerAttribute,
     Metadata,
     StringAttribute,
 )
-from clms_metadata.models.name_list import autocomplete
+from clms_metadata.models.name_list import EOAssetNameList, autocomplete
 from clms_metadata.source import MetadataSource
+from clms_metadata.storage import Storage
 
 
 class LookupSource(MetadataSource):
@@ -29,17 +34,40 @@ class LookupSource(MetadataSource):
     Extract metadata information using lookup tables.
     """
 
+    def __init__(
+        self, settings: Settings, storage: Storage, eo_asset_name_list: EOAssetNameList
+    ):
+        super().__init__(settings, storage, eo_asset_name_list)
+        self.mappings = load_dataset_mappings()
+
+    def match_mappings(self, metadata: Metadata):
+        """
+        Match the current metadata against the dataset mappings.
+
+        :param metadata: partial metadata instance
+        :return: matched attributes if a match is found, None otherwise
+        """
+        for name, mapping in self.mappings.items():
+            logger.debug("Trying to match dataset mapping: {}", name)
+            if match := mapping.match(metadata):
+                return match
+        return None
+
     def get_info(
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
         super().get_info(product_files, metadata)
-        if not metadata.dataset_identifier and (
-            dataset_identifier := self.extract_collection_id(
+
+        match = self.match_mappings(metadata) or dict()
+
+        if not metadata.dataset_identifier:
+            if dataset_identifier := match.get("datasetIdentifier"):
+                metadata.dataset_identifier = dataset_identifier
+            elif dataset_identifier := self.extract_collection_id(
                 file_name=metadata.name,
                 attrs={a.name: a.value for a in metadata.attributes},
-            )
-        ):
-            metadata.dataset_identifier = dataset_identifier
+            ):
+                metadata.dataset_identifier = dataset_identifier
 
         metadata.add_attribute(
             name=attributes.DATASET_SHORT_NAME,
@@ -47,12 +75,14 @@ class LookupSource(MetadataSource):
             factory=lambda: part
             if (part := metadata.dataset_identifier.split("_")[0])
             in DATASET_SHORT_NAMES
-            else self.lookup_short_name(metadata.dataset_identifier),
+            else match.get(attributes.DATASET_SHORT_NAME)
+            or self.lookup_short_name(metadata.dataset_identifier),
         )  # TODO: check if correct
         metadata.add_attribute(
             name=attributes.DATASET_ALIAS,
             value_type=StringAttribute,
-            factory=lambda: get_dataset_alias(metadata.dataset_identifier),
+            factory=lambda: match.get(attributes.DATASET_ALIAS)
+            or get_dataset_alias(metadata.dataset_identifier),
         )
 
         if not metadata.content_date:
@@ -66,14 +96,17 @@ class LookupSource(MetadataSource):
             )
 
         if not metadata.product_type:
-            metadata.product_type = self.determine_product_type(
-                metadata.dataset_identifier
-            )
+            metadata.product_type = match.get(
+                "productType"
+            ) or self.determine_product_type(metadata.dataset_identifier)
         if not metadata.component:
-            for component, product_types in COMPONENT_TO_PRODUCT_TYPES.items():
-                if metadata.product_type in product_types:
-                    metadata.component = component
-                    break
+            if component := match.get("component"):
+                metadata.component = component
+            else:
+                for component, product_types in COMPONENT_TO_PRODUCT_TYPES.items():
+                    if metadata.product_type in product_types:
+                        metadata.component = component
+                        break
 
         metadata.add_attribute(
             name=attributes.AREA_OF_INTEREST,
@@ -242,6 +275,21 @@ class LookupSource(MetadataSource):
                 "Cannot get short datasetShortName for dataset {}", dataset_identifier
             )
             logger.error("Exception: {}", repr(e))
+
+
+def load_dataset_mappings() -> dict[str, DatasetMapping]:
+    """
+    Load the dataset mapping from a YAML file.
+
+    """
+    mappings = {}
+    for f in importlib.resources.files("clms_metadata.resources.mappings").iterdir():
+        logger.debug("Loading dataset mapping from {}", f)
+        with f.open() as file:
+            data = yaml.safe_load(file)
+            mappings[f.name] = DatasetMapping.model_validate(data)
+
+    return mappings
 
 
 def get_resolution(collection_identifier: str) -> int | None:

@@ -1,0 +1,27 @@
+templates:
+  datasetIdentifier: "clms_vlcc_{name}_{spatialExtent}_{projection}_{gridLabel}_{temporalRepeatRate}_v{datasetVersion}"
+  datasetAlias: "clms_vlcc_{name}"
+fileRegex:
+  - regex: "CLMS_HRLVLCC_{fileKey}_.*_R(?P<gridLabel>\\d+(m|km))_(E|W)\\d{{2}}(N|S)\\d{{2}}_03035_V\\d{{2}}_R\\d{{2}}"
+    spatialExtent: "europe"
+    projection: "laea"
+  - regex: "CLMS_HRLVLCC_{fileKey}_.*_R(?P<gridLabel>\\d+(m|km))_[AZ]+_\\d{{5}}_V\\d{{2}}_R\\d{{2}}"
+    spatialExtent: "dom"
+    projection: "utm"
+
+# global properties for VLCC
+temporalRepeatRate: "yearly"
+
+datasetMapping:
+  - component: landcover_landuse
+    productTypes:
+      - productType: crop_types
+        datasets:
+          - name: crop-types
+            datasetShortName: cty
+            fileKey: CTY
+      - productType: cropping_patterns
+        datasets:
+          - name: fallow-land-presence
+            datasetShortName: cpflp
+            fileKey: CPFLP
