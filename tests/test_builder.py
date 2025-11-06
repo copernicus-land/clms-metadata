@@ -406,16 +406,16 @@ test_reference = test_root / "reference"
         # eta_global_300m_10daily_v1
         (
             (
-                test_data / "energy/eta_global_300m_10daily_v1/",
+                test_data / "evapotranspiration/eta_global_300m_10daily_v1/",
             ),
-            test_reference / "energy/eta_global_300m_10daily_v1/clms_ETA300_202106010000_GLOBE_S3_V1.0.1_cog.json5"
+            test_reference / "evapotranspiration/eta_global_300m_10daily_v1/clms_ETA300_202106010000_GLOBE_S3_V1.0.1_cog.json5"
         ),
         # hf_global_300m_daily_v1
         (
             (
-                test_data / "energy/hf_global_300m_daily_v1/",
+                test_data / "evapotranspiration/hf_global_300m_daily_v1/",
             ),
-            test_reference / "energy/hf_global_300m_daily_v1/clms_HF300_202106010000_GLOBE_S3_V1.0.1_cog.json5"
+            test_reference / "evapotranspiration/hf_global_300m_daily_v1/clms_HF300_202106010000_GLOBE_S3_V1.0.1_cog.json5"
         )
         #############
         ## HRLVLCC ##
