@@ -60,7 +60,7 @@ class DatasetMapping(BaseModel):
                             for k, v in (
                                 dict(model) | (model.model_extra or {})
                             ).items()
-                            if isinstance(v, (str, int, float))
+                            if isinstance(v, (str, int, float)) or v is None
                         }
                         templates = (
                             self.templates

@@ -10,7 +10,8 @@ from dateutil.relativedelta import relativedelta
 from loguru import logger
 
 from clms_metadata.config import Settings
-from clms_metadata.constants import attributes, lookup_tables, regex
+from clms_metadata.constants import lookup_tables, regex
+from clms_metadata.constants.attributes import Attributes
 from clms_metadata.constants.content_type import FILE_FORMAT_GEOJSON
 from clms_metadata.constants.lookup_tables import (
     COMPONENT_TO_PRODUCT_TYPES,
@@ -70,19 +71,17 @@ class LookupSource(MetadataSource):
                 metadata.dataset_identifier = dataset_identifier
 
         metadata.add_attribute(
-            name=attributes.DATASET_SHORT_NAME,
+            name=Attributes.DATASET_SHORT_NAME,
             value_type=StringAttribute,
             factory=lambda: part
             if (part := metadata.dataset_identifier.split("_")[0])
             in DATASET_SHORT_NAMES
-            else match.get(attributes.DATASET_SHORT_NAME)
-            or self.lookup_short_name(metadata.dataset_identifier),
+            else self.lookup_short_name(metadata.dataset_identifier),
         )  # TODO: check if correct
         metadata.add_attribute(
-            name=attributes.DATASET_ALIAS,
+            name=Attributes.DATASET_ALIAS,
             value_type=StringAttribute,
-            factory=lambda: match.get(attributes.DATASET_ALIAS)
-            or get_dataset_alias(metadata.dataset_identifier),
+            factory=lambda: get_dataset_alias(metadata.dataset_identifier),
         )
 
         if not metadata.content_date:
@@ -109,31 +108,31 @@ class LookupSource(MetadataSource):
                         break
 
         metadata.add_attribute(
-            name=attributes.AREA_OF_INTEREST,
+            name=Attributes.AREA_OF_INTEREST,
             value_type=StringAttribute,
             factory=lambda: get_spatial_extent(metadata.dataset_identifier),
         )
 
         metadata.add_attribute(
-            attributes.METRIC_GRID_SPACING,
+            Attributes.METRIC_GRID_SPACING,
             IntegerAttribute,
             lambda: get_resolution(metadata.dataset_identifier),
         )
         metadata.add_attribute(
-            name=attributes.GRID_LABEL,
+            name=Attributes.GRID_LABEL,
             value_type=StringAttribute,
-            factory=lambda: match.group(1)
-            if (match := regex.RESOLUTION.search(metadata.dataset_identifier))
+            factory=lambda: _m.group(1)
+            if (_m := regex.RESOLUTION.search(metadata.dataset_identifier))
             else None,
         )
         metadata.add_attribute(
-            name=attributes.TEMPORAL_REPEAT_RATE,
+            name=Attributes.TEMPORAL_REPEAT_RATE,
             value_type=StringAttribute,
             factory=lambda: get_temporal_grid(metadata.dataset_identifier),
         )
 
         if metadata.get_attribute(
-            attributes.FILE_FORMAT
+            Attributes.FILE_FORMAT
         ).value != FILE_FORMAT_GEOJSON and not any(
             r.match(metadata.dataset_identifier)
             for r in (
@@ -143,7 +142,7 @@ class LookupSource(MetadataSource):
             )
         ):
             temporal_grid_delta = get_relativedelta(
-                metadata.get_attribute(attributes.TEMPORAL_REPEAT_RATE).value
+                metadata.get_attribute(Attributes.TEMPORAL_REPEAT_RATE).value
             )
             if not matches_temporal_grid(metadata.content_date, temporal_grid_delta):
                 logger.info(
@@ -173,9 +172,9 @@ class LookupSource(MetadataSource):
 
         if m := regex.SWI_STATIC.match(metadata.name):
             metadata.add_attribute(
-                name=attributes.SWI_SUB_PARAMETER,
+                name=Attributes.SWI_SUB_PARAMETER,
                 value_type=StringAttribute,
-                factory=lambda: m.group(attributes.SWI_SUB_PARAMETER),
+                factory=lambda: m.group(Attributes.SWI_SUB_PARAMETER),
             )
 
         if m := (
@@ -184,21 +183,21 @@ class LookupSource(MetadataSource):
             or regex.LCFM.match(metadata.name)
         ):
             metadata.add_attribute(
-                name=attributes.CELL_ID,
+                name=Attributes.CELL_ID,
                 value_type=StringAttribute,
-                factory=lambda: m.group(attributes.CELL_ID),
+                factory=lambda: m.group(Attributes.CELL_ID),
             )
 
         if m := regex.LSP.match(metadata.name):
             metadata.add_attribute(
-                name=attributes.VPP_SEASON,
+                name=Attributes.VPP_SEASON,
                 value_type=StringAttribute,
-                factory=lambda: m.group(attributes.VPP_SEASON),
+                factory=lambda: m.group(Attributes.VPP_SEASON),
             )
             metadata.add_attribute(
-                name=attributes.VPP_SUB_PARAMETER,
+                name=Attributes.VPP_SUB_PARAMETER,
                 value_type=StringAttribute,
-                factory=lambda: m.group(attributes.VPP_SUB_PARAMETER),
+                factory=lambda: m.group(Attributes.VPP_SUB_PARAMETER),
             )
 
         return metadata

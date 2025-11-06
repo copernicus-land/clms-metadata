@@ -11,6 +11,7 @@ fileRegex:
 
 # global properties for VLCC
 temporalRepeatRate: "yearly"
+name_suffix:
 
 datasetMapping:
   - component: landcover_landuse
@@ -25,3 +26,4 @@ datasetMapping:
           - name: fallow-land-presence
             datasetShortName: cpflp
             fileKey: CPFLP
+            SDIResourceIdentifier: "copernicus_r_3035_10_m_cpflp_p_2017-now_v01_r00"

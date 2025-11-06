@@ -10,7 +10,8 @@ from loguru import logger
 from overrides import overrides
 from pyproj import CRS, Transformer
 
-from clms_metadata.constants import attributes, lookup_tables, regex
+from clms_metadata.constants import lookup_tables, regex
+from clms_metadata.constants.attributes import Attributes
 from clms_metadata.models.metadata import (
     ContentDate,
     IntegerAttribute,
@@ -77,7 +78,7 @@ class FileSource(MetadataSource):
                         or geometry
                     )
                 metadata.add_attribute(
-                    name=attributes.PROCESSING_CENTER,
+                    name=Attributes.PROCESSING_CENTER,
                     value_type=StringAttribute,
                     factory=lambda: get_processing_center(tags),
                 )
@@ -98,7 +99,7 @@ class FileSource(MetadataSource):
                     metadata.dataset_identifier = dataset_identifier
 
                 if (
-                    not metadata.has_attribute(attributes.CONSOLIDATION_PERIOD)
+                    not metadata.has_attribute(Attributes.CONSOLIDATION_PERIOD)
                     and (processing_mode := tags.get("processing_mode"))
                     and processing_mode.lower() == "consolidated"
                     and not regex.CONSOLIDATION.search(tags.get("identifier"))
@@ -107,7 +108,7 @@ class FileSource(MetadataSource):
                         "Consolidated product without explicit RT in product identifier, adding consolidationPeriod=6"
                     )
                     metadata.add_attribute(
-                        name=attributes.CONSOLIDATION_PERIOD,
+                        name=Attributes.CONSOLIDATION_PERIOD,
                         value_type=IntegerAttribute,
                         factory=lambda: 6,
                     )
@@ -130,22 +131,22 @@ class FileSource(MetadataSource):
             )
 
         metadata.add_attribute(
-            name=attributes.CELL_ID,
+            name=Attributes.CELL_ID,
             value_type=StringAttribute,
             factory=lambda: properties["resource"],
         )
 
         if "lake" in properties:
-            dataset_id = f"wl-lakes_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION).value}"
+            dataset_id = f"wl-lakes_global_vector_daily_v{metadata.get_attribute(Attributes.DATASET_VERSION).value}"
             metadata.add_attribute(
-                name=attributes.WATER_LEVEL_LAKE_NAME,
+                name=Attributes.WATER_LEVEL_LAKE_NAME,
                 value_type=StringAttribute,
                 factory=lambda: properties.get("lake"),
             )
         elif "river" in properties:
-            dataset_id = f"wl-rivers_global_vector_daily_v{metadata.get_attribute(attributes.DATASET_VERSION).value}"
+            dataset_id = f"wl-rivers_global_vector_daily_v{metadata.get_attribute(Attributes.DATASET_VERSION).value}"
             metadata.add_attribute(
-                name=attributes.WATER_LEVEL_RIVER_NAME,
+                name=Attributes.WATER_LEVEL_RIVER_NAME,
                 value_type=StringAttribute,
                 factory=lambda: properties.get("river"),
             )
@@ -157,7 +158,7 @@ class FileSource(MetadataSource):
             metadata.dataset_identifier = dataset_id
 
         metadata.add_attribute(
-            name=attributes.WATER_LEVEL_BASIN_NAME,
+            name=Attributes.WATER_LEVEL_BASIN_NAME,
             value_type=StringAttribute,
             factory=lambda: properties.get("basin"),
         )
@@ -174,7 +175,7 @@ class FileSource(MetadataSource):
         metadata.origin_date = properties["updated"]
 
         metadata.add_attribute(
-            name=attributes.PROCESSING_CENTER,
+            name=Attributes.PROCESSING_CENTER,
             value_type=StringAttribute,
             factory=lambda: get_processing_center(properties),
         )

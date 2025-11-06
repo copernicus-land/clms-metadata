@@ -17,7 +17,7 @@ from pydantic import (
     field_validator,
 )
 
-from clms_metadata.constants import attributes
+from clms_metadata.constants.attributes import Attributes
 from clms_metadata.models.name_list import Mission
 from clms_metadata.util import format_zulu, partial_model
 
@@ -99,28 +99,28 @@ class DateTimeOffsetAttribute(Attribute):
 
 
 MANDATORY_ATTRIBUTES = {
-    attributes.PROCESSING_CENTER: StringAttribute,
-    attributes.DATASET_SHORT_NAME: StringAttribute,
-    attributes.DATASET_ALIAS: StringAttribute,
-    attributes.DATASET_VERSION: IntegerAttribute,
-    attributes.FILE_FORMAT: StringAttribute,
-    attributes.TEMPORAL_REPEAT_RATE: StringAttribute,
-    attributes.PRODUCT_VERSION: StringAttribute,
-    attributes.AREA_OF_INTEREST: StringAttribute,
-    attributes.MISSION_SHORT_NAME: StringAttribute,
-    attributes.PLATFORM_SHORT_NAME: StringAttribute,
-    attributes.PLATFORM_ACRONYM: StringAttribute,
-    attributes.INSTRUMENT_SHORT_NAME: StringAttribute,
+    Attributes.PROCESSING_CENTER: StringAttribute,
+    Attributes.DATASET_SHORT_NAME: StringAttribute,
+    Attributes.DATASET_ALIAS: StringAttribute,
+    Attributes.DATASET_VERSION: IntegerAttribute,
+    Attributes.FILE_FORMAT: StringAttribute,
+    Attributes.TEMPORAL_REPEAT_RATE: StringAttribute,
+    Attributes.PRODUCT_VERSION: StringAttribute,
+    Attributes.AREA_OF_INTEREST: StringAttribute,
+    Attributes.MISSION_SHORT_NAME: StringAttribute,
+    Attributes.PLATFORM_SHORT_NAME: StringAttribute,
+    Attributes.PLATFORM_ACRONYM: StringAttribute,
+    Attributes.INSTRUMENT_SHORT_NAME: StringAttribute,
 }
 OPTIONAL_ATTRIBUTES = {
     # only checked to have the following type when they are present
-    attributes.CONSOLIDATION_PERIOD: IntegerAttribute,
-    attributes.VPP_SEASON: StringAttribute,
-    attributes.METRIC_GRID_SPACING: IntegerAttribute,  # not applicable for GeoJSON datasets
-    attributes.GRID_LABEL: StringAttribute,  # not applicable for GeoJSON datasets
-    attributes.WATER_LEVEL_RIVER_NAME: StringAttribute,
-    attributes.WATER_LEVEL_LAKE_NAME: StringAttribute,
-    attributes.WATER_LEVEL_BASIN_NAME: StringAttribute,
+    Attributes.CONSOLIDATION_PERIOD: IntegerAttribute,
+    Attributes.VPP_SEASON: StringAttribute,
+    Attributes.METRIC_GRID_SPACING: IntegerAttribute,  # not applicable for GeoJSON datasets
+    Attributes.GRID_LABEL: StringAttribute,  # not applicable for GeoJSON datasets
+    Attributes.WATER_LEVEL_RIVER_NAME: StringAttribute,
+    Attributes.WATER_LEVEL_LAKE_NAME: StringAttribute,
+    Attributes.WATER_LEVEL_BASIN_NAME: StringAttribute,
 }
 
 
@@ -146,7 +146,7 @@ def validate_attributes(attrs: list[Attribute]) -> list[Attribute]:
     return attrs
 
 
-Attributes = Annotated[
+AttributesType = Annotated[
     list[
         Annotated[
             StringAttribute | IntegerAttribute | DateTimeOffsetAttribute,
@@ -163,7 +163,7 @@ class Metadata(BaseModel):
     name: str
     """Data file name"""
 
-    name_suffix: str
+    name_suffix: str | None
     """Product name suffix"""
 
     content_type: str
@@ -193,7 +193,7 @@ class Metadata(BaseModel):
     dataset_identifier: str
     """Dataset identifier"""
 
-    attributes: Attributes
+    attributes: AttributesType
 
     @field_validator("geometry", mode="before")
     @classmethod
@@ -255,6 +255,6 @@ class Metadata(BaseModel):
 @partial_model
 class PartialMetadata(Metadata):
     model_config = ConfigDict(validate_assignment=True)
-    attributes: Attributes = Field(default_factory=list)  # add default
+    attributes: AttributesType = Field(default_factory=list)  # add default
     missions: list[Mission] = Field(default_factory=list, exclude=True)
     instruments: list[str] = Field(default_factory=list, exclude=True)

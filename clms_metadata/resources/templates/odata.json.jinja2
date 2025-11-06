@@ -1,6 +1,6 @@
 {
     "@odata.context": "$metadata#Products(Attributes())",
-    "Name": "{{ metadata.name }}_{{ metadata.name_suffix }}",
+    "Name": "{{ metadata.name }}{% if metadata.name_suffix %}_{{ metadata.name_suffix }}{% endif %}",
     "EvictionDate": "9999-12-31T23:59:59.999999Z",
     "OriginDate": "{{ metadata.origin_date }}",
     "Online": true,

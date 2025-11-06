@@ -1,30 +1,36 @@
+from enum import Enum
 from typing import Final
 
 """
 Attribute names
 """
-PROCESSING_CENTER: Final[str] = "processingCenter"
-AREA_OF_INTEREST: Final[str] = "areaOfInterest"
-DATASET_SHORT_NAME: Final[str] = "datasetShortName"
-DATASET_ALIAS: Final[str] = "datasetAlias"
-DATASET_VERSION: Final[str] = "datasetVersion"
-PRODUCT_VERSION: Final[str] = "productVersion"
-FILE_FORMAT: Final[str] = "fileFormat"
-TEMPORAL_REPEAT_RATE: Final[str] = "temporalRepeatRate"
-METRIC_GRID_SPACING: Final[str] = "metricGridSpacing"
-GRID_LABEL: Final[str] = "gridLabel"
-CONSOLIDATION_PERIOD: Final[str] = "consolidationPeriod"
-PLATFORM_SHORT_NAME: Final[str] = "platformShortName"
-PLATFORM_ACRONYM: Final[str] = "platformAcronym"
-INSTRUMENT_SHORT_NAME: Final[str] = "instrumentShortName"
-WATER_LEVEL_RIVER_NAME: Final[str] = "wlRiverName"
-WATER_LEVEL_LAKE_NAME: Final[str] = "wlLakeName"
-WATER_LEVEL_BASIN_NAME: Final[str] = "wlBasinName"
-MISSION_SHORT_NAME: Final[str] = "missionShortName"
-VPP_SEASON: Final[str] = "vppSeason"
-VPP_SUB_PARAMETER: Final[str] = "vppSubParameter"
-SWI_SUB_PARAMETER: Final[str] = "swiSubParameter"
-CELL_ID: Final[str] = "cellID"
+
+
+class Attributes(str, Enum):
+    PROCESSING_CENTER = "processingCenter"
+    AREA_OF_INTEREST = "areaOfInterest"
+    DATASET_SHORT_NAME = "datasetShortName"
+    DATASET_ALIAS = "datasetAlias"
+    DATASET_VERSION = "datasetVersion"
+    PRODUCT_VERSION = "productVersion"
+    FILE_FORMAT = "fileFormat"
+    TEMPORAL_REPEAT_RATE = "temporalRepeatRate"
+    METRIC_GRID_SPACING = "metricGridSpacing"
+    GRID_LABEL = "gridLabel"
+    CONSOLIDATION_PERIOD = "consolidationPeriod"
+    PLATFORM_SHORT_NAME = "platformShortName"
+    PLATFORM_ACRONYM = "platformAcronym"
+    INSTRUMENT_SHORT_NAME = "instrumentShortName"
+    WATER_LEVEL_RIVER_NAME = "wlRiverName"
+    WATER_LEVEL_LAKE_NAME = "wlLakeName"
+    WATER_LEVEL_BASIN_NAME = "wlBasinName"
+    MISSION_SHORT_NAME = "missionShortName"
+    VPP_SEASON = "vppSeason"
+    VPP_SUB_PARAMETER = "vppSubParameter"
+    SWI_SUB_PARAMETER = "swiSubParameter"
+    CELL_ID = "cellID"
+    SDI_RESOURCE_IDENTIFIER = "SDIResourceIdentifier"
+
 
 """
 Attribute values

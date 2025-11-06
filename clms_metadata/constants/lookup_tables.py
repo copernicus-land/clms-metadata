@@ -199,7 +199,7 @@ PRODUCT_NAME_TO_DATASET: Final[
     # **{
     #     re.compile(
     #         rf"CLMS_HRLVLCC_{key}_.*_03035_V(?P<version_major>\d{{2}})_R\d{{2}}"
-    #     ): f"clms_vlcc_{value}_europe_laea_10m_yearly_v{{{attributes.DATASET_VERSION}}}"
+    #     ): f"clms_vlcc_{value}_europe_laea_10m_yearly_v{{{Attributes.DATASET_VERSION}}}"
     #     for key, value in VLCC.items()
     # },
 }

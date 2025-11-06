@@ -8,7 +8,8 @@ from cloudpathlib import CloudPath, S3Path
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.constants import attributes, regex
+from clms_metadata.constants import regex
+from clms_metadata.constants.attributes import Attributes
 from clms_metadata.constants.content_type import (
     CONTENT_TYPE_GEOJSON,
     CONTENT_TYPE_NETCDF,
@@ -59,12 +60,12 @@ class PathSource(MetadataSource):
             )
 
         metadata.add_attribute(  # full version
-            name=attributes.PRODUCT_VERSION,
+            name=Attributes.PRODUCT_VERSION,
             value_type=StringAttribute,
             factory=lambda: version,
         )
         metadata.add_attribute(  # major version as int
-            name=attributes.DATASET_VERSION,
+            name=Attributes.DATASET_VERSION,
             value_type=IntegerAttribute,
             factory=lambda: major_version,
         )
@@ -77,7 +78,7 @@ class PathSource(MetadataSource):
         if not metadata.name_suffix:
             metadata.name_suffix = get_suffix(metadata.content_type)
         metadata.add_attribute(
-            name=attributes.FILE_FORMAT,
+            name=Attributes.FILE_FORMAT,
             value_type=StringAttribute,
             factory=lambda: metadata.name_suffix,
         )
@@ -85,7 +86,7 @@ class PathSource(MetadataSource):
             metadata.origin_date = max(get_mtime(p) for p in product_files)
 
         metadata.add_attribute(
-            name=attributes.CONSOLIDATION_PERIOD,
+            name=Attributes.CONSOLIDATION_PERIOD,
             value_type=IntegerAttribute,
             factory=lambda: get_consolidation_period(product_id),
         )
