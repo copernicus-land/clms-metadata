@@ -61,6 +61,18 @@ class LookupSource(MetadataSource):
 
         match = self.match_mappings(metadata) or dict()
 
+        for attr_name, attr_value in {
+            k: v for k, v in match.items() if k in [a.value for a in Attributes]
+        }.items():
+            metadata.add_attribute(
+                name=attr_name,
+                value_type=StringAttribute,
+                factory=lambda: attr_value,
+            )
+
+        if "name_suffix" in match:
+            metadata.name_suffix = match["name_suffix"]
+
         if not metadata.dataset_identifier:
             if dataset_identifier := match.get("datasetIdentifier"):
                 metadata.dataset_identifier = dataset_identifier
