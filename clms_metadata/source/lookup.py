@@ -64,9 +64,14 @@ class LookupSource(MetadataSource):
         for attr_name, attr_value in {
             k: v for k, v in match.items() if k in [a.value for a in Attributes]
         }.items():
+            if re.match("^\d+$", attr_value):
+                attr_value = int(attr_value)
+                value_type = IntegerAttribute
+            else:
+                value_type = StringAttribute
             metadata.add_attribute(
                 name=attr_name,
-                value_type=StringAttribute,
+                value_type=value_type,
                 factory=lambda: attr_value,
             )
 
