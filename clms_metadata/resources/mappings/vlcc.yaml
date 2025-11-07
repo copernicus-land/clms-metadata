@@ -5,7 +5,7 @@ fileRegex:
   - regex: "CLMS_HRLVLCC_{fileKey}_.*_R(?P<gridLabel>\\d+(m|km))_(E|W)\\d{{2}}(N|S)\\d{{2}}_03035_V\\d{{2}}_R\\d{{2}}"
     spatialExtent: "europe"
     projection: "laea"
-  - regex: "CLMS_HRLVLCC_{fileKey}_.*_R(?P<gridLabel>\\d+(m|km))_[AZ]+_\\d{{5}}_V\\d{{2}}_R\\d{{2}}"
+  - regex: "CLMS_HRLVLCC_{fileKey}_.*_R(?P<gridLabel>\\d+(m|km))_[A-Z]+_\\d{{5}}_V\\d{{2}}_R\\d{{2}}"
     spatialExtent: "dom"
     projection: "utm"
 
