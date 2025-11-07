@@ -2,7 +2,6 @@
     "name": "CLMS_HRLVLCC_CPFLP_S2020_R10m_MQ_32620_V01_R00",
     "name_suffix": null,
     "content_type": "application/tiff",
-    "origin_date": "2025-11-07T08:52:21.708059Z",
     "content_date": {
         "start": "2020-01-01T00:00:00.000000Z",
         "end": "2020-12-31T23:59:59.999999Z"
