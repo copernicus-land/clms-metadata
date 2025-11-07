@@ -98,7 +98,7 @@ class LookupSource(MetadataSource):
         metadata.add_attribute(
             name=Attributes.DATASET_ALIAS,
             value_type=StringAttribute,
-            factory=lambda: get_dataset_alias(metadata.dataset_identifier),
+            factory=lambda: metadata.dataset_identifier.rsplit("_", 1)[0],
         )
 
         if not metadata.content_date:
@@ -473,19 +473,3 @@ def get_platform_acronym(platform_short_name: str) -> str:
         return f"S{m.group(2)}{m.group(3)}"
     else:
         return platform_short_name
-
-
-def get_dataset_alias(dataset_identifier: str) -> str:
-    """
-    Derive the dataset alias from the dataset identifier.
-
-    :param dataset_identifier: dataset identifier
-    :return: dataset alias
-    """
-    if m := regex.DATASET_CLMS_PREFIX.match(dataset_identifier):
-        alias = m.expand(
-            r"clms_\g<product_family>_\g<descriptive_name>_\g<resolution>_\g<temporal_grid>"
-        )
-        return alias
-
-    return dataset_identifier[: dataset_identifier.rfind("_")]
