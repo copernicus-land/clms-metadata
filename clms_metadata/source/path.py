@@ -8,7 +8,8 @@ from cloudpathlib import CloudPath, S3Path
 from loguru import logger
 from overrides import overrides
 
-from clms_metadata.constants import attributes, regex
+from clms_metadata.constants import regex
+from clms_metadata.constants.attributes import Attributes
 from clms_metadata.constants.content_type import (
     CONTENT_TYPE_GEOJSON,
     CONTENT_TYPE_NETCDF,
@@ -46,9 +47,11 @@ class PathSource(MetadataSource):
         if not metadata.name:
             metadata.name = product_id
 
-        if m := regex.VERSION_DOTTED.search(
-            product_id.lower()
-        ) or regex.VERSION_DIGITS_ONLY.search(product_id.lower()):
+        if (
+            m := regex.VERSION_DOTTED.search(product_id.lower())
+            or regex.VERSION_DIGITS_ONLY.search(product_id.lower())
+            or regex.VERSION_Vxx_Rxx.search(product_id.lower())
+        ):
             version = m.group(0)
             major_version = int(m.group(1))
         else:
@@ -57,12 +60,12 @@ class PathSource(MetadataSource):
             )
 
         metadata.add_attribute(  # full version
-            name=attributes.PRODUCT_VERSION,
+            name=Attributes.PRODUCT_VERSION,
             value_type=StringAttribute,
             factory=lambda: version,
         )
         metadata.add_attribute(  # major version as int
-            name=attributes.DATASET_VERSION,
+            name=Attributes.DATASET_VERSION,
             value_type=IntegerAttribute,
             factory=lambda: major_version,
         )
@@ -75,7 +78,7 @@ class PathSource(MetadataSource):
         if not metadata.name_suffix:
             metadata.name_suffix = get_suffix(metadata.content_type)
         metadata.add_attribute(
-            name=attributes.FILE_FORMAT,
+            name=Attributes.FILE_FORMAT,
             value_type=StringAttribute,
             factory=lambda: metadata.name_suffix,
         )
@@ -83,7 +86,7 @@ class PathSource(MetadataSource):
             metadata.origin_date = max(get_mtime(p) for p in product_files)
 
         metadata.add_attribute(
-            name=attributes.CONSOLIDATION_PERIOD,
+            name=Attributes.CONSOLIDATION_PERIOD,
             value_type=IntegerAttribute,
             factory=lambda: get_consolidation_period(product_id),
         )
@@ -226,6 +229,10 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
         date = datetime.datetime.strptime(match.group("year"), "%Y")
     elif match := regex.LCFM.match(product_id):
         date = datetime.datetime.strptime(match.group("year"), "%Y")
+    elif match := regex.DATE_VLCC_S.search(product_id) or regex.DATE_VLCC_C.search(
+        product_id
+    ):
+        date = datetime.datetime.strptime(match.group(1), "%Y")
     else:
         raise ValueError(
             f"Product ID {product_id} did not match any of the expected nominal date formats"

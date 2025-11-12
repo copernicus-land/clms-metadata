@@ -1,27 +1,33 @@
 import datetime
+import importlib.resources
 import re
 from pathlib import Path
 from typing import Optional
 
+import yaml
 from cloudpathlib import CloudPath
 from dateutil.relativedelta import relativedelta
 from loguru import logger
 
-from clms_metadata.constants import attributes, lookup_tables, regex
+from clms_metadata.config import Settings
+from clms_metadata.constants import lookup_tables, regex
+from clms_metadata.constants.attributes import Attributes
 from clms_metadata.constants.content_type import FILE_FORMAT_GEOJSON
 from clms_metadata.constants.lookup_tables import (
     COMPONENT_TO_PRODUCT_TYPES,
     DATASET_SHORT_NAMES,
     SPATIAL_EXTENT_MAPPING,
 )
+from clms_metadata.models.dataset_mapping import DatasetMapping
 from clms_metadata.models.metadata import (
     ContentDate,
     IntegerAttribute,
     Metadata,
     StringAttribute,
 )
-from clms_metadata.models.name_list import autocomplete
+from clms_metadata.models.name_list import EOAssetNameList, autocomplete
 from clms_metadata.source import MetadataSource
+from clms_metadata.storage import Storage
 
 
 class LookupSource(MetadataSource):
@@ -29,17 +35,60 @@ class LookupSource(MetadataSource):
     Extract metadata information using lookup tables.
     """
 
+    def __init__(
+        self, settings: Settings, storage: Storage, eo_asset_name_list: EOAssetNameList
+    ):
+        super().__init__(settings, storage, eo_asset_name_list)
+        self.mappings = load_dataset_mappings()
+
+    def match_mappings(self, metadata: Metadata):
+        """
+        Match the current metadata against the dataset mappings.
+
+        :param metadata: partial metadata instance
+        :return: matched attributes if a match is found, None otherwise
+        """
+        for name, mapping in self.mappings.items():
+            logger.debug("Trying to match dataset mapping: {}", name)
+            if match := mapping.match(metadata):
+                return match
+        return None
+
     def get_info(
         self, product_files: list[Path | CloudPath], metadata: Metadata
     ) -> Metadata:
         super().get_info(product_files, metadata)
-        if not metadata.dataset_identifier and (
-            dataset_identifier := self.extract_collection_id(file_name=metadata.name)
-        ):
-            metadata.dataset_identifier = dataset_identifier
+
+        match = self.match_mappings(metadata) or dict()
+
+        for attr_name, attr_value in {
+            k: v for k, v in match.items() if k in [a.value for a in Attributes]
+        }.items():
+            if re.match("^\d+$", attr_value):
+                attr_value = int(attr_value)
+                value_type = IntegerAttribute
+            else:
+                value_type = StringAttribute
+            metadata.add_attribute(
+                name=attr_name,
+                value_type=value_type,
+                factory=lambda: attr_value,
+            )
+
+        if "name_suffix" in match:
+            metadata.name_suffix = match["name_suffix"]
+
+        if not metadata.dataset_identifier:
+            if dataset_identifier := match.get("datasetIdentifier"):
+                metadata.dataset_identifier = dataset_identifier
+            elif dataset_identifier := self.extract_collection_id(
+                file_name=metadata.name,
+                attrs={a.name: a.value for a in metadata.attributes},
+            ):
+                metadata.dataset_identifier = dataset_identifier
 
         metadata.add_attribute(
-            name=attributes.DATASET_SHORT_NAME,
+            name=Attributes.DATASET_SHORT_NAME,
             value_type=StringAttribute,
             factory=lambda: part
             if (part := metadata.dataset_identifier.split("_")[0])
@@ -47,11 +96,9 @@ class LookupSource(MetadataSource):
             else self.lookup_short_name(metadata.dataset_identifier),
         )  # TODO: check if correct
         metadata.add_attribute(
-            name=attributes.DATASET_ALIAS,
+            name=Attributes.DATASET_ALIAS,
             value_type=StringAttribute,
-            factory=lambda: metadata.dataset_identifier[
-                : metadata.dataset_identifier.rfind("_")
-            ],
+            factory=lambda: metadata.dataset_identifier.rsplit("_", 1)[0],
         )
 
         if not metadata.content_date:
@@ -65,41 +112,44 @@ class LookupSource(MetadataSource):
             )
 
         if not metadata.product_type:
-            metadata.product_type = self.determine_product_type(
-                metadata.dataset_identifier
-            )
+            metadata.product_type = match.get(
+                "productType"
+            ) or self.determine_product_type(metadata.dataset_identifier)
         if not metadata.component:
-            for component, product_types in COMPONENT_TO_PRODUCT_TYPES.items():
-                if metadata.product_type in product_types:
-                    metadata.component = component
-                    break
+            if component := match.get("component"):
+                metadata.component = component
+            else:
+                for component, product_types in COMPONENT_TO_PRODUCT_TYPES.items():
+                    if metadata.product_type in product_types:
+                        metadata.component = component
+                        break
 
         metadata.add_attribute(
-            name=attributes.AREA_OF_INTEREST,
+            name=Attributes.AREA_OF_INTEREST,
             value_type=StringAttribute,
             factory=lambda: get_spatial_extent(metadata.dataset_identifier),
         )
 
         metadata.add_attribute(
-            attributes.METRIC_GRID_SPACING,
+            Attributes.METRIC_GRID_SPACING,
             IntegerAttribute,
             lambda: get_resolution(metadata.dataset_identifier),
         )
         metadata.add_attribute(
-            name=attributes.GRID_LABEL,
+            name=Attributes.GRID_LABEL,
             value_type=StringAttribute,
-            factory=lambda: match.group(1)
-            if (match := regex.RESOLUTION.search(metadata.dataset_identifier))
+            factory=lambda: _m.group(1)
+            if (_m := regex.RESOLUTION.search(metadata.dataset_identifier))
             else None,
         )
         metadata.add_attribute(
-            name=attributes.TEMPORAL_REPEAT_RATE,
+            name=Attributes.TEMPORAL_REPEAT_RATE,
             value_type=StringAttribute,
             factory=lambda: get_temporal_grid(metadata.dataset_identifier),
         )
 
         if metadata.get_attribute(
-            attributes.FILE_FORMAT
+            Attributes.FILE_FORMAT
         ).value != FILE_FORMAT_GEOJSON and not any(
             r.match(metadata.dataset_identifier)
             for r in (
@@ -109,7 +159,7 @@ class LookupSource(MetadataSource):
             )
         ):
             temporal_grid_delta = get_relativedelta(
-                metadata.get_attribute(attributes.TEMPORAL_REPEAT_RATE).value
+                metadata.get_attribute(Attributes.TEMPORAL_REPEAT_RATE).value
             )
             if not matches_temporal_grid(metadata.content_date, temporal_grid_delta):
                 logger.info(
@@ -139,9 +189,9 @@ class LookupSource(MetadataSource):
 
         if m := regex.SWI_STATIC.match(metadata.name):
             metadata.add_attribute(
-                name=attributes.SWI_SUB_PARAMETER,
+                name=Attributes.SWI_SUB_PARAMETER,
                 value_type=StringAttribute,
-                factory=lambda: m.group(attributes.SWI_SUB_PARAMETER),
+                factory=lambda: m.group(Attributes.SWI_SUB_PARAMETER),
             )
 
         if m := (
@@ -150,27 +200,29 @@ class LookupSource(MetadataSource):
             or regex.LCFM.match(metadata.name)
         ):
             metadata.add_attribute(
-                name=attributes.CELL_ID,
+                name=Attributes.CELL_ID,
                 value_type=StringAttribute,
-                factory=lambda: m.group(attributes.CELL_ID),
+                factory=lambda: m.group(Attributes.CELL_ID),
             )
 
         if m := regex.LSP.match(metadata.name):
             metadata.add_attribute(
-                name=attributes.VPP_SEASON,
+                name=Attributes.VPP_SEASON,
                 value_type=StringAttribute,
-                factory=lambda: m.group(attributes.VPP_SEASON),
+                factory=lambda: m.group(Attributes.VPP_SEASON),
             )
             metadata.add_attribute(
-                name=attributes.VPP_SUB_PARAMETER,
+                name=Attributes.VPP_SUB_PARAMETER,
                 value_type=StringAttribute,
-                factory=lambda: m.group(attributes.VPP_SUB_PARAMETER),
+                factory=lambda: m.group(Attributes.VPP_SUB_PARAMETER),
             )
 
         return metadata
 
     @staticmethod
-    def extract_collection_id(file_name: str) -> Optional[str]:
+    def extract_collection_id(
+        file_name: str, attrs: dict | None = None
+    ) -> Optional[str]:
         """
         Iterate through regexes for all known collections until a match with the filename is found.
         Extract the major version number from the filename and use it to complete the collection identifier.
@@ -179,6 +231,7 @@ class LookupSource(MetadataSource):
         :return: The collection identifier of the collection to which the file belongs.
         :raises ValueError: No match was found
         """
+        attrs = attrs or {}
         try:
             match: re.Match
             template: str
@@ -187,7 +240,7 @@ class LookupSource(MetadataSource):
                 for _regex, _template in lookup_tables.PRODUCT_NAME_TO_DATASET.items()
                 if (_match := _regex.match(file_name))
             ]
-            return template.format_map(match.groupdict()).lower()
+            return template.format_map(match.groupdict() | attrs).lower()
         except ValueError as e:
             logger.error(
                 "Cannot extract dataset identifier from product identifier {}",
@@ -240,6 +293,21 @@ class LookupSource(MetadataSource):
             logger.error("Exception: {}", repr(e))
 
 
+def load_dataset_mappings() -> dict[str, DatasetMapping]:
+    """
+    Load the dataset mapping from a YAML file.
+
+    """
+    mappings = {}
+    for f in importlib.resources.files("clms_metadata.resources.mappings").iterdir():
+        logger.debug("Loading dataset mapping from {}", f)
+        with f.open() as file:
+            data = yaml.safe_load(file)
+            mappings[f.name] = DatasetMapping.model_validate(data)
+
+    return mappings
+
+
 def get_resolution(collection_identifier: str) -> int | None:
     """
     Derive the resolution from the collection identifier.
@@ -263,7 +331,10 @@ def get_spatial_extent(collection_identifier: str) -> str:
     :param collection_identifier: collection identifier
     :return: spatial extent as a string
     """
-    spatial_extent = collection_identifier.split("_")[1]
+    if m := regex.DATASET_CLMS_PREFIX.match(collection_identifier):
+        spatial_extent = m.group("spatial_extent")
+    else:
+        spatial_extent = collection_identifier.split("_")[1]
     if mapped_value := SPATIAL_EXTENT_MAPPING.get(spatial_extent):
         spatial_extent = mapped_value
     return spatial_extent
@@ -276,8 +347,10 @@ def get_temporal_grid(collection_identifier: str) -> str:
     :param collection_identifier: dataset name
     :return:
     """
-    temp = collection_identifier.split("_")[3]
-    return temp
+    if m := regex.DATASET_CLMS_PREFIX.match(collection_identifier):
+        return m.group("temporal_grid")
+    else:
+        return collection_identifier.split("_")[3]
 
 
 def get_relativedelta(temporal_grid: str) -> relativedelta:
@@ -328,13 +401,20 @@ def matches_temporal_grid(
         + datetime.timedelta(days=1),
         content_date.start,
     )
-    abs_delta = (
-        content_date.end.replace(hour=0, minute=0, second=0, microsecond=0)
-        + datetime.timedelta(days=1)
-        - content_date.start
-    )
+    cmp_date = content_date.end.replace(
+        hour=0, minute=0, second=0, microsecond=0
+    ) + datetime.timedelta(days=1)
+    lower_bound = content_date.start + temporal_grid - datetime.timedelta(days=2)
+    upper_bound = content_date.start + temporal_grid + datetime.timedelta(days=1)
     logger.debug("Content date delta: {}", delta)
-    return delta == temporal_grid or temporal_grid.days + 1 >= abs_delta.days
+    if delta == temporal_grid:
+        return True
+    elif temporal_grid + relativedelta(days=1) == delta:
+        return True
+    elif lower_bound <= cmp_date <= upper_bound:
+        return True
+    else:
+        return False
 
 
 def calculate_content_date(

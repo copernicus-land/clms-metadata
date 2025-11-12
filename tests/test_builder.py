@@ -399,11 +399,30 @@ test_reference = test_root / "reference"
         ),
         # lcm_global_10m_yearly_v1
         (
+            (test_data / "dynamic_land_cover/lcm_global_10m_yearly_v1/2020/N36E117/",),
+            test_reference
+            / "dynamic_land_cover/lcm_global_10m_yearly_v1/LCFM_LCM-10_V100_2020_N36E117.json5",
+        ),
+        #############
+        ## HRLVLCC ##
+        #############
+        # fallow-land-presence
+        (
             (
-                test_data / "dynamic_land_cover/lcm_global_10m_yearly_v1/2020/N36E117/",
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_europe_laea_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2019_R10m_E64N16_03035_V01_R00",
             ),
-            test_reference / "dynamic_land_cover/lcm_global_10m_yearly_v1/LCFM_LCM-10_V100_2020_N36E117.json5"
-        )
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_europe_laea_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2019_R10m_E64N16_03035_V01_R00.json5",
+        ),
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_dom_utm_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2020_R10m_MQ_32620_V01_R00",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_dom_utm_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2020_R10m_MQ_32620_V01_R00.json5",
+        ),
     ],
 )
 def test_builder(files, reference):

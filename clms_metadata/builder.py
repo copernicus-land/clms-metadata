@@ -4,7 +4,7 @@ from cloudpathlib import AnyPath, CloudPath
 from loguru import logger
 
 from clms_metadata.config import Settings
-from clms_metadata.constants import attributes
+from clms_metadata.constants.attributes import Attributes
 from clms_metadata.models.metadata import Metadata, PartialMetadata, StringAttribute
 from clms_metadata.models.name_list import EOAssetNameList
 from clms_metadata.source import MetadataSource
@@ -46,6 +46,13 @@ class MetadataBuilder:
 
         partial.path = self._get_link(paths, partial)
         partial = self.set_mission_info(partial)
+
+        if not partial.has_attribute(Attributes.PROCESSING_CENTER):
+            partial.add_attribute(
+                name=Attributes.PROCESSING_CENTER,
+                value_type=StringAttribute,
+                factory=lambda: self.settings.unspecified,
+            )
 
         m = Metadata.model_validate(partial.model_dump())
         return m
@@ -91,7 +98,7 @@ class MetadataBuilder:
             for m in metadata.missions
         )
         metadata.add_attribute(
-            name=attributes.MISSION_SHORT_NAME,
+            name=Attributes.MISSION_SHORT_NAME,
             value_type=StringAttribute,
             factory=lambda: ",".join(
                 map(lambda v: v or self.settings.unspecified, mission_short_names)
@@ -106,7 +113,7 @@ class MetadataBuilder:
             for p in m.platforms
         )
         metadata.add_attribute(
-            name=attributes.PLATFORM_SHORT_NAME,
+            name=Attributes.PLATFORM_SHORT_NAME,
             value_type=StringAttribute,
             factory=lambda: ",".join(
                 map(lambda v: v or self.settings.unspecified, platform_short_names)
@@ -121,7 +128,7 @@ class MetadataBuilder:
             for p in m.platforms
         )
         metadata.add_attribute(
-            name=attributes.PLATFORM_ACRONYM,
+            name=Attributes.PLATFORM_ACRONYM,
             value_type=StringAttribute,
             factory=lambda: ",".join(
                 map(lambda v: v or self.settings.unspecified, platform_acronyms)
@@ -137,7 +144,7 @@ class MetadataBuilder:
             for i in p.instruments
         )
         metadata.add_attribute(
-            name=attributes.INSTRUMENT_SHORT_NAME,
+            name=Attributes.INSTRUMENT_SHORT_NAME,
             value_type=StringAttribute,
             factory=lambda: ",".join(
                 map(lambda v: v or self.settings.unspecified, instrument_short_names)

@@ -20,7 +20,6 @@ CONTENT_TYPE_TO_FILE_FORMAT: dict[str, str] = {
     CONTENT_TYPE_SHP: FILE_FORMAT_SHP,
 }
 
-
 IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
     # re.compile(r"lie_v(?P<version_major>\d+)_250m"): "lie_baltic_250m_daily_v{version_major}",
     # re.compile(r"lie_v(?P<version_major>\d+)_250m"): "lie_europe_250m_daily_v{version_major}",
@@ -192,6 +191,7 @@ PRODUCT_NAME_TO_DATASET: Final[
         r"LCFM_LSC-(?P<resolution>\d+)-MONTHLY_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
     ): "lsc_global_{resolution}m_monthly_v{version_major}",
 }
+
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
     re.compile(r"^ndvi[_-]"): "vegetation_indices",
     re.compile(r"^(dmp|gdmp)[_-]"): "dry-gross_dry_matter_productivity",
@@ -232,7 +232,7 @@ COMPONENT_TO_PRODUCT_TYPES = {  # components to product types
         "top-of-canopy_reflectances",
         "vegetation_phenology_and_productivity_parameters",
     },
-    "landcover_landuse": {"dynamic_land_cover"},
+    "landcover_landuse": {"dynamic_land_cover", "crop_types", "cropping_patterns"},
 }
 DATASET_SHORT_NAMES = {
     "lc",
