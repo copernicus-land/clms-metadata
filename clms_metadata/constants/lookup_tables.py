@@ -87,6 +87,12 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
     re.compile(
         r"lsp300_v(?P<version_major>\d+)_333m"
     ): "lsp_global_300m_yearly_v{version_major}",
+    re.compile(
+        r"eta_300_10daily_v(?P<version_major>\d+)_300m"
+    ): "eta_global_300m_10daily_v{version_major}",
+    re.compile(
+        r"hf_daily_v(?P<version_major>\d+)_300m"
+    ): "hf_global_300m_daily_v{version_major}",
 }
 
 PRODUCT_NAME_TO_DATASET: Final[
