@@ -313,6 +313,18 @@ from clms_metadata.source.file import (
                 Mission(missionShortName="SENTINEL2"),
             ],
         ),
+        (
+            "Sentinel-3A, Sentinel-3B",
+            [
+                Mission(
+                    missionShortName="SENTINEL3",
+                    platforms=[
+                        Platform(platformShortName="SENTINEL3A"),
+                        Platform(platformShortName="SENTINEL3B"),
+                    ],
+                ),
+            ],
+        ),
     ],
 )
 def test_get_platform(platformstr, expected, eo_asset_name_list):
