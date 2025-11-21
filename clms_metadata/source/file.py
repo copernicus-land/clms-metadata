@@ -9,6 +9,7 @@ from cloudpathlib import CloudPath
 from loguru import logger
 from overrides import overrides
 from pyproj import CRS, Transformer
+from osgeo import gdal
 
 from clms_metadata.constants import lookup_tables, regex
 from clms_metadata.constants.attributes import Attributes
@@ -36,6 +37,11 @@ class FileSource(MetadataSource):
         for path in product_files:
             if path.suffix.lower() in (".nc", ".tiff", ".tif"):
                 metadata = self._get_info_raster(path, metadata)
+            if path.suffix.lower() in (".tar"):
+                for tarpath in list_files_in_tar(path):
+                    if tarpath.suffix.lower() in (".nc", ".tiff", ".tif"):
+                        metadata = self._get_info_raster(tarpath, metadata)
+                metadata = self._get_info_raster(path, metadata)
             if path.suffix.lower() in (".json", ".geojson"):
                 metadata = self._get_info_json(path, metadata)
 
@@ -48,6 +54,7 @@ class FileSource(MetadataSource):
             path_ds = str(path)
             if self.settings.vsicached and isinstance(path, Path):
                 path_ds = f"/vsicached?file={path}"
+
             with rasterio.open(path_ds) as data:
                 tags = rioxarray._io._parse_tags(data.tags())
                 logger.debug(tags)
@@ -562,3 +569,34 @@ def get_processing_center(tags: dict) -> str | None:
         processing_center = m.group(1)
 
     return processing_center
+
+def list_files_in_tar(tar_path: Path | CloudPath) -> list[str]:
+    """
+    List files inside a tar archive.
+
+    :param tar_path: Path to the tar archive
+    :return: List of file paths inside the tar archive
+    """
+    tarred_files = gdal.ReadDirRecursive(
+        "/vsitar//vsis3/CLMS-VITO-DEV/2025/11/19/clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog.tar")
+
+    """ gdal.ReadDirRecursive output example:
+    ['clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-STD_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_FLAG_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-STD_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_NOBS_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_GFD_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-STD_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif']
+    """
+    # All product files should be nested in a folder with the product name. Auxiliary files such as sld, inspire metadata etc are stored in the tar root
+    return []
