@@ -22,6 +22,7 @@ from clms_metadata.models.metadata import (
 )
 from clms_metadata.models.name_list import EOAssetNameList, Mission, Platform
 from clms_metadata.source.base import MetadataSource
+from clms_metadata.source.path import get_content_type, get_suffix
 from clms_metadata.util import unique_list
 
 EPSG_4326 = CRS.from_epsg(4326)
@@ -39,11 +40,17 @@ class FileSource(MetadataSource):
             if path.suffix.lower() in (".nc", ".tiff", ".tif"):
                 metadata = self._get_info_raster(path, metadata)
             if path.suffix.lower() in (".tar"):
-                for tarpath in list_files_in_tar(path):
-                    if tarpath.suffix.lower() in (".nc", ".tiff", ".tif"):
-                        # TODO: set content type
-                        # TODO: set Name and suffix
-                        metadata = self._get_info_raster(tarpath, metadata)
+                tar_paths = list_files_in_tar(path)
+                if not metadata.content_type:
+                    metadata.content_type = get_content_type(tar_paths)
+                if not metadata.name_suffix and metadata.content_type:
+                    metadata.name_suffix = get_suffix(metadata.content_type)
+                    if metadata.name.endswith(metadata.name_suffix):
+                        # remove suffix and '_' delimiter from name
+                        metadata.name = metadata.name[: -len(metadata.name_suffix) + 1]
+                for tar_path in tar_paths:
+                    if tar_path.suffix.lower() in (".nc", ".tiff", ".tif"):
+                        metadata = self._get_info_raster(tar_path, metadata)
             if path.suffix.lower() in (".json", ".geojson"):
                 metadata = self._get_info_json(path, metadata)
 
