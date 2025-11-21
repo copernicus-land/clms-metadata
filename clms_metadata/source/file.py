@@ -1,15 +1,16 @@
 import json
+import os
 import re
-from pathlib import Path
+from pathlib import Path, PurePath
 
 import rasterio
 import rioxarray
 import shapely.geometry
-from cloudpathlib import CloudPath
+from cloudpathlib import CloudPath, S3Path
 from loguru import logger
+from osgeo import gdal
 from overrides import overrides
 from pyproj import CRS, Transformer
-from osgeo import gdal
 
 from clms_metadata.constants import lookup_tables, regex
 from clms_metadata.constants.attributes import Attributes
@@ -40,8 +41,9 @@ class FileSource(MetadataSource):
             if path.suffix.lower() in (".tar"):
                 for tarpath in list_files_in_tar(path):
                     if tarpath.suffix.lower() in (".nc", ".tiff", ".tif"):
+                        # TODO: set content type
+                        # TODO: set Name and suffix
                         metadata = self._get_info_raster(tarpath, metadata)
-                metadata = self._get_info_raster(path, metadata)
             if path.suffix.lower() in (".json", ".geojson"):
                 metadata = self._get_info_json(path, metadata)
 
@@ -570,15 +572,25 @@ def get_processing_center(tags: dict) -> str | None:
 
     return processing_center
 
-def list_files_in_tar(tar_path: Path | CloudPath) -> list[str]:
+
+def list_files_in_tar(tar_path: Path | CloudPath) -> list[PurePath]:
     """
     List files inside a tar archive.
 
     :param tar_path: Path to the tar archive
     :return: List of file paths inside the tar archive
     """
-    tarred_files = gdal.ReadDirRecursive(
-        "/vsitar//vsis3/CLMS-VITO-DEV/2025/11/19/clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog.tar")
+    if isinstance(tar_path, S3Path):
+        if AWS_ENDPOINT_URL := os.getenv("AWS_ENDPOINT_URL"):
+            _endpoint_url = AWS_ENDPOINT_URL.replace("https://", "").replace(
+                "http://", ""
+            )
+            gdal.SetConfigOption("AWS_S3_ENDPOINT", _endpoint_url)
+        pathname = f"/vsis3/{tar_path.bucket}/{tar_path.key}"
+    else:
+        pathname = str(tar_path)
+    pathname = f"/vsitar/{pathname}"
+    tarred_files = gdal.ReadDirRecursive(pathname)
 
     """ gdal.ReadDirRecursive output example:
     ['clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/',
@@ -599,4 +611,5 @@ def list_files_in_tar(tar_path: Path | CloudPath) -> list[str]:
      'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif']
     """
     # All product files should be nested in a folder with the product name. Auxiliary files such as sld, inspire metadata etc are stored in the tar root
-    return []
+    logger.debug("Paths in TAR: {}", tarred_files)
+    return list(map(lambda p: PurePath(pathname) / p, tarred_files))

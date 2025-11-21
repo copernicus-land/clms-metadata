@@ -20,7 +20,7 @@ dependencies = [
     "rioxarray==0.18.2",
     "cftime~=1.6.4",
     "platformdirs~=4.3.6",
-    "gdal~=3.10"
+    "gdal~=3.8"
 ]
 
 [project.scripts]

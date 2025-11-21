@@ -75,7 +75,7 @@ class PathSource(MetadataSource):
 
         if not metadata.content_type:
             metadata.content_type = get_content_type(product_files)
-        if not metadata.name_suffix:
+        if not metadata.name_suffix and metadata.content_type:
             metadata.name_suffix = get_suffix(metadata.content_type)
         metadata.add_attribute(
             name=Attributes.FILE_FORMAT,
@@ -215,7 +215,7 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
             e.g. NDVI statistics
     """
     # remove c_gls or cgl from the start of the string
-    trimmed_id = re.sub(r"^((c_gls)|cgl)_", "", product_id)
+    trimmed_id = re.sub(r"^((c_gls)|cgl|clms)_", "", product_id)
     date_part = trimmed_id.split("_")[1]
     if regex.DATETIME_DIGITS_MINUTES.fullmatch(date_part):
         date = datetime.datetime.strptime(date_part, "%Y%m%d%H%M")
@@ -240,7 +240,7 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
     return date.replace(tzinfo=datetime.timezone.utc)
 
 
-def get_content_type(paths: list[Path | CloudPath]) -> str:
+def get_content_type(paths: list[Path | CloudPath]) -> str | None:
     suffixes = [p.suffix.lower() for p in paths]
     if ".nc" in suffixes:
         return CONTENT_TYPE_NETCDF
@@ -248,7 +248,8 @@ def get_content_type(paths: list[Path | CloudPath]) -> str:
         return CONTENT_TYPE_TIFF
     elif any(s in suffixes for s in (".geojson", ".json")):
         return CONTENT_TYPE_GEOJSON
-    raise ValueError(f"Unsupported file types {suffixes}")
+    else:
+        return None
 
 
 def get_suffix(content_type: str) -> str:
