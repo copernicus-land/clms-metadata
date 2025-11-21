@@ -48,6 +48,11 @@ class FileSource(MetadataSource):
                     if metadata.name.endswith(metadata.name_suffix):
                         # remove suffix and '_' delimiter from name
                         metadata.name = metadata.name[: -len(metadata.name_suffix) + 1]
+                    metadata.add_attribute(
+                        name=Attributes.FILE_FORMAT,
+                        value_type=StringAttribute,
+                        factory=lambda: metadata.name_suffix,
+                    )
                 for tar_path in tar_paths:
                     if tar_path.suffix.lower() in (".nc", ".tiff", ".tif"):
                         metadata = self._get_info_raster(tar_path, metadata)
