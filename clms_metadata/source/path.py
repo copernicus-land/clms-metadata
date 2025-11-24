@@ -165,6 +165,7 @@ def get_common_name(paths: list[Path | CloudPath]) -> str:
 def _common_name_pair(a: str, b: str) -> str:
     matcher = difflib.SequenceMatcher(None, a, b)
     logger.debug("Searching for matching sequences {}, {}: {}", a, b, matcher.ratio())
+    DELIMITERS = ("_", "-")
 
     common = ""
     blocks = [b for b in matcher.get_matching_blocks() if b.size > 0]
@@ -173,11 +174,32 @@ def _common_name_pair(a: str, b: str) -> str:
         try:
             if i >= 1:
                 # trim start of block to - or _
-                index = min([str_block.index(c) for c in ("_", "-") if c in str_block])
+                index = min(
+                    [str_block.index(c) for c in DELIMITERS if c in str_block],
+                    default=None,
+                )
+                if index is None:
+                    # check if preceding character is '-' or '_' in both strings
+                    if a[block.a - 1] in DELIMITERS and b[block.b - 1] in DELIMITERS:
+                        index = 0
+                    else:
+                        continue
                 str_block = str_block[index:]
             if i != len(blocks) - 1:
                 # trim end of block to - or _
-                index = max([str_block.rindex(c) for c in ("_", "-") if c in str_block])
+                index = max(
+                    [str_block.rindex(c) for c in DELIMITERS if c in str_block],
+                    default=None,
+                )
+                if index is None:
+                    # check if next character is '-' or '_' in both strings
+                    if (
+                        a[block.a + block.size] in DELIMITERS
+                        and b[block.b + block.size] in DELIMITERS
+                    ):
+                        index = -2
+                    else:
+                        continue
                 str_block = str_block[: index + 1]
             common += str_block
         except ValueError:
