@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from clms_metadata.source.path import get_common_name
+from clms_metadata.source.path import _common_name_pair, get_common_name
 
 
 @pytest.mark.parametrize(
@@ -93,7 +93,32 @@ from clms_metadata.source.path import get_common_name
             [Path("c_gls_LSP300-AMPL-S2_202301010000_GLOBE_OLCI_V1.0.1.tiff")],
             "c_gls_LSP300-AMPL-S2_202301010000_GLOBE_OLCI_V1.0.1",
         ),
+        (
+            [
+                Path("cgl_TOC_20190129233203_X35Y03_S3B_S_an_toc_v2.3.4.tiff"),
+                Path("cgl_TOC_20190129233203_X35Y03_S3B_S_an_toc_err_v2.3.4.tiff"),
+                Path("cgl_TOC_20190129233203_X35Y03_S3B_Oa_toc_err_v2.3.4.tiff"),
+                Path(
+                    "cgl_TOC_20190129233203_X35Y03_S3B_pixel_classif_flags_v2.3.4.tiff"
+                ),
+            ],
+            "cgl_TOC_20190129233203_X35Y03_S3B_v2.3.4",
+        ),
     ],
 )
 def test_get_common_name(paths, expected_name):
     assert get_common_name(paths) == expected_name
+
+
+@pytest.mark.parametrize(
+    ("name1", "name2", "common_name"),
+    [
+        (
+            "cgl_TOC_20190129233203_X35Y03_S3B_S_an_toc_v2.3.4",
+            "cgl_TOC_20190129233203_X35Y03_S3B_S_an_toc_err_v2.3.4",
+            "cgl_TOC_20190129233203_X35Y03_S3B_S_an_toc_v2.3.4",
+        )
+    ],
+)
+def test_get_common_name_pair(name1, name2, common_name):
+    assert _common_name_pair(name1, name2) == common_name
