@@ -66,8 +66,9 @@ class FileSource(MetadataSource):
             # with rioxarray.open_rasterio(str(path)) as data:
             # use rasterio directly to work around issue https://github.com/corteva/rioxarray/issues/829
             path_ds = str(path)
+            path_ds = re.sub(r'vsitar/(?!/)', 'vsitar//', path_ds)
             if self.settings.vsicached and isinstance(path, Path):
-                path_ds = f"/vsicached?file={path}"
+                path_ds = f"/vsicached?file={path_ds}"
 
             with rasterio.open(path_ds) as data:
                 tags = rioxarray._io._parse_tags(data.tags())
@@ -589,6 +590,18 @@ def list_files_in_tar(tar_path: Path | CloudPath) -> list[PurePath]:
     """
     List files inside a tar archive.
 
+    All product files should be nested in a folder with the product name. 
+    Auxiliary files such as sld, inspire metadata etc are stored in the tar root
+
+    gdal.ReadDirRecursive output example:
+    [
+        'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/',
+        'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
+        'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-STD_202112110000_GLOBE_S3_V1.0.1.tif',
+        'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
+        'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif'
+    ]
+
     :param tar_path: Path to the tar archive
     :return: List of file paths inside the tar archive
     """
@@ -604,24 +617,5 @@ def list_files_in_tar(tar_path: Path | CloudPath) -> list[PurePath]:
     pathname = f"/vsitar/{pathname}"
     tarred_files = gdal.ReadDirRecursive(pathname)
 
-    """ gdal.ReadDirRecursive output example:
-    ['clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-STD_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_FLAG_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-STD_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_NOBS_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_GFD_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-STD_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
-     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif']
-    """
-    # All product files should be nested in a folder with the product name. Auxiliary files such as sld, inspire metadata etc are stored in the tar root
     logger.debug("Paths in TAR: {}", tarred_files)
     return list(map(lambda p: PurePath(pathname) / p, tarred_files))

@@ -1,6 +1,8 @@
 import pytest
 from conftest import assert_dict_subset
+from pathlib import Path
 
+from tests.reference.tar.tar_contents import CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00_TARRED_FILES
 from clms_metadata.models.name_list import (
     EOAssetNameList,
     Mission,
@@ -12,6 +14,10 @@ from clms_metadata.source.file import (
     parse_platform,
     parse_sensor,
 )
+
+test_root = Path(__file__).parent.parent
+test_data = test_root / "data"
+test_reference = test_root / "reference"
 
 
 @pytest.mark.parametrize(
@@ -436,3 +442,16 @@ def test_parse_sensor(
 )
 def test_get_processing_center(institution_tag: str, expected: str):
     assert get_processing_center({"institution": institution_tag}) == expected
+
+@pytest.mark.parametrize(
+    ("file", "reference"), [(test_data / "tar/CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00.tar", CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00_TARRED_FILES)],
+)
+def test_handle_tar_files(file, reference):
+
+    from clms_metadata.source.file import list_files_in_tar
+
+    # Test extracting a file from the tar archive
+    tarred_files = list_files_in_tar(file)
+    for tarred_file, reference_file in zip(tarred_files, reference):
+        tarred_file.parts[-len(reference_file.parts):] == reference_file.parts
+        tarred_file.parts[0] == 'vsitar'
