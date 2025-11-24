@@ -232,8 +232,9 @@ def parse_platform(
 
     # turn platformstr into a map of missionShortName to platformShortName
     missions: dict[str, Mission] = {
-        name.strip(): Mission(missionShortName=name.strip())
-        for name in platformstr.split(",")
+        name: Mission(missionShortName=name)
+        for name in (_str.strip() for _str in platformstr.split(","))
+        if name
     }
 
     # Support for "AND" between platform names or platform serials
