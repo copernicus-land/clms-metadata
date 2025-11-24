@@ -1,12 +1,14 @@
 import json
+import os
 import re
-from pathlib import Path
+from pathlib import Path, PurePath
 
 import rasterio
 import rioxarray
 import shapely.geometry
-from cloudpathlib import CloudPath
+from cloudpathlib import CloudPath, S3Path
 from loguru import logger
+from osgeo import gdal
 from overrides import overrides
 from pyproj import CRS, Transformer
 
@@ -20,6 +22,7 @@ from clms_metadata.models.metadata import (
 )
 from clms_metadata.models.name_list import EOAssetNameList, Mission, Platform
 from clms_metadata.source.base import MetadataSource
+from clms_metadata.source.path import get_content_type, get_suffix
 from clms_metadata.util import unique_list
 
 EPSG_4326 = CRS.from_epsg(4326)
@@ -36,6 +39,23 @@ class FileSource(MetadataSource):
         for path in product_files:
             if path.suffix.lower() in (".nc", ".tiff", ".tif"):
                 metadata = self._get_info_raster(path, metadata)
+            if path.suffix.lower() in (".tar"):
+                tar_paths = list_files_in_tar(path)
+                if not metadata.content_type:
+                    metadata.content_type = get_content_type(tar_paths)
+                if not metadata.name_suffix and metadata.content_type:
+                    metadata.name_suffix = get_suffix(metadata.content_type)
+                    if metadata.name.endswith(metadata.name_suffix):
+                        # remove suffix and '_' delimiter from name
+                        metadata.name = metadata.name[: -len(metadata.name_suffix) + 1]
+                    metadata.add_attribute(
+                        name=Attributes.FILE_FORMAT,
+                        value_type=StringAttribute,
+                        factory=lambda: metadata.name_suffix,
+                    )
+                for tar_path in tar_paths:
+                    if tar_path.suffix.lower() in (".nc", ".tiff", ".tif"):
+                        metadata = self._get_info_raster(tar_path, metadata)
             if path.suffix.lower() in (".json", ".geojson"):
                 metadata = self._get_info_json(path, metadata)
 
@@ -48,6 +68,7 @@ class FileSource(MetadataSource):
             path_ds = str(path)
             if self.settings.vsicached and isinstance(path, Path):
                 path_ds = f"/vsicached?file={path}"
+
             with rasterio.open(path_ds) as data:
                 tags = rioxarray._io._parse_tags(data.tags())
                 logger.debug(tags)
@@ -562,3 +583,45 @@ def get_processing_center(tags: dict) -> str | None:
         processing_center = m.group(1)
 
     return processing_center
+
+
+def list_files_in_tar(tar_path: Path | CloudPath) -> list[PurePath]:
+    """
+    List files inside a tar archive.
+
+    :param tar_path: Path to the tar archive
+    :return: List of file paths inside the tar archive
+    """
+    if isinstance(tar_path, S3Path):
+        if AWS_ENDPOINT_URL := os.getenv("AWS_ENDPOINT_URL"):
+            _endpoint_url = AWS_ENDPOINT_URL.replace("https://", "").replace(
+                "http://", ""
+            )
+            gdal.SetConfigOption("AWS_S3_ENDPOINT", _endpoint_url)
+        pathname = f"/vsis3/{tar_path.bucket}/{tar_path.key}"
+    else:
+        pathname = str(tar_path)
+    pathname = f"/vsitar/{pathname}"
+    tarred_files = gdal.ReadDirRecursive(pathname)
+
+    """ gdal.ReadDirRecursive output example:
+    ['clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-STD_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_FLAG_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-STD_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_NOBS_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_GFD_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_ET-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-STD_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
+     'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_T-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif']
+    """
+    # All product files should be nested in a folder with the product name. Auxiliary files such as sld, inspire metadata etc are stored in the tar root
+    logger.debug("Paths in TAR: {}", tarred_files)
+    return list(map(lambda p: PurePath(pathname) / p, tarred_files))
