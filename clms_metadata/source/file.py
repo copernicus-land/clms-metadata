@@ -47,7 +47,7 @@ class FileSource(MetadataSource):
                     metadata.name_suffix = get_suffix(metadata.content_type)
                     if metadata.name.endswith(metadata.name_suffix):
                         # remove suffix and '_' delimiter from name
-                        metadata.name = metadata.name[: -len(metadata.name_suffix) + 1]
+                        metadata.name = metadata.name[: -len(metadata.name_suffix) - 1]
                     metadata.add_attribute(
                         name=Attributes.FILE_FORMAT,
                         value_type=StringAttribute,
@@ -66,7 +66,7 @@ class FileSource(MetadataSource):
             # with rioxarray.open_rasterio(str(path)) as data:
             # use rasterio directly to work around issue https://github.com/corteva/rioxarray/issues/829
             path_ds = str(path)
-            path_ds = re.sub(r'vsitar/(?!/)', 'vsitar//', path_ds)
+            path_ds = re.sub(r"vsitar/(?!/)", "vsitar//", path_ds)
             if self.settings.vsicached and isinstance(path, Path):
                 path_ds = f"/vsicached?file={path_ds}"
 
@@ -591,7 +591,7 @@ def list_files_in_tar(tar_path: Path | CloudPath) -> list[PurePath]:
     """
     List files inside a tar archive.
 
-    All product files should be nested in a folder with the product name. 
+    All product files should be nested in a folder with the product name.
     Auxiliary files such as sld, inspire metadata etc are stored in the tar root
 
     gdal.ReadDirRecursive output example:
