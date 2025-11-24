@@ -403,6 +403,20 @@ test_reference = test_root / "reference"
             test_reference
             / "dynamic_land_cover/lcm_global_10m_yearly_v1/LCFM_LCM-10_V100_2020_N36E117.json5",
         ),
+        # eta_global_300m_10daily_v1
+        (
+            (
+                test_data / "evapotranspiration/eta_global_300m_10daily_v1/",
+            ),
+            test_reference / "evapotranspiration/eta_global_300m_10daily_v1/clms_ETA300_202106010000_GLOBE_S3_V1.0.1_cog.json5"
+        ),
+        # hf_global_300m_daily_v1
+        (
+            (
+                test_data / "evapotranspiration/hf_global_300m_daily_v1/",
+            ),
+            test_reference / "evapotranspiration/hf_global_300m_daily_v1/clms_HF300_202106010000_GLOBE_S3_V1.0.1_cog.json5"
+        ),
         #############
         ## HRLVLCC ##
         #############
