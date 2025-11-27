@@ -232,10 +232,12 @@ class FileSource(MetadataSource):
         if isinstance(tar_path, S3Path):
             gdal.SetConfigOption("AWS_S3_ENDPOINT", self.settings.s3.endpoint.host)
             gdal.SetConfigOption(
-                "AWS_ACCESS_KEY_ID", self.settings.s3.aws_access_key_id
+                "AWS_ACCESS_KEY_ID",
+                self.settings.s3.aws_access_key_id.get_secret_value(),
             )
             gdal.SetConfigOption(
-                "AWS_SECRET_ACCESS_KEY", self.settings.s3.aws_secret_access_key
+                "AWS_SECRET_ACCESS_KEY",
+                self.settings.s3.aws_secret_access_key.get_secret_value(),
             )
             if self.settings.s3.no_sign_request:
                 gdal.SetConfigOption("AWS_NO_SIGN_REQUEST", "YES")
