@@ -1,5 +1,4 @@
 import json
-import os
 import re
 from pathlib import Path, PurePath
 
@@ -232,6 +231,12 @@ class FileSource(MetadataSource):
         """
         if isinstance(tar_path, S3Path):
             gdal.SetConfigOption("AWS_S3_ENDPOINT", self.settings.s3.endpoint.host)
+            gdal.SetConfigOption("AWS_ACCESS_KEY_ID", self.settings.s3.access_key_id)
+            gdal.SetConfigOption(
+                "AWS_SECRET_ACCESS_KEY", self.settings.s3.secret_access_key
+            )
+            if self.settings.s3.no_sign_request:
+                gdal.SetConfigOption("AWS_NO_SIGN_REQUEST", "YES")
             pathname = f"/vsis3/{tar_path.bucket}/{tar_path.key}"
 
         else:
@@ -621,5 +626,3 @@ def get_processing_center(tags: dict) -> str | None:
         processing_center = m.group(1)
 
     return processing_center
-
-
