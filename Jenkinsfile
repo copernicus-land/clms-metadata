@@ -8,6 +8,7 @@ pythonPipeline {
   extras_require          = 'dev,ci'
   build_container_image   = true
   docker_registry_prod    = 'vito-docker.artifactory.vgt.vito.be'
+  wheel_repo              = 'python-packages-public'
   enable_uv               = true
   enable_caching          = true
   venv_rpm_deps           = ['gdal-3.11.3', 'gdal-python312-3.11.3']
