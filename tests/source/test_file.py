@@ -1,6 +1,7 @@
 import pytest
 from conftest import assert_dict_subset
 from pathlib import Path
+from unittest.mock import MagicMock
 
 from tests.reference.tar.tar_contents import CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00_TARRED_FILES
 from clms_metadata.models.name_list import (
@@ -447,11 +448,11 @@ def test_get_processing_center(institution_tag: str, expected: str):
     ("file", "reference"), [(test_data / "tar/CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00.tar", CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00_TARRED_FILES)],
 )
 def test_handle_tar_files(file, reference):
-
-    from clms_metadata.source.file import list_files_in_tar
+    from clms_metadata.source.file import FileSource
 
     # Test extracting a file from the tar archive
-    tarred_files = list_files_in_tar(file)
+    tarred_files = FileSource(
+        settings=MagicMock(), storage=MagicMock(), eo_asset_name_list=MagicMock()).list_files_in_tar(file)
     for tarred_file, reference_file in zip(tarred_files, reference):
         tarred_file.parts[-len(reference_file.parts):] == reference_file.parts
         tarred_file.parts[0] == 'vsitar'
