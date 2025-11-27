@@ -40,7 +40,7 @@ class FileSource(MetadataSource):
             if path.suffix.lower() in (".nc", ".tiff", ".tif"):
                 metadata = self._get_info_raster(path, metadata)
             if path.suffix.lower() in (".tar"):
-                tar_paths = list_files_in_tar(path)
+                tar_paths = self.list_files_in_tar(path)
                 if not metadata.content_type:
                     metadata.content_type = get_content_type(tar_paths)
                 if not metadata.name_suffix and metadata.content_type:
@@ -210,6 +210,42 @@ class FileSource(MetadataSource):
         )
 
         return metadata
+
+    def list_files_in_tar(self, tar_path: Path | CloudPath) -> list[PurePath]:
+        """
+        List files inside a tar archive.
+
+        All product files should be nested in a folder with the product name.
+        Auxiliary files such as sld, inspire metadata etc are stored in the tar root
+
+        gdal.ReadDirRecursive output example:
+        [
+            'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/',
+            'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
+            'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-STD_202112110000_GLOBE_S3_V1.0.1.tif',
+            'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
+            'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif'
+        ]
+
+        :param tar_path: Path to the tar archive
+        :return: List of file paths inside the tar archive
+        """
+        if isinstance(tar_path, S3Path):
+            gdal.SetConfigOption("AWS_S3_ENDPOINT", self.settings.s3.endpoint.host)
+            pathname = f"/vsis3/{tar_path.bucket}/{tar_path.key}"
+
+        else:
+            pathname = str(tar_path)
+        pathname = f"/vsitar/{pathname}"
+        tarred_files = gdal.ReadDirRecursive(pathname)
+
+        logger.debug("Paths in TAR: {}", tarred_files)
+        if tarred_files is None:
+            error_msg = f"Could not find any files in {pathname}"
+            logger.error(error_msg)
+            raise ValueError(error_msg)
+
+        return list(map(lambda p: PurePath(pathname) / p, tarred_files))
 
 
 def build_platform_short_name(
@@ -587,36 +623,3 @@ def get_processing_center(tags: dict) -> str | None:
     return processing_center
 
 
-def list_files_in_tar(tar_path: Path | CloudPath) -> list[PurePath]:
-    """
-    List files inside a tar archive.
-
-    All product files should be nested in a folder with the product name.
-    Auxiliary files such as sld, inspire metadata etc are stored in the tar root
-
-    gdal.ReadDirRecursive output example:
-    [
-        'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/',
-        'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ETLOOK_202112110000_GLOBE_S3_V1.0.1.tif',
-        'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-STD_202112110000_GLOBE_S3_V1.0.1.tif',
-        'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-ENSEMBLE_202112110000_GLOBE_S3_V1.0.1.tif',
-        'clms_ETA300_202112110000_GLOBE_S3_V1.0.1_cog/clms_ETA300_E-TSEBPT_202112110000_GLOBE_S3_V1.0.1.tif'
-    ]
-
-    :param tar_path: Path to the tar archive
-    :return: List of file paths inside the tar archive
-    """
-    if isinstance(tar_path, S3Path):
-        if AWS_ENDPOINT_URL := os.getenv("AWS_ENDPOINT_URL"):
-            _endpoint_url = AWS_ENDPOINT_URL.replace("https://", "").replace(
-                "http://", ""
-            )
-            gdal.SetConfigOption("AWS_S3_ENDPOINT", _endpoint_url)
-        pathname = f"/vsis3/{tar_path.bucket}/{tar_path.key}"
-    else:
-        pathname = str(tar_path)
-    pathname = f"/vsitar/{pathname}"
-    tarred_files = gdal.ReadDirRecursive(pathname)
-
-    logger.debug("Paths in TAR: {}", tarred_files)
-    return list(map(lambda p: PurePath(pathname) / p, tarred_files))
