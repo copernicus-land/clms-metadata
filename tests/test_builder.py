@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 
 import pyjson5
@@ -405,17 +406,23 @@ test_reference = test_root / "reference"
         ),
         # eta_global_300m_10daily_v1
         (
-            (
-                test_data / "evapotranspiration/eta_global_300m_10daily_v1/",
-            ),
-            test_reference / "evapotranspiration/eta_global_300m_10daily_v1/clms_ETA300_202106010000_GLOBE_S3_V1.0.1_cog.json5"
+            (test_data / "evapotranspiration/eta_global_300m_10daily_v1/",),
+            test_reference
+            / "evapotranspiration/eta_global_300m_10daily_v1/clms_ETA300_202106010000_GLOBE_S3_V1.0.1_cog.json5",
         ),
         # hf_global_300m_daily_v1
         (
+            (test_data / "evapotranspiration/hf_global_300m_daily_v1/",),
+            test_reference
+            / "evapotranspiration/hf_global_300m_daily_v1/clms_HF300_202106010000_GLOBE_S3_V1.0.1_cog.json5",
+        ),
+        (
             (
-                test_data / "evapotranspiration/hf_global_300m_daily_v1/",
+                test_data
+                / "snow_cover_extent/sce_global_1km_daily_v1/c_gls_SCE_202511220000_GLOBE_VIIRS_V1.0.1.nc",
             ),
-            test_reference / "evapotranspiration/hf_global_300m_daily_v1/clms_HF300_202106010000_GLOBE_S3_V1.0.1_cog.json5"
+            test_reference
+            / "snow_cover_extent/sce_global_1km_daily_v1/c_gls_SCE_202511220000_GLOBE_VIIRS_V1.0.1.nc.json5",
         ),
         #############
         ## HRLVLCC ##
@@ -438,10 +445,7 @@ test_reference = test_root / "reference"
             / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_dom_utm_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2020_R10m_MQ_32620_V01_R00.json5",
         ),
         (
-            (
-                test_data
-                / "tar/CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00.tar",
-            ),
+            (test_data / "tar/CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00.tar",),
             test_reference
             / "tar/CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00.json5",
         ),
@@ -454,7 +458,7 @@ def test_builder(files, reference):
         storage=LocalFileSystem(), settings=Settings(link=LinkSettings(value="test"))
     )
     m = builder.build(files)
-    print(m)
+    # print(m.model_dump(mode="json"))
     compare_with_reference_file(m, reference)
 
 
@@ -532,9 +536,9 @@ def compare_with_reference_file(m: Metadata, reference: Path):
         with open(reference) as f:
             expected = pyjson5.load(f)
     except FileNotFoundError as e:
-        dump = m.model_dump()
+        dump = m.model_dump(mode="json")
         dump["attributes"] = {a["name"]: a["value"] for a in dump["attributes"]}
-        print(dump)
+        print(json.dumps(dump))
         raise e
     compare_with_reference(m, expected)
 

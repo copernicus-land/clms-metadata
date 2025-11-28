@@ -36,9 +36,9 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
     ): "lwq-nrt_global_100m_10daily_v{version_major}",
     # 'lwq_v1_300': 'lwq-reproc_global_300m_10daily_v{version_major}',
     # 'lwq_v1_300': 'lwq-nrt_global_300m_10daily_v{version_major}',
-    re.compile(
-        r"sce_v(?P<version_major>\d+)_0.01degree"
-    ): "sce_northernhemisphere_1km_daily_v{version_major}",
+    # re.compile(
+    #     r"sce_v(?P<version_major>\d+)_0.01degree"
+    # ): "sce_northernhemisphere_1km_daily_v{version_major}",
     re.compile(
         r"swe_V(?P<version_major>\d+)_5km"
     ): "swe_northernhemisphere_5km_daily_v{version_major}",
@@ -146,6 +146,9 @@ PRODUCT_NAME_TO_DATASET: Final[
     re.compile(
         r"c_gls_SCE_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "sce_northernhemisphere_1km_daily_v{version_major}",
+    re.compile(
+        r"c_gls_SCE_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
+    ): "sce_global_1km_daily_v{version_major}",
     re.compile(
         r"c_gls_SWE5K_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "swe_northernhemisphere_5km_daily_v{version_major}",
