@@ -434,7 +434,7 @@ test_reference = test_root / "reference"
                 / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_europe_laea_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2019_R10m_E64N16_03035_V01_R00",
             ),
             test_reference
-            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_europe_laea_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2019_R10m_E64N16_03035_V01_R00.json5",
+            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2019_R10m_E64N16_03035_V01_R00.json5",
         ),
         (
             (
@@ -442,7 +442,7 @@ test_reference = test_root / "reference"
                 / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_dom_utm_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2020_R10m_MQ_32620_V01_R00",
             ),
             test_reference
-            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_dom_utm_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2020_R10m_MQ_32620_V01_R00.json5",
+            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLP_S2020_R10m_MQ_32620_V01_R00.json5",
         ),
         (
             (test_data / "tar/CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00.tar",),

@@ -23,7 +23,7 @@ DATASET_NDVI_STATISTICS: Final[re.Pattern] = re.compile(r"ndvi-(sts|lts)_")
 DATASET_SWI_STATIC: Final[re.Pattern] = re.compile(r"swi-static")
 DATASET_SWI_TIMESERIES: Final[re.Pattern] = re.compile(r"swi-timeseries")
 DATASET_CLMS_PREFIX: Final[re.Pattern] = re.compile(
-    r"clms_(?P<product_family>\w+)_(?P<descriptive_name>[\w\-]+)_(?P<spatial_extent>\w+)_(?P<projection>\w+)_(?P<resolution>\d+(:?m|km))_(?P<temporal_grid>\w+)_v(?P<version_major>\d)"
+    r"clms_(?P<product_family>\w+)_(?P<descriptive_name>[\w\-]+)_(?P<spatial_extent>\w+)_(?P<resolution>\d+(:?m|km))_(?P<temporal_grid>\w+)_v(?P<version_major>\d)"
 )
 
 # Date
