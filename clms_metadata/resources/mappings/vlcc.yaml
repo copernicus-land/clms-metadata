@@ -170,7 +170,7 @@ datasetMapping:
             fileKey: GRAMD\d
           - name: grassland-mowing-events
             SDIResourceIdentifier: copernicus_r_3035_10_m_grame_p_2017-now_v01_r00
-            dasetShortName: grame
+            datasetShortName: grame
             fileKey: GRAME
           - name: grassland-mowing-events-confidence-layer
             fileKey: GRAMECL
