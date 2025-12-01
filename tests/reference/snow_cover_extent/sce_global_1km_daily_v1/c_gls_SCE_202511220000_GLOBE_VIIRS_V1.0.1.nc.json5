@@ -1,0 +1,29 @@
+{
+    "name": "c_gls_SCE_202511220000_GLOBE_VIIRS_V1.0.1",
+    "name_suffix": "nc",
+    "content_type": "application/netcdf",
+    "content_date": {
+        "start": "2025-11-22T00:23:17.000000Z",
+        "end": "2025-11-23T00:11:29.000000Z"
+    },
+    "nominal_date": "2025-11-22T00:00:00.000000Z",
+    "product_type": "snow_cover_extent",
+    "component": "bio-geophysical",
+    "dataset_identifier": "sce_global_1km_daily_v1",
+    "attributes": {
+        "productVersion": "v1.0.1",
+        "datasetVersion": 1,
+        "fileFormat": "nc",
+        "processingCenter": "ENVEO IT",
+        "datasetShortName": "sce",
+        "datasetAlias": "sce_global_1km_daily",
+        "areaOfInterest": "global",
+        "metricGridSpacing": 1000,
+        "gridLabel": "1km",
+        "temporalRepeatRate": "daily",
+        "missionShortName": "NOAA20",
+        "platformShortName": "NOAA20",
+        "platformAcronym": "unspecified",
+        "instrumentShortName": "VIIRS"
+    }
+}
