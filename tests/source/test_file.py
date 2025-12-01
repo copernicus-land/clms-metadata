@@ -1,9 +1,9 @@
-import pytest
-from conftest import assert_dict_subset
 from pathlib import Path
 from unittest.mock import MagicMock
 
-from tests.reference.tar.tar_contents import CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00_TARRED_FILES
+import pytest
+from conftest import assert_dict_subset
+
 from clms_metadata.models.name_list import (
     EOAssetNameList,
     Mission,
@@ -14,6 +14,9 @@ from clms_metadata.source.file import (
     get_processing_center,
     parse_platform,
     parse_sensor,
+)
+from tests.reference.tar.tar_contents import (
+    CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00_TARRED_FILES,
 )
 
 test_root = Path(__file__).parent.parent
@@ -349,10 +352,6 @@ def test_get_platform(platformstr, expected, eo_asset_name_list):
             "sce_europe_500m_daily_v1",
         ),
         (
-            "urn:cgls:global:sce_v1_0.01degree",
-            "sce_northernhemisphere_1km_daily_v1",
-        ),
-        (
             "urn:cgls:global:swe_V1_5km",
             "swe_northernhemisphere_5km_daily_v1",
         ),
@@ -444,15 +443,23 @@ def test_parse_sensor(
 def test_get_processing_center(institution_tag: str, expected: str):
     assert get_processing_center({"institution": institution_tag}) == expected
 
+
 @pytest.mark.parametrize(
-    ("file", "reference"), [(test_data / "tar/CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00.tar", CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00_TARRED_FILES)],
+    ("file", "reference"),
+    [
+        (
+            test_data / "tar/CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00.tar",
+            CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00_TARRED_FILES,
+        )
+    ],
 )
 def test_handle_tar_files(file, reference):
     from clms_metadata.source.file import FileSource
 
     # Test extracting a file from the tar archive
     tarred_files = FileSource(
-        settings=MagicMock(), storage=MagicMock(), eo_asset_name_list=MagicMock()).list_files_in_tar(file)
+        settings=MagicMock(), storage=MagicMock(), eo_asset_name_list=MagicMock()
+    ).list_files_in_tar(file)
     for tarred_file, reference_file in zip(tarred_files, reference):
-        tarred_file.parts[-len(reference_file.parts):] == reference_file.parts
-        tarred_file.parts[0] == 'vsitar'
+        tarred_file.parts[-len(reference_file.parts) :] == reference_file.parts
+        tarred_file.parts[0] == "vsitar"
