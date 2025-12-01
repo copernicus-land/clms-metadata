@@ -87,18 +87,18 @@ datasetMapping:
           - name: main-crop-harvest-confidence-layer
             fileKey: CPMCHCL
             datasetShortName: cpmchcl
-          - name: secundary-crop-duration  # TODO: typo? 'secondary'
+          - name: secondary-crop-duration
             fileKey: CPSCD
             datasetShortName: cpscd
             SDIResourceIdentifier: copernicus_r_3035_10_m_cpscd_p_2017-now_v01_r00
-          - name: secundary-crop-duration-confidence-layer  # TODO: typo?
+          - name: secondary-crop-duration-confidence-layer
             fileKey: CPSCDCL
             datasetShortName: cpscdcl
-          - name: secundary-crop-emergence  # TODO: typo?
+          - name: secondary-crop-emergence
             fileKey: CPSCE
             datasetShortName: cpsce
             SDIResourceIdentifier: copernicus_r_3035_10_m_cpsce_p_2017-now_v01_r00
-          - name: secundary-crop-types  # TODO: typo?
+          - name: secondary-crop-types
             fileKey: CPSCT
             datasetShortName: cpsct
             SDIResourceIdentifier: copernicus_r_3035_10_m_cpsct_p_2017-now_v01_r00
