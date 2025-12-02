@@ -51,6 +51,8 @@ DATE_VLCC_S: Final[re.Pattern] = re.compile(r"_S(\d{4})_")
 
 DATE_VLCC_C: Final[re.Pattern] = re.compile(r"_C(\d{4})-(\d{4})_")
 
+DATE_VLCC_P: Final[re.Pattern] = re.compile(r"_P(\d{4})-(\d{4})_")
+
 
 SWI_STATIC: Final[re.Pattern] = re.compile(
     r"c_gls_SWI-STATIC-(?P<swiSubParameter>[A-Z]+)_[\d-]{12}_GLOBE_[A-Z-0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
