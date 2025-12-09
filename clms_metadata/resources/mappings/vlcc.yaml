@@ -43,7 +43,7 @@ datasetMapping:
           - name: bare-soil-before-confidence-layer
             fileKey: CPBSBCL
             datasetShortName: cpbsbcl
-          - name: cropping-seasons-types  # TODO: check sample data
+          - name: cropping-seasons-types
             fileKey: CPCST
             datasetShortName: cpcst
             temporalRepeatRate: 3yearly
