@@ -166,8 +166,11 @@ PRODUCT_NAME_TO_DATASET: Final[
         r"c_gls_LWQ1km_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d)\.\d)"
     ): "lwq-reproc_global_1km_10daily_v{version_major}",
     re.compile(
-        r"c_gls_LST_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>\d)\.\d)"
+        r"c_gls_LST_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>[12])\.\d)"
     ): "lst_global_5km_hourly_v{version_major}",
+    re.compile(
+        r"c_gls_LST_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>(?![12])\d)\.\d)"
+    ): "lst_global_3km_hourly_v{version_major}",
     re.compile(
         r"c_gls_LST10-DC_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>\d)\.\d)"
     ): "lst-daily-cycle_global_5km_10daily_v{version_major}",

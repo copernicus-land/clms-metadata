@@ -162,6 +162,15 @@ test_reference = test_root / "reference"
             test_reference
             / "land_surface_temperature/lst_global_5km_hourly_v2/c_gls_LST_202501121100_GLOBE_GEO_V2.1.2_nc.json5",
         ),
+        # lst_global_3km_hourly_v3
+        (
+            (
+                test_data
+                / "land_surface_temperature/lst_global_3km_hourly_v3/c_gls_LST_202408011200_GLOBE_GEO_V3.0.1.nc",
+            ),
+            test_reference
+            / "land_surface_temperature/lst_global_3km_hourly_v3/c_gls_LST_202408011200_GLOBE_GEO_V3.0.1_nc.json5",
+        ),
         # lst-daily-cycle_global_5km_10daily_v1
         (
             (
@@ -479,6 +488,7 @@ def test_builder(files, reference):
         "c_gls_LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1.nc",
         "c_gls_LWQ1km_201604210000_GLOBE_OLCI_V1.2.nc",  # clms_global_lwq_1km_v1_10daily-nrt_netcdf
         "c_gls_SWE5K_202407010000_NHEMI_SSMIS_V2.0.1.nc",  # clms_global_swe_5km_v2_daily_netcdf
+        "c_gls_SWE5K_202510140000_NHEMI_AMSR-2_V2.1.1.nc",  # clms_global_swe_5km_v2_daily_netcdf
         "c_gls_LWQ300_202409010000_GLOBE_OLCI_V2.0.0.nc",  # clms_global_lwq_300m_v2_10daily-nrt_netcdf
         "c_gls_LWQ1km_200205110000_GLOBE_MERIS_V1.1.nc",  # clms_global_lwq_1km_v1_10daily-reproc_netcdf
         "c_gls_LWQ100_202409010000_GLOBAL_MSI_V2.0.nc",  # clms_global_lwq_100m_v2_10daily-nrt_netcdf
