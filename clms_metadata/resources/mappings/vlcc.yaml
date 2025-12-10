@@ -2,9 +2,11 @@ templates:
   datasetIdentifier: "clms_vlcc_{name}_{areaOfInterest}_{gridLabel}_{temporalRepeatRate}_v{datasetVersion}"
   datasetAlias: "clms_vlcc_{name}"
 fileRegex:
-  - regex: "CLMS_HRLVLCC_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<cellID>(E|W)\\d{{2}}(N|S)\\d{{2}}_03035)_V\\d{{2}}_R\\d{{2}}"
+  - regex: "CLMS_HRLVLCC_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<tile>(E|W)\\d{{2}}(N|S)\\d{{2}})_03035_V\\d{{2}}_R\\d{{2}}"
 #    spatialExtent: "europe"
     projection: "laea"
+    templates:
+      cellID: "100km{tile}"
   - regex: "CLMS_HRLVLCC_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<cellID>[A-Z]+_\\d{{5}})_V\\d{{2}}_R\\d{{2}}"
 #    spatialExtent: "dom"
     projection: "utm"

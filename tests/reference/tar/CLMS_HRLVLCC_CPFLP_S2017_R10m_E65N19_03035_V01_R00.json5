@@ -23,6 +23,7 @@
         "metricGridSpacing": 10,
         "datasetAlias": "clms_vlcc_fallow-land-presence",
         "areaOfInterest": "europe",
+        "cellID": "100kmE65N19",
         "missionShortName": "unspecified",
         "platformShortName": "unspecified",
         "platformAcronym": "unspecified",
