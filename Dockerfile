@@ -11,6 +11,6 @@ RUN apt update && apt install -y \
     python3-pip
 RUN pip install --break-system-package --no-cache-dir /tmp/${PACKAGE_NAME}
 
-ADD https://raw.githubusercontent.com/copernicus-land/EOAssets/1990be98767b60386b31bb273b50548cf3ecff1d/EOassetNameList.yaml ${CACHE_DIR}
+ADD https://raw.githubusercontent.com/copernicus-land/EOAssets/b158ada7270cd8df4c44bda3d06e206e7303d32a/EOassetNameList.yaml ${CACHE_DIR}
 
 ENTRYPOINT ["clms-metadata"]
