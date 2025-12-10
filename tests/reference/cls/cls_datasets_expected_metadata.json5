@@ -366,6 +366,31 @@
         },
     },
     {
+        "name": "c_gls_SWE5K_202510140000_NHEMI_AMSR-2_V2.1.1",
+        "name_suffix": "nc",
+        "content_type": "application/netcdf",
+        "product_type": "snow_water_equivalent",
+        "dataset_identifier": "swe_northernhemisphere_5km_daily_v2",
+        "component": "bio-geophysical",
+        "content_date": {
+            "start": "2025-10-14T00:00:00.000000Z",
+            "end": "2025-10-14T23:59:59.999999Z"
+        },
+        "nominal_date": "2025-10-14T00:00:00.000000Z",
+        "attributes": {
+            "datasetVersion": 2,
+            "fileFormat": "nc",
+            "gridLabel": "5km",
+            "processingCenter": "FMI",
+            "temporalRepeatRate": "daily",
+            "areaOfInterest": "northern hemisphere",
+            "missionShortName": "GCOMW",
+            "platformShortName": "GCOMW1",
+            "platformAcronym": "unspecified",
+            "instrumentShortName": "AMSR-2"
+        },
+    },
+    {
         "name": "c_gls_LWQ300_202409010000_GLOBE_OLCI_V2.0.0",
         "name_suffix": "nc",
         "content_type": "application/netcdf",
