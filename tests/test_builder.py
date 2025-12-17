@@ -458,6 +458,24 @@ test_reference = test_root / "reference"
             test_reference
             / "tar/CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00.json5",
         ),
+        # fallow-land-duration
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLD_P2019-2023_R10m_E11N25_03035_V01_R00",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLD_P2019-2023_R10m_E11N25_03035_V01_R00.json5",
+        ),
+        # grassland-change
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_grassland-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_GRAC_C2018-2021_R20m_E63N15_03035_V01_R00",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_grassland-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_GRAC_C2018-2021_R20m_E63N15_03035_V01_R00.json5",
+        ),
     ],
 )
 def test_builder(files, reference):

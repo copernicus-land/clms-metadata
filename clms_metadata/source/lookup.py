@@ -156,6 +156,7 @@ class LookupSource(MetadataSource):
                 regex.DATASET_NDVI_STATISTICS,
                 regex.DATASET_SWI_STATIC,
                 regex.DATASET_SWI_TIMESERIES,
+                regex.DATASET_CLMS_PREFIX,
             )
         ):
             temporal_grid_delta = get_relativedelta(
@@ -172,6 +173,38 @@ class LookupSource(MetadataSource):
                 logger.info(
                     "Updated content date: {}", metadata.content_date.model_dump()
                 )
+        elif (
+            m := regex.DATASET_CLMS_PREFIX.match(metadata.dataset_identifier)
+        ) and m.group("product_family") == "vlcc":
+            if m_date := regex.DATE_VLCC_S.search(metadata.name):
+                # a single year
+                metadata.content_date = ContentDate(
+                    start=datetime.datetime.strptime(m_date.group(1), "%Y"),
+                    end=datetime.datetime.strptime(m_date.group(1), "%Y").replace(
+                        month=12,
+                        day=31,
+                        hour=23,
+                        minute=59,
+                        second=59,
+                        microsecond=999999,
+                    ),
+                )
+            elif m_date := regex.DATE_VLCC_P.search(
+                metadata.name
+            ) or regex.DATE_VLCC_C.search(metadata.name):
+                # extract start and end year from product name
+                metadata.content_date = ContentDate(
+                    start=datetime.datetime.strptime(m_date.group(1), "%Y"),
+                    end=datetime.datetime.strptime(m_date.group(2), "%Y").replace(
+                        month=12,
+                        day=31,
+                        hour=23,
+                        minute=59,
+                        second=59,
+                        microsecond=999999,
+                    ),
+                )
+
         if (
             metadata.content_date.end.second == 59
             and metadata.content_date.end.minute % 10 == 9
