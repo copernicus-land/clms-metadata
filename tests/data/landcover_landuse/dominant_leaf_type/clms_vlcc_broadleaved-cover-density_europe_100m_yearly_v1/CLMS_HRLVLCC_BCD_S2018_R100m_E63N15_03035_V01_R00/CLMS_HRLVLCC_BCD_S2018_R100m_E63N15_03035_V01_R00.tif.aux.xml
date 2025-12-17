@@ -1,0 +1,638 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <GDALRasterAttributeTable tableType="thematic">
+      <FieldDefn index="0">
+        <Name>value</Name>
+        <Type>0</Type>
+        <Usage>2</Usage>
+      </FieldDefn>
+      <FieldDefn index="1">
+        <Name>class_name</Name>
+        <Type>2</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <FieldDefn index="2">
+        <Name>area_km2</Name>
+        <Type>1</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <FieldDefn index="3">
+        <Name>area_perc</Name>
+        <Type>1</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <Row index="0">
+        <F>0</F>
+        <F>all non-broadleaved covered areas</F>
+        <F>81.09999999999999</F>
+        <F>72.99072990729907</F>
+      </Row>
+      <Row index="1">
+        <F>1</F>
+        <F>1% broadleaved cover density</F>
+        <F>2.45</F>
+        <F>2.205022050220502</F>
+      </Row>
+      <Row index="2">
+        <F>2</F>
+        <F>2% broadleaved cover density</F>
+        <F>2.02</F>
+        <F>1.818018180181802</F>
+      </Row>
+      <Row index="3">
+        <F>3</F>
+        <F>3% broadleaved cover density</F>
+        <F>1.69</F>
+        <F>1.521015210152102</F>
+      </Row>
+      <Row index="4">
+        <F>4</F>
+        <F>4% broadleaved cover density</F>
+        <F>1.13</F>
+        <F>1.017010170101701</F>
+      </Row>
+      <Row index="5">
+        <F>5</F>
+        <F>5% broadleaved cover density</F>
+        <F>1.27</F>
+        <F>1.143011430114301</F>
+      </Row>
+      <Row index="6">
+        <F>6</F>
+        <F>6% broadleaved cover density</F>
+        <F>1.17</F>
+        <F>1.053010530105301</F>
+      </Row>
+      <Row index="7">
+        <F>7</F>
+        <F>7% broadleaved cover density</F>
+        <F>0.96</F>
+        <F>0.8640086400864009</F>
+      </Row>
+      <Row index="8">
+        <F>8</F>
+        <F>8% broadleaved cover density</F>
+        <F>0.86</F>
+        <F>0.7740077400774007</F>
+      </Row>
+      <Row index="9">
+        <F>9</F>
+        <F>9% broadleaved cover density</F>
+        <F>0.83</F>
+        <F>0.7470074700747007</F>
+      </Row>
+      <Row index="10">
+        <F>10</F>
+        <F>10% broadleaved cover density</F>
+        <F>0.6899999999999999</F>
+        <F>0.6210062100621005</F>
+      </Row>
+      <Row index="11">
+        <F>11</F>
+        <F>11% broadleaved cover density</F>
+        <F>0.68</F>
+        <F>0.6120061200612006</F>
+      </Row>
+      <Row index="12">
+        <F>12</F>
+        <F>12% broadleaved cover density</F>
+        <F>0.65</F>
+        <F>0.5850058500585006</F>
+      </Row>
+      <Row index="13">
+        <F>13</F>
+        <F>13% broadleaved cover density</F>
+        <F>0.54</F>
+        <F>0.4860048600486005</F>
+      </Row>
+      <Row index="14">
+        <F>14</F>
+        <F>14% broadleaved cover density</F>
+        <F>0.57</F>
+        <F>0.5130051300513006</F>
+      </Row>
+      <Row index="15">
+        <F>15</F>
+        <F>15% broadleaved cover density</F>
+        <F>0.53</F>
+        <F>0.4770047700477005</F>
+      </Row>
+      <Row index="16">
+        <F>16</F>
+        <F>16% broadleaved cover density</F>
+        <F>0.43</F>
+        <F>0.3870038700387003</F>
+      </Row>
+      <Row index="17">
+        <F>17</F>
+        <F>17% broadleaved cover density</F>
+        <F>0.6</F>
+        <F>0.5400054000540006</F>
+      </Row>
+      <Row index="18">
+        <F>18</F>
+        <F>18% broadleaved cover density</F>
+        <F>0.52</F>
+        <F>0.4680046800468005</F>
+      </Row>
+      <Row index="19">
+        <F>19</F>
+        <F>19% broadleaved cover density</F>
+        <F>0.36</F>
+        <F>0.3240032400324003</F>
+      </Row>
+      <Row index="20">
+        <F>20</F>
+        <F>20% broadleaved cover density</F>
+        <F>0.44</F>
+        <F>0.3960039600396004</F>
+      </Row>
+      <Row index="21">
+        <F>21</F>
+        <F>21% broadleaved cover density</F>
+        <F>0.35</F>
+        <F>0.3150031500315003</F>
+      </Row>
+      <Row index="22">
+        <F>22</F>
+        <F>22% broadleaved cover density</F>
+        <F>0.43</F>
+        <F>0.3870038700387003</F>
+      </Row>
+      <Row index="23">
+        <F>23</F>
+        <F>23% broadleaved cover density</F>
+        <F>0.39</F>
+        <F>0.3510035100351003</F>
+      </Row>
+      <Row index="24">
+        <F>24</F>
+        <F>24% broadleaved cover density</F>
+        <F>0.44</F>
+        <F>0.3960039600396004</F>
+      </Row>
+      <Row index="25">
+        <F>25</F>
+        <F>25% broadleaved cover density</F>
+        <F>0.34</F>
+        <F>0.3060030600306003</F>
+      </Row>
+      <Row index="26">
+        <F>26</F>
+        <F>26% broadleaved cover density</F>
+        <F>0.33</F>
+        <F>0.2970029700297003</F>
+      </Row>
+      <Row index="27">
+        <F>27</F>
+        <F>27% broadleaved cover density</F>
+        <F>0.33</F>
+        <F>0.2970029700297003</F>
+      </Row>
+      <Row index="28">
+        <F>28</F>
+        <F>28% broadleaved cover density</F>
+        <F>0.44</F>
+        <F>0.3960039600396004</F>
+      </Row>
+      <Row index="29">
+        <F>29</F>
+        <F>29% broadleaved cover density</F>
+        <F>0.17</F>
+        <F>0.1530015300153001</F>
+      </Row>
+      <Row index="30">
+        <F>30</F>
+        <F>30% broadleaved cover density</F>
+        <F>0.28</F>
+        <F>0.2520025200252002</F>
+      </Row>
+      <Row index="31">
+        <F>31</F>
+        <F>31% broadleaved cover density</F>
+        <F>0.27</F>
+        <F>0.2430024300243002</F>
+      </Row>
+      <Row index="32">
+        <F>32</F>
+        <F>32% broadleaved cover density</F>
+        <F>0.26</F>
+        <F>0.2340023400234002</F>
+      </Row>
+      <Row index="33">
+        <F>33</F>
+        <F>33% broadleaved cover density</F>
+        <F>0.25</F>
+        <F>0.2250022500225002</F>
+      </Row>
+      <Row index="34">
+        <F>34</F>
+        <F>34% broadleaved cover density</F>
+        <F>0.28</F>
+        <F>0.2520025200252002</F>
+      </Row>
+      <Row index="35">
+        <F>35</F>
+        <F>35% broadleaved cover density</F>
+        <F>0.2</F>
+        <F>0.1800018000180002</F>
+      </Row>
+      <Row index="36">
+        <F>36</F>
+        <F>36% broadleaved cover density</F>
+        <F>0.22</F>
+        <F>0.1980019800198002</F>
+      </Row>
+      <Row index="37">
+        <F>37</F>
+        <F>37% broadleaved cover density</F>
+        <F>0.25</F>
+        <F>0.2250022500225002</F>
+      </Row>
+      <Row index="38">
+        <F>38</F>
+        <F>38% broadleaved cover density</F>
+        <F>0.25</F>
+        <F>0.2250022500225002</F>
+      </Row>
+      <Row index="39">
+        <F>39</F>
+        <F>39% broadleaved cover density</F>
+        <F>0.17</F>
+        <F>0.1530015300153001</F>
+      </Row>
+      <Row index="40">
+        <F>40</F>
+        <F>40% broadleaved cover density</F>
+        <F>0.27</F>
+        <F>0.2430024300243002</F>
+      </Row>
+      <Row index="41">
+        <F>41</F>
+        <F>41% broadleaved cover density</F>
+        <F>0.2</F>
+        <F>0.1800018000180002</F>
+      </Row>
+      <Row index="42">
+        <F>42</F>
+        <F>42% broadleaved cover density</F>
+        <F>0.15</F>
+        <F>0.1350013500135001</F>
+      </Row>
+      <Row index="43">
+        <F>43</F>
+        <F>43% broadleaved cover density</F>
+        <F>0.21</F>
+        <F>0.1890018900189002</F>
+      </Row>
+      <Row index="44">
+        <F>44</F>
+        <F>44% broadleaved cover density</F>
+        <F>0.17</F>
+        <F>0.1530015300153001</F>
+      </Row>
+      <Row index="45">
+        <F>45</F>
+        <F>45% broadleaved cover density</F>
+        <F>0.11</F>
+        <F>0.09900099000990011</F>
+      </Row>
+      <Row index="46">
+        <F>46</F>
+        <F>46% broadleaved cover density</F>
+        <F>0.17</F>
+        <F>0.1530015300153001</F>
+      </Row>
+      <Row index="47">
+        <F>47</F>
+        <F>47% broadleaved cover density</F>
+        <F>0.18</F>
+        <F>0.1620016200162002</F>
+      </Row>
+      <Row index="48">
+        <F>48</F>
+        <F>48% broadleaved cover density</F>
+        <F>0.19</F>
+        <F>0.1710017100171002</F>
+      </Row>
+      <Row index="49">
+        <F>49</F>
+        <F>49% broadleaved cover density</F>
+        <F>0.17</F>
+        <F>0.1530015300153001</F>
+      </Row>
+      <Row index="50">
+        <F>50</F>
+        <F>50% broadleaved cover density</F>
+        <F>0.21</F>
+        <F>0.1890018900189002</F>
+      </Row>
+      <Row index="51">
+        <F>51</F>
+        <F>51% broadleaved cover density</F>
+        <F>0.09</F>
+        <F>0.08100081000810008</F>
+      </Row>
+      <Row index="52">
+        <F>52</F>
+        <F>52% broadleaved cover density</F>
+        <F>0.16</F>
+        <F>0.1440014400144001</F>
+      </Row>
+      <Row index="53">
+        <F>53</F>
+        <F>53% broadleaved cover density</F>
+        <F>0.09</F>
+        <F>0.08100081000810008</F>
+      </Row>
+      <Row index="54">
+        <F>54</F>
+        <F>54% broadleaved cover density</F>
+        <F>0.18</F>
+        <F>0.1620016200162002</F>
+      </Row>
+      <Row index="55">
+        <F>55</F>
+        <F>55% broadleaved cover density</F>
+        <F>0.16</F>
+        <F>0.1440014400144001</F>
+      </Row>
+      <Row index="56">
+        <F>56</F>
+        <F>56% broadleaved cover density</F>
+        <F>0.13</F>
+        <F>0.1170011700117001</F>
+      </Row>
+      <Row index="57">
+        <F>57</F>
+        <F>57% broadleaved cover density</F>
+        <F>0.11</F>
+        <F>0.09900099000990011</F>
+      </Row>
+      <Row index="58">
+        <F>58</F>
+        <F>58% broadleaved cover density</F>
+        <F>0.07000000000000001</F>
+        <F>0.06300063000630006</F>
+      </Row>
+      <Row index="59">
+        <F>59</F>
+        <F>59% broadleaved cover density</F>
+        <F>0.15</F>
+        <F>0.1350013500135001</F>
+      </Row>
+      <Row index="60">
+        <F>60</F>
+        <F>60% broadleaved cover density</F>
+        <F>0.14</F>
+        <F>0.1260012600126001</F>
+      </Row>
+      <Row index="61">
+        <F>61</F>
+        <F>61% broadleaved cover density</F>
+        <F>0.08</F>
+        <F>0.07200072000720006</F>
+      </Row>
+      <Row index="62">
+        <F>62</F>
+        <F>62% broadleaved cover density</F>
+        <F>0.05</F>
+        <F>0.04500045000450004</F>
+      </Row>
+      <Row index="63">
+        <F>63</F>
+        <F>63% broadleaved cover density</F>
+        <F>0.1</F>
+        <F>0.09000090000900009</F>
+      </Row>
+      <Row index="64">
+        <F>64</F>
+        <F>64% broadleaved cover density</F>
+        <F>0.08</F>
+        <F>0.07200072000720006</F>
+      </Row>
+      <Row index="65">
+        <F>65</F>
+        <F>65% broadleaved cover density</F>
+        <F>0.09</F>
+        <F>0.08100081000810008</F>
+      </Row>
+      <Row index="66">
+        <F>66</F>
+        <F>66% broadleaved cover density</F>
+        <F>0.16</F>
+        <F>0.1440014400144001</F>
+      </Row>
+      <Row index="67">
+        <F>67</F>
+        <F>67% broadleaved cover density</F>
+        <F>0.11</F>
+        <F>0.09900099000990011</F>
+      </Row>
+      <Row index="68">
+        <F>68</F>
+        <F>68% broadleaved cover density</F>
+        <F>0.08</F>
+        <F>0.07200072000720006</F>
+      </Row>
+      <Row index="69">
+        <F>69</F>
+        <F>69% broadleaved cover density</F>
+        <F>0.05</F>
+        <F>0.04500045000450004</F>
+      </Row>
+      <Row index="70">
+        <F>70</F>
+        <F>70% broadleaved cover density</F>
+        <F>0.06</F>
+        <F>0.05400054000540006</F>
+      </Row>
+      <Row index="71">
+        <F>71</F>
+        <F>71% broadleaved cover density</F>
+        <F>0.08</F>
+        <F>0.07200072000720006</F>
+      </Row>
+      <Row index="72">
+        <F>72</F>
+        <F>72% broadleaved cover density</F>
+        <F>0.07000000000000001</F>
+        <F>0.06300063000630006</F>
+      </Row>
+      <Row index="73">
+        <F>73</F>
+        <F>73% broadleaved cover density</F>
+        <F>0.07000000000000001</F>
+        <F>0.06300063000630006</F>
+      </Row>
+      <Row index="74">
+        <F>74</F>
+        <F>74% broadleaved cover density</F>
+        <F>0.07000000000000001</F>
+        <F>0.06300063000630006</F>
+      </Row>
+      <Row index="75">
+        <F>75</F>
+        <F>75% broadleaved cover density</F>
+        <F>0.09</F>
+        <F>0.08100081000810008</F>
+      </Row>
+      <Row index="76">
+        <F>76</F>
+        <F>76% broadleaved cover density</F>
+        <F>0.08</F>
+        <F>0.07200072000720006</F>
+      </Row>
+      <Row index="77">
+        <F>77</F>
+        <F>77% broadleaved cover density</F>
+        <F>0.07000000000000001</F>
+        <F>0.06300063000630006</F>
+      </Row>
+      <Row index="78">
+        <F>78</F>
+        <F>78% broadleaved cover density</F>
+        <F>0.06</F>
+        <F>0.05400054000540006</F>
+      </Row>
+      <Row index="79">
+        <F>79</F>
+        <F>79% broadleaved cover density</F>
+        <F>0.06</F>
+        <F>0.05400054000540006</F>
+      </Row>
+      <Row index="80">
+        <F>80</F>
+        <F>80% broadleaved cover density</F>
+        <F>0.04</F>
+        <F>0.03600036000360003</F>
+      </Row>
+      <Row index="81">
+        <F>81</F>
+        <F>81% broadleaved cover density</F>
+        <F>0.1</F>
+        <F>0.09000090000900009</F>
+      </Row>
+      <Row index="82">
+        <F>82</F>
+        <F>82% broadleaved cover density</F>
+        <F>0.06</F>
+        <F>0.05400054000540006</F>
+      </Row>
+      <Row index="83">
+        <F>83</F>
+        <F>83% broadleaved cover density</F>
+        <F>0.03</F>
+        <F>0.02700027000270003</F>
+      </Row>
+      <Row index="84">
+        <F>84</F>
+        <F>84% broadleaved cover density</F>
+        <F>0.06</F>
+        <F>0.05400054000540006</F>
+      </Row>
+      <Row index="85">
+        <F>85</F>
+        <F>85% broadleaved cover density</F>
+        <F>0.05</F>
+        <F>0.04500045000450004</F>
+      </Row>
+      <Row index="86">
+        <F>86</F>
+        <F>86% broadleaved cover density</F>
+        <F>0.05</F>
+        <F>0.04500045000450004</F>
+      </Row>
+      <Row index="87">
+        <F>87</F>
+        <F>87% broadleaved cover density</F>
+        <F>0.04</F>
+        <F>0.03600036000360003</F>
+      </Row>
+      <Row index="88">
+        <F>88</F>
+        <F>88% broadleaved cover density</F>
+        <F>0.08</F>
+        <F>0.07200072000720006</F>
+      </Row>
+      <Row index="89">
+        <F>89</F>
+        <F>89% broadleaved cover density</F>
+        <F>0.05</F>
+        <F>0.04500045000450004</F>
+      </Row>
+      <Row index="90">
+        <F>90</F>
+        <F>90% broadleaved cover density</F>
+        <F>0.03</F>
+        <F>0.02700027000270003</F>
+      </Row>
+      <Row index="91">
+        <F>91</F>
+        <F>91% broadleaved cover density</F>
+        <F>0.03</F>
+        <F>0.02700027000270003</F>
+      </Row>
+      <Row index="92">
+        <F>92</F>
+        <F>92% broadleaved cover density</F>
+        <F>0.03</F>
+        <F>0.02700027000270003</F>
+      </Row>
+      <Row index="93">
+        <F>93</F>
+        <F>93% broadleaved cover density</F>
+        <F>0.06</F>
+        <F>0.05400054000540006</F>
+      </Row>
+      <Row index="94">
+        <F>94</F>
+        <F>94% broadleaved cover density</F>
+        <F>0.04</F>
+        <F>0.03600036000360003</F>
+      </Row>
+      <Row index="95">
+        <F>95</F>
+        <F>95% broadleaved cover density</F>
+        <F>0.02</F>
+        <F>0.01800018000180002</F>
+      </Row>
+      <Row index="96">
+        <F>96</F>
+        <F>96% broadleaved cover density</F>
+        <F>0.04</F>
+        <F>0.03600036000360003</F>
+      </Row>
+      <Row index="97">
+        <F>97</F>
+        <F>97% broadleaved cover density</F>
+        <F>0.05</F>
+        <F>0.04500045000450004</F>
+      </Row>
+      <Row index="98">
+        <F>98</F>
+        <F>98% broadleaved cover density</F>
+        <F>0.03</F>
+        <F>0.02700027000270003</F>
+      </Row>
+      <Row index="99">
+        <F>99</F>
+        <F>99% broadleaved cover density</F>
+        <F>0.04</F>
+        <F>0.03600036000360003</F>
+      </Row>
+      <Row index="100">
+        <F>100</F>
+        <F>100% broadleaved cover density</F>
+        <F>0.22</F>
+        <F>0.1980019800198002</F>
+      </Row>
+      <Row index="101">
+        <F>255</F>
+        <F>outside area</F>
+        <F>9888.889999999999</F>
+        <F>0</F>
+      </Row>
+    </GDALRasterAttributeTable>
+  </PAMRasterBand>
+</PAMDataset>

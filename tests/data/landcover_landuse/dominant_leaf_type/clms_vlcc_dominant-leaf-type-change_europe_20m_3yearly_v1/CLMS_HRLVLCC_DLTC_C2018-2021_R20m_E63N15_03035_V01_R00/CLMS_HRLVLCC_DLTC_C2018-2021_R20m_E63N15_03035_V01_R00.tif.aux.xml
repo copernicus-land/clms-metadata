@@ -1,0 +1,68 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <GDALRasterAttributeTable tableType="thematic">
+      <FieldDefn index="0">
+        <Name>value</Name>
+        <Type>0</Type>
+        <Usage>2</Usage>
+      </FieldDefn>
+      <FieldDefn index="1">
+        <Name>class_name</Name>
+        <Type>2</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <FieldDefn index="2">
+        <Name>area_km2</Name>
+        <Type>1</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <FieldDefn index="3">
+        <Name>area_perc</Name>
+        <Type>1</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <Row index="0">
+        <F>0</F>
+        <F>unchanged areas with no tree cover </F>
+        <F>100.6828</F>
+        <F>92.54682364014737</F>
+      </Row>
+      <Row index="1">
+        <F>1</F>
+        <F>new broadleaved cover</F>
+        <F>0</F>
+        <F>0</F>
+      </Row>
+      <Row index="2">
+        <F>2</F>
+        <F>new coniferous cover</F>
+        <F>0</F>
+        <F>0</F>
+      </Row>
+      <Row index="3">
+        <F>3</F>
+        <F>loss of broadleaved cover</F>
+        <F>0.0936</F>
+        <F>0.08603637058879762</F>
+      </Row>
+      <Row index="4">
+        <F>4</F>
+        <F>loss of coniferous cover</F>
+        <F>0.0028</F>
+        <F>0.002573737581716168</F>
+      </Row>
+      <Row index="5">
+        <F>10</F>
+        <F>unchanged areas with tree cover</F>
+        <F>8.012</F>
+        <F>7.364566251682121</F>
+      </Row>
+      <Row index="6">
+        <F>255</F>
+        <F>outside area</F>
+        <F>9891.2088</F>
+        <F>0</F>
+      </Row>
+    </GDALRasterAttributeTable>
+  </PAMRasterBand>
+</PAMDataset>
