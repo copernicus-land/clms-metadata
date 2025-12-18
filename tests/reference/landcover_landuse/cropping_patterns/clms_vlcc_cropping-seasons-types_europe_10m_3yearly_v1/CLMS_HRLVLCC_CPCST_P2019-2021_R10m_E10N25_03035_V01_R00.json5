@@ -1,0 +1,31 @@
+{
+    "name": "CLMS_HRLVLCC_CPCST_P2019-2021_R10m_E10N25_03035_V01_R00",
+    "name_suffix": null,
+    "content_type": "application/tiff",
+    "content_date": {
+        "start": "2019-01-01T00:00:00.000000Z",
+        "end": "2021-12-31T23:59:59.999999Z"
+    },
+    "nominal_date": "2021-01-01T00:00:00.000000Z",
+    "product_type": "cropping_patterns",
+    "component": "landcover_landuse",
+    "dataset_identifier": "clms_vlcc_cropping-seasons-types_europe_10m_3yearly_v1",
+    "attributes": {
+        "productVersion": "v01_r00",
+        "datasetVersion": 1,
+        "fileFormat": "cog",
+        "temporalRepeatRate": "3yearly",
+        "areaOfInterest": "europe",
+        "datasetShortName": "cpcst",
+        "SDIResourceIdentifier": "copernicus_r_3035_10_m_cpcst-2019-2021_p_2019-2021_v01_r00",
+        "gridLabel": "10m",
+        "metricGridSpacing": 10,
+        "datasetAlias": "clms_vlcc_cropping-seasons-types",
+        "cellID": "100kmE10N25",
+        "missionShortName": "unspecified",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified",
+        "instrumentShortName": "unspecified",
+        "processingCenter": "unspecified"
+    }
+}

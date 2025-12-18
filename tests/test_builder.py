@@ -1,4 +1,3 @@
-import json
 from pathlib import Path
 
 import pyjson5
@@ -436,6 +435,96 @@ test_reference = test_root / "reference"
         #############
         ## HRLVLCC ##
         #############
+        # crop-types
+        (
+            (
+                test_data
+                / "landcover_landuse/crop_types/clms_vlcc_crop-types_europe_10m_yearly_v1/CLMS_HRLVLCC_CTY_S2019_R10m_E65N17_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/crop_types/clms_vlcc_crop-types_europe_10m_yearly_v1/CLMS_HRLVLCC_CTY_S2019_R10m_E65N17_03035_V01_R00.json5",
+        ),
+        # crop-types-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/crop_types/clms_vlcc_crop-types-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CTYCL_S2020_R10m_E64N16_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/crop_types/clms_vlcc_crop-types-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CTYCL_S2020_R10m_E64N16_03035_V01_R00.json5",
+        ),
+        # bare-soil-after
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_bare-soil-after_europe_10m_yearly_v1/CLMS_HRLVLCC_CPBSA_S2019_R10m_E64N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_bare-soil-after_europe_10m_yearly_v1/CLMS_HRLVLCC_CPBSA_S2019_R10m_E64N15_03035_V01_R00.json5",
+        ),
+        # bare-soil-after-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_bare-soil-after-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPBSACL_S2018_R10m_E64N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_bare-soil-after-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPBSACL_S2018_R10m_E64N15_03035_V01_R00.json5",
+        ),
+        # bare-soil-before
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_bare-soil-before_europe_10m_yearly_v1/CLMS_HRLVLCC_CPBSB_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_bare-soil-before_europe_10m_yearly_v1/CLMS_HRLVLCC_CPBSB_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # bare-soil-before-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_bare-soil-before-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPBSBCL_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_bare-soil-before-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPBSBCL_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # cropping-seasons-types
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_cropping-seasons-types_europe_10m_3yearly_v1/CLMS_HRLVLCC_CPCST_P2019-2021_R10m_E10N25_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_cropping-seasons-types_europe_10m_3yearly_v1/CLMS_HRLVLCC_CPCST_P2019-2021_R10m_E10N25_03035_V01_R00.json5",
+        ),
+        # cropping-seasons
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_cropping-seasons_europe_10m_yearly_v1/CLMS_HRLVLCC_CPCSY_S2018_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_cropping-seasons_europe_10m_yearly_v1/CLMS_HRLVLCC_CPCSY_S2018_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # fallow-land-duration
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLD_P2019-2023_R10m_E11N25_03035_V01_R00",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLD_P2019-2023_R10m_E11N25_03035_V01_R00.json5",
+        ),
+        # fallow-land-duration-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-duration-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLDCL_P2017-2021_R10m_E11N25_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-duration-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLDCL_P2017-2021_R10m_E11N25_03035_V01_R00.json5",
+        ),
         # fallow-land-presence
         (
             (
@@ -458,14 +547,14 @@ test_reference = test_root / "reference"
             test_reference
             / "tar/CLMS_HRLVLCC_CPFLP_S2017_R10m_E65N19_03035_V01_R00.json5",
         ),
-        # fallow-land-duration
+        # fallow-land-presence-confidence-layer
         (
             (
                 test_data
-                / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLD_P2019-2023_R10m_E11N25_03035_V01_R00",
+                / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLPCL_S2019_R10m_E63N15_03035_V01_R00/",
             ),
             test_reference
-            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLD_P2019-2023_R10m_E11N25_03035_V01_R00.json5",
+            / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLPCL_S2019_R10m_E63N15_03035_V01_R00.json5",
         ),
         # grassland-change
         (
@@ -566,7 +655,10 @@ def compare_with_reference_file(m: Metadata, reference: Path):
     except FileNotFoundError as e:
         dump = m.model_dump(mode="json")
         dump["attributes"] = {a["name"]: a["value"] for a in dump["attributes"]}
-        print(json.dumps(dump))
+        p_dump = reference.parent / (reference.stem + "_generated" + reference.suffix)
+        p_dump.parent.mkdir(parents=True, exist_ok=True)
+        with p_dump.open("w") as f:
+            pyjson5.dump(dump, f)
         raise e
     compare_with_reference(m, expected)
 
