@@ -6,7 +6,7 @@
         "start": "2018-01-01T00:00:00.000000Z",
         "end": "2021-12-31T23:59:59.999999Z"
     },
-    "nominal_date": "2018-01-01T00:00:00.000000Z",
+    "nominal_date": "2021-01-01T00:00:00.000000Z",
     "product_type": "grassland_and_herbaceous",
     "component": "landcover_landuse",
     "dataset_identifier": "clms_vlcc_grassland-change_europe_20m_3yearly_v1",
