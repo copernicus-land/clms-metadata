@@ -1,0 +1,31 @@
+{
+    "name": "CLMS_HRLVLCC_CPFLD_P2019-2023_R10m_E11N25_03035_V01_R00",
+    "name_suffix": null,
+    "content_type": "application/tiff",
+    "content_date": {
+        "start": "2019-01-01T00:00:00.000000Z",
+        "end": "2023-12-31T23:59:59.999999Z"
+    },
+    "nominal_date": "2023-01-01T00:00:00.000000Z",
+    "product_type": "cropping_patterns",
+    "component": "landcover_landuse",
+    "dataset_identifier": "clms_vlcc_fallow-land-duration_europe_10m_yearly_v1",
+    "attributes": {
+        "productVersion": "v01_r00",
+        "datasetVersion": 1,
+        "fileFormat": "cog",
+        "temporalRepeatRate": "yearly",
+        "areaOfInterest": "europe",
+        "datasetShortName": "cpfld",
+        "SDIResourceIdentifier": "copernicus_r_3035_10_m_cpfld-2017-2021_p_2017-2021_v01_r00",
+        "gridLabel": "10m",
+        "metricGridSpacing": 10,
+        "datasetAlias": "clms_vlcc_fallow-land-duration",
+        "cellID": "100kmE11N25",
+        "missionShortName": "unspecified",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified",
+        "instrumentShortName": "unspecified",
+        "processingCenter": "unspecified"
+    }
+}
