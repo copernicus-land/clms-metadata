@@ -149,12 +149,19 @@ datasetMapping:
             fileKey: GRA
             templates:
               SDIResourceIdentifier: copernicus_r_3035_{metricGridSpacing}_m_gra_p_2017-now_v01_r00
+          - name: grassland-confidence-layer
+            fileKey: GRACL
+            datasetShortName: gracl
           # - name: grassland-change  # TODO: check if yearly grassland-change dataset exists
           - name: grassland-change
             temporalRepeatRate: 3yearly
             SDIResourceIdentifier: copernicus_r_3035_20_m_grac-2018-2021_p_2018-2021_v01_r00
             fileKey: GRAC
             datasetShortName: grac
+          - name: grassland-change-confidence-layer
+            temporalRepeatRate: 3yearly
+            fileKey: GRACCL
+            datasetShortName: graccl
           - name: herbaceous-cover
             fileKey: HER
             datasetShortName: her

@@ -1,0 +1,644 @@
+<PAMDataset>
+  <PAMRasterBand band="1">
+    <GDALRasterAttributeTable tableType="thematic">
+      <FieldDefn index="0">
+        <Name>value</Name>
+        <Type>0</Type>
+        <Usage>2</Usage>
+      </FieldDefn>
+      <FieldDefn index="1">
+        <Name>class_name</Name>
+        <Type>2</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <FieldDefn index="2">
+        <Name>area_km2</Name>
+        <Type>1</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <FieldDefn index="3">
+        <Name>area_perc</Name>
+        <Type>1</Type>
+        <Usage>0</Usage>
+      </FieldDefn>
+      <Row index="0">
+        <F>0</F>
+        <F>classification confidence (0-100):0</F>
+        <F>0</F>
+        <F>0</F>
+      </Row>
+      <Row index="1">
+        <F>1</F>
+        <F>classification confidence (0-100):1</F>
+        <F>6.4614</F>
+        <F>0.2537941068108135</F>
+      </Row>
+      <Row index="2">
+        <F>2</F>
+        <F>classification confidence (0-100):2</F>
+        <F>0.6586</F>
+        <F>0.02586882080440799</F>
+      </Row>
+      <Row index="3">
+        <F>3</F>
+        <F>classification confidence (0-100):3</F>
+        <F>0.7478</F>
+        <F>0.02937246309981217</F>
+      </Row>
+      <Row index="4">
+        <F>4</F>
+        <F>classification confidence (0-100):4</F>
+        <F>0.8161</F>
+        <F>0.03205518472286268</F>
+      </Row>
+      <Row index="5">
+        <F>5</F>
+        <F>classification confidence (0-100):5</F>
+        <F>0.9343</F>
+        <F>0.03669790354928391</F>
+      </Row>
+      <Row index="6">
+        <F>6</F>
+        <F>classification confidence (0-100):6</F>
+        <F>1.0455</F>
+        <F>0.04106567286821827</F>
+      </Row>
+      <Row index="7">
+        <F>7</F>
+        <F>classification confidence (0-100):7</F>
+        <F>1.1551</F>
+        <F>0.04537059658544134</F>
+      </Row>
+      <Row index="8">
+        <F>8</F>
+        <F>classification confidence (0-100):8</F>
+        <F>1.313</F>
+        <F>0.05157267190432386</F>
+      </Row>
+      <Row index="9">
+        <F>9</F>
+        <F>classification confidence (0-100):9</F>
+        <F>1.4345</F>
+        <F>0.05634500978427461</F>
+      </Row>
+      <Row index="10">
+        <F>10</F>
+        <F>classification confidence (0-100):10</F>
+        <F>1.5928</F>
+        <F>0.06256279650358496</F>
+      </Row>
+      <Row index="11">
+        <F>11</F>
+        <F>classification confidence (0-100):11</F>
+        <F>1.7844</F>
+        <F>0.07008855730851141</F>
+      </Row>
+      <Row index="12">
+        <F>12</F>
+        <F>classification confidence (0-100):12</F>
+        <F>1.945</F>
+        <F>0.07639668458028173</F>
+      </Row>
+      <Row index="13">
+        <F>13</F>
+        <F>classification confidence (0-100):13</F>
+        <F>2.1457</F>
+        <F>0.08427987974494112</F>
+      </Row>
+      <Row index="14">
+        <F>14</F>
+        <F>classification confidence (0-100):14</F>
+        <F>2.3938</F>
+        <F>0.09402487586029737</F>
+      </Row>
+      <Row index="15">
+        <F>15</F>
+        <F>classification confidence (0-100):15</F>
+        <F>2.6231</F>
+        <F>0.103031436155546</F>
+      </Row>
+      <Row index="16">
+        <F>16</F>
+        <F>classification confidence (0-100):16</F>
+        <F>2.8429</F>
+        <F>0.1116648506906339</F>
+      </Row>
+      <Row index="17">
+        <F>17</F>
+        <F>classification confidence (0-100):17</F>
+        <F>3.1469</F>
+        <F>0.1236055150157782</F>
+      </Row>
+      <Row index="18">
+        <F>18</F>
+        <F>classification confidence (0-100):18</F>
+        <F>3.3782</F>
+        <F>0.1326906323131659</F>
+      </Row>
+      <Row index="19">
+        <F>19</F>
+        <F>classification confidence (0-100):19</F>
+        <F>3.6695</F>
+        <F>0.1441324596747269</F>
+      </Row>
+      <Row index="20">
+        <F>20</F>
+        <F>classification confidence (0-100):20</F>
+        <F>3.9378</F>
+        <F>0.1546708815116881</F>
+      </Row>
+      <Row index="21">
+        <F>21</F>
+        <F>classification confidence (0-100):21</F>
+        <F>4.2835</F>
+        <F>0.1682494593314328</F>
+      </Row>
+      <Row index="22">
+        <F>22</F>
+        <F>classification confidence (0-100):22</F>
+        <F>4.5785</F>
+        <F>0.1798366171469511</F>
+      </Row>
+      <Row index="23">
+        <F>23</F>
+        <F>classification confidence (0-100):23</F>
+        <F>4.8934</F>
+        <F>0.1922054171337535</F>
+      </Row>
+      <Row index="24">
+        <F>24</F>
+        <F>classification confidence (0-100):24</F>
+        <F>5.27</F>
+        <F>0.2069977006365474</F>
+      </Row>
+      <Row index="25">
+        <F>25</F>
+        <F>classification confidence (0-100):25</F>
+        <F>5.5262</F>
+        <F>0.217060852610567</F>
+      </Row>
+      <Row index="26">
+        <F>26</F>
+        <F>classification confidence (0-100):26</F>
+        <F>5.9139</F>
+        <F>0.2322891274752329</F>
+      </Row>
+      <Row index="27">
+        <F>27</F>
+        <F>classification confidence (0-100):27</F>
+        <F>6.2055</F>
+        <F>0.2437427383871148</F>
+      </Row>
+      <Row index="28">
+        <F>28</F>
+        <F>classification confidence (0-100):28</F>
+        <F>6.5018</F>
+        <F>0.2553809582540235</F>
+      </Row>
+      <Row index="29">
+        <F>29</F>
+        <F>classification confidence (0-100):29</F>
+        <F>6.7345</F>
+        <F>0.2645210654529086</F>
+      </Row>
+      <Row index="30">
+        <F>30</F>
+        <F>classification confidence (0-100):30</F>
+        <F>7.0351</F>
+        <F>0.2763281828744164</F>
+      </Row>
+      <Row index="31">
+        <F>31</F>
+        <F>classification confidence (0-100):31</F>
+        <F>7.1999</F>
+        <F>0.2828012798506788</F>
+      </Row>
+      <Row index="32">
+        <F>32</F>
+        <F>classification confidence (0-100):32</F>
+        <F>7.3398</F>
+        <F>0.2882963421503094</F>
+      </Row>
+      <Row index="33">
+        <F>33</F>
+        <F>classification confidence (0-100):33</F>
+        <F>7.494</F>
+        <F>0.2943530870152345</F>
+      </Row>
+      <Row index="34">
+        <F>34</F>
+        <F>classification confidence (0-100):34</F>
+        <F>7.5998</F>
+        <F>0.2985087524283933</F>
+      </Row>
+      <Row index="35">
+        <F>35</F>
+        <F>classification confidence (0-100):35</F>
+        <F>7.655</F>
+        <F>0.3006769256874327</F>
+      </Row>
+      <Row index="36">
+        <F>36</F>
+        <F>classification confidence (0-100):36</F>
+        <F>7.7362</F>
+        <F>0.3038663399742804</F>
+      </Row>
+      <Row index="37">
+        <F>37</F>
+        <F>classification confidence (0-100):37</F>
+        <F>7.7611</F>
+        <F>0.3048443746509123</F>
+      </Row>
+      <Row index="38">
+        <F>38</F>
+        <F>classification confidence (0-100):38</F>
+        <F>7.7333</F>
+        <F>0.3037524323211788</F>
+      </Row>
+      <Row index="39">
+        <F>39</F>
+        <F>classification confidence (0-100):39</F>
+        <F>7.6981</F>
+        <F>0.3023698290835304</F>
+      </Row>
+      <Row index="40">
+        <F>40</F>
+        <F>classification confidence (0-100):40</F>
+        <F>7.6775</F>
+        <F>0.3015606919614977</F>
+      </Row>
+      <Row index="41">
+        <F>41</F>
+        <F>classification confidence (0-100):41</F>
+        <F>7.6675</F>
+        <F>0.3011679069508021</F>
+      </Row>
+      <Row index="42">
+        <F>42</F>
+        <F>classification confidence (0-100):42</F>
+        <F>7.6369</F>
+        <F>0.2999659848180737</F>
+      </Row>
+      <Row index="43">
+        <F>43</F>
+        <F>classification confidence (0-100):43</F>
+        <F>7.6297</F>
+        <F>0.299683179610373</F>
+      </Row>
+      <Row index="44">
+        <F>44</F>
+        <F>classification confidence (0-100):44</F>
+        <F>7.5787</F>
+        <F>0.2976799760558257</F>
+      </Row>
+      <Row index="45">
+        <F>45</F>
+        <F>classification confidence (0-100):45</F>
+        <F>7.5448</F>
+        <F>0.2963484348695679</F>
+      </Row>
+      <Row index="46">
+        <F>46</F>
+        <F>classification confidence (0-100):46</F>
+        <F>7.4728</F>
+        <F>0.29352038279256</F>
+      </Row>
+      <Row index="47">
+        <F>47</F>
+        <F>classification confidence (0-100):47</F>
+        <F>7.4785</F>
+        <F>0.2937442702486565</F>
+      </Row>
+      <Row index="48">
+        <F>48</F>
+        <F>classification confidence (0-100):48</F>
+        <F>7.4341</F>
+        <F>0.2920003048011683</F>
+      </Row>
+      <Row index="49">
+        <F>49</F>
+        <F>classification confidence (0-100):49</F>
+        <F>7.3455</F>
+        <F>0.2885202296064059</F>
+      </Row>
+      <Row index="50">
+        <F>50</F>
+        <F>classification confidence (0-100):50</F>
+        <F>7.308</F>
+        <F>0.2870472858162976</F>
+      </Row>
+      <Row index="51">
+        <F>51</F>
+        <F>classification confidence (0-100):51</F>
+        <F>7.2065</F>
+        <F>0.2830605179577379</F>
+      </Row>
+      <Row index="52">
+        <F>52</F>
+        <F>classification confidence (0-100):52</F>
+        <F>7.1528</F>
+        <F>0.2809512624503029</F>
+      </Row>
+      <Row index="53">
+        <F>53</F>
+        <F>classification confidence (0-100):53</F>
+        <F>7.1292</F>
+        <F>0.2800242898250614</F>
+      </Row>
+      <Row index="54">
+        <F>54</F>
+        <F>classification confidence (0-100):54</F>
+        <F>7.0493</F>
+        <F>0.2768859375896041</F>
+      </Row>
+      <Row index="55">
+        <F>55</F>
+        <F>classification confidence (0-100):55</F>
+        <F>6.9558</F>
+        <F>0.2732133977396008</F>
+      </Row>
+      <Row index="56">
+        <F>56</F>
+        <F>classification confidence (0-100):56</F>
+        <F>6.8223</F>
+        <F>0.2679697178468154</F>
+      </Row>
+      <Row index="57">
+        <F>57</F>
+        <F>classification confidence (0-100):57</F>
+        <F>6.8102</F>
+        <F>0.2674944479838738</F>
+      </Row>
+      <Row index="58">
+        <F>58</F>
+        <F>classification confidence (0-100):58</F>
+        <F>6.635</F>
+        <F>0.260612854596488</F>
+      </Row>
+      <Row index="59">
+        <F>59</F>
+        <F>classification confidence (0-100):59</F>
+        <F>6.5098</F>
+        <F>0.2556951862625799</F>
+      </Row>
+      <Row index="60">
+        <F>60</F>
+        <F>classification confidence (0-100):60</F>
+        <F>6.3858</F>
+        <F>0.2508246521299553</F>
+      </Row>
+      <Row index="61">
+        <F>61</F>
+        <F>classification confidence (0-100):61</F>
+        <F>6.2326</F>
+        <F>0.2448071857660996</F>
+      </Row>
+      <Row index="62">
+        <F>62</F>
+        <F>classification confidence (0-100):62</F>
+        <F>6.0958</F>
+        <F>0.2394338868197848</F>
+      </Row>
+      <Row index="63">
+        <F>63</F>
+        <F>classification confidence (0-100):63</F>
+        <F>5.9476</F>
+        <F>0.2336128129612769</F>
+      </Row>
+      <Row index="64">
+        <F>64</F>
+        <F>classification confidence (0-100):64</F>
+        <F>5.7755</F>
+        <F>0.2268529829272067</F>
+      </Row>
+      <Row index="65">
+        <F>65</F>
+        <F>classification confidence (0-100):65</F>
+        <F>5.5899</F>
+        <F>0.2195628931286976</F>
+      </Row>
+      <Row index="66">
+        <F>66</F>
+        <F>classification confidence (0-100):66</F>
+        <F>5.4774</F>
+        <F>0.2151440617583728</F>
+      </Row>
+      <Row index="67">
+        <F>67</F>
+        <F>classification confidence (0-100):67</F>
+        <F>5.2279</F>
+        <F>0.2053440757415192</F>
+      </Row>
+      <Row index="68">
+        <F>68</F>
+        <F>classification confidence (0-100):68</F>
+        <F>5.0953</F>
+        <F>0.2001357464996964</F>
+      </Row>
+      <Row index="69">
+        <F>69</F>
+        <F>classification confidence (0-100):69</F>
+        <F>4.8534</F>
+        <F>0.1906342770909714</F>
+      </Row>
+      <Row index="70">
+        <F>70</F>
+        <F>classification confidence (0-100):70</F>
+        <F>4.7821</F>
+        <F>0.1878337199647122</F>
+      </Row>
+      <Row index="71">
+        <F>71</F>
+        <F>classification confidence (0-100):71</F>
+        <F>4.6161</F>
+        <F>0.1813134887871663</F>
+      </Row>
+      <Row index="72">
+        <F>72</F>
+        <F>classification confidence (0-100):72</F>
+        <F>4.5643</F>
+        <F>0.1792788624317634</F>
+      </Row>
+      <Row index="73">
+        <F>73</F>
+        <F>classification confidence (0-100):73</F>
+        <F>4.4167</F>
+        <F>0.1734813556738973</F>
+      </Row>
+      <Row index="74">
+        <F>74</F>
+        <F>classification confidence (0-100):74</F>
+        <F>4.2765</F>
+        <F>0.1679745098239459</F>
+      </Row>
+      <Row index="75">
+        <F>75</F>
+        <F>classification confidence (0-100):75</F>
+        <F>4.1632</F>
+        <F>0.1635242556527655</F>
+      </Row>
+      <Row index="76">
+        <F>76</F>
+        <F>classification confidence (0-100):76</F>
+        <F>4.0366</F>
+        <F>0.15855159741736</F>
+      </Row>
+      <Row index="77">
+        <F>77</F>
+        <F>classification confidence (0-100):77</F>
+        <F>3.8581</F>
+        <F>0.1515403849764447</F>
+      </Row>
+      <Row index="78">
+        <F>78</F>
+        <F>classification confidence (0-100):78</F>
+        <F>3.7592</F>
+        <F>0.1476557412206659</F>
+      </Row>
+      <Row index="79">
+        <F>79</F>
+        <F>classification confidence (0-100):79</F>
+        <F>3.567</F>
+        <F>0.1401064133150976</F>
+      </Row>
+      <Row index="80">
+        <F>80</F>
+        <F>classification confidence (0-100):80</F>
+        <F>3.4263</F>
+        <F>0.1345799282146114</F>
+      </Row>
+      <Row index="81">
+        <F>81</F>
+        <F>classification confidence (0-100):81</F>
+        <F>3.2614</F>
+        <F>0.1281029033882421</F>
+      </Row>
+      <Row index="82">
+        <F>82</F>
+        <F>classification confidence (0-100):82</F>
+        <F>3.0774</F>
+        <F>0.1208756591914442</F>
+      </Row>
+      <Row index="83">
+        <F>83</F>
+        <F>classification confidence (0-100):83</F>
+        <F>2.8828</F>
+        <F>0.1132320628833091</F>
+      </Row>
+      <Row index="84">
+        <F>84</F>
+        <F>classification confidence (0-100):84</F>
+        <F>2.6765</F>
+        <F>0.1051289081126602</F>
+      </Row>
+      <Row index="85">
+        <F>85</F>
+        <F>classification confidence (0-100):85</F>
+        <F>2.4434</F>
+        <F>0.09597308951334722</F>
+      </Row>
+      <Row index="86">
+        <F>86</F>
+        <F>classification confidence (0-100):86</F>
+        <F>2.2351</F>
+        <F>0.08779137774055921</F>
+      </Row>
+      <Row index="87">
+        <F>87</F>
+        <F>classification confidence (0-100):87</F>
+        <F>1.9508</F>
+        <F>0.07662449988648513</F>
+      </Row>
+      <Row index="88">
+        <F>88</F>
+        <F>classification confidence (0-100):88</F>
+        <F>1.738</F>
+        <F>0.06826603485888412</F>
+      </Row>
+      <Row index="89">
+        <F>89</F>
+        <F>classification confidence (0-100):89</F>
+        <F>1.4714</F>
+        <F>0.05779438647374115</F>
+      </Row>
+      <Row index="90">
+        <F>90</F>
+        <F>classification confidence (0-100):90</F>
+        <F>1.1685</F>
+        <F>0.04589692849977337</F>
+      </Row>
+      <Row index="91">
+        <F>91</F>
+        <F>classification confidence (0-100):91</F>
+        <F>0.8979</F>
+        <F>0.03526816611035216</F>
+      </Row>
+      <Row index="92">
+        <F>92</F>
+        <F>classification confidence (0-100):92</F>
+        <F>0.6516</F>
+        <F>0.02559387129692112</F>
+      </Row>
+      <Row index="93">
+        <F>93</F>
+        <F>classification confidence (0-100):93</F>
+        <F>0.4125</F>
+        <F>0.01620238169119085</F>
+      </Row>
+      <Row index="94">
+        <F>94</F>
+        <F>classification confidence (0-100):94</F>
+        <F>0.2278</F>
+        <F>0.008947642543644307</F>
+      </Row>
+      <Row index="95">
+        <F>95</F>
+        <F>classification confidence (0-100):95</F>
+        <F>0.1</F>
+        <F>0.003927850106955359</F>
+      </Row>
+      <Row index="96">
+        <F>96</F>
+        <F>classification confidence (0-100):96</F>
+        <F>0.0281</F>
+        <F>0.001103725880054456</F>
+      </Row>
+      <Row index="97">
+        <F>97</F>
+        <F>classification confidence (0-100):97</F>
+        <F>0.0066</F>
+        <F>0.0002592381070590536</F>
+      </Row>
+      <Row index="98">
+        <F>98</F>
+        <F>classification confidence (0-100):98</F>
+        <F>0.0003</F>
+        <F>1.178355032086608e-05</F>
+      </Row>
+      <Row index="99">
+        <F>99</F>
+        <F>classification confidence (0-100):99</F>
+        <F>0</F>
+        <F>0</F>
+      </Row>
+      <Row index="100">
+        <F>100</F>
+        <F>classification confidence (0-100):100</F>
+        <F>0</F>
+        <F>0</F>
+      </Row>
+      <Row index="101">
+        <F>253</F>
+        <F>non-grassland area</F>
+        <F>2104.3137</F>
+        <F>82.65428791612625</F>
+      </Row>
+      <Row index="102">
+        <F>255</F>
+        <F>outside area</F>
+        <F>7454.078</F>
+        <F>0</F>
+      </Row>
+    </GDALRasterAttributeTable>
+  </PAMRasterBand>
+</PAMDataset>
