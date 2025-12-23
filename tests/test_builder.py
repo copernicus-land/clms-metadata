@@ -493,10 +493,10 @@ test_reference = test_root / "reference"
         (
             (
                 test_data
-                / "landcover_landuse/cropping_patterns/clms_vlcc_cropping-seasons-types_europe_10m_3yearly_v1/CLMS_HRLVLCC_CPCST_P2019-2021_R10m_E10N25_03035_V01_R00/",
+                / "landcover_landuse/cropping_patterns/clms_vlcc_cropping-seasons-types_europe_10m_yearly_v1/CLMS_HRLVLCC_CPCST_P2019-2021_R10m_E10N25_03035_V01_R00/",
             ),
             test_reference
-            / "landcover_landuse/cropping_patterns/clms_vlcc_cropping-seasons-types_europe_10m_3yearly_v1/CLMS_HRLVLCC_CPCST_P2019-2021_R10m_E10N25_03035_V01_R00.json5",
+            / "landcover_landuse/cropping_patterns/clms_vlcc_cropping-seasons-types_europe_10m_yearly_v1/CLMS_HRLVLCC_CPCST_P2019-2021_R10m_E10N25_03035_V01_R00.json5",
         ),
         # cropping-seasons
         (

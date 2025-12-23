@@ -48,7 +48,6 @@ datasetMapping:
           - name: cropping-seasons-types
             fileKey: CPCST
             datasetShortName: cpcst
-            temporalRepeatRate: 3yearly
             SDIResourceIdentifier: copernicus_r_3035_10_m_cpcst-2019-2021_p_2019-2021_v01_r00
           - name: cropping-seasons
             fileKey: CPCSY
