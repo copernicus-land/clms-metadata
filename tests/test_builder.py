@@ -556,6 +556,97 @@ test_reference = test_root / "reference"
             test_reference
             / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLPCL_S2019_R10m_E63N15_03035_V01_R00.json5",
         ),
+        # main-crop-duration
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCD_S2021_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCD_S2021_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # main-crop-duration-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-duration-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCDCL_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-duration-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCDCL_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # main-crop-emergence
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-emergence_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCE_S2021_R10m_E65N17_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-emergence_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCE_S2021_R10m_E65N17_03035_V01_R00.json5",
+        ),
+        # main-crop-emergence-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-emergence-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCECL_S2021_R10m_E65N17_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-emergence-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCECL_S2021_R10m_E65N17_03035_V01_R00.json5",
+        ),
+        # main-crop-harvest
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-harvest_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCH_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-harvest_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCH_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # main-crop-harvest-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-harvest-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCHCL_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-harvest-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCHCL_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # secondary-crop-duration
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCD_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCD_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # secondary-crop-duration-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-duration-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCDCL_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-duration-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCDCL_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # secondary-crop-emergence
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-emergence_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCE_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-emergence_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCE_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # secondary-crop-types
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-types_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCT_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-types_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCT_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        #
         # grassland
         (
             (
@@ -595,7 +686,7 @@ test_reference = test_root / "reference"
     ],
 )
 def test_builder(files, reference):
-    assert all(p.exists() for p in files)
+    assert all(p.exists() for p in files), f"Not all expected files do exist: {files}"
 
     builder = MetadataBuilder(
         storage=LocalFileSystem(), settings=Settings(link=LinkSettings(value="test"))
