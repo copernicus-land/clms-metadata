@@ -755,10 +755,50 @@ test_reference = test_root / "reference"
             / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_grassland-change-confidence-layer_europe_20m_3yearly_v1/CLMS_HRLVLCC_GRACCL_C2018-2021_R20m_E64N16_03035_V01_R00.json5",
         ),
         # herbaceous-cover
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_herbaceous-cover_europe_10m_yearly_v1/CLMS_HRLVLCC_HER_S2020_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_herbaceous-cover_europe_10m_yearly_v1/CLMS_HRLVLCC_HER_S2020_R10m_E63N15_03035_V01_R00.json5",
+        ),
         # ploughing-indicator
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_ploughing-indicator_europe_10m_yearly_v1/CLMS_HRLVLCC_PLOUGH_S2018_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_ploughing-indicator_europe_10m_yearly_v1/CLMS_HRLVLCC_PLOUGH_S2018_R10m_E63N15_03035_V01_R00.json5",
+        ),
         # grassland-mowing-dates
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-dates_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAMD3_S2020_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-dates_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAMD3_S2020_R10m_E63N15_03035_V01_R00.json5",
+        ),
         # grassland-mowing-events
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-events_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAME_S2020_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-events_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAME_S2020_R10m_E63N15_03035_V01_R00.json5",
+        ),
         # grassland-mowing-events-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-events-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAMECL_S2018_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-events-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAMECL_S2018_R10m_E63N15_03035_V01_R00.json5",
+        ),
         # tree-cover-density
         # tree-cover-density-confidence-layer
         # tree-cover-presence-change
