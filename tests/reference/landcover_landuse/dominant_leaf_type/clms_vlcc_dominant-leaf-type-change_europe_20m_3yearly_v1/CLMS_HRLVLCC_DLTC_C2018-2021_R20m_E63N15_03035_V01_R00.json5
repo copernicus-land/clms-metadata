@@ -1,0 +1,31 @@
+{
+    "name": "CLMS_HRLVLCC_DLTC_C2018-2021_R20m_E63N15_03035_V01_R00",
+    "name_suffix": null,
+    "content_type": "application/tiff",
+    "content_date": {
+        "start": "2018-01-01T00:00:00.000000Z",
+        "end": "2021-12-31T23:59:59.999999Z"
+    },
+    "nominal_date": "2021-01-01T00:00:00.000000Z",
+    "product_type": "dominant_leaf_type",
+    "component": "landcover_landuse",
+    "dataset_identifier": "clms_vlcc_dominant-leaf-type-change_europe_20m_3yearly_v1",
+    "attributes": {
+        "productVersion": "v01_r00",
+        "datasetVersion": 1,
+        "fileFormat": "cog",
+        "temporalRepeatRate": "3yearly",
+        "areaOfInterest": "europe",
+        "datasetShortName": "dltc",
+        "SDIResourceIdentifier": "copernicus_r_3035_20_m_dltc-2018-2021_p_2018-2021_v01_r00",
+        "gridLabel": "20m",
+        "metricGridSpacing": 20,
+        "datasetAlias": "clms_vlcc_dominant-leaf-type-change",
+        "cellID": "100kmE63N15",
+        "missionShortName": "unspecified",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified",
+        "instrumentShortName": "unspecified",
+        "processingCenter": "unspecified"
+    }
+}

@@ -683,6 +683,15 @@ test_reference = test_root / "reference"
             test_reference
             / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_grassland-change-confidence-layer_europe_20m_3yearly_v1/CLMS_HRLVLCC_GRACCL_C2018-2021_R20m_E64N16_03035_V01_R00.json5",
         ),
+        # herbaceous-cover
+        # ploughing-indicator
+        # grassland-mowing-dates
+        # grassland-mowing-events
+        # grassland-mowing-events-confidence-layer
+        # tree-cover-density
+        # tree-cover-density-confidence-layer
+        # tree-cover-presence-change
+        # tree-cover-presence-change-confidence-layer
     ],
 )
 def test_builder(files, reference):
