@@ -800,9 +800,50 @@ test_reference = test_root / "reference"
             / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-events-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAMECL_S2018_R10m_E63N15_03035_V01_R00.json5",
         ),
         # tree-cover-density
+        (
+            (
+                test_data
+                / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density_europe_10m_yearly_v1/CLMS_HRLVLCC_TCD_S2019_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density_europe_10m_yearly_v1/CLMS_HRLVLCC_TCD_S2019_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # tree-cover-density 100m
+        (
+            (
+                test_data
+                / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_TCD_S2019_R100m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_TCD_S2019_R100m_E63N15_03035_V01_R00.json5",
+        ),
         # tree-cover-density-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_TCDCL_S2020_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_TCDCL_S2020_R10m_E63N15_03035_V01_R00.json5",
+        ),
         # tree-cover-presence-change
+        (
+            (
+                test_data
+                / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-presence-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_TCPC_C2018-2021_R20m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-presence-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_TCPC_C2018-2021_R20m_E63N15_03035_V01_R00.json5",
+        ),
         # tree-cover-presence-change-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-presence-change-confidence-layer_europe_20m_3yearly_v1/CLMS_HRLVLCC_TCPCCL_C2018-2021_R20m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-presence-change-confidence-layer_europe_20m_3yearly_v1/CLMS_HRLVLCC_TCPCCL_C2018-2021_R20m_E63N15_03035_V01_R00.json5",
+        ),
     ],
 )
 def test_builder(files, reference):
