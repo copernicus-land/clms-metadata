@@ -646,7 +646,78 @@ test_reference = test_root / "reference"
             test_reference
             / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-types_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCT_S2017_R10m_E63N15_03035_V01_R00.json5",
         ),
-        #
+        # dominant-leaf-type
+        (
+            (
+                test_data
+                / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type_europe_10m_yearly_v1/CLMS_HRLVLCC_DLT_S2018_R10m_E64N16_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type_europe_10m_yearly_v1/CLMS_HRLVLCC_DLT_S2018_R10m_E64N16_03035_V01_R00.json5",
+        ),
+        # dominant-leaf-type-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_DLTCL_S2018_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_DLTCL_S2018_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # dominant-leaf-type-change
+        (
+            (
+                test_data
+                / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_DLTC_C2018-2021_R20m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_DLTC_C2018-2021_R20m_E63N15_03035_V01_R00.json5",
+        ),
+        # broadleaved-cover-density
+        (
+            (
+                test_data
+                / "landcover_landuse/dominant_leaf_type/clms_vlcc_broadleaved-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_BCD_S2018_R100m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/dominant_leaf_type/clms_vlcc_broadleaved-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_BCD_S2018_R100m_E63N15_03035_V01_R00.json5",
+        ),
+        # coniferous-cover-density
+        (
+            (
+                test_data
+                / "landcover_landuse/dominant_leaf_type/clms_vlcc_coniferous-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_CCD_S2021_R100m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/dominant_leaf_type/clms_vlcc_coniferous-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_CCD_S2021_R100m_E63N15_03035_V01_R00.json5",
+        ),
+        # forest-additional-support-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/forest_type/clms_vlcc_forest-additional-support-layer_europe_10m_3yearly_v1/CLMS_HRLVLCC_FADSL_S2021_R10m_E65N17_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/forest_type/clms_vlcc_forest-additional-support-layer_europe_10m_3yearly_v1/CLMS_HRLVLCC_FADSL_S2021_R10m_E65N17_03035_V01_R00.json5",
+        ),
+        # forest-type
+        (
+            (
+                test_data
+                / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_10m_3yearly_v1/CLMS_HRLVLCC_FTY_S2021_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_10m_3yearly_v1/CLMS_HRLVLCC_FTY_S2021_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # forest-type 100m v2
+        (
+            (
+                test_data
+                / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v2/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v2/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00.json5",
+        ),
         # grassland
         (
             (
