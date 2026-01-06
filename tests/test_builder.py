@@ -556,6 +556,168 @@ test_reference = test_root / "reference"
             test_reference
             / "landcover_landuse/cropping_patterns/clms_vlcc_fallow-land-presence-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPFLPCL_S2019_R10m_E63N15_03035_V01_R00.json5",
         ),
+        # main-crop-duration
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCD_S2021_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCD_S2021_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # main-crop-duration-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-duration-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCDCL_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-duration-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCDCL_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # main-crop-emergence
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-emergence_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCE_S2021_R10m_E65N17_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-emergence_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCE_S2021_R10m_E65N17_03035_V01_R00.json5",
+        ),
+        # main-crop-emergence-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-emergence-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCECL_S2021_R10m_E65N17_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-emergence-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCECL_S2021_R10m_E65N17_03035_V01_R00.json5",
+        ),
+        # main-crop-harvest
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-harvest_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCH_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-harvest_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCH_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # main-crop-harvest-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-harvest-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCHCL_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_main-crop-harvest-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPMCHCL_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # secondary-crop-duration
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCD_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-duration_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCD_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # secondary-crop-duration-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-duration-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCDCL_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-duration-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCDCL_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # secondary-crop-emergence
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-emergence_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCE_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-emergence_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCE_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # secondary-crop-types
+        (
+            (
+                test_data
+                / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-types_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCT_S2017_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/cropping_patterns/clms_vlcc_secondary-crop-types_europe_10m_yearly_v1/CLMS_HRLVLCC_CPSCT_S2017_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # dominant-leaf-type
+        (
+            (
+                test_data
+                / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type_europe_10m_yearly_v1/CLMS_HRLVLCC_DLT_S2018_R10m_E64N16_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type_europe_10m_yearly_v1/CLMS_HRLVLCC_DLT_S2018_R10m_E64N16_03035_V01_R00.json5",
+        ),
+        # dominant-leaf-type-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_DLTCL_S2018_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_DLTCL_S2018_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # dominant-leaf-type-change
+        (
+            (
+                test_data
+                / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_DLTC_C2018-2021_R20m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/dominant_leaf_type/clms_vlcc_dominant-leaf-type-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_DLTC_C2018-2021_R20m_E63N15_03035_V01_R00.json5",
+        ),
+        # broadleaved-cover-density
+        (
+            (
+                test_data
+                / "landcover_landuse/dominant_leaf_type/clms_vlcc_broadleaved-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_BCD_S2018_R100m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/dominant_leaf_type/clms_vlcc_broadleaved-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_BCD_S2018_R100m_E63N15_03035_V01_R00.json5",
+        ),
+        # coniferous-cover-density
+        (
+            (
+                test_data
+                / "landcover_landuse/dominant_leaf_type/clms_vlcc_coniferous-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_CCD_S2021_R100m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/dominant_leaf_type/clms_vlcc_coniferous-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_CCD_S2021_R100m_E63N15_03035_V01_R00.json5",
+        ),
+        # forest-additional-support-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/forest_type/clms_vlcc_forest-additional-support-layer_europe_10m_3yearly_v1/CLMS_HRLVLCC_FADSL_S2021_R10m_E65N17_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/forest_type/clms_vlcc_forest-additional-support-layer_europe_10m_3yearly_v1/CLMS_HRLVLCC_FADSL_S2021_R10m_E65N17_03035_V01_R00.json5",
+        ),
+        # forest-type
+        (
+            (
+                test_data
+                / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_10m_3yearly_v1/CLMS_HRLVLCC_FTY_S2021_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_10m_3yearly_v1/CLMS_HRLVLCC_FTY_S2021_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # forest-type 100m v2
+        (
+            (
+                test_data
+                / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v2/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v2/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00.json5",
+        ),
         # grassland
         (
             (
@@ -592,10 +754,100 @@ test_reference = test_root / "reference"
             test_reference
             / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_grassland-change-confidence-layer_europe_20m_3yearly_v1/CLMS_HRLVLCC_GRACCL_C2018-2021_R20m_E64N16_03035_V01_R00.json5",
         ),
+        # herbaceous-cover
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_herbaceous-cover_europe_10m_yearly_v1/CLMS_HRLVLCC_HER_S2020_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_herbaceous-cover_europe_10m_yearly_v1/CLMS_HRLVLCC_HER_S2020_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # ploughing-indicator
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_ploughing-indicator_europe_10m_yearly_v1/CLMS_HRLVLCC_PLOUGH_S2018_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_ploughing-indicator_europe_10m_yearly_v1/CLMS_HRLVLCC_PLOUGH_S2018_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # grassland-mowing-dates
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-dates_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAMD3_S2020_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-dates_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAMD3_S2020_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # grassland-mowing-events
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-events_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAME_S2020_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-events_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAME_S2020_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # grassland-mowing-events-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-events-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAMECL_S2018_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_mowing_events/clms_vlcc_grassland-mowing-events-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_GRAMECL_S2018_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # tree-cover-density
+        (
+            (
+                test_data
+                / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density_europe_10m_yearly_v1/CLMS_HRLVLCC_TCD_S2019_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density_europe_10m_yearly_v1/CLMS_HRLVLCC_TCD_S2019_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # tree-cover-density 100m
+        (
+            (
+                test_data
+                / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_TCD_S2019_R100m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density_europe_100m_yearly_v1/CLMS_HRLVLCC_TCD_S2019_R100m_E63N15_03035_V01_R00.json5",
+        ),
+        # tree-cover-density-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_TCDCL_S2020_R10m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-density-confidence-layer_europe_10m_yearly_v1/CLMS_HRLVLCC_TCDCL_S2020_R10m_E63N15_03035_V01_R00.json5",
+        ),
+        # tree-cover-presence-change
+        (
+            (
+                test_data
+                / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-presence-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_TCPC_C2018-2021_R20m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-presence-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_TCPC_C2018-2021_R20m_E63N15_03035_V01_R00.json5",
+        ),
+        # tree-cover-presence-change-confidence-layer
+        (
+            (
+                test_data
+                / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-presence-change-confidence-layer_europe_20m_3yearly_v1/CLMS_HRLVLCC_TCPCCL_C2018-2021_R20m_E63N15_03035_V01_R00/",
+            ),
+            test_reference
+            / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-presence-change-confidence-layer_europe_20m_3yearly_v1/CLMS_HRLVLCC_TCPCCL_C2018-2021_R20m_E63N15_03035_V01_R00.json5",
+        ),
     ],
 )
 def test_builder(files, reference):
-    assert all(p.exists() for p in files)
+    assert all(p.exists() for p in files), f"Not all expected files do exist: {files}"
 
     builder = MetadataBuilder(
         storage=LocalFileSystem(), settings=Settings(link=LinkSettings(value="test"))

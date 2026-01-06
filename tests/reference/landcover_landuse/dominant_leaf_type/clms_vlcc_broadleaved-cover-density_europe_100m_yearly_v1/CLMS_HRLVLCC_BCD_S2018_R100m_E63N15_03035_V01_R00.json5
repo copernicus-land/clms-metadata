@@ -1,0 +1,31 @@
+{
+    "name": "CLMS_HRLVLCC_BCD_S2018_R100m_E63N15_03035_V01_R00",
+    "name_suffix": null,
+    "content_type": "application/tiff",
+    "content_date": {
+        "start": "2018-01-01T00:00:00.000000Z",
+        "end": "2018-12-31T23:59:59.999999Z"
+    },
+    "nominal_date": "2018-01-01T00:00:00.000000Z",
+    "product_type": "dominant_leaf_type",
+    "component": "landcover_landuse",
+    "dataset_identifier": "clms_vlcc_broadleaved-cover-density_europe_100m_yearly_v1",
+    "attributes": {
+        "productVersion": "v01_r00",
+        "datasetVersion": 1,
+        "fileFormat": "cog",
+        "temporalRepeatRate": "yearly",
+        "areaOfInterest": "europe",
+        "datasetShortName": "bcd",
+        "SDIResourceIdentifier": "copernicus_r_3035_100_m_bcd_p_2018-now_v01_r00",
+        "gridLabel": "100m",
+        "metricGridSpacing": 100,
+        "datasetAlias": "clms_vlcc_broadleaved-cover-density",
+        "cellID": "100kmE63N15",
+        "missionShortName": "unspecified",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified",
+        "instrumentShortName": "unspecified",
+        "processingCenter": "unspecified"
+    }
+}

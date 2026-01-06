@@ -1,0 +1,30 @@
+{
+    "name": "CLMS_HRLVLCC_DLTCL_S2018_R10m_E63N15_03035_V01_R00",
+    "name_suffix": null,
+    "content_type": "application/tiff",
+    "content_date": {
+        "start": "2018-01-01T00:00:00.000000Z",
+        "end": "2018-12-31T23:59:59.999999Z"
+    },
+    "nominal_date": "2018-01-01T00:00:00.000000Z",
+    "product_type": "dominant_leaf_type",
+    "component": "landcover_landuse",
+    "dataset_identifier": "clms_vlcc_dominant-leaf-type-confidence-layer_europe_10m_yearly_v1",
+    "attributes": {
+        "productVersion": "v01_r00",
+        "datasetVersion": 1,
+        "fileFormat": "cog",
+        "temporalRepeatRate": "yearly",
+        "areaOfInterest": "europe",
+        "datasetShortName": "dltcl",
+        "gridLabel": "10m",
+        "metricGridSpacing": 10,
+        "datasetAlias": "clms_vlcc_dominant-leaf-type-confidence-layer",
+        "cellID": "100kmE63N15",
+        "missionShortName": "unspecified",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified",
+        "instrumentShortName": "unspecified",
+        "processingCenter": "unspecified"
+    }
+}
