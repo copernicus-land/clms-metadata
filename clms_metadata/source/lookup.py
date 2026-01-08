@@ -429,14 +429,17 @@ def matches_temporal_grid(
     :return:
     """
     logger.debug("Temporal grid delta: {}", temporal_grid)
+    if content_date.end.time() > datetime.time(hour=23):
+        # compare with the next day at 00:00 if the end date time is close to the end of the day
+        cmp_date = content_date.end.replace(
+            hour=0, minute=0, second=0, microsecond=0
+        ) + datetime.timedelta(days=1)
+    else:
+        cmp_date = content_date.end
     delta = relativedelta(
-        content_date.end.replace(hour=0, minute=0, second=0, microsecond=0)
-        + datetime.timedelta(days=1),
+        cmp_date,
         content_date.start,
     )
-    cmp_date = content_date.end.replace(
-        hour=0, minute=0, second=0, microsecond=0
-    ) + datetime.timedelta(days=1)
     lower_bound = content_date.start + temporal_grid - datetime.timedelta(days=2)
     upper_bound = content_date.start + temporal_grid + datetime.timedelta(days=1)
     logger.debug("Content date delta: {}", delta)
@@ -473,7 +476,7 @@ def calculate_content_date(
         if temporal_grid.days:
             if nominal_date.month != next_anchor.month or next_anchor.day == 31:
                 # set next anchor to first of the next month
-                next_anchor = next_anchor.replace(month=nominal_date.month + 1, day=1)
+                next_anchor = nominal_date.replace(day=1) + relativedelta(months=1)
         end = next_anchor - datetime.timedelta(microseconds=1)
     else:
         # assume nominal date as end of content date

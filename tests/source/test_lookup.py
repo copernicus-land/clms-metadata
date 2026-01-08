@@ -63,6 +63,11 @@ def test_get_relativedelta(temporal_grid, expected):
             relativedelta(years=1),
             False,
         ),
+        (
+            ContentDate(start="2025-12-20T12:00:00Z", end="2025-12-31T12:00:00Z"),
+            relativedelta(days=10),
+            True,
+        ),
     ],
 )
 def test_matches_temporal_grid(
