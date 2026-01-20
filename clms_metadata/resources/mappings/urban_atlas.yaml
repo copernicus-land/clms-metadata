@@ -1,0 +1,21 @@
+templates:
+  datasetIdentifier: "clms_ua_{name}_{areaOfInterest}_{gridLabel}_{temporalRepeatRate}_v{datasetVersion}"
+  datasetAlias: "clms_ua_{name}"
+
+fileRegex:
+  - regex: "CLMS_UA_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<cellID>[A-Z0-9]+)_(?P<FUA>\\w+)_03035_V\\d{{2}}_R\\d{{2}}_\\d{{8}}" # TODO
+
+name_suffix: # no suffix
+areaOfInterest: "europe"
+
+datasetMapping:
+  - component: "land_cover_use_in_priority_areas"
+    productTypes:
+      - productType: "urban_atlas"
+        datasets:
+          - name: "building-height"
+            # datasetVersion: 1  # TODO: check if we actually want to do this?
+            temporalRepeatRate: "3yearly"
+            datasetShortName: "ua-bbh"  # TODO: not consistent with VLCC?
+            fileKey: BBH
+            SDIResourceIdentifier: "copernicus_r_3035_10_m_ua-bh-2012_p_2012_v03_r00,copernicus_r_3035_10_m_ua-bh-2012_p_2011-2014_v02_r00"  # TODO: should we put both?

@@ -64,7 +64,7 @@ class LookupSource(MetadataSource):
         for attr_name, attr_value in {
             k: v for k, v in match.items() if k in [a.value for a in Attributes]
         }.items():
-            if re.match("^\d+$", attr_value):
+            if isinstance(attr_value, int) or re.match(r"^\d+$", attr_value):
                 attr_value = int(attr_value)
                 value_type = IntegerAttribute
             else:
@@ -173,10 +173,8 @@ class LookupSource(MetadataSource):
                 logger.info(
                     "Updated content date: {}", metadata.content_date.model_dump()
                 )
-        elif (
-            m := regex.DATASET_CLMS_PREFIX.match(metadata.dataset_identifier)
-        ) and m.group("product_family") == "vlcc":
-            if m_date := regex.DATE_VLCC_S.search(metadata.name):
+        elif m := regex.DATASET_CLMS_PREFIX.match(metadata.dataset_identifier):
+            if m_date := regex.DATE_CLMS_S.search(metadata.name):
                 # a single year
                 metadata.content_date = ContentDate(
                     start=datetime.datetime.strptime(m_date.group(1), "%Y"),
@@ -189,9 +187,9 @@ class LookupSource(MetadataSource):
                         microsecond=999999,
                     ),
                 )
-            elif m_date := regex.DATE_VLCC_P.search(
+            elif m_date := regex.DATE_CLMS_P.search(
                 metadata.name
-            ) or regex.DATE_VLCC_C.search(metadata.name):
+            ) or regex.DATE_CLMS_C.search(metadata.name):
                 # extract start and end year from product name
                 metadata.content_date = ContentDate(
                     start=datetime.datetime.strptime(m_date.group(1), "%Y"),

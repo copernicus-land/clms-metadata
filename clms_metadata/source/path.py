@@ -251,10 +251,10 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
         date = datetime.datetime.strptime(match.group("year"), "%Y")
     elif match := regex.LCFM.match(product_id):
         date = datetime.datetime.strptime(match.group("year"), "%Y")
-    elif match := regex.DATE_VLCC_S.search(product_id):
+    elif match := regex.DATE_CLMS_S.search(product_id):
         date = datetime.datetime.strptime(match.group(1), "%Y")
     elif match := (
-        regex.DATE_VLCC_C.search(product_id) or regex.DATE_VLCC_P.search(product_id)
+        regex.DATE_CLMS_C.search(product_id) or regex.DATE_CLMS_P.search(product_id)
     ):
         # nominal date is the first day of the latest year
         date = datetime.datetime.strptime(match.group(2), "%Y")
