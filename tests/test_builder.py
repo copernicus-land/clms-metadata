@@ -713,10 +713,10 @@ test_reference = test_root / "reference"
         (
             (
                 test_data
-                / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v2/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00/",
+                / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v1/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00/",
             ),
             test_reference
-            / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v2/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00.json5",
+            / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v1/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00.json5",
         ),
         # grassland
         (

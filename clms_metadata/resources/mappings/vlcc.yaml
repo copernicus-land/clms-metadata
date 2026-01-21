@@ -13,8 +13,9 @@ fileRegex:
 
 # global properties for VLCC
 temporalRepeatRate: "yearly"
-name_suffix:
+name_suffix:  # no suffix
 areaOfInterest: "europe"
+datasetVersion: 1  # WARNING: pins all VLCC dataset versions to 1
 
 datasetMapping:
   - component: landcover_landuse

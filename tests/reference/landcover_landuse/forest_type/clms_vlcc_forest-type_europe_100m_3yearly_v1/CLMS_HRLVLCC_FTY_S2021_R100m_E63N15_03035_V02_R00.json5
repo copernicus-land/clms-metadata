@@ -9,10 +9,10 @@
     "nominal_date": "2021-01-01T00:00:00.000000Z",
     "product_type": "forest_type",
     "component": "landcover_landuse",
-    "dataset_identifier": "clms_vlcc_forest-type_europe_100m_3yearly_v2",
+    "dataset_identifier": "clms_vlcc_forest-type_europe_100m_3yearly_v1",
     "attributes": {
         "productVersion": "v02_r00",
-        "datasetVersion": 2,
+        "datasetVersion": 1,
         "fileFormat": "cog",
         "temporalRepeatRate": "3yearly",
         "areaOfInterest": "europe",

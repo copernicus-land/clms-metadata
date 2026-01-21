@@ -14,7 +14,7 @@ datasetMapping:
       - productType: "urban_atlas"
         datasets:
           - name: "building-height"
-            # datasetVersion: 1  # TODO: check if we actually want to do this?
+            datasetVersion: 1
             temporalRepeatRate: "3yearly"
             datasetShortName: "ua-bbh"  # TODO: not consistent with VLCC?
             fileKey: BBH
