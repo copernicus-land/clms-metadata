@@ -1,14 +1,22 @@
 import re
 
 from loguru import logger
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 from clms_metadata.models.metadata import Metadata
 
 
+class FileRegex(BaseModel):
+    regex: str
+    templates: dict[str, str] = Field(default_factory=dict)
+
+    model_config = ConfigDict(extra="allow")
+
+
 class Dataset(BaseModel):
     name: str
-    templates: dict[str, str] = {}
+    templates: dict[str, str] = Field(default_factory=dict)
+    fileRegex: list[FileRegex] = Field(default_factory=list)
 
     model_config = ConfigDict(extra="allow")
 
@@ -16,7 +24,8 @@ class Dataset(BaseModel):
 class ProductType(BaseModel):
     productType: str
     datasets: list[Dataset]
-    templates: dict[str, str] = {}
+    templates: dict[str, str] = Field(default_factory=dict)
+    fileRegex: list[FileRegex] = Field(default_factory=list)
 
     model_config = ConfigDict(extra="allow")
 
@@ -24,22 +33,16 @@ class ProductType(BaseModel):
 class Component(BaseModel):
     component: str
     productTypes: list[ProductType]
-    templates: dict[str, str] = {}
-
-    model_config = ConfigDict(extra="allow")
-
-
-class FileRegex(BaseModel):
-    regex: str
-    templates: dict[str, str] = {}
+    templates: dict[str, str] = Field(default_factory=dict)
+    fileRegex: list[FileRegex] = Field(default_factory=list)
 
     model_config = ConfigDict(extra="allow")
 
 
 class DatasetMapping(BaseModel):
     datasetMapping: list[Component]
-    fileRegex: list[FileRegex]
-    templates: dict[str, str] = {}
+    fileRegex: list[FileRegex] = Field(default_factory=list)
+    templates: dict[str, str] = Field(default_factory=dict)
 
     model_config = ConfigDict(extra="allow")
 
@@ -47,7 +50,12 @@ class DatasetMapping(BaseModel):
         for component in self.datasetMapping:
             for product_type in component.productTypes:
                 for dataset in product_type.datasets:
-                    for fileRegex in self.fileRegex:
+                    for fileRegex in (
+                        self.fileRegex
+                        + component.fileRegex
+                        + product_type.fileRegex
+                        + dataset.fileRegex
+                    ):
                         output = {
                             k: v
                             for model in (
