@@ -3,7 +3,7 @@ templates:
   datasetAlias: "clms_ua_{name}"
 
 fileRegex:
-  - regex: "CLMS_UA_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<cellID>[A-Z0-9]+)_(?P<FUA>\\w+)_03035_V\\d{{2}}_R\\d{{2}}_\\d{{8}}" # TODO
+  - regex: "CLMS_UA_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<fuaCode>(?P<countryCode>[A-Z]{{2}})[A-Z0-9]+)_(?P<fuaName>\\w+)_03035_V\\d{{2}}_R\\d{{2}}_\\d{{8}}"
 
 name_suffix: # no suffix
 areaOfInterest: "europe"
@@ -16,6 +16,6 @@ datasetMapping:
           - name: "building-height"
             datasetVersion: 1
             temporalRepeatRate: "3yearly"
-            datasetShortName: "ua-bbh"  # TODO: not consistent with VLCC?
+            datasetShortName: "ua-bbh"
             fileKey: BBH
-            SDIResourceIdentifier: "copernicus_r_3035_10_m_ua-bh-2012_p_2012_v03_r00,copernicus_r_3035_10_m_ua-bh-2012_p_2011-2014_v02_r00"  # TODO: should we put both?
+            SDIResourceIdentifier: "copernicus_r_3035_10_m_ua-bh-2021_p_2021_v01_r00"

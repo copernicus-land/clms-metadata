@@ -30,6 +30,9 @@ class Attributes(str, Enum):
     SWI_SUB_PARAMETER = "swiSubParameter"
     CELL_ID = "cellID"
     SDI_RESOURCE_IDENTIFIER = "SDIResourceIdentifier"
+    COUNTRY_CODE = "countryCode"
+    FUA_CODE = "fuaCode"
+    FUA_NAME = "fuaName"
 
 
 """
