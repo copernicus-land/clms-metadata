@@ -1,7 +1,6 @@
 import re
 from typing import Final
 
-from clms_metadata.constants import regex
 from clms_metadata.constants.content_type import (
     CONTENT_TYPE_GEOJSON,
     CONTENT_TYPE_NETCDF,
@@ -55,39 +54,6 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
         r"wb_v(?P<version_major>\d+)_1km"
     ): "wb_global_1km_10daily_v{version_major}",
     re.compile(
-        r"(?P<variable>ndvi|fapar|fcover|lai)_v(?P<version_major>\d+)_1km"
-    ): "{variable}_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"(?P<variable>ndvi|fapar|fcover|lai|dmp|gdmp|npp|gpp)300_v(?P<version_major>\d+)_333m"
-    ): "{variable}_global_300m_10daily_v{version_major}",
-    re.compile(
-        r"lst_v(?P<version_major>\d+)_0.045degree"
-    ): "lst_global_5km_hourly_v{version_major}",
-    re.compile(
-        r"lst10-dc_v(?P<version_major>\d+)_0.045degree"
-    ): "lst-daily-cycle_global_5km_10daily_v{version_major}",
-    re.compile(
-        r"lst10-tci_v(?P<version_major>\d+)_0.045degree"
-    ): "lst-tci_global_5km_10daily_v{version_major}",
-    re.compile(
-        r"swi10_v(?P<version_major>\d+)_0.1degree"
-    ): "swi_global_12.5km_10daily_v{version_major}",
-    re.compile(
-        r"swi_v(?P<version_major>\d+)_0.1degree"
-    ): "swi_global_12.5km_daily_v{version_major}",
-    re.compile(
-        r"swits_v(?P<version_major>\d+)_12.5km"
-    ): "swi-timeseries_global_12.5km_daily_v{version_major}",
-    re.compile(
-        r"swi-static-[a-z]+_v(?P<version_major>\d+)_0.1degree",
-    ): "swi-static_global_12.5km_daily_v{version_major}",
-    re.compile(
-        r"ssm_v(?P<version_major>\d+)_1km"
-    ): "ssm_europe_1km_daily_v{version_major}",
-    re.compile(
-        r"lsp300_v(?P<version_major>\d+)_333m"
-    ): "lsp_global_300m_yearly_v{version_major}",
-    re.compile(
         r"eta_300_10daily_v(?P<version_major>\d+)_300m"
     ): "eta_global_300m_10daily_v{version_major}",
     re.compile(
@@ -98,21 +64,6 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
 PRODUCT_NAME_TO_DATASET: Final[
     dict[re.Pattern, str]
 ] = {  # product name regex to collection identifier
-    re.compile(
-        r"c_gls_BA300-NRT_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "ba_global_300m_daily_v{version_major}",
-    re.compile(
-        r"c_gls_BA300-NTC_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "ba_global_300m_monthly_v{version_major}",
-    re.compile(
-        r"c_gls_(?P<variable>NDVI|FAPAR|FCOVER|LAI)(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "{variable}_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_(?P<variable>DMP|GDMP|NPP|GPP|FAPAR|FCOVER|NDVI)300(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "{variable}_global_300m_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_(?P<variable>DMP|GDMP)(?:-(RT\d))?_\d{12}_[A-Z0-9-]+_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "{variable}_global_1km_10daily_v{version_major}",
     re.compile(
         r"c_gls_LSWT_\d{12}_GLOBE_AATSR_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
     ): "lswt-offline_global_1km_10daily_v{version_major}",
@@ -165,31 +116,6 @@ PRODUCT_NAME_TO_DATASET: Final[
     re.compile(
         r"c_gls_LWQ1km_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d)\.\d)"
     ): "lwq-reproc_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LST_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>[12])\.\d)"
-    ): "lst_global_5km_hourly_v{version_major}",
-    re.compile(
-        r"c_gls_LST_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>(?![12])\d)\.\d)"
-    ): "lst_global_3km_hourly_v{version_major}",
-    re.compile(
-        r"c_gls_LST10-DC_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>\d)\.\d)"
-    ): "lst-daily-cycle_global_5km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LST10-TCI_\d{12}_GLOBE_GEO_V(?P<version>(?P<version_major>\d)\.\d)"
-    ): "lst-tci_global_5km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_NDVI-(?P<term>STS|LTS)_\d{4}-\d{4}-\d{4}_GLOBE_[-A-Z]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "ndvi-{term}_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_SWI1km_\d{12}_CEURO_[A-Z]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "swi_europe_1km_daily_v{version_major}",
-    regex.SWI_TIMESERIES: "swi-timeseries_global_12.5km_daily_v{version_major}",
-    regex.SWI_STATIC: "swi-static_global_12.5km_daily_v{version_major}",
-    re.compile(
-        r"c_gls_SSM1km_\d{12}_CEURO_[A-Z-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "ssm_europe_1km_daily_v{version_major}",
-    regex.LC100: "lc_global_100m_yearly_v{version_major}",
-    regex.TOC: "toc_global_300m_daily_v{version_major}",
     re.compile(
         r"LCFM_LCM-(?P<resolution>\d+)_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
     ): "lcm_global_{resolution}m_yearly_v{version_major}",
@@ -297,11 +223,6 @@ DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"^wl-lakes"): "lwl",
     re.compile(r"^lwq"): "lwq",
     re.compile(r"^lswt"): "lswt",
-    re.compile(r"^fcover"): "fgvc",
-    re.compile(r"^lst-daily-cycle"): "lst-dc",
-    re.compile(r"^swi-timeseries"): "swi-ts",
-    re.compile(r"^swi-static"): "swi-sl",
-    re.compile(r"^toc_"): "tcr",
 }
 
 SPATIAL_EXTENT_MAPPING = {

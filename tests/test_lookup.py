@@ -6,11 +6,6 @@ from clms_metadata.source import lookup
 @pytest.mark.parametrize(
     "filename, target",
     [
-        ("c_gls_NDVI_202004010000_GLOBE_PROBAV_V3.0.1", "ndvi_global_1km_10daily_v3"),
-        (
-            "c_gls_DMP300-RT1_202408200000_GLOBE_OLCI_V1.1.1",
-            "dmp_global_300m_10daily_v1",
-        ),
         # clms_global_lswt_1km_v1_10daily-reproc_netcdf
         (
             "c_gls_LSWT_<unique>_GLOBE_AATSR_v1.0.2",
@@ -68,10 +63,6 @@ from clms_metadata.source import lookup
         ("c_gls_LIE250_202402190000_CEURO_VIIRS_V2.2.1", "lie_europe_250m_daily_v2"),
         # no match
         ("c_gls_WB100_<unique>_LOBE_S2_V2.0.1", ValueError),
-        (
-            "c_gls_NDVI-STS_2015-2019-1211_GLOBE_PROBAV_V3.0.1",
-            "ndvi-sts_global_1km_10daily_v3",
-        ),
     ],
 )
 def test_extract_collection_id_from_cls_filename(filename, target):

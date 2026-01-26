@@ -379,32 +379,8 @@ def test_get_platform(platformstr, expected, eo_asset_name_list):
             "urn:cgls:global:lie_nh_v1_500m",
             "lie_northernhemisphere_500m_daily_v1",
         ),
-        (
-            "urn:cgls:global:fapar300_v1_333m",
-            "fapar_global_300m_10daily_v1",
-        ),
-        (
-            "urn:cgls:global:ndvi_v3_1km",
-            "ndvi_global_1km_10daily_v3",
-        ),
         ("urn:cgls:global:not_in_mapping", None),
         ("LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1", None),
-        (
-            "urn:cgls:global:fcover_v2_1km",
-            "fcover_global_1km_10daily_v2",
-        ),
-        (
-            "urn:cgls:global:lst10-dc_v1_0.045degree",
-            "lst-daily-cycle_global_5km_10daily_v1",
-        ),
-        (
-            "urn:cgls:global:lst_v2_0.045degree",
-            "lst_global_5km_hourly_v2",
-        ),
-        (
-            "urn:cgls:global:ndvi300_v1_333m",
-            "ndvi_global_300m_10daily_v1",
-        ),
     ],
 )
 def test_get_dataset_identifier_from_parent_identifier(identifier, expected):
