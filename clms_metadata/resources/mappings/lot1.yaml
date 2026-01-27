@@ -37,6 +37,21 @@ datasetMapping:
               - regex: "c_gls_{fileKey}300(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
                 gridLabel: 300m
 
+      - productType: evapotranspiration
+        datasets:
+          - name: eta
+            # eta_global_300m_10daily_v1
+            gridLabel: 300m
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "clms_ETA300_\\d{{12}}_GLOBE_S3_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: hf
+            # hf_global_300m_daily_v1
+            gridLabel: 300m
+            temporalRepeatRate: daily
+            fileRegex:
+              - regex: "clms_HF300_\\d{{12}}_GLOBE_S3_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
       - productType: net-gross_primary_production
         datasets:
           - name: gpp
