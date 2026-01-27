@@ -23,6 +23,7 @@
         "countryCode": "BE",
         "fuaCode": "BE001L3",
         "fuaName": "BRUXELLES_BRUSSEL_LEUVEN",
+        "cellID": "BE001L3",
         "datasetAlias": "clms_ua_building-height",
         "missionShortName": "unspecified",
         "platformShortName": "unspecified",
