@@ -1,5 +1,4 @@
 import re
-from typing import Final
 
 from clms_metadata.constants.content_type import (
     CONTENT_TYPE_GEOJSON,
@@ -17,24 +16,6 @@ CONTENT_TYPE_TO_FILE_FORMAT: dict[str, str] = {
     CONTENT_TYPE_NETCDF: FILE_FORMAT_NETCDF,
     CONTENT_TYPE_GEOJSON: FILE_FORMAT_GEOJSON,
     CONTENT_TYPE_SHP: FILE_FORMAT_SHP,
-}
-
-
-PRODUCT_NAME_TO_DATASET: Final[
-    dict[re.Pattern, str]
-] = {  # product name regex to collection identifier
-    re.compile(
-        r"LCFM_LCM-(?P<resolution>\d+)_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
-    ): "lcm_global_{resolution}m_yearly_v{version_major}",
-    re.compile(
-        r"LCFM_TCD-(?P<resolution>\d+)_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
-    ): "tcd_pantropical_{resolution}m_yearly_v{version_major}",
-    re.compile(
-        r"LCFM_LSC-(?P<resolution>\d+)-ANNUAL_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
-    ): "lsc_global_{resolution}m_yearly_v{version_major}",
-    re.compile(
-        r"LCFM_LSC-(?P<resolution>\d+)-MONTHLY_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
-    ): "lsc_global_{resolution}m_monthly_v{version_major}",
 }
 
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
@@ -122,8 +103,6 @@ DATASET_SHORT_NAMES = {
 DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"^wl-rivers"): "rwl",
     re.compile(r"^wl-lakes"): "lwl",
-    # re.compile(r"^lwq"): "lwq",
-    re.compile(r"^lswt"): "lswt",
 }
 
 SPATIAL_EXTENT_MAPPING = {

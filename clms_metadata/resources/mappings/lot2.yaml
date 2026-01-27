@@ -99,6 +99,7 @@ datasetMapping:
               - regex: "c_gls_WB100_\\d{{12}}_GLOBE_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
 
       - productType: lake_surface_water_temperature
+        datasetShortName: lswt
         datasets:
           - name: lswt-offline
             # lswt-offline_global_1km_10daily_v1

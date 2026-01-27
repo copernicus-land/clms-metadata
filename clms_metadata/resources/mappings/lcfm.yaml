@@ -1,0 +1,39 @@
+templates:
+  datasetIdentifier: "{name}_{aoi}_{metricGridSpacing}m_{temporalRepeatRate}_v{datasetVersion}"
+
+areaOfInterest: global
+aoi: global
+
+datasetMapping:
+  - component: landcover_landuse
+    productTypes:
+      - productType: dynamic_land_cover
+        datasets:
+          - name: lcm
+            # lcm_global_100m_yearly_v1 & lcm_global_10m_yearly_v1
+            temporalRepeatRate: yearly
+            templates:
+              gridLabel: "{metricGridSpacing}m"
+            fileRegex:
+              - regex: "LCFM_LCM-(?P<metricGridSpacing>\\d+)_(?P<productVersion>V(?P<datasetVersion>\\d)\\d\\d)_(?P<year>\\d{{4}})_(?P<tile>\\w+)"
+
+          - name: tcd
+            # tcd_pantropical_10m_yearly_v1
+            areaOfInterest: "pan tropical"
+            aoi: pantropical
+            temporalRepeatRate: yearly
+            templates:
+              gridLabel: "{metricGridSpacing}m"
+            fileRegex:
+                - regex: "LCFM_TCD-(?P<metricGridSpacing>\\d+)_(?P<productVersion>V(?P<datasetVersion>\\d)\\d\\d)_(?P<year>\\d{{4}})_(?P<tile>\\w+)"
+
+          - name: lsc
+            templates:
+              gridLabel: "{metricGridSpacing}m"
+            fileRegex:
+              - regex: "LCFM_LSC-(?P<metricGridSpacing>\\d+)-ANNUAL_(?P<productVersion>V(?P<datasetVersion>\\d)\\d\\d)_(?P<year>\\d{{4}})_(?P<tile>\\w+)"
+                # lsc_global_100m_yearly_v1
+                temporalRepeatRate: yearly
+              - regex: "LCFM_LSC-(?P<metricGridSpacing>\\d+)-MONTHLY_(?P<productVersion>V(?P<datasetVersion>\\d)\\d\\d)_(?P<year>\\d{{4}})_(?P<tile>\\w+)"
+                # lsc_global_100m_monthly_v1
+                temporalRepeatRate: monthly
