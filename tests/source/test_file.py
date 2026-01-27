@@ -364,10 +364,6 @@ def test_get_platform(platformstr, expected, eo_asset_name_list):
             "wb_global_300m_monthly_v2",
         ),
         (
-            "urn:cgls:global:lwq_v1_100",
-            "lwq-nrt_global_100m_10daily_v1",
-        ),
-        (
             "urn:cgls:continents:lie_v1_250m",
             None,
         ),  # lie_vx_250m not unique to Baltic

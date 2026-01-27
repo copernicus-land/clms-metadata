@@ -20,39 +20,6 @@ CONTENT_TYPE_TO_FILE_FORMAT: dict[str, str] = {
 }
 
 IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
-    # re.compile(r"lie_v(?P<version_major>\d+)_250m"): "lie_baltic_250m_daily_v{version_major}",
-    # re.compile(r"lie_v(?P<version_major>\d+)_250m"): "lie_europe_250m_daily_v{version_major}",
-    re.compile(
-        r"sce500_v(?P<version_major>\d+)_0.005degree"
-    ): "sce_europe_500m_daily_v{version_major}",
-    re.compile(
-        r"lie_nh_v(?P<version_major>\d+)_500m"
-    ): "lie_northernhemisphere_500m_daily_v{version_major}",
-    # 'lswt_v1_1km': 'lswt-offline_global_1km_10daily_v{version_major}',
-    # 'lswt_v1_1km': 'lswt-nrt_global_1km_10daily_v{version_major}',
-    re.compile(
-        r"lwq_v(?P<version_major>\d+)_100"
-    ): "lwq-nrt_global_100m_10daily_v{version_major}",
-    # 'lwq_v1_300': 'lwq-reproc_global_300m_10daily_v{version_major}',
-    # 'lwq_v1_300': 'lwq-nrt_global_300m_10daily_v{version_major}',
-    # re.compile(
-    #     r"sce_v(?P<version_major>\d+)_0.01degree"
-    # ): "sce_northernhemisphere_1km_daily_v{version_major}",
-    re.compile(
-        r"swe_V(?P<version_major>\d+)_5km"
-    ): "swe_northernhemisphere_5km_daily_v{version_major}",
-    re.compile(
-        r"wb_v(?P<version_major>\d+)_100m"
-    ): "wb_global_100m_monthly_v{version_major}",
-    re.compile(
-        r"wb_v(?P<version_major>\d+)_300m"
-    ): "wb_global_300m_monthly_v{version_major}",
-    re.compile(
-        r"wb300_v(?P<version_major>\d+)_333m"
-    ): "wb_global_300m_10daily_v{version_major}",
-    re.compile(
-        r"wb_v(?P<version_major>\d+)_1km"
-    ): "wb_global_1km_10daily_v{version_major}",
     re.compile(
         r"eta_300_10daily_v(?P<version_major>\d+)_300m"
     ): "eta_global_300m_10daily_v{version_major}",
@@ -64,58 +31,6 @@ IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
 PRODUCT_NAME_TO_DATASET: Final[
     dict[re.Pattern, str]
 ] = {  # product name regex to collection identifier
-    re.compile(
-        r"c_gls_LSWT_\d{12}_GLOBE_AATSR_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "lswt-offline_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LSWT_\d{12}_GLOBE_SLSTR(?:A|AB)_v(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "lswt-nrt_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LWQ300_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "lwq-nrt_global_300m_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LWQ300_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "lwq-reproc_global_300m_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LWQ100_\d{12}_GLOBAL_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d)"
-    ): "lwq-nrt_global_100m_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LIE-NH_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "lie_northernhemisphere_500m_daily_v{version_major}",
-    re.compile(
-        r"c_gls_LIE250_\d{12}_Baltic_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "lie_baltic_250m_daily_v{version_major}",
-    re.compile(
-        r"c_gls_LIE250_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "lie_europe_250m_daily_v{version_major}",
-    re.compile(
-        r"c_gls_LIE500_\d{12}_GLOBAL_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "lie_global_500m_daily_v{version_major}",
-    re.compile(
-        r"c_gls_SCE500_\d{12}_CEURO_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "sce_europe_500m_daily_v{version_major}",
-    re.compile(
-        r"c_gls_SCE_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "sce_northernhemisphere_1km_daily_v{version_major}",
-    re.compile(
-        r"c_gls_SCE_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "sce_global_1km_daily_v{version_major}",
-    re.compile(
-        r"c_gls_SWE5K_\d{12}_NHEMI_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "swe_northernhemisphere_5km_daily_v{version_major}",
-    re.compile(
-        r"c_gls_WB100_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    ): "wb_global_100m_monthly_v{version_major}",
-    # matches both 300m_10daily_v1 and 300m_monthly_v2
-    # re.compile(
-    #     r"c_gls_WB300_\d{12}_GLOBE_[A-Z0-9-]+_V(?P<version>(?P<version_major>\d)\.\d\.\d)"
-    # ): "wb_global_300m_monthly_v{version_major}",
-    re.compile(
-        r"c_gls_LWQ1km_\d{12}_GLOBE_OLCI_V(?P<version>(?P<version_major>\d)\.\d)"
-    ): "lwq-nrt_global_1km_10daily_v{version_major}",
-    re.compile(
-        r"c_gls_LWQ1km_\d{12}_GLOBE_MERIS_V(?P<version>(?P<version_major>\d)\.\d)"
-    ): "lwq-reproc_global_1km_10daily_v{version_major}",
     re.compile(
         r"LCFM_LCM-(?P<resolution>\d+)_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
     ): "lcm_global_{resolution}m_yearly_v{version_major}",
