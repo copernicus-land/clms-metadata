@@ -11,7 +11,7 @@ from osgeo import gdal
 from overrides import overrides
 from pyproj import CRS, Transformer
 
-from clms_metadata.constants import lookup_tables, regex
+from clms_metadata.constants import regex
 from clms_metadata.constants.attributes import Attributes
 from clms_metadata.models.metadata import (
     ContentDate,
@@ -111,13 +111,6 @@ class FileSource(MetadataSource):
                 metadata.instruments.extend(
                     parse_sensor(tags.get("sensor"), self.eo_asset_name_list)
                 )
-
-                if not metadata.dataset_identifier and (
-                    dataset_identifier := get_dataset_identifier_from_parent_identifier(
-                        tags.get("parent_identifier")
-                    )
-                ):
-                    metadata.dataset_identifier = dataset_identifier
 
                 if (
                     not metadata.has_attribute(Attributes.CONSOLIDATION_PERIOD)
@@ -458,39 +451,6 @@ def parse_sensor(
         s if s in eo_asset_name_list.instrumentShortNames else None for s in sensors
     )
     return sensors
-
-
-def get_dataset_identifier_from_parent_identifier(identifier: str | None) -> str | None:
-    """
-    Extract the dataset identifier based on the identifier tag embedded in the product metadata.
-
-    When encountering exceptions None is returned so the "lookup" logic can still try to find a match.
-    :param identifier: the identifier tag embedded in the product
-    :return: the dataset identifier if it can be derived, None otherwise
-    """
-    try:
-        if not identifier:
-            raise (ValueError("No identifier found in raster metadata"))
-
-        identifier_parts = identifier.split(":")
-        parent_identifier = identifier_parts[-1]
-        [(match, template)] = [
-            (match, dataset_id_template)
-            for regex_id, dataset_id_template in lookup_tables.IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING.items()
-            if (match := regex_id.match(parent_identifier))
-        ]
-        dataset_identifier = template.format_map(match.groupdict())
-
-        logger.debug(
-            "Extracted dataset identifier {} from {}", dataset_identifier, identifier
-        )
-    except (IndexError, KeyError, re.error, ValueError, AttributeError) as e:
-        logger.warning(
-            f"Could not extract dataset identifier from {identifier} due to {repr(e)}"
-        )
-        return None
-
-    return dataset_identifier
 
 
 def get_raster_bounds(ds: rasterio.DatasetReader, tags: dict) -> shapely.Polygon:

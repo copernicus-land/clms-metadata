@@ -19,14 +19,6 @@ CONTENT_TYPE_TO_FILE_FORMAT: dict[str, str] = {
     CONTENT_TYPE_SHP: FILE_FORMAT_SHP,
 }
 
-IDENTIFIER_TAG_DATASET_IDENTIFIER_MAPPING: Final[dict[re.Pattern, str]] = {
-    re.compile(
-        r"eta_300_10daily_v(?P<version_major>\d+)_300m"
-    ): "eta_global_300m_10daily_v{version_major}",
-    re.compile(
-        r"hf_daily_v(?P<version_major>\d+)_300m"
-    ): "hf_global_300m_daily_v{version_major}",
-}
 
 PRODUCT_NAME_TO_DATASET: Final[
     dict[re.Pattern, str]
@@ -43,12 +35,6 @@ PRODUCT_NAME_TO_DATASET: Final[
     re.compile(
         r"LCFM_LSC-(?P<resolution>\d+)-MONTHLY_V(?P<version>(?P<version_major>\d)\d\d)_(?P<year>\d{4})_(?P<tile>\w+)"
     ): "lsc_global_{resolution}m_monthly_v{version_major}",
-    re.compile(
-        r"clms_HF300_\d{12}_GLOBE_S3_V(?P<version>(?P<version_major>\d)\.\d)"
-    ): "hf_global_300m_daily_v{version_major}",
-    re.compile(
-        r"clms_ETA300_\d{12}_GLOBE_S3_V(?P<version>(?P<version_major>\d)\.\d)"
-    ): "eta_global_300m_10daily_v{version_major}",
 }
 
 DATASET_TO_PRODUCT_TYPE = {  # dataset name to product type
@@ -136,7 +122,7 @@ DATASET_SHORT_NAMES = {
 DATASET_NAME_TO_SHORT_NAME = {
     re.compile(r"^wl-rivers"): "rwl",
     re.compile(r"^wl-lakes"): "lwl",
-    re.compile(r"^lwq"): "lwq",
+    # re.compile(r"^lwq"): "lwq",
     re.compile(r"^lswt"): "lswt",
 }
 

@@ -113,6 +113,7 @@ datasetMapping:
               - regex: "c_gls_LSWT_\\d{{12}}_GLOBE_SLSTR(?:A|AB)_(?P<productVersion>v(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
 
       - productType: lake_water_quality
+        datasetShortName: lwq
         datasets:
           - name: lwq-reproc
             # lwq-reproc_global_1km_10daily_v1

@@ -10,7 +10,6 @@ from clms_metadata.models.name_list import (
     Platform,
 )
 from clms_metadata.source.file import (
-    get_dataset_identifier_from_parent_identifier,
     get_processing_center,
     parse_platform,
     parse_sensor,
@@ -342,45 +341,6 @@ def test_get_platform(platformstr, expected, eo_asset_name_list):
         {m.missionShortName: m for m in expected},
         parse_platform(platformstr, eo_asset_name_list),
     )
-
-
-@pytest.mark.parametrize(
-    "identifier, expected",
-    [
-        (
-            "urn:cgls:continents:sce500_v1_0.005degree",
-            "sce_europe_500m_daily_v1",
-        ),
-        (
-            "urn:cgls:global:swe_V1_5km",
-            "swe_northernhemisphere_5km_daily_v1",
-        ),
-        (
-            "urn:cgls:global:wb_v1_100m",
-            "wb_global_100m_monthly_v1",
-        ),
-        (
-            "urn:cgls:global:wb_v2_300m",
-            "wb_global_300m_monthly_v2",
-        ),
-        (
-            "urn:cgls:continents:lie_v1_250m",
-            None,
-        ),  # lie_vx_250m not unique to Baltic
-        (
-            "urn:cgls:continents:lie_v2_250m",
-            None,
-        ),  # lie_vx_250m not unique to CEURO
-        (
-            "urn:cgls:global:lie_nh_v1_500m",
-            "lie_northernhemisphere_500m_daily_v1",
-        ),
-        ("urn:cgls:global:not_in_mapping", None),
-        ("LIE-NH_202104010000_NHEMI_SLSTR_V1.1.1", None),
-    ],
-)
-def test_get_dataset_identifier_from_parent_identifier(identifier, expected):
-    assert get_dataset_identifier_from_parent_identifier(identifier) == expected
 
 
 @pytest.mark.parametrize(
