@@ -47,11 +47,11 @@ DATE_YEAR1_YEAR2_MMDD: Final[re.Pattern] = re.compile(r"\d{4}-\d{4}-\d{4}")
 Regex for date format YEAR1-YEAR2-MMDD (4 digits, hyphen, 4 digits, hyphen, 4 digits)
 """
 
-DATE_VLCC_S: Final[re.Pattern] = re.compile(r"_S(\d{4})_")
+DATE_CLMS_S: Final[re.Pattern] = re.compile(r"_S(\d{4})_")
 
-DATE_VLCC_C: Final[re.Pattern] = re.compile(r"_C(\d{4})-(\d{4})_")
+DATE_CLMS_C: Final[re.Pattern] = re.compile(r"_C(\d{4})-(\d{4})_")
 
-DATE_VLCC_P: Final[re.Pattern] = re.compile(r"_P(\d{4})-(\d{4})_")
+DATE_CLMS_P: Final[re.Pattern] = re.compile(r"_P(\d{4})-(\d{4})_")
 
 
 SWI_STATIC: Final[re.Pattern] = re.compile(

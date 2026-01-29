@@ -1,0 +1,34 @@
+{
+    "name": "CLMS_UA_BBH_S2021_R10m_BE001L3_BRUXELLES_BRUSSEL_LEUVEN_03035_V02_R03_20251014",
+    "name_suffix": null,
+    "content_type": "application/tiff",
+    "content_date": {
+        "start": "2021-01-01T00:00:00.000000Z",
+        "end": "2021-12-31T23:59:59.999999Z"
+    },
+    "nominal_date": "2021-01-01T00:00:00.000000Z",
+    "product_type": "urban_atlas",
+    "component": "land_cover_use_in_priority_areas",
+    "dataset_identifier": "clms_ua_building-height_europe_10m_3yearly_v1",
+    "attributes": {
+        "productVersion": "v02_r03",
+        "datasetVersion": 1,
+        "fileFormat": "cog",
+        "areaOfInterest": "europe",
+        "temporalRepeatRate": "3yearly",
+        "datasetShortName": "ua-bbh",
+        "SDIResourceIdentifier": "copernicus_r_3035_10_m_ua-bh-2021_p_2021_v01_r00",
+        "gridLabel": "10m",
+        "metricGridSpacing": 10,
+        "countryCode": "BE",
+        "fuaCode": "BE001L3",
+        "fuaName": "BRUXELLES_BRUSSEL_LEUVEN",
+        "cellID": "BE001L3",
+        "datasetAlias": "clms_ua_building-height",
+        "missionShortName": "unspecified",
+        "platformShortName": "unspecified",
+        "platformAcronym": "unspecified",
+        "instrumentShortName": "unspecified",
+        "processingCenter": "unspecified"
+    }
+}

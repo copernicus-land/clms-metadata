@@ -713,10 +713,10 @@ test_reference = test_root / "reference"
         (
             (
                 test_data
-                / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v2/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00/",
+                / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v1/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00/",
             ),
             test_reference
-            / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v2/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00.json5",
+            / "landcover_landuse/forest_type/clms_vlcc_forest-type_europe_100m_3yearly_v1/CLMS_HRLVLCC_FTY_S2021_R100m_E63N15_03035_V02_R00.json5",
         ),
         # grassland
         (
@@ -843,6 +843,15 @@ test_reference = test_root / "reference"
             ),
             test_reference
             / "landcover_landuse/tree_cover_density/clms_vlcc_tree-cover-presence-change-confidence-layer_europe_20m_3yearly_v1/CLMS_HRLVLCC_TCPCCL_C2018-2021_R20m_E63N15_03035_V01_R00.json5",
+        ),
+        # urban atlas - building height
+        (
+            (
+                test_data
+                / "land_cover_use_in_priority_areas/urban_atlas/clms_ua_building-height_europe_10m_3yearly/CLMS_UA_BBH_S2021_R10m_BE001L3_BRUXELLES_BRUSSEL_LEUVEN_03035_V02_R03_20251014/",
+            ),
+            test_reference
+            / "land_cover_use_in_priority_areas/urban_atlas/clms_ua_building-height_europe_10m_3yearly/CLMS_UA_BBH_S2021_R10m_BE001L3_BRUXELLES_BRUSSEL_LEUVEN_03035_V02_R03_20251014.json5",
         ),
     ],
 )
