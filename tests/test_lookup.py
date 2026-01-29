@@ -1,6 +1,15 @@
 import pytest
 
+from clms_metadata.config import Settings
+from clms_metadata.models.metadata import PartialMetadata
 from clms_metadata.source import lookup
+
+
+@pytest.fixture(scope="module")
+def lookup_source() -> lookup.LookupSource:
+    return lookup.LookupSource(
+        settings=Settings(), storage=None, eo_asset_name_list=None
+    )
 
 
 @pytest.mark.parametrize(
@@ -67,20 +76,27 @@ from clms_metadata.source import lookup
         # clms_global_lie_250m_v2_daily_netcdf
         ("c_gls_LIE250_202402190000_CEURO_VIIRS_V2.2.1", "lie_europe_250m_daily_v2"),
         # no match
-        ("c_gls_WB100_<unique>_LOBE_S2_V2.0.1", ValueError),
+        ("c_gls_WB100_<unique>_LOBE_S2_V2.0.1", None),
         (
             "c_gls_NDVI-STS_2015-2019-1211_GLOBE_PROBAV_V3.0.1",
             "ndvi-sts_global_1km_10daily_v3",
         ),
     ],
 )
-def test_extract_collection_id_from_cls_filename(filename, target):
+def test_retrieve_dataset_from_filename(filename, target, lookup_source):
     filename_with_date = filename.replace("<unique>", "201604210000")
     if isinstance(target, str):
-        assert lookup.LookupSource.extract_collection_id(filename_with_date) == target
+        assert (
+            lookup_source.match_mappings(PartialMetadata(name=filename_with_date)).get(
+                "datasetIdentifier"
+            )
+            == target
+        )
     else:
-        with pytest.raises(target):
-            lookup.LookupSource.extract_collection_id(filename_with_date)
+        assert (
+            lookup_source.match_mappings(PartialMetadata(name=filename_with_date))
+            is None
+        )
 
 
 @pytest.mark.parametrize(

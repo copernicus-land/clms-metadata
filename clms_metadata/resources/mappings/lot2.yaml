@@ -1,0 +1,148 @@
+templates:
+  datasetIdentifier: "{name}_{aoi}_{gridLabel}_{temporalRepeatRate}_v{datasetVersion}"
+
+aoi: global
+
+datasetMapping:
+  - component: bio-geophysical
+    productTypes:
+      - productType: river_and_lake_ice_extent
+        datasets:
+          - name: lie
+            temporalRepeatRate: daily
+            fileRegex:
+              - regex: "c_gls_LIE250_\\d{{12}}_Baltic_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                # lie_baltic_250m_daily_v1
+                areaOfInterest: "baltic"
+                aoi: baltic
+                gridLabel: 250m
+              - regex: "c_gls_LIE250_\\d{{12}}_CEURO_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                # lie_europe_250m_daily_v2
+                areaOfInterest: "europe"
+                aoi: europe
+                gridLabel: 250m
+              - regex: "c_gls_LIE-NH_\\d{{12}}_NHEMI_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                # lie_northernhemisphere_500m_daily_v1
+                areaOfInterest: "northern hemisphere"
+                aoi: northernhemisphere
+                gridLabel: 500m
+              - regex: "c_gls_LIE500_\\d{{12}}_GLOBAL_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                # lie_global_500m_daily_v2
+                gridLabel: 500m
+                temporalRepeatRate: daily
+
+      # river_and_lake_water_level dataset cannot be retrieved from the filename
+#      - productType: river_and_lake_water_level
+#        datasets:
+#          - name: wl-lakes
+#            # wl-lakes_global_vector_daily_v2
+#            temporalRepeatRate: daily
+#          - name: wl-rivers
+#            # wl-rivers_global_vector_daily_v2
+#            temporalRepeatRate: daily
+
+      - productType: snow_cover_extent
+        datasets:
+          - name: sce
+            # sce_europe_500m_daily_v1
+            areaOfInterest: "europe"
+            aoi: europe
+            gridLabel: 500m
+            temporalRepeatRate: daily
+            fileRegex:
+              - regex: "c_gls_SCE500_\\d{{12}}_CEURO_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: sce
+            gridLabel: 1km
+            temporalRepeatRate: daily
+            fileRegex:
+              - regex: "c_gls_SCE_\\d{{12}}_NHEMI_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                # sce_northernhemisphere_1km_daily_v1
+                aoi: northernhemisphere
+                areaOfInterest: "northern hemisphere"
+              - regex: "c_gls_SCE_\\d{{12}}_GLOBE_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                # sce_global_1km_daily_v1
+                aoi: global
+      - productType: snow_water_equivalent
+        datasets:
+          - name: swe
+            # swe_northernhemisphere_5km_daily_v1
+            areaOfInterest: "northern hemisphere"
+            aoi: northernhemisphere  # used for datasetIdentifier
+            gridLabel: 5km
+            temporalRepeatRate: daily
+            fileRegex:
+              - regex: "c_gls_SWE5K_\\d{{12}}_NHEMI_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
+      - productType: water_bodies
+        datasets:
+          - name: wb
+            # wb_global_1km_10daily_v2
+            gridLabel: 1km
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_WB_\\d{{12}}_GLOBE_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: wb
+            gridLabel: 300m
+            fileRegex:
+              - regex: "c_gls_WB300_\\d{{12}}_GLOBE_PROBAV_(?P<productVersion>V(?P<datasetVersion>1)\\.\\d\\.\\d)"
+                # wb_global_300m_10daily_v1
+                temporalRepeatRate: 10daily
+              - regex: "c_gls_WB300_\\d{{12}}_GLOBE_S2_(?P<productVersion>V(?P<datasetVersion>2)\\.\\d\\.\\d)"
+                # wb_global_300m_monthly_v2
+                temporalRepeatRate: monthly
+
+          - name: wb
+            # wb_global_100m_monthly_v1
+            gridLabel: 100m
+            temporalRepeatRate: monthly
+            fileRegex:
+              - regex: "c_gls_WB100_\\d{{12}}_GLOBE_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
+      - productType: lake_surface_water_temperature
+        datasetShortName: lswt
+        datasets:
+          - name: lswt-offline
+            # lswt-offline_global_1km_10daily_v1
+            gridLabel: 1km
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_LSWT_\\d{{12}}_GLOBE_AATSR_(?P<productVersion>v(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: lswt-nrt
+            gridLabel: 1km
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_LSWT_\\d{{12}}_GLOBE_SLSTR(?:A|AB)_(?P<productVersion>v(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
+      - productType: lake_water_quality
+        datasetShortName: lwq
+        datasets:
+          - name: lwq-reproc
+            # lwq-reproc_global_1km_10daily_v1
+            gridLabel: 1km
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_LWQ1km_\\d{{12}}_GLOBE_MERIS_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d)"
+          - name: lwq-nrt
+            # lwq-nrt_global_1km_10daily_v1
+            gridLabel: 1km
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_LWQ1km_\\d{{12}}_GLOBE_OLCI_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d)"
+          - name: lwq-reproc
+            # lwq-reproc_global_300m_10daily_v1
+            gridLabel: 300m
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_LWQ300_\\d{{12}}_GLOBE_MERIS_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: lwq-nrt
+            # lwq-nrt_global_300m_10daily_v1
+            gridLabel: 300m
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_LWQ300_\\d{{12}}_GLOBE_OLCI_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: lwq-nrt
+            # lwq-nrt_global_100m_10daily_v1
+            gridLabel: 100m
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_LWQ100_\\d{{12}}_GLOBAL_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d)"

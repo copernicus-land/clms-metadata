@@ -81,11 +81,6 @@ class LookupSource(MetadataSource):
         if not metadata.dataset_identifier:
             if dataset_identifier := match.get("datasetIdentifier"):
                 metadata.dataset_identifier = dataset_identifier
-            elif dataset_identifier := self.extract_collection_id(
-                file_name=metadata.name,
-                attrs={a.name: a.value for a in metadata.attributes},
-            ):
-                metadata.dataset_identifier = dataset_identifier
 
         metadata.add_attribute(
             name=Attributes.DATASET_SHORT_NAME,
@@ -249,38 +244,6 @@ class LookupSource(MetadataSource):
             )
 
         return metadata
-
-    @staticmethod
-    def extract_collection_id(
-        file_name: str, attrs: dict | None = None
-    ) -> Optional[str]:
-        """
-        Iterate through regexes for all known collections until a match with the filename is found.
-        Extract the major version number from the filename and use it to complete the collection identifier.
-
-        :param file_name: The name of the file currently being processed
-        :return: The collection identifier of the collection to which the file belongs.
-        :raises ValueError: No match was found
-        """
-        attrs = attrs or {}
-        try:
-            match: re.Match
-            template: str
-            [(match, template)] = [
-                (_match, _template)
-                for _regex, _template in lookup_tables.PRODUCT_NAME_TO_DATASET.items()
-                if (_match := _regex.match(file_name))
-            ]
-            return template.format_map(match.groupdict() | attrs).lower()
-        except ValueError as e:
-            logger.error(
-                "Cannot extract dataset identifier from product identifier {}",
-                file_name,
-            )
-            logger.error("Exception: {}", repr(e))
-            raise ValueError(
-                f"No collection regex match was found for filename {file_name}"
-            ) from e
 
     @staticmethod
     def determine_product_type(collection_id: str) -> Optional[str]:

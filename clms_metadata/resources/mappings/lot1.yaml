@@ -1,0 +1,220 @@
+templates:
+  datasetIdentifier: "{name}_{areaOfInterest}_{gridLabel}_{temporalRepeatRate}_v{datasetVersion}"
+
+areaOfInterest: global
+
+datasetMapping:
+  - component: bio-geophysical
+    productTypes:
+      - productType: burnt_area
+        datasets:
+          - name: ba
+            gridLabel: 300m
+            fileRegex:
+              - regex: "c_gls_BA300-NTC_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                # ba_global_300m_monthly_v3
+                temporalRepeatRate: monthly
+              - regex: "c_gls_BA300-NRT_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                # ba_global_300m_daily_v3
+                temporalRepeatRate: daily
+
+      - productType: dry-gross_dry_matter_productivity
+        datasets:
+          - name: dmp
+            temporalRepeatRate: 10daily
+            fileKey: DMP
+            fileRegex:
+              - regex: "c_gls_{fileKey}(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 1km
+              - regex: "c_gls_{fileKey}300(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 300m
+          - name: gdmp
+            temporalRepeatRate: 10daily
+            fileKey: GDMP
+            fileRegex:
+              - regex: "c_gls_{fileKey}(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 1km
+              - regex: "c_gls_{fileKey}300(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 300m
+
+      - productType: evapotranspiration
+        datasets:
+          - name: eta
+            # eta_global_300m_10daily_v1
+            gridLabel: 300m
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "clms_ETA300_\\d{{12}}_GLOBE_S3_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: hf
+            # hf_global_300m_daily_v1
+            gridLabel: 300m
+            temporalRepeatRate: daily
+            fileRegex:
+              - regex: "clms_HF300_\\d{{12}}_GLOBE_S3_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
+      - productType: net-gross_primary_production
+        datasets:
+          - name: gpp
+            temporalRepeatRate: 10daily
+            fileKey: GPP
+            fileRegex:
+              - regex: "c_gls_{fileKey}300(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 300m
+          - name: npp
+            temporalRepeatRate: 10daily
+            fileKey: NPP
+            fileRegex:
+              - regex: "c_gls_{fileKey}300(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 300m
+
+      - productType: land_surface_temperature
+        datasets:
+          - name: lst-tci
+            # lst-tci_global_5km_10daily_v1
+            gridLabel: 5km
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_LST10-TCI_\\d{{12}}_GLOBE_GEO_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: lst
+            # lst_global_5km_hourly_v1 & lst_global_5km_hourly_v2
+            gridLabel: 5km
+            temporalRepeatRate: hourly
+            fileRegex:
+              - regex: "c_gls_LST_\\d{{12}}_GLOBE_GEO_(?P<productVersion>V(?P<datasetVersion>[12])\\.\\d\\.\\d)"
+          - name: lst
+            # lst_global_3km_hourly_v3
+            gridLabel: 3km
+            temporalRepeatRate: hourly
+            fileRegex:
+              - regex: "c_gls_LST_\\d{{12}}_GLOBE_GEO_(?P<productVersion>V(?P<datasetVersion>(?![12])\\d)\\.\\d\\.\\d)"
+          - name: lst-daily-cycle
+            # lst-daily-cycle_global_5km_10daily_v1
+            gridLabel: 5km
+            temporalRepeatRate: 10daily
+            datasetShortName: lst-dc
+            fileRegex:
+              - regex: "c_gls_LST10-DC_\\d{{12}}_GLOBE_GEO_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
+      - productType: soil_water_index
+        datasets:
+          - name: swi-static
+            # swi-static_global_12.5km_daily_v3
+            gridLabel: 12.5km
+            temporalRepeatRate: daily
+            datasetShortName: swi-sl
+            fileRegex:
+              - regex: "c_gls_SWI-STATIC-(?P<swiSubParameter>[A-Z]+)_[\\d-]{{12}}_GLOBE_[A-Z-0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: swi-timeseries
+            # swi-timeseries_global_12.5km_daily_v3
+            gridLabel: 12.5km
+            temporalRepeatRate: daily
+            datasetShortName: swi-ts
+            fileRegex:
+              - regex: "c_gls_SWI-TS_\\d{{12}}_(?P<cellID>C\\d{{4}})+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: swi
+            gridLabel: 12.5km
+            fileRegex:
+              - regex: "c_gls_SWI10_\\d{{12}}_GLOBE_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                # swi_global_12.5km_10daily_v3
+                temporalRepeatRate: 10daily
+              - regex: "c_gls_SWI_\\d{{12}}_GLOBE_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                # swi_global_12.5km_daily_v3
+                temporalRepeatRate: daily
+          - name: swi
+            # swi_europe_1km_daily_v1
+            areaOfInterest: europe
+            gridLabel: 1km
+            temporalRepeatRate: daily
+            fileRegex:
+              - regex: "c_gls_SWI1km_\\d{{12}}_CEURO_[\\w-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
+      - productType: surface_soil_moisture
+        datasets:
+          - name: ssm
+            # ssm_europe_1km_daily_v1
+            areaOfInterest: europe
+            gridLabel: 1km
+            temporalRepeatRate: daily
+            fileRegex:
+              - regex: "c_gls_SSM1km_\\d{{12}}_CEURO_[\\w-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
+      - productType: vegetation_indices
+        datasets:
+          - name: ndvi
+            temporalRepeatRate: 10daily
+            fileKey: NDVI
+            fileRegex:
+              - regex: "c_gls_{fileKey}(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 1km
+              - regex: "c_gls_{fileKey}300(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 300m
+          - name: ndvi-lts
+            # ndvi-lts_global_1km_10daily_v2
+            gridLabel: 1km
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_NDVI-LTS_\\d{{4}}-\\d{{4}}-\\d{{4}}_GLOBE_[-A-Z]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+          - name: ndvi-sts
+            # ndvi-sts_global_1km_10daily_v3
+            gridLabel: 1km
+            temporalRepeatRate: 10daily
+            fileRegex:
+              - regex: "c_gls_NDVI-STS_\\d{{4}}-\\d{{4}}-\\d{{4}}_GLOBE_[-A-Z]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
+      - productType: vegetation_properties
+        datasets:
+          - name: fapar
+            temporalRepeatRate: 10daily
+            fileKey: FAPAR
+            fileRegex:
+              - regex: "c_gls_{fileKey}(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 1km
+              - regex: "c_gls_{fileKey}300(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 300m
+          - name: fcover
+            temporalRepeatRate: 10daily
+            fileKey: FCOVER
+            datasetShortName: fgvc
+            fileRegex:
+              - regex: "c_gls_{fileKey}(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 1km
+              - regex: "c_gls_{fileKey}300(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 300m
+          - name: lai
+            temporalRepeatRate: 10daily
+            fileKey: LAI
+            fileRegex:
+              - regex: "c_gls_{fileKey}(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 1km
+              - regex: "c_gls_{fileKey}300(?:-(RT\\d))?_\\d{{12}}_[A-Z0-9-]+_[A-Z0-9-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                gridLabel: 300m
+      - productType: top-of-canopy_reflectances
+        datasets:
+          - name: toc
+            # toc_global_300m_daily_v2
+            gridLabel: 300m
+            temporalRepeatRate: daily
+            datasetShortName: tcr
+            fileRegex:
+              - regex: "cgl_TOC_\\d{{14}}_(?P<cellID>X\\d{{2}}Y\\d{{2}})_\\w+_(?P<productVersion>v(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
+      - productType: vegetation_phenology_and_productivity_parameters
+        datasets:
+          - name: lsp
+            # lsp_global_300m_yearly_v1
+            gridLabel: 300m
+            temporalRepeatRate: yearly
+            fileRegex:
+              - regex: "c_gls_LSP300-[\\w\\-]+_\\d{{12}}_GLOBE_[A-Z]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+
+
+  - component: landcover_landuse
+    productTypes:
+      - productType: dynamic_land_cover
+        datasets:
+          - name: lc
+            # lc_global_100m_yearly_v3
+            gridLabel: 100m
+            temporalRepeatRate: yearly
+            fileRegex:
+              - regex: "(?:(?P<tile>[A-Za-z\\d]+)_)?(?P<sensor>[A-Za-z]+)_LC100_global_(?P<productVersion>v(?P<datasetVersion>\\d)\\.\\d\\.\\d)_(?P<year>\\d{{4}})"
