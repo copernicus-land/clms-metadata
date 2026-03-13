@@ -2,7 +2,11 @@ from pathlib import Path
 
 import pytest
 
-from clms_metadata.source.path import _common_name_pair, get_common_name
+from clms_metadata.source.path import (
+    _common_name_pair,
+    get_common_name,
+    get_product_version,
+)
 
 
 @pytest.mark.parametrize(
@@ -122,3 +126,18 @@ def test_get_common_name(paths, expected_name):
 )
 def test_get_common_name_pair(name1, name2, common_name):
     assert _common_name_pair(name1, name2) == common_name
+
+
+@pytest.mark.parametrize(
+    ("product_id", "expected"),
+    [
+        ("c_gls_DMP300-RT5_201502200000_GLOBE_PROBAV_V1.0.1", ("v1.0.1", 1)),
+        ("LCFM_LCM-10_V100_2020_N36E117", ("v100", 1)),
+        (
+            "CLMS_UA_BBH_S2021_R10m_LV501L1_DAUGAVPILS_03035_V02_R03_20260226",
+            ("v02_r03", None),
+        ),
+    ],
+)
+def test_get_product_version(product_id: str, expected: tuple[str, int | None]):
+    assert get_product_version(product_id) == expected

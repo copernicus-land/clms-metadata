@@ -853,6 +853,14 @@ test_reference = test_root / "reference"
             test_reference
             / "land_cover_use_in_priority_areas/urban_atlas/clms_ua_building-height_europe_10m_3yearly/CLMS_UA_BBH_S2021_R10m_BE001L3_BRUXELLES_BRUSSEL_LEUVEN_03035_V02_R03_20251014.json5",
         ),
+        (
+            (
+                test_data
+                / "land_cover_use_in_priority_areas/urban_atlas/clms_ua_building-height_europe_10m_3yearly/CLMS_UA_BBH_S2021_R10m_LV501L1_DAUGAVPILS_03035_V02_R03_20260226/",
+            ),
+            test_reference
+            / "land_cover_use_in_priority_areas/urban_atlas/clms_ua_building-height_europe_10m_3yearly/CLMS_UA_BBH_S2021_R10m_LV501L1_DAUGAVPILS_03035_V02_R03_20260226.json5",
+        ),
     ],
 )
 def test_builder(files, reference):
