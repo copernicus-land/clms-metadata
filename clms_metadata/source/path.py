@@ -47,18 +47,7 @@ class PathSource(MetadataSource):
         if not metadata.name:
             metadata.name = product_id
 
-        if m := regex.VERSION_DOTTED.search(
-            product_id.lower()
-        ) or regex.VERSION_DIGITS_ONLY.search(product_id.lower()):
-            version = m.group(0)
-            major_version = int(m.group(1))
-        elif m := regex.VERSION_Vxx_Rxx.search(product_id.lower()):
-            version = m.group(0)
-            major_version = None
-        else:
-            raise ValueError(
-                f"Could not extract version from product identifier {product_id}"
-            )
+        version, major_version = get_product_version(product_id)
 
         metadata.add_attribute(  # full version
             name=Attributes.PRODUCT_VERSION,
@@ -287,3 +276,26 @@ def get_consolidation_period(product_id: str) -> str | None:
         return int(match.group(1))
     else:
         return None
+
+
+def get_product_version(product_id: str) -> tuple[str, int | None]:
+    """
+    Extract the product version and major version from the product identifier.
+
+    :param product_id: product identifier
+    :return: product version and major version
+    """
+    if m := regex.VERSION_DOTTED.search(
+        product_id.lower()
+    ) or regex.VERSION_DIGITS_ONLY.search(product_id.lower()):
+        version = m.group(1)
+        major_version = int(m.group(2))
+    elif m := regex.VERSION_Vxx_Rxx.search(product_id.lower()):
+        version = m.group(1)
+        major_version = None
+    else:
+        raise ValueError(
+            f"Could not extract version from product identifier {product_id}"
+        )
+
+    return version, major_version
