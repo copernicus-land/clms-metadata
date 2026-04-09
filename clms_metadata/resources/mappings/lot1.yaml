@@ -94,14 +94,14 @@ datasetMapping:
             fileRegex:
               - regex: "c_gls_LST_\\d{{12}}_GLOBE_GEO_(?P<productVersion>V(?P<datasetVersion>(?![12])\\d)\\.\\d\\.\\d)"
           - name: lst-daily-cycle
-            # lst-daily-cycle_global_3km_10daily_v3
+            # lst-daily-cycle_global_5km_10daily_v1
             gridLabel: 5km
             temporalRepeatRate: 10daily
             datasetShortName: lst-dc
             fileRegex:
               - regex: "c_gls_LST10-DC_\\d{{12}}_GLOBE_GEO_(?P<productVersion>V(?P<datasetVersion>[12])\\.\\d\\.\\d)"
           - name: lst-daily-cycle
-            # lst-daily-cycle_global_5km_10daily_v1
+            # lst-daily-cycle_global_3km_10daily_v3
             gridLabel: 3km
             temporalRepeatRate: 10daily
             datasetShortName: lst-dc
