@@ -1,10 +1,12 @@
 templates:
   datasetIdentifier: "clms_ua_{name}_{areaOfInterest}_{gridLabel}_{temporalRepeatRate}_v{datasetVersion}"
   datasetAlias: "clms_ua_{name}"
-  cellID: "{fuaCode}"
 
 fileRegex:
   - regex: "CLMS_UA_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<fuaCode>(?P<countryCode>[A-Z]{{2}})[A-Z0-9]+)_(?P<fuaName>\\w+)_03035_V\\d{{2}}_R\\d{{2}}_\\d{{8}}"
+    templates:
+      cellID: "{fuaCode}"
+  - regex: "CLMS_UA_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_EURO_03857_V\\d{{2}}_R\\d{{2}}"
 
 name_suffix: # no suffix
 areaOfInterest: "europe"
