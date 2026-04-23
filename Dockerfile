@@ -1,4 +1,4 @@
-ARG BASE_IMAGE="ghcr.io/osgeo/gdal:ubuntu-small-latest"
+ARG BASE_IMAGE="ghcr.io/osgeo/gdal:ubuntu-small-3.12.3"
 
 FROM ${BASE_IMAGE}
 
