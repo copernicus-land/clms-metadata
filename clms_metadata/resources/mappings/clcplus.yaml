@@ -1,5 +1,5 @@
 fileRegex:
-  - regex: "CLMS_CLCPLUS_{fileKey}_S2021_(?P<metricGridSpacing>\\d+)M_EEA38_03035_V\\d{{2}}_R\\d{{2}}"
+  - regex: "CLMS_CLCPLUS_{fileKey}_.*_R(?P<metricGridSpacing>\\d+)M_EUROPE_03035_V\\d{{2}}_R\\d{{2}}"
     templates:
       gridLabel: "{metricGridSpacing}m"
       datasetIdentifier: "clms_clcplus_{name}_{areaOfInterest}_{gridLabel}_{temporalRepeatRate}_v{datasetVersion}"
@@ -17,5 +17,5 @@ datasetMapping:
           - name: "lulucf-instance"
             datasetVersion: 1
             temporalRepeatRate: "yearly"
-            datasetShortName: "clcplus-lulucf"
-            fileKey: LULUCF
+            datasetShortName: "clcplus-lulucf-instance"
+            fileKey: LULUCF_INSTANCE
