@@ -26,6 +26,8 @@ DATASET_CLMS_PREFIX: Final[re.Pattern] = re.compile(
     r"clms_(?P<product_family>\w+)_(?P<descriptive_name>[\w\-]+)_(?P<spatial_extent>\w+)_(?P<resolution>\d+(:?m|km))_(?P<temporal_grid>\w+)_v(?P<version_major>\d)"
 )
 
+CLMS_PREFIX: Final[re.Pattern] = re.compile(r"^CLMS_.*")
+
 # Date
 DATETIME_DIGITS_MINUTES: Final[re.Pattern] = re.compile(r"\d{12}")
 """

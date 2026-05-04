@@ -122,7 +122,11 @@ def get_common_name(paths: list[Path | CloudPath]) -> str:
     # Handle case of single file cogs with band in filename. (https://jira.vito.be/browse/GDD-3911)
     if len(values) == 1 and all_files_are_cog:
         [value] = values  # retrieve single item from set by unpacking
-        if regex.LSP.match(value) or regex.SWI_STATIC.match(value):
+        if (
+            regex.LSP.match(value)
+            or regex.SWI_STATIC.match(value)
+            or regex.CLMS_PREFIX.match(value)
+        ):
             return value
         try:
             parts = value.split(

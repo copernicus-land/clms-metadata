@@ -108,6 +108,10 @@ from clms_metadata.source.path import (
             ],
             "cgl_TOC_20190129233203_X35Y03_S3B_v2.3.4",
         ),
+        (
+            [Path("CLMS_CLCPLUS_LULUCF-INSTANCE_S2021_R100m_EUROPE_03035_V01_R00.tif")],
+            "CLMS_CLCPLUS_LULUCF-INSTANCE_S2021_R100m_EUROPE_03035_V01_R00",
+        ),
     ],
 )
 def test_get_common_name(paths, expected_name):
