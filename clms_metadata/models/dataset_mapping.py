@@ -92,6 +92,10 @@ class DatasetMapping(BaseModel):
 
                             for key, template in templates.items():
                                 output[key] = template.format_map(format_map)
+                                logger.trace(
+                                    "Completing template {}: {}", key, output[key]
+                                )
+                                format_map[key] = output[key]  # keep format_map in sync
 
                             return output
         return None

@@ -1,0 +1,21 @@
+templates:
+  datasetIdentifier: "clms_clcplus_{name}_{areaOfInterest}_{gridLabel}_{temporalRepeatRate}_v{datasetVersion}"
+  datasetAlias: "clms_clcplus_{name}"
+
+fileRegex:
+  - regex: "CLMS_CLCPLUS_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_EUROPE_03035_V\\d{{2}}_R\\d{{2}}"
+
+name_suffix:  # no suffix
+areaOfInterest: "europe"
+datasetVersion: 1  # WARNING: pins all CLCPLUS datasets to version 1
+
+datasetMapping:
+  - component: "landcover_landuse"
+    productTypes:
+      - productType: "clcplus_lulucf_instance"
+        datasets:
+          - name: "lulucf-instance"
+            fileKey: "LULUCF-INSTANCE"
+            temporalRepeatRate: "yearly"
+            datasetShortName: "clcplus-lulucf-instance"
+            SDIResourceIdentifier: "copernicus_r_3035_100_m_clcplus-lulucf-in_p_2018-now_v01_r00"
