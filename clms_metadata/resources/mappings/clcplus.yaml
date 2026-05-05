@@ -12,10 +12,10 @@ datasetVersion: 1  # WARNING: pins all CLCPLUS datasets to version 1
 datasetMapping:
   - component: "landcover_landuse"
     productTypes:
-      - productType: "clcplus_lulucf_instance"
+      - productType: "clcplus_instance"
         datasets:
           - name: "lulucf-instance"
             fileKey: "LULUCF-INSTANCE"
             temporalRepeatRate: "yearly"
-            datasetShortName: "clcplus-lulucf-instance"
+            datasetShortName: "clcplus-lulucf"
             SDIResourceIdentifier: "copernicus_r_3035_100_m_clcplus-lulucf-in_p_2018-now_v01_r00"
