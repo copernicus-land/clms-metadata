@@ -471,8 +471,15 @@ def get_raster_bounds(ds: rasterio.DatasetReader, tags: dict) -> shapely.Polygon
     if ds.crs:
         # get bounds of the raster directly
         geo = shapely.geometry.box(*ds.bounds)
-        transformer = Transformer.from_crs(ds.crs, EPSG_4326, always_xy=True)
-        geo = shapely.transform(geo, transformer.transform, interleaved=False)
+        if not EPSG_4326.equals(ds.crs):
+            ds_crs = CRS(ds.crs)
+            transformer = Transformer.from_crs(ds_crs, EPSG_4326, always_xy=True)
+            if ds_crs.axis_info[0].unit_name == "metre":
+                geo = geo.segmentize(
+                    100_000.0 / ds_crs.axis_info[0].unit_conversion_factor
+                )  # 100 km segments
+            geo = shapely.transform(geo, transformer.transform, interleaved=False)
+            geo = geo.simplify(tolerance=0.01)
         logger.debug("Bounds from raster: {}", geo)
         if is_bounds_plausible(geo):
             return geo
