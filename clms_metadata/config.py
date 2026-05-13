@@ -41,6 +41,12 @@ class GeometrySettings(BaseModel):
     precision: float = 0.0000001
     """Precision grid size"""
 
+    reproject_segment_size_meter: float = 100_000.0
+    """Segment size in meters for geometry reprojection, defaults to 100 km segments"""
+
+    reproject_simplify_tolerance: float = 0.1
+    """Tolerance for geometry simplification after reprojection, evaluated in EPSG:4326 units (degrees)"""
+
 
 class MetadataSettings(BaseModel):
     attributes: dict[str, str] = Field(default_factory=dict)
