@@ -57,7 +57,7 @@ datasetMapping:
           - name: fallow-land-duration
             fileKey: CPFLD
             datasetShortName: cpfld
-            SDIResourceIdentifier: copernicus_r_3035_10_m_cpfld-2017-2021_p_2017-2021_v01_r00
+            SDIResourceIdentifier: copernicus_r_3035_10_m_cpfld_p_2017-now_v01_r00
           - name: fallow-land-duration-confidence-layer
             fileKey: CPFLDCL
             datasetShortName: cpfldcl
