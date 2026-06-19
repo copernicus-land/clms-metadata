@@ -156,7 +156,7 @@ class LookupSource(MetadataSource):
             and not (
                 regex.DATASET_CLMS_PREFIX.match(metadata.dataset_identifier)
                 and any(
-                    r.match(metadata.name)
+                    r.search(metadata.name)
                     for r in (regex.DATE_CLMS_C, regex.DATE_CLMS_P, regex.DATE_CLMS_S)
                 )
             )
