@@ -3,7 +3,6 @@ templates:
   datasetAlias: "clms_vpp_{productTypeShort}-{name}"
   datasetShortName: "{name}"
 
-
 # global properties
 name_suffix:  # no suffix
 areaOfInterest: "europe"
@@ -21,6 +20,10 @@ fileRegex:
     templates:
       SDIResourceIdentifier: copernicus_r_3035_x_m_hrvpp-{productTypeShort}-{name}_p_2017-now_v01_r05
       cellID: "100km{tile}"
+  - regex: "{productTypeKey}_.+_eu-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}_(s(?P<season>\\d)_)?{fileKey}"
+    projection: "laea"
+    templates:
+      SDIResourceIdentifier: copernicus_r_3035_x_m_hrvpp-{productTypeShort}-{name}_p_2017-now_v01_r05
 
 datasetMapping:
   - component: bio-geophysical
