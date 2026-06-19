@@ -143,15 +143,22 @@ class LookupSource(MetadataSource):
             factory=lambda: get_temporal_grid(metadata.dataset_identifier),
         )
 
-        if metadata.get_attribute(
-            Attributes.FILE_FORMAT
-        ).value != FILE_FORMAT_GEOJSON and not any(
-            r.match(metadata.dataset_identifier)
-            for r in (
-                regex.DATASET_NDVI_STATISTICS,
-                regex.DATASET_SWI_STATIC,
-                regex.DATASET_SWI_TIMESERIES,
-                regex.DATASET_CLMS_PREFIX,
+        if (
+            metadata.get_attribute(Attributes.FILE_FORMAT).value != FILE_FORMAT_GEOJSON
+            and not any(
+                r.match(metadata.dataset_identifier)
+                for r in (
+                    regex.DATASET_NDVI_STATISTICS,
+                    regex.DATASET_SWI_STATIC,
+                    regex.DATASET_SWI_TIMESERIES,
+                )
+            )
+            and not (
+                regex.DATASET_CLMS_PREFIX.match(metadata.dataset_identifier)
+                and any(
+                    r.match(metadata.name)
+                    for r in (regex.DATE_CLMS_C, regex.DATE_CLMS_P, regex.DATE_CLMS_S)
+                )
             )
         ):
             temporal_grid_delta = get_relativedelta(

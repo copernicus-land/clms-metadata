@@ -1,0 +1,73 @@
+templates:
+  datasetIdentifier: "clms_vpp_{productTypeShort}-{name}_{areaOfInterest}_{projection}_{gridLabel}_{temporalRepeatRate}_v{datasetVersion}"
+  datasetAlias: "clms_vpp_{productTypeShort}-{name}"
+  datasetShortName: "{name}"
+
+
+# global properties
+name_suffix:  # no suffix
+areaOfInterest: "europe"
+datasetVersion: 1  # WARNING: pins all HR-VPP dataset versions to 1
+
+fileRegex:
+  - regex: "{productTypeKey}_.+_T(?P<cellID>\\w{{5}})-010m_V\\d{{3}}_(s(?P<season>\\d)_)?{fileKey}"
+    metricGridSpacing: 10
+    gridLabel: 10m
+    projection: "utm"
+    templates:
+      SDIResourceIdentifier: copernicus_r_utm-wgs84_10_m_hrvpp-{productTypeShort}-{name}_p_2017-now_v01_r01
+  - regex: "{productTypeKey}_.+_(?P<tile>(E|W)\\d{{2}}(N|S)\\d{{2}})-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}_(s(?P<season>\\d)_)?{fileKey}"
+    projection: "laea"
+    templates:
+      SDIResourceIdentifier: copernicus_r_3035_x_m_hrvpp-{productTypeShort}-{name}_p_2017-now_v01_r05
+      cellID: "100km{tile}"
+
+datasetMapping:
+  - component: bio-geophysical
+    productTypes:
+      - productType: vegetation_seasonal_trajectories
+        productTypeShort: st
+        productTypeKey: ST
+        temporalRepeatRate: "10daily"
+        datasets:
+          - name: ppi
+            fileKey: PPI
+          - name: qflag
+            fileKey: QFLAG
+
+      - productType: vegetation_phenology_and_productivity_parameters
+        productTypeShort: vpp
+        productTypeKey: VPP
+        temporalRepeatRate: "yearly"
+        templates:
+          vppSubParameter: "{fileKey}"
+          vppSeason: "S{season}"
+        datasets:
+          - name: ampl
+            fileKey: AMPL
+          - name: eosd
+            fileKey: EOSD
+          - name: eosv
+            fileKey: EOSV
+          - name: length
+            fileKey: LENGTH
+          - name: lslope
+            fileKey: LSLOPE
+          - name: maxd
+            fileKey: MAXD
+          - name: maxv
+            fileKey: MAXV
+          - name: minv
+            fileKey: MINV
+          - name: qflag
+            fileKey: QFLAG
+          - name: rslope
+            fileKey: RSLOPE
+          - name: sosd
+            fileKey: SOSD
+          - name: sosv
+            fileKey: SOSV
+          - name: sprod
+            fileKey: SPROD
+          - name: tprod
+            fileKey: TPROD
