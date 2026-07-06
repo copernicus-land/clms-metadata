@@ -33,6 +33,7 @@ class Attributes(str, Enum):
     COUNTRY_CODE = "countryCode"
     FUA_CODE = "fuaCode"
     FUA_NAME = "fuaName"
+    PROJECTION_NAME = "projectionName"
 
 
 """
