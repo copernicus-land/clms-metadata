@@ -78,6 +78,10 @@ class LookupSource(MetadataSource):
         if "name_suffix" in match:
             metadata.name_suffix = match["name_suffix"]
 
+        if product_name := match.get("product_name"):
+            logger.info("Found product name '{}' in lookup match", product_name)
+            metadata.name = product_name
+
         if not metadata.dataset_identifier:
             if dataset_identifier := match.get("datasetIdentifier"):
                 metadata.dataset_identifier = dataset_identifier
