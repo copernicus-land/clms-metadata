@@ -78,6 +78,10 @@ class LookupSource(MetadataSource):
         if "name_suffix" in match:
             metadata.name_suffix = match["name_suffix"]
 
+        if product_name := match.get("product_name"):
+            logger.info("Found product name '{}' in lookup match", product_name)
+            metadata.name = product_name
+
         if not metadata.dataset_identifier:
             if dataset_identifier := match.get("datasetIdentifier"):
                 metadata.dataset_identifier = dataset_identifier
@@ -143,15 +147,22 @@ class LookupSource(MetadataSource):
             factory=lambda: get_temporal_grid(metadata.dataset_identifier),
         )
 
-        if metadata.get_attribute(
-            Attributes.FILE_FORMAT
-        ).value != FILE_FORMAT_GEOJSON and not any(
-            r.match(metadata.dataset_identifier)
-            for r in (
-                regex.DATASET_NDVI_STATISTICS,
-                regex.DATASET_SWI_STATIC,
-                regex.DATASET_SWI_TIMESERIES,
-                regex.DATASET_CLMS_PREFIX,
+        if (
+            metadata.get_attribute(Attributes.FILE_FORMAT).value != FILE_FORMAT_GEOJSON
+            and not any(
+                r.match(metadata.dataset_identifier)
+                for r in (
+                    regex.DATASET_NDVI_STATISTICS,
+                    regex.DATASET_SWI_STATIC,
+                    regex.DATASET_SWI_TIMESERIES,
+                )
+            )
+            and not (
+                regex.DATASET_CLMS_PREFIX.match(metadata.dataset_identifier)
+                and any(
+                    r.search(metadata.name)
+                    for r in (regex.DATE_CLMS_C, regex.DATE_CLMS_P, regex.DATE_CLMS_S)
+                )
             )
         ):
             temporal_grid_delta = get_relativedelta(

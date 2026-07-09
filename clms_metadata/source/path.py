@@ -241,12 +241,16 @@ def get_nominal_date(product_id: str) -> datetime.datetime:
         date = datetime.datetime.strptime(date_part[0:4], "%Y")
     elif regex.DATE_YEAR1_YEAR2_MMDD.fullmatch(date_part):
         date = datetime.datetime.strptime(date_part[0:4] + date_part[-4:], "%Y%m%d")
+    elif regex.DATE_YEAR.fullmatch(date_part):
+        date = datetime.datetime.strptime(date_part, "%Y")
     elif match := regex.LC100.fullmatch(product_id):
         date = datetime.datetime.strptime(match.group("year"), "%Y")
     elif match := regex.LCFM.match(product_id):
         date = datetime.datetime.strptime(match.group("year"), "%Y")
     elif match := regex.DATE_CLMS_S.search(product_id):
         date = datetime.datetime.strptime(match.group(1), "%Y")
+    elif match := regex.DATE_T.search(product_id):
+        date = datetime.datetime.strptime(match.group(1), "%Y%m%dT%H%M%S")
     elif match := (
         regex.DATE_CLMS_C.search(product_id) or regex.DATE_CLMS_P.search(product_id)
     ):
