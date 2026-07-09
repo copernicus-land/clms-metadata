@@ -2,12 +2,12 @@ templates:
   datasetIdentifier: "clms_vlcc_{name}_{areaOfInterest}_{gridLabel}_{temporalRepeatRate}_v{datasetVersion}"
   datasetAlias: "clms_vlcc_{name}"
 fileRegex:
-  - regex: "CLMS_HRLVLCC_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<tile>(E|W)\\d{{2}}(N|S)\\d{{2}})_03035_V\\d{{2}}_R\\d{{2}}"
+  - regex: "CLMS_HRLVLCC_{fileKey}_{dateRegex}_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<tile>(E|W)\\d{{2}}(N|S)\\d{{2}})_03035_V\\d{{2}}_R\\d{{2}}"
 #    spatialExtent: "europe"
     projection: "laea"
     templates:
       cellID: "100km{tile}"
-  - regex: "CLMS_HRLVLCC_{fileKey}_.*_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<cellID>[A-Z]+_\\d{{5}})_V\\d{{2}}_R\\d{{2}}"
+  - regex: "CLMS_HRLVLCC_{fileKey}_{dateRegex}_R(?P<gridLabel>(?P<metricGridSpacing>\\d+)m)_(?P<cellID>[A-Z]+_\\d{{5}})_V\\d{{2}}_R\\d{{2}}"
 #    spatialExtent: "dom"
     projection: "utm"
 
@@ -16,6 +16,7 @@ temporalRepeatRate: "yearly"
 name_suffix:  # no suffix
 areaOfInterest: "europe"
 datasetVersion: 1  # WARNING: pins all VLCC dataset versions to 1
+dateRegex: ".*"
 
 datasetMapping:
   - component: landcover_landuse
@@ -117,8 +118,15 @@ datasetMapping:
           - name: dominant-leaf-type-change
             temporalRepeatRate: 3yearly
             fileKey: DLTC
+            dateRegex: "C2018-2021"
             datasetShortName: dltc
             SDIResourceIdentifier: copernicus_r_3035_20_m_dltc-2018-2021_p_2018-2021_v01_r00
+          - name: dominant-leaf-type-change
+            temporalRepeatRate: 3yearly
+            fileKey: DLTC
+            dateRegex: "C2021-2024"
+            datasetShortName: dltc
+            SDIResourceIdentifier: copernicus_r_3035_20_m_dltc-2021-2024_p_2021-2024_v01_r00
           - name: broadleaved-cover-density
             fileKey: BCD
             datasetShortName: bcd
@@ -156,6 +164,13 @@ datasetMapping:
             temporalRepeatRate: 3yearly
             SDIResourceIdentifier: copernicus_r_3035_20_m_grac-2018-2021_p_2018-2021_v01_r00
             fileKey: GRAC
+            datasetShortName: grac
+            dateRegex: "C2018-2021"
+          - name: grassland-change
+            temporalRepeatRate: 3yearly
+            SDIResourceIdentifier: copernicus_r_3035_20_m_grac-2021-2024_p_2021-2024_v01_r00
+            fileKey: GRAC
+            dateRegex: "C2021-2024"
             datasetShortName: grac
           - name: grassland-change-confidence-layer
             temporalRepeatRate: 3yearly
@@ -199,6 +214,13 @@ datasetMapping:
             SDIResourceIdentifier: copernicus_r_3035_20_m_tcpc-2018-2021_p_2018-2021_v01_r00
             datasetShortName: tcpc
             fileKey: TCPC
+            dateRegex: "C2018-2021"
+          - name: tree-cover-presence-change
+            temporalRepeatRate: 3yearly
+            SDIResourceIdentifier: copernicus_r_3035_20_m_tcpc-2021-2024_p_2021-2024_v01_r00
+            datasetShortName: tcpc
+            fileKey: TCPC
+            dateRegex: "C2021-2024"
           - name: tree-cover-presence-change-confidence-layer
             temporalRepeatRate: 3yearly
             fileKey: TCPCCL
