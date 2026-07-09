@@ -745,6 +745,14 @@ test_reference = test_root / "reference"
             test_reference
             / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_grassland-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_GRAC_C2018-2021_R20m_E63N15_03035_V01_R00.json5",
         ),
+        (
+            (
+                test_data
+                / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_grassland-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_GRAC_C2021-2024_R20m_E09N27_03035_V01_R00.tar",
+            ),
+            test_reference
+            / "landcover_landuse/grassland_and_herbaceous/clms_vlcc_grassland-change_europe_20m_3yearly_v1/CLMS_HRLVLCC_GRAC_C2021-2024_R20m_E09N27_03035_V01_R00.json5",
+        ),
         # grassland-change-confidence-layer
         (
             (
