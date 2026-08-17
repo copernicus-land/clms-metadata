@@ -20,20 +20,18 @@ datasetMapping:
         datasets:
           - name: ppi
             fileKey: PPI
-            templates:
-              product_name: "{product}_PPI"
             fileRegex:
-              - regex: "(?P<product>{productTypeKey}_.+_T(?P<cellID>\\w{{5}})-010m_V\\d{{3}}(_s(?P<season>\\d)_)?)"
+              - regex: "{productTypeKey}_.+_T(?P<cellID>\\w{{5}})-010m_V\\d{{3}}"
                 metricGridSpacing: 10
                 gridLabel: 10m
                 projectionName: "utm"
                 SDIResourceIdentifier: "copernicus_r_utm-wgs84_10_m_hrvpp-st-ppi_p_2017-now_v01_r01,copernicus_r_utm-wgs84_10_m_hrvpp-st-qflag_p_2017-now_v01_r01"
-              - regex: "(?P<product>{productTypeKey}_.+_(?P<tile>(E|W)\\d{{2}}(N|S)\\d{{2}})-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}(_s(?P<season>\\d))?)"
+              - regex: "{productTypeKey}_.+_(?P<tile>(E|W)\\d{{2}}(N|S)\\d{{2}})-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}"
                 projectionName: "laea"
                 SDIResourceIdentifier: "copernicus_r_3035_x_m_hrvpp-st-ppi_p_2017-now_v01_r05,copernicus_r_3035_x_m_hrvpp-st-qflag_p_2017-now_v01_r05"
                 templates:
                   cellID: "100km{tile}"
-              - regex: "(?P<product>{productTypeKey}_.+_eu-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}(_s(?P<season>\\d))?)"
+              - regex: "{productTypeKey}_.+_eu-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}"
                 projectionName: "laea"
                 SDIResourceIdentifier: "copernicus_r_3035_x_m_hrvpp-st-ppi_p_2017-now_v01_r05,copernicus_r_3035_x_m_hrvpp-st-qflag_p_2017-now_v01_r05"
 
@@ -42,24 +40,23 @@ datasetMapping:
         productTypeKey: VPP
         temporalRepeatRate: "yearly"
         fileRegex:
-          - regex: "{productTypeKey}_.+_T(?P<cellID>\\w{{5}})-010m_V\\d{{3}}_(s(?P<season>\\d)_)?{fileKey}"
+          - regex: "{productTypeKey}-{fileKey}_.+_T(?P<cellID>\\w{{5}})-010m_V\\d{{3}}"
             metricGridSpacing: 10
             gridLabel: 10m
             projectionName: "utm"
             templates:
               SDIResourceIdentifier: copernicus_r_utm-wgs84_10_m_hrvpp-{productTypeShort}-{name}_p_2017-now_v01_r01
-          - regex: "{productTypeKey}_.+_(?P<tile>(E|W)\\d{{2}}(N|S)\\d{{2}})-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}_(s(?P<season>\\d)_)?{fileKey}"
+          - regex: "{productTypeKey}-{fileKey}_.+_(?P<tile>(E|W)\\d{{2}}(N|S)\\d{{2}})-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}"
             projectionName: "laea"
             templates:
               SDIResourceIdentifier: copernicus_r_3035_x_m_hrvpp-{productTypeShort}-{name}_p_2017-now_v01_r05
               cellID: "100km{tile}"
-          - regex: "{productTypeKey}_.+_eu-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}_(s(?P<season>\\d)_)?{fileKey}"
+          - regex: "{productTypeKey}-{fileKey}_.+_eu-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}"
             projectionName: "laea"
             templates:
               SDIResourceIdentifier: copernicus_r_3035_x_m_hrvpp-{productTypeShort}-{name}_p_2017-now_v01_r05
         templates:
           vppSubParameter: "{fileKey}"
-          vppSeason: "S{season}"
         datasets:
           - name: ampl
             fileKey: AMPL
