@@ -15,23 +15,25 @@ datasetMapping:
         productTypeShort: st
         productTypeKey: ST
         temporalRepeatRate: "10daily"
+        fileRegex:
+          - regex: "{productTypeKey}_.+_T(?P<cellID>\\w{{5}})-010m_V\\d{{3}}_{fileKey}"
+            metricGridSpacing: 10
+            gridLabel: 10m
+            projectionName: "utm"
+            SDIResourceIdentifier: "copernicus_r_utm-wgs84_10_m_hrvpp-st-ppi_p_2017-now_v01_r01,copernicus_r_utm-wgs84_10_m_hrvpp-st-qflag_p_2017-now_v01_r01"
+          - regex: "{productTypeKey}_.+_(?P<tile>(E|W)\\d{{2}}(N|S)\\d{{2}})-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}_{fileKey}"
+            projectionName: "laea"
+            SDIResourceIdentifier: "copernicus_r_3035_x_m_hrvpp-st-ppi_p_2017-now_v01_r05,copernicus_r_3035_x_m_hrvpp-st-qflag_p_2017-now_v01_r05"
+            templates:
+              cellID: "100km{tile}"
+          - regex: "{productTypeKey}_.+_eu-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}_{fileKey}"
+            projectionName: "laea"
+            SDIResourceIdentifier: "copernicus_r_3035_x_m_hrvpp-st-ppi_p_2017-now_v01_r05,copernicus_r_3035_x_m_hrvpp-st-qflag_p_2017-now_v01_r05"
         datasets:
           - name: ppi
             fileKey: PPI
-            fileRegex:
-              - regex: "{productTypeKey}_.+_T(?P<cellID>\\w{{5}})-010m_V\\d{{3}}"
-                metricGridSpacing: 10
-                gridLabel: 10m
-                projectionName: "utm"
-                SDIResourceIdentifier: "copernicus_r_utm-wgs84_10_m_hrvpp-st-ppi_p_2017-now_v01_r01,copernicus_r_utm-wgs84_10_m_hrvpp-st-qflag_p_2017-now_v01_r01"
-              - regex: "{productTypeKey}_.+_(?P<tile>(E|W)\\d{{2}}(N|S)\\d{{2}})-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}"
-                projectionName: "laea"
-                SDIResourceIdentifier: "copernicus_r_3035_x_m_hrvpp-st-ppi_p_2017-now_v01_r05,copernicus_r_3035_x_m_hrvpp-st-qflag_p_2017-now_v01_r05"
-                templates:
-                  cellID: "100km{tile}"
-              - regex: "{productTypeKey}_.+_eu-03035-0*(?P<gridLabel>(?P<metricGridSpacing>[1-9]\\d*)m)_V\\d{{3}}"
-                projectionName: "laea"
-                SDIResourceIdentifier: "copernicus_r_3035_x_m_hrvpp-st-ppi_p_2017-now_v01_r05,copernicus_r_3035_x_m_hrvpp-st-qflag_p_2017-now_v01_r05"
+          - name: ppi  # QFLAG is in the same dataset as PPI
+            fileKey: QFLAG
 
       - productType: vegetation_phenology_and_productivity_parameters
         productTypeShort: vpp
