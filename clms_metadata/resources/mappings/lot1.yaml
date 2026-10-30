@@ -136,21 +136,25 @@ datasetMapping:
                 temporalRepeatRate: daily
           - name: swi
             # swi_europe_1km_daily_v1
-            areaOfInterest: europe
             gridLabel: 1km
             temporalRepeatRate: daily
             fileRegex:
               - regex: "c_gls_SWI1km_\\d{{12}}_CEURO_[\\w-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                areaOfInterest: europe
+              - regex: "c_gls_SWI1km_\\d{{12}}_GLOBE_[\\w-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                areaOfInterest: global
 
       - productType: surface_soil_moisture
         datasets:
           - name: ssm
             # ssm_europe_1km_daily_v1
-            areaOfInterest: europe
             gridLabel: 1km
             temporalRepeatRate: daily
             fileRegex:
               - regex: "c_gls_SSM1km_\\d{{12}}_CEURO_[\\w-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                areaOfInterest: europe
+              - regex: "c_gls_SSM1km_\\d{{12}}_GLOBE_[\\w-]+_(?P<productVersion>V(?P<datasetVersion>\\d)\\.\\d\\.\\d)"
+                areaOfInterest: global
 
       - productType: vegetation_indices
         datasets:
