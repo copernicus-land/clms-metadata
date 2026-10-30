@@ -12,6 +12,7 @@ pythonPipeline {
   wheel_repo_dev          = 'clms-pypi-local-dev'
   docker_registry_dev     = 'clms-docker-local-dev.repo.vito.be'
   docker_registry_prod    = 'clms-docker-local-prod.repo.vito.be'
+  artifactory_credentials_id = 'svc_clms_jenkins'
   enable_uv               = true
   enable_caching          = true
   venv_rpm_deps           = ['gdal-3.11.3', 'gdal-python312-3.11.3']
