@@ -3,6 +3,8 @@
 The `clms-metadata` tool is a Python package and command-line interface (CLI) to generate OData product metadata.
 The tool supports multiple file systems (local file system, S3) and can combine different metadata sources.
 
+This package is developed to support on-boarding of CLMS datasets in the Copernicus Data Space Ecosystem (CDSE). 
+It is maintained by VITO as part of the CDSE consortium.
 
 ## Configuration
 The configuration of the application is handled by `pydantic-settings`. This makes it possible to configure the application
