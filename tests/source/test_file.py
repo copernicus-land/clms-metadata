@@ -334,6 +334,22 @@ test_reference = test_root / "reference"
                 ),
             ],
         ),
+        (
+            "Metop A+B AND Sentinel-1 A",
+            [
+                Mission(
+                    missionShortName="METOP",
+                    platforms=[
+                        Platform(platformShortName="METOPA"),
+                        Platform(platformShortName="METOPB"),
+                    ],
+                ),
+                Mission(
+                    missionShortName="SENTINEL1",
+                    platforms=[Platform(platformShortName="SENTINEL1A")],
+                ),
+            ],
+        ),
     ],
 )
 def test_get_platform(platformstr, expected, eo_asset_name_list):

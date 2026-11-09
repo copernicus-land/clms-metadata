@@ -4,6 +4,7 @@ from typing import Final
 CONSOLIDATION: Final[re.Pattern] = re.compile(r"-RT(\d)_")
 SENTINEL_OR_METOP: Final[re.Pattern] = re.compile(r"(SENTINEL\d+)|(METOP)")
 SENTINEL_NUM_SERIAL: Final[re.Pattern] = re.compile(r"(SENTINEL)-?(\d+)([A-Z]+)")
+SENTINEL_NUM_SPACE_SERIAL: Final[re.Pattern] = re.compile(r"(SENTINEL\d+) ([A-Z]+)")
 SENTINEL_SHORT_NUM_SERIAL: Final[re.Pattern] = re.compile(r"(S)(\d+)([A-Z]+)")
 SENTINEL_WITH_SPACE: Final[re.Pattern] = re.compile(r"(SENTINEL)\s+([0-9A-Z]+)")
 NAME_WITH_SHORT_NAME_IN_BRACKETS: Final[re.Pattern] = re.compile(r"[\w ]+ \((\w+)\)")

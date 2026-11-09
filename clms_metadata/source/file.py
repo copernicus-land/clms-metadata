@@ -430,9 +430,12 @@ def parse_platform(
                 )
 
     # We covered the AND and + syntaxes, all remaining spaces are between platforms
-    # with exception of "METOP X"
+    # with exception of "METOP X" or "SENTINELX Y"
     for mission_short_name in list(missions):
-        if match := regex.METOP.match(mission_short_name):
+        if match := (
+            regex.METOP.match(mission_short_name)
+            or regex.SENTINEL_NUM_SPACE_SERIAL.match(mission_short_name)
+        ):
             missions.pop(mission_short_name)
             mission_short_name, serial = match.groups()
             if mission_short_name not in missions:
