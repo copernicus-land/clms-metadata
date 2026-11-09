@@ -2,6 +2,8 @@ ARG BASE_IMAGE="ghcr.io/osgeo/gdal:ubuntu-small-3.12.3"
 
 FROM ${BASE_IMAGE}
 
+LABEL org.opencontainers.image.source="https://github.com/copernicus-land/clms-metadata"
+
 ENV CACHE_DIR=/var/cache/clms-metadata/
 ENV VENV_DIR=/opt/venv
 
